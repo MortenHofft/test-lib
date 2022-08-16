@@ -6,8 +6,8 @@
   "main": "./build/cjs/index.cjs",
   "browser": "./dist/lib/gbif-react-components.js",
   "exports": {
-    "import": "./build/esm/index.js",
-    "default": "./build/cjs/index.cjs"
+    "import": "./build/test/esm/index.js",
+    "default": "./build/test/cjs/index.cjs"
   },
   "scripts": {
     "build-rollup": "NODE_ENV=production rollup -c",
@@ -97,34 +97,7 @@
     "webpack-cli": "^3.3.12"
   },
   "peerDependencies": {
-    "@emotion/react": "^11.1.5",
-    "autolinker": "^3.14.3",
-    "axios": "^0.24.0",
-    "doi-regex": "^0.1.10",
-    "dompurify": "^2.2.7",
-    "downshift": "^6.1.0",
-    "fast-deep-equal": "^3.1.3",
-    "fast-json-stable-stringify": "^2.1.0",
-    "history": "^5.0.0",
-    "js-base64": "^3.6.0",
-    "latlon-geohash": "^2.0.0",
-    "mapbox-gl": "^2.1.1",
-    "match-sorter": "^6.3.0",
-    "nanoid": "^3.1.22",
-    "object-hash": "^2.1.1",
-    "query-string": "^7.0.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-fast-compare": "^3.2.0",
-    "react-icons": "^4.2.0",
-    "react-intl": "^5.13.4",
-    "react-markdown": "^5.0.3",
-    "react-router-dom": "^5.2.0",
-    "react-use": "^17.2.1",
-    "reakit": "^1.3.6",
-    "uncontrollable": "^7.2.1",
-    "url-regex": "^5.0.0",
-    "use-debounce": "^6.0.0",
-    "use-query-params": "1.2.3"
+    "react": "16.14.0",
+    "react-dom": "16.14.0"
   }
 }
