@@ -33,25 +33,25 @@ var fa = require('react-icons/fa');
 var bs = require('react-icons/bs');
 var ai = require('react-icons/ai');
 var Autolinker = require('autolinker');
-var DOMPurify = require('dompurify');
+var sanitizeHtml = require('sanitize-html');
 var doiRegex = require('doi-regex');
 var axios$1 = require('axios');
+var DOMPurify = require('dompurify');
 var hash$2 = require('object-hash');
 var _wrapNativeSuper = require('@babel/runtime/helpers/wrapNativeSuper');
-var mapboxgl = require('mapbox-gl');
-var _objectDestructuringEmpty = require('@babel/runtime/helpers/objectDestructuringEmpty');
+var useDeepCompareEffect = require('use-deep-compare-effect');
+var _asyncToGenerator = require('@babel/runtime/helpers/asyncToGenerator');
+var _regeneratorRuntime = require('@babel/runtime/regenerator');
+var reactUse = require('react-use');
+var Router = require('react-router-dom/StaticRouter');
 var useQueryParams = require('use-query-params');
 var _toConsumableArray = require('@babel/runtime/helpers/toConsumableArray');
 var _typeof = require('@babel/runtime/helpers/typeof');
-var _asyncToGenerator = require('@babel/runtime/helpers/asyncToGenerator');
-var _regeneratorRuntime = require('@babel/runtime/regenerator');
 var isEqual = require('react-fast-compare');
-var equal = require('fast-deep-equal/react');
 var queryString = require('query-string');
+var equal = require('fast-deep-equal/react');
 var jsBase64 = require('js-base64');
 var urlRegex = require('url-regex');
-var Geohash = require('latlon-geohash');
-var reactUse = require('react-use');
 var nanoid = require('nanoid');
 var matchSorter = require('match-sorter');
 
@@ -72,22 +72,22 @@ var _inherits__default = /*#__PURE__*/_interopDefaultLegacy(_inherits);
 var _possibleConstructorReturn__default = /*#__PURE__*/_interopDefaultLegacy(_possibleConstructorReturn);
 var _getPrototypeOf__default = /*#__PURE__*/_interopDefaultLegacy(_getPrototypeOf);
 var Autolinker__default = /*#__PURE__*/_interopDefaultLegacy(Autolinker);
-var DOMPurify__default = /*#__PURE__*/_interopDefaultLegacy(DOMPurify);
+var sanitizeHtml__default = /*#__PURE__*/_interopDefaultLegacy(sanitizeHtml);
 var doiRegex__default = /*#__PURE__*/_interopDefaultLegacy(doiRegex);
 var axios__default = /*#__PURE__*/_interopDefaultLegacy(axios$1);
+var DOMPurify__default = /*#__PURE__*/_interopDefaultLegacy(DOMPurify);
 var hash__default = /*#__PURE__*/_interopDefaultLegacy(hash$2);
 var _wrapNativeSuper__default = /*#__PURE__*/_interopDefaultLegacy(_wrapNativeSuper);
-var mapboxgl__default = /*#__PURE__*/_interopDefaultLegacy(mapboxgl);
-var _objectDestructuringEmpty__default = /*#__PURE__*/_interopDefaultLegacy(_objectDestructuringEmpty);
-var _toConsumableArray__default = /*#__PURE__*/_interopDefaultLegacy(_toConsumableArray);
-var _typeof__default = /*#__PURE__*/_interopDefaultLegacy(_typeof);
+var useDeepCompareEffect__default = /*#__PURE__*/_interopDefaultLegacy(useDeepCompareEffect);
 var _asyncToGenerator__default = /*#__PURE__*/_interopDefaultLegacy(_asyncToGenerator);
 var _regeneratorRuntime__default = /*#__PURE__*/_interopDefaultLegacy(_regeneratorRuntime);
+var Router__default = /*#__PURE__*/_interopDefaultLegacy(Router);
+var _toConsumableArray__default = /*#__PURE__*/_interopDefaultLegacy(_toConsumableArray);
+var _typeof__default = /*#__PURE__*/_interopDefaultLegacy(_typeof);
 var isEqual__default = /*#__PURE__*/_interopDefaultLegacy(isEqual);
-var equal__default = /*#__PURE__*/_interopDefaultLegacy(equal);
 var queryString__default = /*#__PURE__*/_interopDefaultLegacy(queryString);
+var equal__default = /*#__PURE__*/_interopDefaultLegacy(equal);
 var urlRegex__default = /*#__PURE__*/_interopDefaultLegacy(urlRegex);
-var Geohash__default = /*#__PURE__*/_interopDefaultLegacy(Geohash);
 
 var lightVariables = {
   name: 'light',
@@ -157,12 +157,12 @@ var darkVariables = {
   borderRadius: 3
 };
 
-function ownKeys$s(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$n(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$s(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$s(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$s(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$n(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$n(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$n(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 var build = function build(theme) {
-  var fullTheme = _objectSpread$s(_objectSpread$s({}, lightVariables), theme);
+  var fullTheme = _objectSpread$n(_objectSpread$n({}, lightVariables), theme);
 
   var direction = fullTheme.darkTheme ? -1 : 1;
   fullTheme.borderRadiusPx = theme.borderRadius + 'px';
@@ -195,7 +195,7 @@ var build = function build(theme) {
     fullTheme["paperBackground500"] = fullTheme.paperBackground;
   });
   fullTheme.darkPaperBackground = fullTheme.darkTheme ? '#000010' : '#4e4e52';
-  var brightMapColors = ["#fed976", "#fd8d3c", "#fd8d3c", "#f03b20", "#bd0026"];
+  var brightMapColors = ["#fed976", "#fd8d3c", "#F7642E", "#f03b20", "#bd0026"];
   var darkMapColors = brightMapColors; //['#ffd300', '#f4b456', '#e9928a', '#d96cc1', '#b93bff'];
 
   if (!fullTheme.mapDensityColors) {
@@ -357,30 +357,30 @@ var helper = {
 
 var _templateObject$2;
 var button = function button(theme) {
-  return /*#__PURE__*/react.css(helper.noUserSelect, " appearance:none;text-decoration:none;display:inline-flex;align-items:center;justify-content:flex-start;text-align:center;border:1px solid transparent;border-radius:", theme.borderRadius, "px;box-shadow:none;font-size:1em;padding-top:0.5em;padding-bottom:0.5em;line-height:calc(1.5em - 6px);position:relative;margin:0;background-color:white;color:", theme.color, ";cursor:pointer;justify-content:center;padding-left:", theme.dense ? 0.5 : 1, "em;padding-right:", theme.dense ? 0.5 : 1, "em;&:focus{outline:none;box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);}&[aria-disabled=\"true\"]{opacity:0.5;cursor:auto;}::-moz-focus-inner{border-style:none;}" + ("" ), "" );
+  return /*#__PURE__*/react.css(helper.noUserSelect, " appearance:none;text-decoration:none;display:inline-flex;align-items:center;justify-content:flex-start;text-align:center;border:1px solid transparent;border-radius:", theme.borderRadius, "px;box-shadow:none;font-size:1em;padding-top:0.5em;padding-bottom:0.5em;line-height:calc(1.5em - 6px);position:relative;margin:0;background-color:white;color:", theme.color, ";cursor:pointer;justify-content:center;padding-left:", theme.dense ? 0.5 : 1, "em;padding-right:", theme.dense ? 0.5 : 1, "em;&:focus{outline:none;box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);}&[aria-disabled=\"true\"]{opacity:0.5;cursor:auto;}::-moz-focus-inner{border-style:none;};label:button;" + ("" ));
 };
 
 var _ref5$6 = {
-  name: "2ry9pw",
-  styles: "padding:0;border:none;height:auto;color:inherit;line-height:inherit;font-weight:inherit;background:none;border-radius:0"
+  name: "1itagoh-text",
+  styles: "padding:0;border:none;height:auto;color:inherit;line-height:inherit;font-weight:inherit;background:none;border-radius:0;label:text;"
 } ;
 
 var text = function text(theme) {
   return _ref5$6;
 };
 var primary = function primary(theme) {
-  return /*#__PURE__*/react.css("background-color:", theme.primary500, ";border-color:", theme.primary600, ";color:white;&:not([aria-disabled=\"true\"]){&:hover{color:white;border-color:", theme.primary500, ";background-color:", theme.primary600, ";}&:active,&[aria-expanded=\"true\"]{color:white;border-color:", theme.primary600, ";background-color:", theme.primary700, ";}}" + ("" ), "" );
+  return /*#__PURE__*/react.css("background-color:", theme.primary500, ";border-color:", theme.primary600, ";color:white;&:not([aria-disabled=\"true\"]){&:hover{color:white;border-color:", theme.primary500, ";background-color:", theme.primary600, ";}&:active,&[aria-expanded=\"true\"]{color:white;border-color:", theme.primary600, ";background-color:", theme.primary700, ";}};label:primary;" + ("" ));
 };
 var primaryOutline = function primaryOutline(theme) {
-  return /*#__PURE__*/react.css("border-color:", theme.primary600, ";background:none;color:", theme.primary700, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("border-color:", theme.primary600, ";background:none;color:", theme.primary700, ";;label:primaryOutline;" + ("" ));
 };
 var outline = function outline(theme) {
-  return /*#__PURE__*/react.css("border-color:", theme.transparentInk40, ";background:none;" + ("" ), "" );
+  return /*#__PURE__*/react.css("border-color:", theme.transparentInk40, ";background:none;;label:outline;" + ("" ));
 };
 
 var _ref4$8 = {
-  name: "8muanc",
-  styles: "border-color:#808080;color:#808080;background:none"
+  name: "1g8g58a-ghost",
+  styles: "border-color:#808080;color:#808080;background:none;label:ghost;"
 } ;
 
 var ghost = function ghost(theme) {
@@ -388,38 +388,38 @@ var ghost = function ghost(theme) {
 };
 
 var _ref3$e = {
-  name: "mpmwmh",
-  styles: "background:tomato;color:white"
+  name: "1rwa0v3-danger",
+  styles: "background:tomato;color:white;label:danger;"
 } ;
 
 var danger = function danger(theme) {
   return _ref3$e;
 };
 
-var _ref2$k = {
-  name: "1rbowyl",
-  styles: "border-color:transparent;background:none"
+var _ref2$j = {
+  name: "4r8tmj-link",
+  styles: "border-color:transparent;background:none;label:link;"
 } ;
 
 var link = function link(theme) {
-  return _ref2$k;
+  return _ref2$j;
 };
 
-var _ref$F = {
-  name: "7whenc",
-  styles: "display:flex;width:100%"
+var _ref$C = {
+  name: "1l0jlz2-isFullWidth",
+  styles: "display:flex;width:100%;label:isFullWidth;"
 } ;
 
 var isFullWidth = function isFullWidth(theme) {
-  return _ref$F;
+  return _ref$C;
 };
 var spinAround = react.keyframes(_templateObject$2 || (_templateObject$2 = _taggedTemplateLiteral__default["default"](["\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(359deg);\n  }\n"])));
 var loading$1 = function loading(theme) {
-  return /*#__PURE__*/react.css("&:after{animation:", spinAround, " 500ms infinite linear;border:2px solid #dbdbdb;border-radius:0.5em;border-right-color:transparent;border-top-color:transparent;content:\"\";display:block;height:1em;width:1em;left:calc(50% - (1em / 2));top:calc(50% - (1em / 2));position:absolute!important;}color:transparent!important;pointer-events:none;" + ("" ), "" );
+  return /*#__PURE__*/react.css("&:after{animation:", spinAround, " 500ms infinite linear;border:2px solid #dbdbdb;border-radius:0.5em;border-right-color:transparent;border-top-color:transparent;content:\"\";display:block;height:1em;width:1em;left:calc(50% - (1em / 2));top:calc(50% - (1em / 2));position:absolute!important;}color:transparent!important;pointer-events:none;;label:loading;" + ("" ));
 };
 var group$1 = function group(_ref6) {
   var theme = _ref6.theme;
-  return /*#__PURE__*/react.css("display:inline-flex;max-width:100%;>button{overflow:hidden;border-radius:0;margin:0;margin-right:-1px;}>button:first-of-type{border-top-left-radius:", theme.borderRadius, "px;border-bottom-left-radius:", theme.borderRadius, "px;flex:1 1 auto;}>button:last-of-type{border-top-right-radius:", theme.borderRadius, "px;border-bottom-right-radius:", theme.borderRadius, "px;}" + ("" ), "" );
+  return /*#__PURE__*/react.css("display:inline-flex;max-width:100%;>button{overflow:hidden;border-radius:0;margin:0;margin-right:-1px;}>button:first-of-type{border-top-left-radius:", theme.borderRadius, "px;border-bottom-left-radius:", theme.borderRadius, "px;flex:1 1 auto;}>button:last-of-type{border-top-right-radius:", theme.borderRadius, "px;border-bottom-right-radius:", theme.borderRadius, "px;};label:group;" + ("" ));
 };
 var styles$a = {
   button: button,
@@ -508,7 +508,7 @@ function join() {
   .join('/').replace(/\/\//g, '\/');
 }
 
-var _excluded$2b = ["className", "loading", "isFullWidth", "isIcon", "appearance", "look", "children", "truncate"],
+var _excluded$22 = ["className", "loading", "isFullWidth", "isIcon", "appearance", "look", "children", "truncate"],
     _excluded2$k = ["isActive", "onClearRequest", "onClick", "loading", "children", "title", "isNegated"];
 var truncateStyle = {
   overflow: 'hidden',
@@ -528,7 +528,7 @@ var Button = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, r
       look = _ref$look === void 0 ? 'primary' : _ref$look,
       children = _ref.children,
       truncate = _ref.truncate,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$2b);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$22);
 
   appearance = appearance || look;
   var theme = React.useContext(ThemeContext);
@@ -546,7 +546,7 @@ var Button = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, r
   }, classNames, {
     css: /*#__PURE__*/react.css(styles$a.button(theme), " ", classesToApply.map(function (x) {
       return styles$a[x](theme);
-    }), ";" + ("" ), "" )
+    }), ";;label:Button;" + ("" ))
   }, props), truncate ? react.jsx("span", {
     style: truncateStyle
   }, children) : children);
@@ -616,7 +616,7 @@ var FilterButton = /*#__PURE__*/React__default["default"].forwardRef(function (_
   })));
 });
 
-var _excluded$2a = ["as", "className", "style"];
+var _excluded$21 = ["as", "className", "style"];
 var Switch = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Span = _ref$as === void 0 ? 'span' : _ref$as,
@@ -624,7 +624,7 @@ var Switch = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, r
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$2a);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$21);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx(Span, {
@@ -644,71 +644,71 @@ Switch.displayName = 'Switch';
 var switchClass = function switchClass(_ref2) {
   var theme = _ref2.theme,
       disabled = _ref2.disabled;
-  return /*#__PURE__*/react.css("position:relative;top:-0.09em;display:inline-block;line-height:1;white-space:nowrap;vertical-align:middle;outline:none;", disabled ? 'opacity: 0.5;' : null, " cursor:pointer;& input{margin:0;position:absolute;top:0;right:0;bottom:0;left:0;z-index:1;width:100%;height:100%;cursor:pointer;opacity:0;}& input+span{position:relative;top:0;left:0;display:block;width:2em;height:1em;background-color:#88888855;transition:.1s;border-radius:34px;&:before{position:absolute;content:\"\";height:calc(1em - 4px);width:calc(1em - 4px);left:2px;bottom:2px;background-color:", theme.darkTheme ? theme.color900 : '#fff', ";transition:.1s;border-radius:50%;}}& input:checked+span{background-color:#2196F3;}& input:focus+span{outline:none;box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);}& input:checked+span:before{transform:translateX(1em);}" + ("" ), "" );
+  return /*#__PURE__*/react.css("position:relative;top:-0.09em;display:inline-block;line-height:1;white-space:nowrap;vertical-align:middle;outline:none;", disabled ? 'opacity: 0.5;' : null, " cursor:pointer;& input{margin:0;position:absolute;top:0;right:0;bottom:0;left:0;z-index:1;width:100%;height:100%;cursor:pointer;opacity:0;}& input+span{position:relative;top:0;left:0;display:block;width:2em;height:1em;background-color:#88888855;transition:.1s;border-radius:34px;&:before{position:absolute;content:\"\";height:calc(1em - 4px);width:calc(1em - 4px);left:2px;bottom:2px;background-color:", theme.darkTheme ? theme.color900 : '#fff', ";transition:.1s;border-radius:50%;}}& input:checked+span{background-color:#2196F3;}& input:focus+span{outline:none;box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);}& input:checked+span:before{transform:translateX(1em);};label:switchClass;" + ("" ));
 };
 
 var _templateObject$1;
 
 var _ref3$d = {
-  name: "184im9y",
-  styles: "-webkit-touch-callout:none;user-select:none"
+  name: "1i00xmm-noUserSelect",
+  styles: "-webkit-touch-callout:none;user-select:none;label:noUserSelect;"
 } ;
 
 var noUserSelect = function noUserSelect(props) {
   return _ref3$d;
 };
 
-var _ref2$j = {
-  name: "1fvplud",
-  styles: "&:focus{outline:none;box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);}::-moz-focus-inner{border-style:none;}"
+var _ref2$i = {
+  name: "azns2m-focusStyle",
+  styles: "&:focus{outline:none;box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);}::-moz-focus-inner{border-style:none;};label:focusStyle;"
 } ;
 
 var focusStyle = function focusStyle(props) {
-  return _ref2$j;
+  return _ref2$i;
 };
 var transparentInputOverlay = {
-  name: "480kxp",
-  styles: "margin:0;position:absolute;top:0;right:0;bottom:0;left:0;z-index:1;width:100%;height:100%;cursor:pointer;opacity:0"
+  name: "8az07q-transparentInputOverlay",
+  styles: "margin:0;position:absolute;top:0;right:0;bottom:0;left:0;z-index:1;width:100%;height:100%;cursor:pointer;opacity:0;label:transparentInputOverlay;"
 } ;
 var styledScrollBars = function styledScrollBars(_ref4) {
   var theme = _ref4.theme;
-  return /*#__PURE__*/react.css("scrollbar-width:thin;&::-webkit-scrollbar{width:6px;height:6px;}&::-webkit-scrollbar-thumb{background-color:", theme.darkTheme ? '#ffffff38' : '#686868', ";}" + ("" ), "" );
+  return /*#__PURE__*/react.css("scrollbar-width:thin;&::-webkit-scrollbar{width:6px;height:6px;}&::-webkit-scrollbar-thumb{background-color:", theme.darkTheme ? '#ffffff38' : '#686868', ";};label:styledScrollBars;" + ("" ));
 };
 
-var _ref$E = {
-  name: "aspdd",
-  styles: "line-height:1.2em;&>span:after{font-style:normal;content:' \u276F ';font-size:80%;color:#ccc;display:inline-block;padding:0 3px;}&>span:last-of-type:after{display:none;}.gbif-classification-unknown{opacity:0.5;}"
+var _ref$B = {
+  name: "f9zvej-classification",
+  styles: "line-height:1.2em;&>span:after{font-style:normal;content:' \u276F ';font-size:80%;color:#ccc;display:inline-block;padding:0 3px;}&>span:last-of-type:after{display:none;}.gbif-classification-unknown{opacity:0.5;};label:classification;"
 } ;
 
 var classification$1 = function classification(_ref5) {
   _extends__default["default"]({}, _ref5);
 
-  return _ref$E;
+  return _ref$B;
 };
 var root$9 = function root(_ref6) {
   var appRoot = _ref6.appRoot,
       _ref6$theme = _ref6.theme,
       theme = _ref6$theme === void 0 ? {} : _ref6$theme;
-  return /*#__PURE__*/react.css("*{font-family:", theme.fontFamily || 'BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif', ";}color:", theme.color900 || '#4a4a4a', ";font-size:", theme.fontSize || '1em', ";font-weight:400;line-height:1.2em;box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);background:", appRoot ? theme.background : null, ";*,*::before,*::after,strong{box-sizing:inherit;}-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;" + ("" ), "" );
+  return /*#__PURE__*/react.css("*{font-family:", theme.fontFamily || 'BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif', ";}color:", theme.color900 || '#4a4a4a', ";font-size:", theme.fontSize || '1em', ";font-weight:400;line-height:1.2em;box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);background:", appRoot ? theme.background : null, ";*,*::before,*::after,strong{box-sizing:inherit;}-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;;label:root;" + ("" ));
 };
 var tooltip$1 = function tooltip(props) {
-  return /*#__PURE__*/react.css("&:hover{position:relative;&[tip]:before{border-radius:2px;background-color:", props.theme.darkPaperBackground, ";color:#fff;content:attr(tip);font-size:12px;padding:5px 7px;position:absolute;white-space:nowrap;z-index:25;line-height:1.2em;pointer-events:none;}&[direction=\"right\"]:before{top:50%;left:120%;transform:translateY(-50%);}&[direction=\"left\"]:before{top:50%;right:120%;transform:translateY(-50%);}&[direction=\"top\"]:before{right:50%;bottom:120%;transform:translateX(50%);}&[direction=\"bottom\"]:before{right:50%;top:120%;transform:translateX(50%);}}" + ("" ), "" );
+  return /*#__PURE__*/react.css("&:hover{position:relative;&[tip]:before{border-radius:2px;background-color:", props.theme.darkPaperBackground, ";color:#fff;content:attr(tip);font-size:12px;padding:5px 7px;position:absolute;white-space:nowrap;z-index:25;line-height:1.2em;pointer-events:none;}&[direction=\"right\"]:before{top:50%;left:120%;transform:translateY(-50%);}&[direction=\"left\"]:before{top:50%;right:120%;transform:translateY(-50%);}&[direction=\"top\"]:before{right:50%;bottom:120%;transform:translateX(50%);}&[direction=\"bottom\"]:before{right:50%;top:120%;transform:translateX(50%);}};label:tooltip;" + ("" ));
 };
 var skeletonLoading = react.keyframes(_templateObject$1 || (_templateObject$1 = _taggedTemplateLiteral__default["default"](["\n  from {\n    background-color: #88888830;\n  }\n  50% {\n    background-color: #88888830;\n  }\n  75% {\n    background-color: #afafaf30;\n  }\n  to {\n    background-color: #88888830;\n  }\n"])));
 var bulletList = {
-  name: "1dmc845",
-  styles: "margin:0;padding:0;list-style:none;&>li{display:inline-block;&:after{font-style:normal;content:'\u25CF';font-size:80%;padding:0 3px;}:last-of-type:after{display:none;}}"
+  name: "1n9opn7-bulletList",
+  styles: "margin:0;padding:0;list-style:none;&>li{display:inline-block;&:after{font-style:normal;content:'\u25CF';font-size:80%;padding:0 3px;}:last-of-type:after{display:none;}};label:bulletList;"
 } ;
 var discreetLink = {
-  name: "1dmofro",
-  styles: "text-decoration:none;color:inherit!important;&:hover{text-decoration:underline;color:inherit!important;}"
+  name: "hueons-discreetLink",
+  styles: "text-decoration:none;color:inherit!important;&:hover{text-decoration:underline;color:inherit!important;};label:discreetLink;"
 } ;
 
 var checkbox = function checkbox(props) {
-  return /*#__PURE__*/react.css("position:relative;top:-0.09em;display:inline-block;line-height:1;white-space:nowrap;vertical-align:middle;outline:none;cursor:pointer;input{", transparentInputOverlay, ";}& input+span{position:relative;top:0;left:0;display:block;width:1em;height:1em;background-color:", props.theme.darkTheme ? props.theme.paperBackground700 : null, ";border:1px solid #88888855;border-radius:", Math.min(2, props.theme.borderRadius), "px;transition:all 0.1s;&:after{position:absolute;top:50%;left:30%;display:table;width:40%;height:60%;border:2px solid #fff;border-top:0;border-left:0;transform:rotate(45deg) scale(0) translate(-50%, -50%);opacity:0;transition:all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6),opacity 0.1s;content:' ';}}& input:checked+span{background-color:#1890ff;border-color:#1890ff;&:after{transform:rotate(45deg) scale(1) translate(-50%, -50%);opacity:1;transition:all 0.1s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;}}& input:focus+span{box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);}" + ("" ), "" );
+  return /*#__PURE__*/react.css("position:relative;top:-0.09em;display:inline-block;line-height:1;white-space:nowrap;vertical-align:middle;outline:none;cursor:pointer;input{", transparentInputOverlay, ";}& input+span{position:relative;top:0;left:0;display:block;width:1em;height:1em;background-color:", props.theme.darkTheme ? props.theme.paperBackground700 : null, ";border:1px solid #88888855;border-radius:", Math.min(2, props.theme.borderRadius), "px;transition:all 0.1s;&:after{position:absolute;top:50%;left:30%;display:table;width:40%;height:60%;border:2px solid #fff;border-top:0;border-left:0;transform:rotate(45deg) scale(0) translate(-50%, -50%);opacity:0;transition:all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6),opacity 0.1s;content:' ';}}& input:checked+span{background-color:#1890ff;border-color:#1890ff;&:after{transform:rotate(45deg) scale(1) translate(-50%, -50%);opacity:1;transition:all 0.1s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;}}& input:focus+span{box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);};label:checkbox;" + ("" ));
 };
 
-var _excluded$29 = ["as", "className", "style"];
+var _excluded$20 = ["as", "className", "style"];
 var Checkbox = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Span = _ref$as === void 0 ? 'span' : _ref$as,
@@ -716,7 +716,7 @@ var Checkbox = /*#__PURE__*/React__default["default"].forwardRef(function (_ref,
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$29);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$20);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx(Span, {
@@ -778,18 +778,18 @@ Input.displayName = 'Input'; // export const FilterInput2 = React.forwardRef(({
 //   </div>
 // });
 
-var _excluded$28 = ["as", "appRoot", "style"];
+var _excluded$1$ = ["as", "appRoot", "style"];
 
-function ownKeys$r(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$m(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$r(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$r(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$r(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$m(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$m(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$m(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var Root = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Rt = _ref$as === void 0 ? 'div' : _ref$as,
       _ref$appRoot = _ref.appRoot,
       appRoot = _ref$appRoot === void 0 ? false : _ref$appRoot,
       style = _ref.style,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$28);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1$);
 
   var theme = React.useContext(ThemeContext);
   var _theme$cssVariables = theme.cssVariables,
@@ -797,7 +797,7 @@ var Root = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref
   return react.jsx(Rt, _extends__default["default"]({
     ref: ref
   }, props, {
-    style: _objectSpread$r(_objectSpread$r({}, cssVariables), style),
+    style: _objectSpread$m(_objectSpread$m({}, cssVariables), style),
     css: root$9({
       theme: theme,
       appRoot: appRoot
@@ -806,7 +806,7 @@ var Root = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref
 });
 Root.displayName = 'Root';
 
-var _excluded$27 = ["trigger", "placement", "visible", "modal", "onClickOutside", "children"];
+var _excluded$1_ = ["trigger", "placement", "visible", "modal", "onClickOutside", "children"];
 
 var Popover$9 = function Popover(_ref2) {
   var trigger = _ref2.trigger;
@@ -815,7 +815,7 @@ var Popover$9 = function Popover(_ref2) {
       modal = _ref2.modal,
       onClickOutside = _ref2.onClickOutside,
       children = _ref2.children,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$27);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1_);
 
   var theme = React.useContext(ThemeContext);
   var popover = Popover$a.usePopoverState({
@@ -867,47 +867,47 @@ var Popover$9 = function Popover(_ref2) {
 };
 
 var backdrop = function backdrop(theme) {
-  return /*#__PURE__*/react.css("background-color:", theme.darkTheme ? '#0000006b' : '#00000040', ";position:fixed;top:0px;right:0px;bottom:0px;left:0px;z-index:999;" + ("" ), "" );
+  return /*#__PURE__*/react.css("background-color:", theme.darkTheme ? '#0000006b' : '#00000040', ";position:fixed;top:0px;right:0px;bottom:0px;left:0px;z-index:999;;label:backdrop;" + ("" ));
 };
 
-var _ref$D = {
-  name: "zdqm6i",
-  styles: "max-height:calc(100vh - 100px)"
+var _ref$A = {
+  name: "1pf2ydh-dialogContent",
+  styles: "max-height:calc(100vh - 100px);label:dialogContent;"
 } ;
 
 var dialogContent = function dialogContent(theme) {
-  return _ref$D;
+  return _ref$A;
 };
 
 var dialog = function dialog(theme) {
-  return /*#__PURE__*/react.css("background-color:", theme.paperBackground500, ";top:28px;left:50%;transform:translateX(-50%);z-index:999;border-radius:", theme.borderRadius, "px;outline:0px;border:1px solid ", theme.paperBorderColor, ";&:focus{outline:none;}&>.arrow{background-color:transparent;& .stroke{fill:", theme.paperBorderColor, ";}& .fill{fill:", theme.paperBackground500, ";}}" + ("" ), "" );
+  return /*#__PURE__*/react.css("background-color:", theme.paperBackground500, ";top:28px;left:50%;transform:translateX(-50%);z-index:999;border-radius:", theme.borderRadius, "px;outline:0px;border:1px solid ", theme.paperBorderColor, ";&:focus{outline:none;}&>.arrow{background-color:transparent;& .stroke{fill:", theme.paperBorderColor, ";}& .fill{fill:", theme.paperBackground500, ";}};label:dialog;" + ("" ));
 };
 
-var _excluded$26 = ["active", "error", "className"];
+var _excluded$1Z = ["active", "error", "className"];
 
 var _templateObject;
 var loading = react.keyframes(_templateObject || (_templateObject = _taggedTemplateLiteral__default["default"](["\n  from {\n    left: -200,\n    width: 30% \n  }\n  50% {\n    width: 30%\n  }\n  70% {\n    width: 70%\n  }\n  80% {\n    left: 50%\n  }\n  95% {\n    left: 120%\n  }\n  to {\n    left: 100%\n  }\n"])));
 
-var _ref$C = {
-  name: "8fnkdg",
-  styles: "background-color:tomato;left:0;animation:none;width:100%"
+var _ref$z = {
+  name: "159gwrz-errorStyle",
+  styles: "background-color:tomato;left:0;animation:none;width:100%;label:errorStyle;"
 } ;
 
 var errorStyle = function errorStyle(theme) {
-  return _ref$C;
+  return _ref$z;
 };
 
 var before = function before(_ref2) {
   var error = _ref2.error,
       theme = _ref2.theme;
-  return /*#__PURE__*/react.css("display:block;position:absolute;content:'';left:-200px;width:200px;height:1px;background-color:", theme.primary, ";animation:", loading, " 1.5s linear infinite;", error ? errorStyle() : null, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("display:block;position:absolute;content:'';left:-200px;width:200px;height:1px;background-color:", theme.primary, ";animation:", loading, " 1.5s linear infinite;", error ? errorStyle() : null, ";;label:before;" + ("" ));
 };
 
 function StripeLoader(_ref3) {
   var active = _ref3.active,
       error = _ref3.error,
       className = _ref3.className;
-      _objectWithoutProperties__default["default"](_ref3, _excluded$26);
+      _objectWithoutProperties__default["default"](_ref3, _excluded$1Z);
 
   var theme = React.useContext(ThemeContext);
 
@@ -921,32 +921,32 @@ function StripeLoader(_ref3) {
     css: /*#__PURE__*/react.css("height:1px;width:100%;position:relative;overflow:hidden;&:before{", active ? before({
       error: error,
       theme: theme
-    }) : null, ";}" + ("" ), "" )
+    }) : null, ";};label:StripeLoader;" + ("" ))
   }));
 }
 
-var _excluded$25 = ["theme"],
+var _excluded$1Y = ["theme"],
     _excluded2$j = ["theme"];
 var wrapper$1 = function wrapper(_ref2) {
   var theme = _ref2.theme,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$25);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1Y);
 
-  return /*#__PURE__*/react.css("display:inline-block;margin:0;padding:0;font-variant:tabular-nums;line-height:1.5;list-style:none;box-sizing:border-box;font-size:14px;font-variant:initial;background-color:", theme.paperBackground500, ";border-radius:", theme.borderRadius, "px;outline:none;box-shadow:0 2px 8px rgba(0, 0, 0, 0.15);width:100%;position:absolute;transform:translateY(", props.isOpen ? 5 : 0, "px);opacity:", props.isOpen ? 1 : 0, ";z-index:", props.isOpen ? 10 : null, ";transition:opacity .1s linear,transform .1s ease-in-out;" + ("" ), "" );
+  return /*#__PURE__*/react.css("display:inline-block;margin:0;padding:0;font-variant:tabular-nums;line-height:1.5;list-style:none;box-sizing:border-box;font-size:14px;font-variant:initial;background-color:", theme.paperBackground500, ";border-radius:", theme.borderRadius, "px;outline:none;box-shadow:0 2px 8px rgba(0, 0, 0, 0.15);width:100%;position:absolute;transform:translateY(", props.isOpen ? 5 : 0, "px);opacity:", props.isOpen ? 1 : 0, ";z-index:", props.isOpen ? 10 : null, ";transition:opacity .1s linear,transform .1s ease-in-out;;label:wrapper;" + ("" ));
 };
 
-var _ref$B = {
-  name: "kxlq2a",
-  styles: "position:relative;display:block;padding:5px 12px;overflow:hidden;font-weight:normal;line-height:22px;cursor:pointer;transition:background 0.3s ease"
+var _ref$y = {
+  name: "tjdmd9-item",
+  styles: "position:relative;display:block;padding:5px 12px;overflow:hidden;font-weight:normal;line-height:22px;cursor:pointer;transition:background 0.3s ease;label:item;"
 } ;
 
 var item = function item(_ref3) {
   _ref3.theme;
       _objectWithoutProperties__default["default"](_ref3, _excluded2$j);
 
-  return _ref$B;
+  return _ref$y;
 };
 var menu = function menu(props) {
-  return /*#__PURE__*/react.css("max-height:450px;margin:0;padding:4px 0;padding-left:0;overflow:auto;list-style:none;outline:none;", styledScrollBars(props), ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("max-height:450px;margin:0;padding:4px 0;padding-left:0;overflow:auto;list-style:none;outline:none;", styledScrollBars(props), ";;label:menu;" + ("" ));
 };
 var styles$9 = {
   wrapper: wrapper$1,
@@ -954,11 +954,11 @@ var styles$9 = {
   item: item
 };
 
-var _excluded$24 = ["onSuggestionsFetchRequested", "renderSuggestion", "getSuggestionValue", "onSuggestionSelected", "inputProps", "defaultIsOpen", "isLoading", "suggestions", "loadingError", "style", "listCss", "menuCss", "delay"];
+var _excluded$1X = ["onSuggestionsFetchRequested", "renderSuggestion", "getSuggestionValue", "onSuggestionSelected", "inputProps", "defaultIsOpen", "isLoading", "suggestions", "loadingError", "style", "listCss", "menuCss", "delay"];
 
-function ownKeys$q(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$l(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$q(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$q(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$q(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$l(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$l(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$l(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var Autocomplete = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var onSuggestionsFetchRequested = _ref.onSuggestionsFetchRequested,
       renderSuggestion = _ref.renderSuggestion,
@@ -974,7 +974,7 @@ var Autocomplete = /*#__PURE__*/React__default["default"].forwardRef(function (_
       menuCss = _ref.menuCss,
       _ref$delay = _ref.delay,
       delay = _ref$delay === void 0 ? 300 : _ref$delay;
-      _objectWithoutProperties__default["default"](_ref, _excluded$24);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1X);
 
   var theme = React.useContext(ThemeContext);
   var menuStyle = listCss || styles$9.menu;
@@ -1019,13 +1019,13 @@ var Autocomplete = /*#__PURE__*/React__default["default"].forwardRef(function (_
         selectedItem = _ref2.selectedItem,
         getRootProps = _ref2.getRootProps;
     return react.jsx("div", {
-      style: _objectSpread$q({
+      style: _objectSpread$l({
         position: 'relative',
         display: 'inline-block'
       }, style)
     }, react.jsx("div", getRootProps({}, {
       suppressRefError: true
-    }), react.jsx(Input, getInputProps(_objectSpread$q(_objectSpread$q({
+    }), react.jsx(Input, getInputProps(_objectSpread$l(_objectSpread$l({
       ref: ref
     }, inputProps), {}, {
       onChange: function onChange(event) {
@@ -2007,48 +2007,48 @@ var tab$1 = function tab(_ref3) {
       _ref3$direction = _ref3.direction,
       direction = _ref3$direction === void 0 ? 'bottom' : _ref3$direction,
       isActive = _ref3.isActive;
-  return /*#__PURE__*/react.css(border(3, theme.primary500, direction, isActive), " padding:10px 10px;flex:0 1 auto;cursor:pointer;&:hover,&:focus{outline:none;background:rgba(0,0,0,.05);}::-moz-focus-inner{border-style:none;}" + ("" ), "" );
+  return /*#__PURE__*/react.css(border(3, theme.primary500, direction, isActive), " padding:10px 10px;flex:0 1 auto;cursor:pointer;&:hover,&:focus{outline:none;background:rgba(0,0,0,.05);}::-moz-focus-inner{border-style:none;};label:tab;" + ("" ));
 };
 var routerTab$1 = function routerTab(_ref4) {
   var theme = _ref4.theme,
       _ref4$direction = _ref4.direction,
       direction = _ref4$direction === void 0 ? 'bottom' : _ref4$direction,
       isActive = _ref4.isActive;
-  return /*#__PURE__*/react.css(border(3, theme.primary500, direction, isActive), " flex:0 1 auto;&:hover,&:focus{outline:none;background:rgba(0,0,0,.05);}a{padding:10px 10px;display:inline-block;color:inherit;text-decoration:none;::-moz-focus-inner{border-style:none;}}" + ("" ), "" );
+  return /*#__PURE__*/react.css(border(3, theme.primary500, direction, isActive), " flex:0 1 auto;&:hover,&:focus{outline:none;background:rgba(0,0,0,.05);}a{padding:10px 10px;display:inline-block;color:inherit;text-decoration:none;::-moz-focus-inner{border-style:none;}};label:routerTab;" + ("" ));
 };
 var tabList = function tabList(_ref5) {
   _ref5.theme;
       var vertical = _ref5.vertical;
-  return /*#__PURE__*/react.css("padding:0;margin:0;list-style:none;display:flex;flex-direction:", vertical ? 'column' : 'row', ";flex-wrap:nowrap;" + ("" ), "" );
+  return /*#__PURE__*/react.css("padding:0;margin:0;list-style:none;display:flex;flex-direction:", vertical ? 'column' : 'row', ";flex-wrap:nowrap;;label:tabList;" + ("" ));
 };
 var tabSeperator = function tabSeperator(_ref6) {
   _ref6.theme;
       var vertical = _ref6.vertical;
-  return /*#__PURE__*/react.css(vertical ? 'height: 1px' : 'width: 1px', ";margin:", vertical ? '0 5px' : '5px 0', ";flex:0 1 auto;border-", vertical ? 'top' : 'left', ":1px solid #ddd;" + ("" ), "" );
+  return /*#__PURE__*/react.css(vertical ? 'height: 1px' : 'width: 1px', ";margin:", vertical ? '0 5px' : '5px 0', ";flex:0 1 auto;border-", vertical ? 'top' : 'left', ":1px solid #ddd;;label:tabSeperator;" + ("" ));
 };
 
-var _ref$A = {
-  name: "mkkf9p",
-  styles: "flex:1 1 auto"
+var _ref$x = {
+  name: "86he5k-tabSpacer",
+  styles: "flex:1 1 auto;label:tabSpacer;"
 } ;
 
 var tabSpacer = function tabSpacer(_ref7) {
   _ref7.theme;
       _ref7.vertical;
-  return _ref$A;
+  return _ref$x;
 };
 
-var _excluded$23 = ["activeId", "onChange"],
+var _excluded$1W = ["activeId", "onChange"],
     _excluded2$i = ["vertical"],
-    _excluded3$a = ["direction", "label", "to", "exact", "className"],
-    _excluded4$5 = ["tabId", "direction"],
-    _excluded5$1 = ["tabId", "lazy"];
+    _excluded3$9 = ["direction", "label", "to", "exact", "className"],
+    _excluded4$4 = ["tabId", "direction"],
+    _excluded5 = ["tabId", "lazy"];
 var TabsContext = /*#__PURE__*/React__default["default"].createContext({});
 
 var ControlledTabs = function ControlledTabs(_ref) {
   var activeId = _ref.activeId,
       onChange = _ref.onChange,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$23);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1W);
 
   return react.jsx(TabsContext.Provider, _extends__default["default"]({
     value: {
@@ -2104,7 +2104,7 @@ var RouterTab$3 = function RouterTab(_ref4) {
       to = _ref4.to,
       exact = _ref4.exact,
       className = _ref4.className,
-      props = _objectWithoutProperties__default["default"](_ref4, _excluded3$a);
+      props = _objectWithoutProperties__default["default"](_ref4, _excluded3$9);
 
   var theme = React.useContext(ThemeContext);
   var isActive = reactRouterDom.useRouteMatch({
@@ -2125,7 +2125,7 @@ var RouterTab$3 = function RouterTab(_ref4) {
 var Tab$2 = function Tab(_ref5) {
   var tabId = _ref5.tabId,
       direction = _ref5.direction,
-      props = _objectWithoutProperties__default["default"](_ref5, _excluded4$5);
+      props = _objectWithoutProperties__default["default"](_ref5, _excluded4$4);
 
   var theme = React.useContext(ThemeContext);
   var tabContext = React.useContext(TabsContext);
@@ -2152,7 +2152,7 @@ Tab$2.displayName = 'Tab';
 var TabPanel$2 = function TabPanel(_ref6) {
   var tabId = _ref6.tabId,
       lazy = _ref6.lazy,
-      props = _objectWithoutProperties__default["default"](_ref6, _excluded5$1);
+      props = _objectWithoutProperties__default["default"](_ref6, _excluded5);
 
   // const theme = useContext(ThemeContext);
   var tabContext = React.useContext(TabsContext);
@@ -2173,10 +2173,10 @@ Tabs.TapSeperator = TapSeperator$2;
 Tabs.TapSpacer = TapSpacer;
 Tabs.RouterTab = RouterTab$3;
 
-var _excluded$22 = ["shrink", "grow", "basis", "xs"];
+var _excluded$1V = ["shrink", "grow", "basis", "xs"];
 
 var row = function row(props) {
-  return /*#__PURE__*/react.css("display:flex;flex-direction:", props.direction || null, ";flex-wrap:", props.wrap ? props.wrap : 'wrap', ";align-items:", props.alignItems ? props.alignItems : null, ";margin:", props.halfGutter ? -props.halfGutter + 'px' : null, ";justify-content:", props.justifyContent ? props.justifyContent : null, ";>*{padding:", props.halfGutter ? props.halfGutter + 'px' : null, ";}" + ("" ), "" );
+  return /*#__PURE__*/react.css("display:flex;flex-direction:", props.direction || null, ";flex-wrap:", props.wrap ? props.wrap : 'wrap', ";align-items:", props.alignItems ? props.alignItems : null, ";margin:", props.halfGutter ? -props.halfGutter + 'px' : null, ";justify-content:", props.justifyContent ? props.justifyContent : null, ";>*{padding:", props.halfGutter ? props.halfGutter + 'px' : null, ";};label:row;" + ("" ));
 };
 
 var asFlexValue = function asFlexValue() {
@@ -2185,7 +2185,7 @@ var asFlexValue = function asFlexValue() {
 };
 
 var getFlexSize = function getFlexSize(size, breakpoint) {
-  return /*#__PURE__*/react.css("@media (min-width: ", breakpoint, "px){flex-basis:", size ? size * 100 / 24 + '%' : null, ";}" + ("" ), "" );
+  return /*#__PURE__*/react.css("@media (min-width: ", breakpoint, "px){flex-basis:", size ? size * 100 / 24 + '%' : null, ";};label:getFlexSize;" + ("" ));
 };
 
 var col = function col(_ref) {
@@ -2193,12 +2193,12 @@ var col = function col(_ref) {
       grow = _ref.grow,
       basis = _ref.basis,
       xs = _ref.xs,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$22);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1V);
 
-  return /*#__PURE__*/react.css("flex-grow:", asFlexValue(grow), ";flex-shrink:", asFlexValue(shrink), ";flex-basis:", basis ? typeof basis === 'number' ? basis + '%' : basis : 'auto', ";flex-basis:", xs ? xs * 100 / 24 + '%' : null, ";", getFlexSize(props.sm, 600), ";", getFlexSize(props.md, 700), ";", getFlexSize(props.lg, 800), ";", getFlexSize(props.xl, 1000), ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("flex-grow:", asFlexValue(grow), ";flex-shrink:", asFlexValue(shrink), ";flex-basis:", basis ? typeof basis === 'number' ? basis + '%' : basis : 'auto', ";flex-basis:", xs ? xs * 100 / 24 + '%' : null, ";", getFlexSize(props.sm, 600), ";", getFlexSize(props.md, 700), ";", getFlexSize(props.lg, 800), ";", getFlexSize(props.xl, 1000), ";;label:col;" + ("" ));
 };
 
-var _excluded$21 = ["as", "className", "style", "wrap", "direction", "alignItems", "justifyContent", "halfGutter", "gridGutter", "shrink", "grow", "basis", "xs", "sm", "md", "lg", "xl"];
+var _excluded$1U = ["as", "className", "style", "wrap", "direction", "alignItems", "justifyContent", "halfGutter", "gridGutter", "shrink", "grow", "basis", "xs", "sm", "md", "lg", "xl"];
 
 var GetComponent = function GetComponent(rowComponentStyle) {
   return /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
@@ -2222,7 +2222,7 @@ var GetComponent = function GetComponent(rowComponentStyle) {
         md = _ref.md,
         lg = _ref.lg,
         xl = _ref.xl,
-        props = _objectWithoutProperties__default["default"](_ref, _excluded$21);
+        props = _objectWithoutProperties__default["default"](_ref, _excluded$1U);
 
     return react.jsx(As, _extends__default["default"]({
       ref: ref,
@@ -2252,20 +2252,23 @@ var GetComponent = function GetComponent(rowComponentStyle) {
 var Row = GetComponent(row);
 var Col = GetComponent(col);
 
-var _excluded$20 = ["trigger", "placement", "items"],
+var _excluded$1T = ["trigger", "placement", "items", "style"],
     _excluded2$h = ["children", "onChange", "className", "style"],
-    _excluded3$9 = ["children"];
+    _excluded3$8 = ["children"];
 var Menu = /*#__PURE__*/React__default["default"].memo(function (_ref2) {
   var trigger = _ref2.trigger,
       placement = _ref2.placement,
       items = _ref2.items,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$20);
+      style = _ref2.style,
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1T);
 
   var theme = React.useContext(ThemeContext);
   var menu = Menu$1.useMenuState({
     placement: placement || theme.dir === 'rtl' ? 'bottom-start' : 'bottom-end'
   });
-  return react.jsx(Root, null, react.jsx(Menu$1.MenuButton, _extends__default["default"]({}, menu, trigger.props), function (disclosureProps) {
+  return react.jsx(Root, {
+    style: style
+  }, react.jsx(Menu$1.MenuButton, _extends__default["default"]({}, menu, trigger.props), function (disclosureProps) {
     return /*#__PURE__*/React__default["default"].cloneElement(trigger, disclosureProps);
   }), react.jsx(Menu$1.Menu, _extends__default["default"]({}, menu, props, {
     css: focus(),
@@ -2275,7 +2278,8 @@ var Menu = /*#__PURE__*/React__default["default"].memo(function (_ref2) {
   }), react.jsx("div", {
     css: menuContainer({
       theme: theme
-    })
+    }),
+    className: "gb-menuContainer"
   }, (typeof items === 'function' ? items(menu) : items).map(function (item, i) {
     return react.jsx(Menu$1.MenuItem, _extends__default["default"]({}, menu, item.props, {
       key: i
@@ -2304,7 +2308,7 @@ var MenuToggle = /*#__PURE__*/React__default["default"].forwardRef(function (_re
 });
 var MenuAction = /*#__PURE__*/React__default["default"].forwardRef(function (_ref4, ref) {
   var children = _ref4.children,
-      props = _objectWithoutProperties__default["default"](_ref4, _excluded3$9);
+      props = _objectWithoutProperties__default["default"](_ref4, _excluded3$8);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx("button", _extends__default["default"]({
@@ -2313,41 +2317,41 @@ var MenuAction = /*#__PURE__*/React__default["default"].forwardRef(function (_re
   }, props), react.jsx("span", null, children));
 });
 
-var _ref$z = {
-  name: "pim2nj",
-  styles: "&:focus{outline:none;box-shadow:0 0 0 0.125em #00000005;}"
+var _ref$w = {
+  name: "jx6b1u-focus",
+  styles: "&:focus{outline:none;box-shadow:0 0 0 0.125em #00000005;};label:focus;"
 } ;
 
 var focus = function focus(theme) {
-  return _ref$z;
+  return _ref$w;
 };
 
 var menuOption = function menuOption(theme) {
-  return /*#__PURE__*/react.css("padding:8px 8px;display:block;display:flex;width:100%;justify-content:space-between;overflow:hidden;font-size:13px;&>*{margin:0 8px;}&:focus,:focus-within{outline:none;background:", theme.darkTheme ? '#00000050' : '#00000010', ";}" + ("" ), "" );
+  return /*#__PURE__*/react.css("padding:8px 8px;display:block;display:flex;width:100%;justify-content:space-between;overflow:hidden;font-size:13px;&>*{margin:0 8px;}&:focus,:focus-within{outline:none;background:", theme.darkTheme ? '#00000050' : '#00000010', ";};label:menuOption;" + ("" ));
 };
 
 var menuAction = function menuAction(theme) {
-  return /*#__PURE__*/react.css(menuOption(theme), ";background:none;border:none;background:none;outline:none;color:", theme.color900, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css(menuOption(theme), ";background:none;border:none;background:none;outline:none;color:", theme.color900, ";;label:menuAction;" + ("" ));
 };
 
 var menuContainer = function menuContainer(_ref5) {
   var theme = _ref5.theme;
-  return /*#__PURE__*/react.css("min-width:180px;max-width:100%;background-color:", theme.paperBackground100, ";z-index:999;outline:0px;border:1px solid rgba(33, 33, 33, 0.15);box-shadow:3px 3px 2px rgba(0, 0, 0, 0.05);" + ("" ), "" );
+  return /*#__PURE__*/react.css("min-width:180px;max-width:100%;background-color:", theme.paperBackground100, ";z-index:999;outline:0px;border:1px solid rgba(33, 33, 33, 0.15);box-shadow:3px 3px 2px rgba(0, 0, 0, 0.05);;label:menuContainer;" + ("" ));
 };
 
 var tooltip = function tooltip(props) {
-  return /*#__PURE__*/react.css(root$9(props), " font-size:12px;background-color:rgba(33, 33, 33, 0.9);padding:4px 8px;border-radius:", props.theme.borderRadius, "px;color:white;z-index:1000;" + ("" ), "" );
+  return /*#__PURE__*/react.css(root$9(props), " font-size:12px;background-color:rgba(33, 33, 33, 0.9);padding:4px 8px;border-radius:", props.theme.borderRadius, "px;color:white;z-index:1000;;label:tooltip;" + ("" ));
 };
 var styles$8 = {
   tooltip: tooltip
 };
 
-var _excluded$1$ = ["children", "title", "placement"];
+var _excluded$1S = ["children", "title", "placement"];
 function Tooltip(_ref) {
   var children = _ref.children,
       title = _ref.title,
       placement = _ref.placement,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1$);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1S);
 
   var tooltip = Tooltip$1.useTooltipState({
     placement: placement
@@ -2379,14 +2383,14 @@ Tooltip.useTooltipState = Tooltip$1.useTooltipState;
 
 var skeleton = function skeleton(_ref) {
   var width = _ref.width;
-  return /*#__PURE__*/react.css("width:", width, ";display:inline-block;height:1em;animation:", skeletonLoading, " 3s linear infinite;" + ("" ), "" );
+  return /*#__PURE__*/react.css("width:", width, ";display:inline-block;height:1em;animation:", skeletonLoading, " 3s linear infinite;;label:skeleton;" + ("" ));
 };
 
-var _excluded$1_ = ["width"];
+var _excluded$1R = ["width"];
 var Skeleton = function Skeleton(_ref) {
   var _ref$width = _ref.width,
       width = _ref$width === void 0 ? '100%' : _ref$width,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1_);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1R);
 
   var theme = React.useContext(ThemeContext);
   var w;
@@ -2408,22 +2412,22 @@ var Skeleton = function Skeleton(_ref) {
 };
 Skeleton.displayName = 'Skeleton';
 
-var _excluded$1Z = ["noWrap"];
+var _excluded$1Q = ["noWrap"];
 var wrapper = function wrapper(props) {
-  return /*#__PURE__*/react.css("border:1px solid ", props.theme.paperBorderColor, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("border:1px solid ", props.theme.paperBorderColor, ";;label:wrapper;" + ("" ));
 };
 var occurrenceTable = function occurrenceTable(_ref5) {
   var theme = _ref5.theme;
-  return /*#__PURE__*/react.css("width:100%;height:calc(100% - 30px);overflow:auto;position:relative;background:", theme.paperBackground, ";flex:1 1 auto;" + ("" ), "" );
+  return /*#__PURE__*/react.css("width:100%;height:calc(100% - 30px);overflow:auto;position:relative;background:", theme.paperBackground, ";flex:1 1 auto;;label:occurrenceTable;" + ("" ));
 };
 var footer$1 = function footer(_ref6) {
   var theme = _ref6.theme;
-  return /*#__PURE__*/react.css("height:30px;display:flex;flex-direction:row;padding:0 10px;background:", theme.paperBackground500, ";border-radius:0 0 ", theme.borderRadius, "px ", theme.borderRadius, "px;border-top:1px solid ", theme.paperBorderColor, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("height:30px;display:flex;flex-direction:row;padding:0 10px;background:", theme.paperBackground500, ";border-radius:0 0 ", theme.borderRadius, "px ", theme.borderRadius, "px;border-top:1px solid ", theme.paperBorderColor, ";;label:footer;" + ("" ));
 };
 
 var _ref4$7 = {
-  name: "7rew41",
-  styles: "flex:0 0 auto;padding:0 10px;height:30px;line-height:30px;width:30px;padding:0;text-align:center;border:1px solid transparent"
+  name: "1rmnl03-footerItemBase",
+  styles: "flex:0 0 auto;padding:0 10px;height:30px;line-height:30px;width:30px;padding:0;text-align:center;border:1px solid transparent;label:footerItemBase;"
 } ;
 
 var footerItemBase = function footerItemBase(_ref7) {
@@ -2431,15 +2435,15 @@ var footerItemBase = function footerItemBase(_ref7) {
   return _ref4$7;
 };
 var footerItem$1 = function footerItem(props) {
-  return /*#__PURE__*/react.css(footerItemBase(props), ";&:hover{border-color:", props.theme.paperBorderColor, ";}&:active{background:#f0f2f3;}", tooltip$1(props), ";" + ("" ), "" );
+  return /*#__PURE__*/react.css(footerItemBase(props), ";&:hover{border-color:", props.theme.paperBorderColor, ";}&:active{background:#f0f2f3;}", tooltip$1(props), ";;label:footerItem;" + ("" ));
 };
 var table$1 = function table(props) {
-  return /*#__PURE__*/react.css("position:relative;min-width:100%;border-collapse:separate;background:", props.theme.background, ";border-spacing:0;font-size:85%;& th,td{border-right:1px solid ", props.theme.paperBorderColor, ";transition:background-color 200ms ease;border-bottom:1px solid ", props.theme.paperBorderColor, ";text-align:left;}& thead th{position:sticky;top:0;border-bottom-width:2px;background:", props.theme.paperBackground500, ";color:", props.theme.color600, ";padding:8px 12px;}& td{padding:12px;background:", props.theme.paperBackground500, ";}& tbody>tr>td:first-of-type{border-right:1px solid ", props.theme.paperBorderColor, ";background:", props.theme.paperBackground500, ";}", props.stickyColumn ? stickyColumn() : '', ";", props.scrolled ? scrolled(props) : '', ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("position:relative;min-width:100%;border-collapse:separate;background:", props.theme.background, ";border-spacing:0;font-size:85%;& th,td{border-right:1px solid ", props.theme.paperBorderColor, ";transition:background-color 200ms ease;border-bottom:1px solid ", props.theme.paperBorderColor, ";text-align:left;}& thead th{position:sticky;top:0;border-bottom-width:2px;background:", props.theme.paperBackground500, ";color:", props.theme.color600, ";padding:8px 12px;}& td{padding:12px;background:", props.theme.paperBackground500, ";}& tbody>tr>td:first-of-type{border-right:1px solid ", props.theme.paperBorderColor, ";background:", props.theme.paperBackground500, ";}", props.stickyColumn ? stickyColumn() : '', ";", props.scrolled ? scrolled(props) : '', ";;label:table;" + ("" ));
 };
 
 var _ref3$c = {
-  name: "1fnpr55",
-  styles: "& thead th:first-of-type{left:0;z-index:1;}& tbody>tr>td:first-of-type{position:sticky;left:0;}"
+  name: "1f70ajr-stickyColumn",
+  styles: "& thead th:first-of-type{left:0;z-index:1;}& tbody>tr>td:first-of-type{position:sticky;left:0;};label:stickyColumn;"
 } ;
 
 var stickyColumn = function stickyColumn(props) {
@@ -2452,51 +2456,51 @@ var stickyColumn = function stickyColumn(props) {
 
 var scrolled = function scrolled(_ref8) {
   var theme = _ref8.theme;
-  return /*#__PURE__*/react.css("& td{background-color:", theme.paperBackground600, ";}& thead th{background:", theme.paperBackground700, ";}& thead th:first-of-type{background:", theme.paperBackground500, ";}" + ("" ), "" );
+  return /*#__PURE__*/react.css("& td{background-color:", theme.paperBackground600, ";}& thead th{background:", theme.paperBackground700, ";}& thead th:first-of-type{background:", theme.paperBackground500, ";};label:scrolled;" + ("" ));
 };
 var footerText = function footerText(props) {
-  return /*#__PURE__*/react.css(footerItemBase(props), ";width:auto;font-size:12px;text-align:center;flex:1 1 auto;" + ("" ), "" );
+  return /*#__PURE__*/react.css(footerItemBase(props), ";width:auto;font-size:12px;text-align:center;flex:1 1 auto;;label:footerText;" + ("" ));
 };
 
-var _ref2$i = {
-  name: "11lls6c",
-  styles: "display:flex;word-break:break-word"
+var _ref2$h = {
+  name: "11d8wtd-cell",
+  styles: "display:flex;word-break:break-word;label:cell;"
 } ;
 
 var cell = function cell(props) {
-  return _ref2$i;
+  return _ref2$h;
 };
 var dataCell = function dataCell(_ref9) {
   var noWrap = _ref9.noWrap;
-      _objectWithoutProperties__default["default"](_ref9, _excluded$1Z);
+      _objectWithoutProperties__default["default"](_ref9, _excluded$1Q);
 
-  return /*#__PURE__*/react.css(noWrap ? 'white-space: nowrap;' : '', ";" + ("" ), "" );
+  return /*#__PURE__*/react.css(noWrap ? 'white-space: nowrap;' : '', ";;label:dataCell;" + ("" ));
 };
 var wide = function wide(props) {
-  return /*#__PURE__*/react.css("min-width:20em;", cell(), ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("min-width:20em;", cell(), ";;label:wide;" + ("" ));
 };
 
-var _ref$y = {
-  name: "1bmnxg7",
-  styles: "white-space:nowrap"
+var _ref$v = {
+  name: "7plljj-noWrap",
+  styles: "white-space:nowrap;label:noWrap;"
 } ;
 
 var noWrap = function noWrap(props) {
-  return _ref$y;
+  return _ref$v;
 };
 var tbodyLoading = function tbodyLoading(_ref10) {
   var theme = _ref10.theme;
-  return /*#__PURE__*/react.css("td>*{background-color:", theme.color100, "55;color:transparent;}" + ("" ), "" );
+  return /*#__PURE__*/react.css("td>*{background-color:", theme.color100, "55;color:transparent;};label:tbodyLoading;" + ("" ));
 };
 var paper$6 = function paper(_ref11) {
   var theme = _ref11.theme,
       color = _ref11.color;
-  return /*#__PURE__*/react.css("background-color:", theme['paperBackground' + color], ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("background-color:", theme['paperBackground' + color], ";;label:paper;" + ("" ));
 };
 var ink = function ink(_ref12) {
   var theme = _ref12.theme,
       color = _ref12.color;
-  return /*#__PURE__*/react.css("color:", theme['color' + color], ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("color:", theme['color' + color], ";;label:ink;" + ("" ));
 };
 var styles$6 = {
   wrapper: wrapper,
@@ -2532,19 +2536,19 @@ var styles$7 = /*#__PURE__*/Object.freeze({
   'default': styles$6
 });
 
-var _excluded$1Y = ["loading", "columnCount", "rowCount"],
+var _excluded$1P = ["loading", "columnCount", "rowCount"],
     _excluded2$g = ["children", "width", "toggle", "locked"],
-    _excluded3$8 = ["children", "width", "noWrap"],
-    _excluded4$4 = ["intl", "loading", "theme", "children", "first", "prev", "next", "size", "from", "total", "fixedColumn", "style"];
+    _excluded3$7 = ["children", "width", "noWrap"],
+    _excluded4$3 = ["intl", "loading", "theme", "children", "first", "prev", "next", "size", "from", "total", "fixedColumn", "style"];
 
-function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
+function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
 
-function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 var TBody = function TBody(_ref) {
   var loading = _ref.loading,
       columnCount = _ref.columnCount,
       rowCount = _ref.rowCount,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1Y);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1P);
 
   var theme = React.useContext(ThemeContext); // if not loading, then simply show the content as is
 
@@ -2607,7 +2611,7 @@ var Td = function Td(_ref3) {
   var children = _ref3.children,
       width = _ref3.width,
       noWrap = _ref3.noWrap,
-      rest = _objectWithoutProperties__default["default"](_ref3, _excluded3$8);
+      rest = _objectWithoutProperties__default["default"](_ref3, _excluded3$7);
 
   return react.jsx("td", rest, react.jsx("span", {
     css: dataCell({
@@ -2620,7 +2624,7 @@ var Td = function Td(_ref3) {
 var DataTableCore = /*#__PURE__*/function (_Component) {
   _inherits__default["default"](DataTableCore, _Component);
 
-  var _super = _createSuper$7(DataTableCore);
+  var _super = _createSuper$5(DataTableCore);
 
   function DataTableCore(props) {
     var _this;
@@ -2671,7 +2675,7 @@ var DataTableCore = /*#__PURE__*/function (_Component) {
           total = _this$props.total,
           fixedColumn = _this$props.fixedColumn,
           style = _this$props.style,
-          props = _objectWithoutProperties__default["default"](_this$props, _excluded4$4);
+          props = _objectWithoutProperties__default["default"](_this$props, _excluded4$3);
 
       var page = 1 + Math.floor(from / size);
       var totalPages = Math.ceil(total / size);
@@ -2757,7 +2761,7 @@ function DataTable(props) {
   }, props));
 }
 
-var _excluded$1X = ["src", "w", "h"];
+var _excluded$1O = ["src", "w", "h"];
 var getImageSrc = function getImageSrc(_ref) {
   var src = _ref.src,
       _ref$w = _ref.w,
@@ -2772,7 +2776,7 @@ var Image$1 = /*#__PURE__*/React__default["default"].forwardRef(function (_ref2,
       w = _ref2$w === void 0 ? '' : _ref2$w,
       _ref2$h = _ref2.h,
       h = _ref2$h === void 0 ? '' : _ref2$h,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1X);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1O);
 
   return react.jsx("img", _extends__default["default"]({
     src: getImageSrc({
@@ -2786,8 +2790,8 @@ var Image$1 = /*#__PURE__*/React__default["default"].forwardRef(function (_ref2,
 Image$1.getImageSrc = getImageSrc;
 
 var _ref11$1 = {
-  name: "gpfvns",
-  styles: "display:flex;flex-wrap:wrap;justify-content:flex-start;padding:0;margin:-6px"
+  name: "1hlhqtv-gallery",
+  styles: "display:flex;flex-wrap:wrap;justify-content:flex-start;padding:0;margin:-6px;label:gallery;"
 } ;
 
 var gallery = function gallery(props) {
@@ -2797,12 +2801,12 @@ var galleryTileImage = function galleryTileImage(_ref12) {
   _ref12.theme;
       var _ref12$height = _ref12.height,
       height = _ref12$height === void 0 ? 150 : _ref12$height;
-  return /*#__PURE__*/react.css("height:", height, "px;width:100%;background:#88888822;background-size:contain;background-repeat:no-repeat;background-position:center;&:hover{box-shadow:0 0 1px 1px rgba(0, 0, 0, 0.3);}" + ("" ), "" );
+  return /*#__PURE__*/react.css("height:", height, "px;width:100%;background:#88888822;background-size:contain;background-repeat:no-repeat;background-position:center;&:hover{box-shadow:0 0 1px 1px rgba(0, 0, 0, 0.3);};label:galleryTileImage;" + ("" ));
 };
 
 var _ref10$4 = {
-  name: "f6v012",
-  styles: "flex:1 1 auto;width:150px;margin:6px;display:block;overflow:hidden;& img{display:none;}"
+  name: "18zgz1b-galleryTile",
+  styles: "flex:1 1 auto;width:150px;margin:6px;display:block;overflow:hidden;& img{display:none;};label:galleryTile;"
 } ;
 
 var galleryTile = function galleryTile(_ref13) {
@@ -2811,54 +2815,54 @@ var galleryTile = function galleryTile(_ref13) {
 };
 
 var _ref9$3 = {
-  name: "19a2npw",
-  styles: "font-size:.80em;font-weight:600;padding-top:2px"
+  name: "x3cbgo-caption",
+  styles: "font-size:.80em;font-weight:600;padding-top:2px;label:caption;"
 } ;
 
 var caption = function caption(props) {
   return _ref9$3;
 };
 var more$1 = function more(props) {
-  return /*#__PURE__*/react.css("flex:100 1 auto;display:flex;height:", props.height || 150, "px;align-items:center;color:#888;min-width:100px;padding-left:30px;" + ("" ), "" );
+  return /*#__PURE__*/react.css("flex:100 1 auto;display:flex;height:", props.height || 150, "px;align-items:center;color:#888;min-width:100px;padding-left:30px;;label:more;" + ("" ));
 }; // export const slideIn = props => css`
 //   opacity: 1;
 //   transform: translateX(0);
 // `;
 
 var _ref8$4 = {
-  name: "kyhf4w",
-  styles: "position:fixed;top:0;left:0;right:0;bottom:0;background:#00000010"
+  name: "f3jmvk-detailPage",
+  styles: "position:fixed;top:0;left:0;right:0;bottom:0;background:#00000010;label:detailPage;"
 } ;
 
 var detailPage = function detailPage(props) {
   return _ref8$4;
 };
 var skeletonTile = function skeletonTile(props) {
-  return /*#__PURE__*/react.css("height:", props.height, "px;width:", props.height * 1.2, "px;flex:1 1 auto;margin:6px;animation:", skeletonLoading, " 3s linear infinite;" + ("" ), "" );
+  return /*#__PURE__*/react.css("height:", props.height, "px;width:", props.height * 1.2, "px;flex:1 1 auto;margin:6px;animation:", skeletonLoading, " 3s linear infinite;;label:skeletonTile;" + ("" ));
 };
 
-var _ref2$h = {
-  name: "bjn8wh",
-  styles: "position:relative"
+var _ref2$g = {
+  name: "qrjmc2-zoomableImage",
+  styles: "position:relative;label:zoomableImage;"
 } ;
 
 var zoomableImage = function zoomableImage(_ref3) {
   _ref3.src;
-  return _ref2$h;
+  return _ref2$g;
 };
 var image = function image(_ref4) {
   var src = _ref4.src,
       blur = _ref4.blur;
-  return /*#__PURE__*/react.css("height:100%;width:100%;background:url(", src, ");background-position:center;background-size:contain;background-repeat:no-repeat;position:relative;text-align:center;", blur ? 'filter: blur(8px)' : '', ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("height:100%;width:100%;background:url(", src, ");background-position:center;background-size:contain;background-repeat:no-repeat;position:relative;text-align:center;", blur ? 'filter: blur(8px)' : '', ";;label:image;" + ("" ));
 };
 
-var _ref$x = {
-  name: "1ej3ex3",
-  styles: "position:absolute;bottom:20px;right:20px;background:rgba(0,0,0,.8);color:white;padding:0;display:flex"
+var _ref$u = {
+  name: "1gkioda-toolBar",
+  styles: "position:absolute;bottom:20px;right:20px;background:rgba(0,0,0,.8);color:white;padding:0;display:flex;label:toolBar;"
 } ;
 
 var toolBar = function toolBar() {
-  return _ref$x;
+  return _ref$u;
 };
 var styles$5 = {
   zoomableImage: zoomableImage,
@@ -2866,11 +2870,11 @@ var styles$5 = {
   image: image
 };
 
-var _excluded$1W = ["src", "thumbnail"];
+var _excluded$1N = ["src", "thumbnail"];
 var ZoomableImage = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var src = _ref.src,
       thumbnail = _ref.thumbnail,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1W);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1N);
 
   var theme = React.useContext(ThemeContext);
 
@@ -2938,7 +2942,7 @@ var ZoomableImage = /*#__PURE__*/React__default["default"].forwardRef(function (
 });
 ZoomableImage.displayName = 'ZoomableImage';
 
-var _excluded$1V = ["closeRequest", "item", "title", "subtitle", "details", "previous", "next", "imageSrc"];
+var _excluded$1M = ["closeRequest", "item", "title", "subtitle", "details", "previous", "next", "imageSrc"];
 Tabs.TabList;
     Tabs.Tab;
     Tabs.TabPanel;
@@ -2951,7 +2955,7 @@ var GalleryDetails = function GalleryDetails(_ref) {
       previous = _ref.previous,
       next = _ref.next,
       imageSrc = _ref.imageSrc,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1V);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1M);
 
   var _useState = React.useState({
     src: imageSrc(item)
@@ -3007,18 +3011,18 @@ var GalleryDetails = function GalleryDetails(_ref) {
 GalleryDetails.displayName = 'Gallery'; // Gallery.propTypes = {
 // };
 
-var _excluded$1U = ["height"],
+var _excluded$1L = ["height"],
     _excluded2$f = ["src", "onSelect", "height", "minWidth", "children", "style"],
-    _excluded3$7 = ["onSelect", "caption", "title", "subtitle", "details", "items", "loading", "loadMore", "imageSrc", "size"],
-    _excluded4$3 = ["children"];
+    _excluded3$6 = ["onSelect", "caption", "title", "subtitle", "details", "items", "loading", "loadMore", "imageSrc", "size"],
+    _excluded4$2 = ["children"];
 
-function ownKeys$p(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$k(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$p(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$p(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$p(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$k(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$k(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$k(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var GalleryTileSkeleton = function GalleryTileSkeleton(_ref) {
   var _ref$height = _ref.height,
       height = _ref$height === void 0 ? 150 : _ref$height,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1U);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1L);
 
   return react.jsx("div", _extends__default["default"]({
     css: skeletonTile({
@@ -3070,7 +3074,7 @@ var GalleryTile = function GalleryTile(_ref2) {
       theme: theme,
       height: height
     }),
-    style: _objectSpread$p(_objectSpread$p({}, sizeStyle), style)
+    style: _objectSpread$k(_objectSpread$k({}, sizeStyle), style)
   }, react.jsx(Button, _extends__default["default"]({
     appearance: "text",
     css: galleryTileImage({
@@ -3108,7 +3112,7 @@ var Gallery = function Gallery(_ref3) {
       imageSrc = _ref3.imageSrc,
       _ref3$size = _ref3.size,
       size = _ref3$size === void 0 ? 20 : _ref3$size,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded3$7);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded3$6);
 
   var theme = React.useContext(ThemeContext);
   var dialog = Dialog.useDialogState({
@@ -3185,7 +3189,7 @@ var Gallery = function Gallery(_ref3) {
 };
 var GalleryTiles = function GalleryTiles(_ref4) {
   var children = _ref4.children,
-      props = _objectWithoutProperties__default["default"](_ref4, _excluded4$3);
+      props = _objectWithoutProperties__default["default"](_ref4, _excluded4$2);
 
   React.useContext(ThemeContext);
   return react.jsx("div", _extends__default["default"]({
@@ -3199,17 +3203,17 @@ var GalleryTiles = function GalleryTiles(_ref4) {
 Gallery.displayName = 'Gallery'; // Gallery.propTypes = {
 // };
 
-var _excluded$1T = ["size", "color"],
+var _excluded$1K = ["size", "color"],
     _excluded2$e = ["size", "color"],
-    _excluded3$6 = ["theme"];
+    _excluded3$5 = ["theme"];
 var arrowDown = function arrowDown(_ref2) {
   var _ref2$size = _ref2.size,
       size = _ref2$size === void 0 ? 5 : _ref2$size,
       _ref2$color = _ref2.color,
       color = _ref2$color === void 0 ? '#88888855' : _ref2$color;
-      _objectWithoutProperties__default["default"](_ref2, _excluded$1T);
+      _objectWithoutProperties__default["default"](_ref2, _excluded$1K);
 
-  return /*#__PURE__*/react.css("width:0;height:0;border-left:", size, "px solid transparent;border-right:", size, "px solid transparent;border-top:", size, "px solid ", color, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("width:0;height:0;border-left:", size, "px solid transparent;border-right:", size, "px solid transparent;border-top:", size, "px solid ", color, ";;label:arrowDown;" + ("" ));
 };
 var arrowUp = function arrowUp(_ref3) {
   var _ref3$size = _ref3.size,
@@ -3218,29 +3222,29 @@ var arrowUp = function arrowUp(_ref3) {
       color = _ref3$color === void 0 ? '#88888855' : _ref3$color;
       _objectWithoutProperties__default["default"](_ref3, _excluded2$e);
 
-  return /*#__PURE__*/react.css("width:0;height:0;border-left:", size, "px solid transparent;border-right:", size, "px solid transparent;border-bottom:", size, "px solid ", color, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("width:0;height:0;border-left:", size, "px solid transparent;border-right:", size, "px solid transparent;border-bottom:", size, "px solid ", color, ";;label:arrowUp;" + ("" ));
 };
 
-var _ref$w = {
-  name: "1nuhno9",
-  styles: "padding-top:8px"
+var _ref$t = {
+  name: "au19k9-content",
+  styles: "padding-top:8px;label:content;"
 } ;
 
 var content$1 = function content(_ref4) {
   _extends__default["default"]({}, _ref4);
 
-  return _ref$w;
+  return _ref$t;
 };
 var accordion = function accordion(_ref5) {
   _extends__default["default"]({}, _ref5);
 
-  return /*#__PURE__*/react.css("" , "" );
+  return /*#__PURE__*/react.css(";label:accordion;" + ("" ));
 };
 var summary$5 = function summary(_ref6) {
   _ref6.theme;
-      _objectWithoutProperties__default["default"](_ref6, _excluded3$6);
+      _objectWithoutProperties__default["default"](_ref6, _excluded3$5);
 
-  return /*#__PURE__*/react.css(">div{display:flex;flex-wrap:nowrap;align-items:center;}padding:12px 0 8px 0;list-style:none;list-style-type:none;", focusStyle(), " ", noUserSelect(), " &::-webkit-details-marker{display:none;}" + ("" ), "" );
+  return /*#__PURE__*/react.css(">div{display:flex;flex-wrap:nowrap;align-items:center;}padding:12px 0 8px 0;list-style:none;list-style-type:none;", focusStyle(), " ", noUserSelect(), " &::-webkit-details-marker{display:none;};label:summary;" + ("" ));
 };
 var styles$4 = {
   accordion: accordion,
@@ -3250,7 +3254,7 @@ var styles$4 = {
   arrowUp: arrowUp
 };
 
-var _excluded$1S = ["summary", "summaryStyle", "open", "onToggle", "children"];
+var _excluded$1J = ["summary", "summaryStyle", "open", "onToggle", "children"];
 
 function AccordionControlled(_ref) {
   var summary = _ref.summary,
@@ -3258,7 +3262,7 @@ function AccordionControlled(_ref) {
       open = _ref.open,
       onToggle = _ref.onToggle,
       children = _ref.children,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1S);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1J);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx("details", _extends__default["default"]({
@@ -3305,6 +3309,8 @@ function useBelow() {
 
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  // The downside is that our mobile first paint might have rendered components that should be hidden. 
+  // So CSS needs to handle this to some extent.
   var _useState = React.useState(false),
       _useState2 = _slicedToArray__default["default"](_useState, 2),
       isBelow = _useState2[0],
@@ -3329,59 +3335,59 @@ function useBelow() {
   return isBelow;
 }
 
-var _excluded$1R = ["horizontal", "dense"],
+var _excluded$1I = ["horizontal", "dense"],
     _excluded2$d = ["horizontal", "theme"];
 
-function ownKeys$o(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$j(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$o(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$o(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$o(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$j(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$j(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$j(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 var _ref3$b = {
-  name: "10gfs5p",
-  styles: "display:grid;grid-template-columns:minmax(75px, 150px) 1fr;>dt{margin-bottom:12px;&:last-of-type{margin-bottom:0;}}"
+  name: "1ft9vvd-horizontalProperties",
+  styles: "display:grid;grid-template-columns:minmax(75px, 150px) 1fr;>dt{margin-bottom:12px;&:last-of-type{margin-bottom:0;}};label:horizontalProperties;"
 } ;
 
 var horizontalProperties = function horizontalProperties() {
   return _ref3$b;
 };
 
-var _ref2$g = {
-  name: "e49x6v",
-  styles: ">dt{margin-bottom:.1em;}"
+var _ref2$f = {
+  name: "wnk7jq-notHorizontalProperties",
+  styles: ">dt{margin-bottom:.1em;};label:notHorizontalProperties;"
 } ;
 
 var notHorizontalProperties = function notHorizontalProperties() {
-  return _ref2$g;
+  return _ref2$f;
 };
 var dl = function dl(_ref4) {
   var horizontal = _ref4.horizontal,
       dense = _ref4.dense,
-      props = _objectWithoutProperties__default["default"](_ref4, _excluded$1R);
+      props = _objectWithoutProperties__default["default"](_ref4, _excluded$1I);
 
-  return /*#__PURE__*/react.css(horizontal ? horizontalProperties(_objectSpread$o({}, props)) : notHorizontalProperties(), ";margin-top:0;margin-bottom:0;>*{margin-bottom:", horizontal && dense ? 4 : 12, "px;}" + ("" ), "" );
+  return /*#__PURE__*/react.css(horizontal ? horizontalProperties(_objectSpread$j({}, props)) : notHorizontalProperties(), ";margin-top:0;margin-bottom:0;>*{margin-bottom:", horizontal && dense ? 4 : 12, "px;};label:dl;" + ("" ));
 };
 var dt = function dt(_ref5) {
   var horizontal = _ref5.horizontal,
       theme = _ref5.theme;
       _objectWithoutProperties__default["default"](_ref5, _excluded2$d);
 
-  return /*#__PURE__*/react.css("color:", theme.color400, ";margin-bottom :", horizontal ? 20 : 0, "px;word-break:break-word;&:last-of-type{margin-bottom:", horizontal ? 0 : '.1em', ";}" + ("" ), "" );
+  return /*#__PURE__*/react.css("color:", theme.color400, ";margin-bottom :", horizontal ? 20 : 0, "px;word-break:break-word;&:last-of-type{margin-bottom:", horizontal ? 0 : '.1em', ";};label:dt;" + ("" ));
 };
 
-var _ref$v = {
-  name: "1hxhtqb",
-  styles: "margin-left:0;line-height:1.4em;word-break:break-word;&:last-of-type{margin-bottom:0;}"
+var _ref$s = {
+  name: "rlj43c-dd",
+  styles: "margin-left:0;line-height:1.4em;word-break:break-word;&:last-of-type{margin-bottom:0;};label:dd;"
 } ;
 
 var dd = function dd(_ref6) {
   _extends__default["default"]({}, _ref6);
 
-  return _ref$v;
+  return _ref$s;
 };
 
-var _excluded$1Q = ["as", "breakpoint", "horizontal", "dense"],
+var _excluded$1H = ["as", "breakpoint", "horizontal", "dense"],
     _excluded2$c = ["as"],
-    _excluded3$5 = ["as"];
+    _excluded3$4 = ["as"];
 function Properties(_ref) {
   var _ref$as = _ref.as,
       Dl = _ref$as === void 0 ? 'dl' : _ref$as,
@@ -3389,7 +3395,7 @@ function Properties(_ref) {
       horizontal = _ref.horizontal,
       _ref$dense = _ref.dense,
       dense = _ref$dense === void 0 ? false : _ref$dense,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1Q);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1H);
 
   var isBelow = useBelow(breakpoint);
   var theme = React.useContext(ThemeContext);
@@ -3417,7 +3423,7 @@ function Term$1(_ref2) {
 function Value$1(_ref3) {
   var _ref3$as = _ref3.as,
       Dd = _ref3$as === void 0 ? 'dd' : _ref3$as,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded3$5);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded3$4);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx(Dd, _extends__default["default"]({
@@ -3430,13 +3436,13 @@ Properties.Term = Term$1;
 Properties.Value = Value$1;
 
 var radio = function radio(props) {
-  return /*#__PURE__*/react.css("position:relative;top:-0.09em;display:inline-block;line-height:1;white-space:nowrap;vertical-align:middle;outline:none;cursor:pointer;input{", transparentInputOverlay, ";}& input+span{position:relative;top:0;left:0;display:block;width:1em;height:1em;border:1px solid #d9d9d9;border-radius:100px;transition:all 0.1s;&:after{position:absolute;top:0px;left:0px;display:table;width:100%;height:100%;border:3px solid #1890ff;border-radius:100px;opacity:0;transition:all .2s cubic-bezier(.78,.14,.15,.86);content:' ';}}& input:checked+span{border-color:#1890ff;&:after{opacity:1;}}& input:focus+span{box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);}" + ("" ), "" );
+  return /*#__PURE__*/react.css("position:relative;top:-0.09em;display:inline-block;line-height:1;white-space:nowrap;vertical-align:middle;outline:none;cursor:pointer;input{", transparentInputOverlay, ";}& input+span{position:relative;top:0;left:0;display:block;width:1em;height:1em;border:1px solid #d9d9d9;border-radius:100px;transition:all 0.1s;&:after{position:absolute;top:0px;left:0px;display:table;width:100%;height:100%;border:3px solid #1890ff;border-radius:100px;opacity:0;transition:all .2s cubic-bezier(.78,.14,.15,.86);content:' ';}}& input:checked+span{border-color:#1890ff;&:after{opacity:1;}}& input:focus+span{box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);};label:radio;" + ("" ));
 };
 var styles$3 = {
   radio: radio
 };
 
-var _excluded$1P = ["as", "className", "style"];
+var _excluded$1G = ["as", "className", "style"];
 var Radio = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Span = _ref$as === void 0 ? 'span' : _ref$as,
@@ -3444,7 +3450,7 @@ var Radio = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, re
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1P);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1G);
 
   var theme = React.useContext(ThemeContext);
 
@@ -3466,30 +3472,30 @@ var Radio = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, re
 });
 Radio.displayName = 'Radio';
 
-var _excluded$1O = ["theme"];
+var _excluded$1F = ["theme"];
 
-var _ref$u = {
-  name: "1gha2rb",
-  styles: "position:fixed;bottom:0;top:0;right:0;max-width:100%;transform:translateX(100%);overflow:hidden;transition:transform 200ms ease-in-out;&[data-enter]{transform:translateX(0%);}&:focus{outline:none;}"
+var _ref$r = {
+  name: "1aydhai-drawer",
+  styles: "position:fixed;bottom:0;top:0;right:0;max-width:100%;transform:translateX(100%);overflow:hidden;transition:transform 200ms ease-in-out;&[data-enter]{transform:translateX(0%);}&:focus{outline:none;};label:drawer;"
 } ;
 
 var drawer = function drawer(_ref4) {
   _extends__default["default"]({}, _ref4);
 
-  return _ref$u;
+  return _ref$r;
 };
 var detailsBackdrop = function detailsBackdrop(_ref5) {
   var theme = _ref5.theme;
-      _objectWithoutProperties__default["default"](_ref5, _excluded$1O);
+      _objectWithoutProperties__default["default"](_ref5, _excluded$1F);
 
-  return /*#__PURE__*/react.css("position:fixed;bottom:0;top:0;right:0;left:0;background:", theme.darkTheme ? '#00000075' : '#00000050', ";z-index:", theme.drawerZIndex || 100, ";transition:opacity 50ms ease-in-out;opacity:0;&[data-enter]{opacity:1;}" + ("" ), "" );
+  return /*#__PURE__*/react.css("position:fixed;bottom:0;top:0;right:0;left:0;background:", theme.darkTheme ? '#00000075' : '#00000050', ";z-index:", theme.drawerZIndex || 100, ";transition:opacity 50ms ease-in-out;opacity:0;&[data-enter]{opacity:1;};label:detailsBackdrop;" + ("" ));
 };
 var footerBar = function footerBar(_ref6) {
   var theme = _ref6.theme;
-  return /*#__PURE__*/react.css("display:flex;justify-content:space-between;flex:0 0 auto;background:", theme.paperBackground500, ";border-top:1px solid ", theme.paperBorderColor, ";padding:8px 12px;" + ("" ), "" );
+  return /*#__PURE__*/react.css("display:flex;justify-content:space-between;flex:0 0 auto;background:", theme.paperBackground500, ";border-top:1px solid ", theme.paperBorderColor, ";padding:8px 12px;;label:footerBar;" + ("" ));
 };
 var footerItem = function footerItem(props) {
-  return /*#__PURE__*/react.css("border:1px solid transparent;&:hover{border-color:#88888844;}&:active{background:#88888888;}", tooltip$1(props), ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("border:1px solid transparent;&:hover{border-color:#88888844;}&:active{background:#88888888;}", tooltip$1(props), ";;label:footerItem;" + ("" ));
 };
 
 // https://github.com/react-icons/react-icons/issues/238
@@ -3586,14 +3592,14 @@ var sampleEventJson = {
 };
 reactIcons.GenIcon(sampleEventJson);
 
-var _excluded$1N = ["dialog", "nextItem", "previousItem", "href", "children"];
+var _excluded$1E = ["dialog", "nextItem", "previousItem", "href", "children"];
 function DetailsDrawer(_ref) {
   var dialog = _ref.dialog,
       nextItem = _ref.nextItem,
       previousItem = _ref.previousItem,
       href = _ref.href,
       children = _ref.children;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1N);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1E);
 
   var theme = React.useContext(ThemeContext);
   React.useEffect(function () {
@@ -3676,12 +3682,12 @@ function DetailsDrawer(_ref) {
 // import { css } from '@emotion/react';
 var classification = classification$1;
 
-var _excluded$1M = ["as", "className"];
+var _excluded$1D = ["as", "className"];
 function Classification(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1M);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1D);
 
   var theme = React.useContext(ThemeContext);
 
@@ -3698,13 +3704,13 @@ function Classification(_ref) {
   }, props));
 }
 
-var _excluded$1L = ["as", "taxon", "rank", "showUnknownRanks"];
+var _excluded$1C = ["as", "taxon", "rank", "showUnknownRanks"];
 function MajorRanks(_ref) {
   _ref.as;
       var taxon = _ref.taxon,
       rank = _ref.rank,
       showUnknownRanks = _ref.showUnknownRanks,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1L);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1C);
 
   React.useContext(ThemeContext);
   var ranks = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
@@ -3726,23 +3732,23 @@ function MajorRanks(_ref) {
   }));
 }
 
-var _ref$t = {
-  name: "1o39hrb",
-  styles: "display:flex;align-items:center;flex:0 0 auto;align-items:flex-start;svg{flex:0 0 auto;height:1.2em;}>span,>div{margin:0 0.75em;}"
+var _ref$q = {
+  name: "pkgb42-iconFeature",
+  styles: "display:flex;align-items:center;flex:0 0 auto;align-items:flex-start;svg{flex:0 0 auto;height:1.2em;}>span,>div{margin:0 0.75em;};label:iconFeature;"
 } ;
 
 var iconFeature = function iconFeature(_ref2) {
   _extends__default["default"]({}, _ref2);
 
-  return _ref$t;
+  return _ref$q;
 };
 var iconFeatures = function iconFeatures(_ref4) {
   var props = _extends__default["default"]({}, _ref4);
 
-  return /*#__PURE__*/react.css("display:flex;flex-wrap:wrap;align-items:center;margin:-.25em -1em;div{", iconFeature(props), " margin:.25em 1em;}" + ("" ), "" );
+  return /*#__PURE__*/react.css("display:flex;flex-wrap:wrap;align-items:center;margin:-.25em -1em;div{", iconFeature(props), " margin:.25em 1em;};label:iconFeatures;" + ("" ));
 };
 
-var _excluded$1K = ["isSequenced", "isTreament", "isSpecimen", "isClustered", "isSamplingEvent", "formattedCoordinates", "eventDate", "stillImageCount", "movingImageCount", "soundCount", "typeStatus", "basisOfRecord", "countryCode", "locality", "issueCount", "children", "iconsOnly"];
+var _excluded$1B = ["isSequenced", "isTreament", "isSpecimen", "isClustered", "isSamplingEvent", "formattedCoordinates", "eventDate", "stillImageCount", "movingImageCount", "soundCount", "typeStatus", "basisOfRecord", "countryCode", "locality", "issueCount", "children", "iconsOnly"];
 function IconFeatures(_ref) {
   var isSequenced = _ref.isSequenced,
       isTreament = _ref.isTreament,
@@ -3761,7 +3767,7 @@ function IconFeatures(_ref) {
       issueCount = _ref.issueCount,
       children = _ref.children,
       iconsOnly = _ref.iconsOnly,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1K);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1B);
 
   var theme = React.useContext(ThemeContext);
   var typeStyle;
@@ -3846,17 +3852,17 @@ function IconFeatures(_ref) {
 }
 
 var identifierBadge = {
-  name: "16w7lvv",
-  styles: "display:inline-block;font-size:0.85em;&:hover{text-decoration:none;>span:first-of-type,>div:first-of-type{background-color:var(--primary700);}}>*{padding:0 5px;display:inline-block;border:1px solid #dbe3e7;}>span:first-of-type,>div:first-of-type{transition:all .3s ease;background-color:var(--primary500);border-color:var(--primary600);padding:0 4px;border-radius:var(--borderRadiusPx) 0 0 var(--borderRadiusPx);color:#fff;border-right-width:0;}>*:last-child{padding:0 7px;border-radius:0 var(--borderRadiusPx) var(--borderRadiusPx) 0;border-left-width:0;color:var(--color);text-decoration:none;}"
+  name: "shheac-identifierBadge",
+  styles: "display:inline-block;font-size:0.85em;&:hover{text-decoration:none;>span:first-of-type,>div:first-of-type{background-color:var(--primary700);}}>*{padding:0 5px;display:inline-block;border:1px solid #dbe3e7;}>span:first-of-type,>div:first-of-type{transition:all .3s ease;background-color:var(--primary500);border-color:var(--primary600);padding:0 4px;border-radius:var(--borderRadiusPx) 0 0 var(--borderRadiusPx);color:#fff;border-right-width:0;}>*:last-child{padding:0 7px;border-radius:0 var(--borderRadiusPx) var(--borderRadiusPx) 0;border-left-width:0;color:var(--color);text-decoration:none;};label:identifierBadge;"
 } ;
 
-var _excluded$1J = ["as", "className"],
+var _excluded$1A = ["as", "className"],
     _excluded2$b = ["id"];
 var IdentifierBadge = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1J);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1A);
 
   var theme = React.useContext(ThemeContext);
 
@@ -3883,13 +3889,13 @@ function Doi(_ref2) {
   }, props), react.jsx("span", null, "DOI"), react.jsx("span", null, sanitizedId));
 }
 
-var _ref$s = {
-  name: "1qel8bw",
-  styles: "text-decoration:none;>img{margin-right:4px;vertical-align:middle;}"
+var _ref$p = {
+  name: "14vl1ng-orcid",
+  styles: "text-decoration:none;>img{margin-right:4px;vertical-align:middle;};label:orcid;"
 } ;
 
 var orcid = function orcid() {
-  return _ref$s;
+  return _ref$p;
 };
 
 var Orcid = (function (_ref) {
@@ -3903,13 +3909,13 @@ var Orcid = (function (_ref) {
   }), href);
 });
 
-var _ref$r = {
-  name: "1f28o8h",
-  styles: "font-size:12px;text-decoration:none;display:inline-block;>span{border:1px solid #dbe3e7;}>span:first-of-type{transition:all 300ms ease;background:var(--primary500);padding:0 4px;border-radius:5px 0 0 5px;color:white;border-right-width:0;border-color:#218084;}>span:last-of-type{color:#333;background:white;text-decoration:none;padding:0 7px;border-radius:0 5px 5px 0;border-left-width:0;}"
+var _ref$o = {
+  name: "1lovijj-lsid",
+  styles: "font-size:12px;text-decoration:none;display:inline-block;>span{border:1px solid #dbe3e7;}>span:first-of-type{transition:all 300ms ease;background:var(--primary500);padding:0 4px;border-radius:5px 0 0 5px;color:white;border-right-width:0;border-color:#218084;}>span:last-of-type{color:#333;background:white;text-decoration:none;padding:0 7px;border-radius:0 5px 5px 0;border-left-width:0;};label:lsid;"
 } ;
 
 var lsid = function lsid() {
-  return _ref$r;
+  return _ref$o;
 };
 
 var Lsid = (function (_ref) {
@@ -3933,16 +3939,16 @@ var BooleanValue = function BooleanValue(_ref) {
   return value === false || value === true ? value ? "Yes" : "No" : null;
 };
 
-var _ref$q = {
-  name: "dbpu1g",
-  styles: "a{text-decoration:none;}"
+var _ref$n = {
+  name: "1gd7roc-content",
+  styles: "a{text-decoration:none;};label:content;"
 } ;
 
 var content = function content() {
-  return _ref$q;
+  return _ref$n;
 };
 
-var _excluded$1I = ["text"];
+var _excluded$1z = ["text"];
 var autolinker = new Autolinker__default["default"]({
   truncate: {
     length: 64,
@@ -4001,7 +4007,7 @@ var getDoi = function getDoi(text) {
 
 var HyperText = function HyperText(_ref) {
   var text = _ref.text,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1I);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1z);
 
   if (text === false || text === true) {
     return react.jsx(BooleanValue, _extends__default["default"]({
@@ -4017,7 +4023,7 @@ var HyperText = function HyperText(_ref) {
     return react.jsx("span", props, text);
   }
 
-  var sanitized = DOMPurify__default["default"].sanitize(text);
+  var sanitized = sanitizeHtml__default["default"](text);
   var doi = getDoi(sanitized);
 
   if (doi) {
@@ -4050,25 +4056,25 @@ var HyperText = function HyperText(_ref) {
   }, props));
 };
 
-var _ref$p = {
-  name: "14xqvxi",
-  styles: "background:#eee;border-radius:2px;height:4px;>div{transition:width 300ms;height:4px;border-radius:2px;background:#68daa8;max-width:100%;}"
+var _ref$m = {
+  name: "1ut0z8-progress",
+  styles: "background:#eee;border-radius:2px;height:4px;>div{transition:width 300ms;height:4px;border-radius:2px;background:#68daa8;max-width:100%;};label:progress;"
 } ;
 
 var progress$1 = function progress(_ref2) {
   _extends__default["default"]({}, _ref2);
 
-  return _ref$p;
+  return _ref$m;
 };
 var styles$2 = {
   progress: progress$1
 };
 
-var _excluded$1H = ["className", "percent"];
+var _excluded$1y = ["className", "percent"];
 function Progress(_ref) {
   var className = _ref.className,
       percent = _ref.percent,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1H);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1y);
 
   var theme = React.useContext(ThemeContext);
 
@@ -4087,11 +4093,11 @@ function Progress(_ref) {
   }));
 }
 
-var _excluded$1G = ["type"];
+var _excluded$1x = ["type"];
 
 var _ref8$3 = {
-  name: "1k5rxc7",
-  styles: "margin:-2px;display:inline-block;>*{margin:2px;display:inline-block;}"
+  name: "bxtlz7-tags",
+  styles: "margin:-2px;display:inline-block;>*{margin:2px;display:inline-block;};label:tags;"
 } ;
 
 var tags = function tags(_ref9) {
@@ -4101,46 +4107,46 @@ var tags = function tags(_ref9) {
 };
 var tag = function tag(_ref10) {
   var type = _ref10.type,
-      props = _objectWithoutProperties__default["default"](_ref10, _excluded$1G);
+      props = _objectWithoutProperties__default["default"](_ref10, _excluded$1x);
 
   return /*#__PURE__*/react.css("align-items:center;background-color:#f5f5f5;border-radius:4px;color:#4a4a4a;display:inline-flex;font-size:.85em;justify-content:center;line-height:1.5;padding-left:.75em;padding-right:.75em;white-space:nowrap;", types[type] ? types[type]({
     props: props
-  }) : null, ";" + ("" ), "" );
+  }) : null, ";;label:tag;" + ("" ));
 };
 
-var _ref$o = {
-  name: "1ip6jqu",
-  styles: "background-color:#363636;color:#fff"
+var _ref$l = {
+  name: "ijmqko-dark",
+  styles: "background-color:#363636;color:#fff;label:dark;"
 } ;
 
-var _ref2$f = {
-  name: "1fdzt1u",
-  styles: "background-color:#f5f5f5;color:rgba(0,0,0,.7)"
+var _ref2$e = {
+  name: "15tm0f9-light",
+  styles: "background-color:#f5f5f5;color:rgba(0,0,0,.7);label:light;"
 } ;
 
 var _ref3$a = {
-  name: "ubz1br",
-  styles: "background-color:#fff;color:rgba(0,0,0,.7)"
+  name: "18s3t1r-white",
+  styles: "background-color:#fff;color:rgba(0,0,0,.7);label:white;"
 } ;
 
 var _ref4$6 = {
-  name: "o79qdv",
-  styles: "background-color:#48c774;color:#ffffff"
+  name: "592q86-success",
+  styles: "background-color:#48c774;color:#ffffff;label:success;"
 } ;
 
 var _ref5$5 = {
-  name: "1n1me5v",
-  styles: "background-color:#3298dc;color:#fff"
+  name: "f0y4qx-info",
+  styles: "background-color:#3298dc;color:#fff;label:info;"
 } ;
 
 var _ref6$6 = {
-  name: "1mnj8tj",
-  styles: "background-color:#ffbf4b;color:#5f4515"
+  name: "1bfhxh-warning",
+  styles: "background-color:#ffbf4b;color:#5f4515;label:warning;"
 } ;
 
 var _ref7$4 = {
-  name: "ye6ucc",
-  styles: "background-color:#ff6c4b;color:#fff"
+  name: "qgncqa-error",
+  styles: "background-color:#ff6c4b;color:#fff;label:error;"
 } ;
 
 var types = {
@@ -4160,20 +4166,20 @@ var types = {
     return _ref3$a;
   },
   light: function light(props) {
-    return _ref2$f;
+    return _ref2$e;
   },
   dark: function dark(props) {
-    return _ref$o;
+    return _ref$l;
   }
 };
 
-var _excluded$1F = ["as", "className"],
+var _excluded$1w = ["as", "className"],
     _excluded2$a = ["as", "type", "outline", "className"];
 function Tags(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1F);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1w);
 
   var theme = React.useContext(ThemeContext);
 
@@ -4215,11 +4221,11 @@ function Tag(_ref2) {
   }, classNames, props));
 }
 
-var _excluded$1E = ["gadm", "className"];
+var _excluded$1v = ["gadm", "className"];
 function GadmClassification(_ref) {
   var gadm = _ref.gadm,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1E);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1v);
 
   var theme = React.useContext(ThemeContext);
   if (!gadm) return react.jsx("span", null, "Unknown");
@@ -4239,29 +4245,23 @@ function GadmClassification(_ref) {
 
 react.jsx(Classification, null, react.jsx("span", null, "higher"), react.jsx("span", null, "middle"), react.jsx("span", null, "lower"));
 
-var _ref$n = {
-  name: "16qcs66",
-  styles: "display:flex;justify-content:start;align-items:center;white-space:nowrap"
+var eyebrow = {
+  name: "sqinvb-eyebrow",
+  styles: "display:flex;justify-content:start;align-items:center;white-space:nowrap;label:eyebrow;"
 } ;
-
-var eyebrow = function eyebrow(_ref2) {
-  _extends__default["default"]({}, _ref2);
-
-  return _ref$n;
-};
 var suffix = {
-  name: "nq5m8v",
-  styles: "margin-left:6px;padding-left:8px"
+  name: "rf2bh-suffix",
+  styles: "margin-left:6px;padding-left:8px;label:suffix;"
 } ;
 
-var _excluded$1D = ["as", "prefix", "suffix", "className"];
+var _excluded$1u = ["as", "prefix", "suffix", "className"];
 function Eyebrow(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       prefix = _ref.prefix,
       suffix$1 = _ref.suffix,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1D);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1u);
 
   var theme = React.useContext(ThemeContext);
 
@@ -4270,9 +4270,7 @@ function Eyebrow(_ref) {
   }, className);
 
   return react.jsx(Div, _extends__default["default"]({
-    css: eyebrow({
-      theme: theme
-    })
+    css: eyebrow
   }, props), react.jsx("div", null, prefix), suffix$1 && react.jsx(React__default["default"].Fragment, null, react.jsx("div", {
     css: suffix
   }, suffix$1)));
@@ -4281,18 +4279,18 @@ function Eyebrow(_ref) {
 var jazzIcon = function jazzIcon(_ref) {
   _extends__default["default"]({}, _ref);
 
-  return /*#__PURE__*/react.css("" , "" );
+  return /*#__PURE__*/react.css(";label:jazzIcon;" + ("" ));
 };
 var styles$1 = {
   jazzIcon: jazzIcon
 };
 
-var _excluded$1C = ["className", "children", "seed"];
+var _excluded$1t = ["className", "children", "seed"];
 function JazzIcon(_ref) {
   var className = _ref.className;
       _ref.children;
       var seed = _ref.seed,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1C);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1t);
 
   var theme = React.useContext(ThemeContext);
 
@@ -4381,12 +4379,12 @@ var genColor = function genColor(colors, random) {
   return color;
 };
 
-var _excluded$1B = ["as"],
+var _excluded$1s = ["as"],
     _excluded2$9 = ["as"];
 var Prose = function Prose(_ref5) {
   var _ref5$as = _ref5.as,
       Div = _ref5$as === void 0 ? 'div' : _ref5$as,
-      props = _objectWithoutProperties__default["default"](_ref5, _excluded$1B);
+      props = _objectWithoutProperties__default["default"](_ref5, _excluded$1s);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx(Div, _extends__default["default"]({}, props, {
@@ -4410,8 +4408,8 @@ function getTag$6(tagName, styleFn) {
 }
 
 var _ref4$5 = {
-  name: "mpobiz",
-  styles: "div>p:first-child{margin-top:0;}ol{counter-reset:listitem;list-style:none;}ol>li{position:relative;margin:4px 0;padding-left:32px;}ol>li:before{counter-increment:listitem;content:counter(listitem);background:#e3e8ee;color:#697386;font-size:12px;font-weight:500;line-height:10px;text-align:center;padding:5px 0;height:20px;width:20px;border-radius:10px;position:absolute;left:0;}"
+  name: "1mw04x3-ol",
+  styles: "ol{counter-reset:listitem;list-style:none;}ol>li{position:relative;margin:4px 0;padding-left:32px;}ol>li:before{counter-increment:listitem;content:counter(listitem);background:#e3e8ee;color:#697386;font-size:12px;font-weight:500;line-height:10px;text-align:center;padding:5px 0;height:20px;width:20px;border-radius:10px;position:absolute;left:0;};label:ol;"
 } ;
 
 var ol = function ol(theme) {
@@ -4419,47 +4417,47 @@ var ol = function ol(theme) {
 };
 
 var _ref3$9 = {
-  name: "197zp3p",
-  styles: "font-size:10px;line-height:18px;text-transform:uppercase;letter-spacing:1.2px;font-weight:600"
+  name: "5yro49-h6",
+  styles: "font-size:10px;line-height:18px;text-transform:uppercase;letter-spacing:1.2px;font-weight:600;label:h6;"
 } ;
 
 var h6 = function h6(theme) {
   return _ref3$9;
 };
 
-var _ref2$e = {
-  name: "1ijbcz8",
-  styles: "font-size:12px;line-height:24px;text-transform:uppercase;letter-spacing:1px;font-weight:500;color:#32536a"
+var _ref2$d = {
+  name: "qr4trc-h5",
+  styles: "font-size:12px;line-height:24px;text-transform:uppercase;letter-spacing:1px;font-weight:500;color:#32536a;label:h5;"
 } ;
 
 var h5 = function h5(theme) {
-  return _ref2$e;
+  return _ref2$d;
 };
 
-var _ref$m = {
-  name: "1dryz4b",
-  styles: "font-size:18px;line-height:24px"
+var _ref$k = {
+  name: "fme4ne-h4",
+  styles: "font-size:18px;line-height:24px;label:h4;"
 } ;
 
 var h4 = function h4(theme) {
-  return _ref$m;
+  return _ref$k;
 };
 var h3 = function h3(theme) {
-  return /*#__PURE__*/react.css("font-size:20px;line-height:24px;font-family:", theme.headerFontFamily, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("font-size:20px;line-height:24px;font-family:", theme.headerFontFamily, ";;label:h3;" + ("" ));
 };
 var h2 = function h2(theme) {
-  return /*#__PURE__*/react.css("font-size:28px;line-height:36px;font-family:", theme.headerFontFamily, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("font-size:28px;line-height:36px;font-family:", theme.headerFontFamily, ";;label:h2;" + ("" ));
 };
 var h1 = function h1(theme) {
-  return /*#__PURE__*/react.css("font-size:36px;line-height:48px;font-family:", theme.headerFontFamily, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("font-size:36px;line-height:48px;font-family:", theme.headerFontFamily, ";;label:h1;" + ("" ));
 };
 var a = function a(theme) {
-  return /*#__PURE__*/react.css("color:", theme.linkColor, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("color:", theme.linkColor, ";;label:a;" + ("" ));
 };
 var prose = function prose(_ref7) {
   var _ref7$theme = _ref7.theme,
       theme = _ref7$theme === void 0 ? {} : _ref7$theme;
-  return /*#__PURE__*/react.css("-webkit-font-smoothing:antialiased;line-height:1.3em;h1,h2,h3,h4,h5,h6{font-weight:500;}h1{", h1(theme), ";}h2{", h2(theme), ";}h3{", h3(theme), ";}h4{", h4(), ";}h5{", h5(), ";}h6{", h6(), ";}", ol(), ";ul{padding-inline-start:1em;li{margin-bottom:.5em;}}p{margin-bottom:8px;}" + ("" ), "" );
+  return /*#__PURE__*/react.css("-webkit-font-smoothing:antialiased;line-height:1.3em;h1,h2,h3,h4,h5,h6{font-weight:500;}h1{", h1(theme), ";}h2{", h2(theme), ";}h3{", h3(theme), ";}h4{", h4(), ";}h5{", h5(), ";}h6{", h6(), ";}", ol(), ";ul{padding-inline-start:1em;li{margin-bottom:.5em;}}p{margin-bottom:8px;};label:prose;" + ("" ));
 };
 Prose.H1 = getTag$6('h1', h1);
 Prose.H2 = getTag$6('h2', h2);
@@ -4474,15 +4472,15 @@ Prose.css = {
   h5: h5
 };
 
-var _ref$l = {
-  name: "1g34e2g",
-  styles: "padding:8px 12px;line-height:1em;display:block;color:inherit;width:100%;text-align:left;text-decoration:none;&.isActive{background:#e0e7ee;font-weight:500;}"
+var _ref$j = {
+  name: "s05wqa-navItem",
+  styles: "padding:8px 12px;line-height:1em;display:block;color:inherit;width:100%;text-align:left;text-decoration:none;&.isActive{background:#e0e7ee;font-weight:500;};label:navItem;"
 } ;
 
 var navItem$1 = function navItem(_ref2) {
   _extends__default["default"]({}, _ref2);
 
-  return _ref$l;
+  return _ref$j;
 };
 
 var lodash = {exports: {}};
@@ -21719,9 +21717,9 @@ var useEventListener = function useEventListener(eventName, handler) {
   );
 };
 
-function ownKeys$n(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$i(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$n(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$n(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$n(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$i(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$i(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$i(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 var scrollToSection = function scrollToSection(elmn) {
   if (elmn) {
@@ -21730,6 +21728,10 @@ var scrollToSection = function scrollToSection(elmn) {
 };
 
 var useToc = function useToc() {
+  if (typeof document === 'undefined') {
+    return ['', {}, function () {}];
+  }
+
   var location = reactRouterDom.useLocation();
   var history = reactRouterDom.useHistory();
 
@@ -21759,7 +21761,7 @@ var useToc = function useToc() {
           var rect = elm.getBoundingClientRect();
 
           if (rect.top > 0 && rect.top < 150 && "#" + hash !== location.hash) {
-            history.replace(_objectSpread$n(_objectSpread$n({}, location), {}, {
+            history.replace(_objectSpread$i(_objectSpread$i({}, location), {}, {
               hash: hash
             }));
             setActiveSection(hash);
@@ -21767,7 +21769,7 @@ var useToc = function useToc() {
         }
       });
     } else {
-      history.replace(_objectSpread$n(_objectSpread$n({}, location), {}, {
+      history.replace(_objectSpread$i(_objectSpread$i({}, location), {}, {
         hash: null
       }));
       setActiveSection(null);
@@ -21785,7 +21787,7 @@ var useToc = function useToc() {
     setClickHandlers(Object.keys(refs).reduce(function (obj, key) {
       return obj[key] = function (e) {
         e.preventDefault();
-        history.replace(_objectSpread$n(_objectSpread$n({}, location), {}, {
+        history.replace(_objectSpread$i(_objectSpread$i({}, location), {}, {
           key: key
         }));
         setActiveSection(key);
@@ -21797,10 +21799,10 @@ var useToc = function useToc() {
   return [activeSection, clickHandlers, setRefs];
 };
 
-var _excluded$1A = ["refs"];
+var _excluded$1r = ["refs"];
 var Toc = function Toc(_ref) {
   var refs = _ref.refs;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1A);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1r);
 
   var theme = React.useContext(ThemeContext);
 
@@ -21833,9 +21835,9 @@ var Toc = function Toc(_ref) {
   }));
 };
 
-function ownKeys$m(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$h(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$m(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$m(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$m(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$h(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$h(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$h(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var CancelToken$1 = axios__default["default"].CancelToken;
 
 function get$2(url, options) {
@@ -21864,15 +21866,15 @@ function post(url, body, options) {
   };
 }
 
-var axios = _objectSpread$m(_objectSpread$m({}, axios__default["default"]), {}, {
+var axios = _objectSpread$h(_objectSpread$h({}, axios__default["default"]), {}, {
   get: get$2,
   post: post
 });
 
-var _excluded$1z = ["doi"];
+var _excluded$1q = ["doi"];
 function AltmetricDonut(_ref) {
   var doi = _ref.doi,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1z);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1q);
 
   var _useState = React.useState(),
       _useState2 = _slicedToArray__default["default"](_useState, 2),
@@ -21903,11 +21905,11 @@ function AltmetricDonut(_ref) {
   }));
 }
 
-var _excluded$1y = ["allowNewLines", "allowedTags", "allowedAttr", "textComponent", "isHTML", "values"];
+var _excluded$1p = ["allowNewLines", "allowedTags", "allowedAttr", "textComponent", "isHTML", "values"];
 
-function ownKeys$l(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$l(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$l(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$l(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$g(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$g(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$g(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function Message(_ref) {
   var allowNewLines = _ref.allowNewLines,
       allowedTags = _ref.allowedTags,
@@ -21916,14 +21918,14 @@ function Message(_ref) {
       isHTML = _ref.isHTML,
       _ref$values = _ref.values,
       values = _ref$values === void 0 ? {} : _ref$values,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1y);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1p);
 
   var _useIntl = reactIntl.useIntl(),
       formatMessage = _useIntl.formatMessage;
 
   if (isHTML || allowedTags) {
     var Comp = textComponent || 'div';
-    var dirty = formatMessage(_objectSpread$l(_objectSpread$l({}, props), {}, {
+    var dirty = formatMessage(_objectSpread$g(_objectSpread$g({}, props), {}, {
       values: values
     }));
     var options = {
@@ -21968,8 +21970,9 @@ var defaultContext$1 = {
   collectionKey: {
     // url: ({key}) => `/collection/${key}`,
     url: function url(_ref2) {
-      var key = _ref2.key;
-      return "".concat(gbifOrg, "/grscicoll/collection/").concat(key);
+      var key = _ref2.key,
+          gbifOrgLocalePrefix = _ref2.gbifOrgLocalePrefix;
+      return "".concat(gbifOrg).concat(gbifOrgLocalePrefix, "/grscicoll/collection/").concat(key);
     },
     isHref: true,
     route: '/collection/:key'
@@ -22070,13 +22073,13 @@ var LocaleContext = /*#__PURE__*/React__default["default"].createContext({
   }
 });
 
-var _excluded$1x = ["queryString", "type", "discreet"],
+var _excluded$1o = ["queryString", "type", "discreet"],
     _excluded2$8 = ["id", "type", "discreet"];
 var ResourceSearchLink = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var queryString = _ref.queryString,
       type = _ref.type,
       discreet = _ref.discreet,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1x);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1o);
 
   var routeContext = React.useContext(RouteContext);
   var basename = routeContext.basename;
@@ -22152,38 +22155,38 @@ function DatasetKeyLink(props) {
   }, props));
 }
 var isDiscreet = {
-  name: "1r0pe6c",
-  styles: "color:inherit;text-decoration:none;:hover{text-decoration:underline;}"
+  name: "1uvo0au-isDiscreet",
+  styles: "color:inherit;text-decoration:none;:hover{text-decoration:underline;};label:isDiscreet;"
 } ;
 
 var routerOption = function routerOption(_ref) {
   var theme = _ref.theme,
       isActive = _ref.isActive;
-  return /*#__PURE__*/react.css("border-left:3px solid ", isActive ? theme.primary500 : 'transparent', ";display:block;color:inherit;text-decoration:none;padding:12px 12px;white-space:nowrap;::-moz-focus-inner{border-style:none;}&:hover,&:focus{outline:none;background:rgba(0,0,0,.05);}&:focus,:focus-within{outline:none;background:", theme.darkTheme ? '#00000050' : '#00000010', ";}" + ("" ), "" );
+  return /*#__PURE__*/react.css("border-left:3px solid ", isActive ? theme.primary500 : 'transparent', ";display:block;color:inherit;text-decoration:none;padding:12px 12px;white-space:nowrap;::-moz-focus-inner{border-style:none;}&:hover,&:focus{outline:none;background:rgba(0,0,0,.05);}&:focus,:focus-within{outline:none;background:", theme.darkTheme ? '#00000050' : '#00000010', ";};label:routerOption;" + ("" ));
 };
 var routerTab = function routerTab(_ref2) {
   var theme = _ref2.theme,
       isActive = _ref2.isActive;
-  return /*#__PURE__*/react.css("border-bottom:3px solid ", isActive ? theme.primary500 : 'transparent', ";flex:0 1 auto;white-space:nowrap;&:hover,&:focus{outline:none;background:rgba(0,0,0,.05);}a,span{cursor:pointer;padding:10px 10px;display:inline-block;color:inherit;text-decoration:none;::-moz-focus-inner{border-style:none;}}" + ("" ), "" );
+  return /*#__PURE__*/react.css("border-bottom:3px solid ", isActive ? theme.primary500 : 'transparent', ";flex:0 1 auto;white-space:nowrap;&:hover,&:focus{outline:none;background:rgba(0,0,0,.05);}a,span{cursor:pointer;padding:10px 10px;display:inline-block;color:inherit;text-decoration:none;::-moz-focus-inner{border-style:none;}};label:routerTab;" + ("" ));
 };
 var visible = {
-  name: "1qd1z99",
-  styles: "order:0;visibility:visible;opacity:1"
+  name: "v79nfc-visible",
+  styles: "order:0;visibility:visible;opacity:1;label:visible;"
 } ;
 var invisible = {
-  name: "m4reme",
-  styles: "order:100;visibility:hidden;pointer-events:none"
+  name: "1dheuz7-invisible",
+  styles: "order:100;visibility:hidden;pointer-events:none;label:invisible;"
 } ;
 var toolbarWrapper = {
-  name: "1qvcdag",
-  styles: "display:flex;margin:0;padding:0;list-style:none"
+  name: "1yr955t-toolbarWrapper",
+  styles: "display:flex;margin:0;padding:0;list-style:none;label:toolbarWrapper;"
 } ;
 var overflowStyle = {
-  name: "1ck59u8",
-  styles: "order:99;display:flex;align-items:center"
+  name: "4o9j1w-overflowStyle",
+  styles: "order:99;display:flex;align-items:center;label:overflowStyle;"
 } ;
 
-var _excluded$1w = ["label", "to", "icon", "exact", "className", "data-targetid", "data-inmenu", "isActive"],
+var _excluded$1n = ["label", "to", "icon", "exact", "className", "data-targetid", "data-inmenu", "isActive"],
     _excluded2$7 = ["label", "to", "icon", "exact", "className", "data-targetid", "isActive"];
 var NavTab = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var label = _ref.label,
@@ -22194,7 +22197,7 @@ var NavTab = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, r
       targetId = _ref['data-targetid'],
       inMenu = _ref['data-inmenu'],
       isActive = _ref.isActive,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1w);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1n);
 
   var theme = React.useContext(ThemeContext);
   var activeRoute = reactRouterDom.useRouteMatch({
@@ -22243,12 +22246,12 @@ var MenuRouteOption = /*#__PURE__*/React__default["default"].forwardRef(function
   }, props), icon, label);
 });
 
-var _excluded$1v = ["children", "visibilityMap"],
+var _excluded$1m = ["children", "visibilityMap"],
     _excluded2$6 = ["onClick"];
 function OverflowMenu(_ref) {
   var children = _ref.children,
       visibilityMap = _ref.visibilityMap,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1v);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1m);
 
   var shouldShowMenu = React.useMemo(function () {
     return Object.values(visibilityMap).some(function (v) {
@@ -22314,17 +22317,17 @@ function OverflowMenu(_ref) {
   }));
 }
 
-var _excluded$1u = ["children"];
+var _excluded$1l = ["children"];
 
-function ownKeys$k(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$f(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$k(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$k(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$k(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$f(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$f(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$f(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function NavItem(props) {
   react.jsx("li", props);
 }
 function NavBar(_ref) {
   var children = _ref.children,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1u);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1l);
 
   var navRef = React.useRef(null);
 
@@ -22345,7 +22348,7 @@ function NavBar(_ref) {
       }
     });
     setVisibilityMap(function (prev) {
-      return _objectSpread$k(_objectSpread$k({}, prev), updatedEntries);
+      return _objectSpread$f(_objectSpread$f({}, prev), updatedEntries);
     });
   };
 
@@ -22382,21 +22385,21 @@ function NavBar(_ref) {
   }, children));
 }
 
-var _ref$k = {
-  name: "1mtmxjr",
-  styles: "display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center"
+var _ref$i = {
+  name: "1d484ih-dataHeader",
+  styles: "display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;label:dataHeader;"
 } ;
 
 var dataHeader = function dataHeader(_ref2) {
   _extends__default["default"]({}, _ref2);
 
-  return _ref$k;
+  return _ref$i;
 };
 var styles = {
   dataHeader: dataHeader
 };
 
-var _excluded$1t = ["as", "className", "availableCatalogues", "label"];
+var _excluded$1k = ["as", "className", "availableCatalogues", "label"];
 function CatalogueSelector(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
@@ -22404,7 +22407,7 @@ function CatalogueSelector(_ref) {
       _ref$availableCatalog = _ref.availableCatalogues,
       availableCatalogues = _ref$availableCatalog === void 0 ? ['OCCURRENCE', 'DATASET', 'PUBLISHER', 'LITERATURE', 'COLLECTION', 'INSTITUTION'] : _ref$availableCatalog,
       label = _ref.label;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1t);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1k);
 
   var theme = React.useContext(ThemeContext);
   var routeContext = React.useContext(RouteContext);
@@ -22508,7 +22511,7 @@ function CatalogueSelector(_ref) {
   }));
 }
 
-var _excluded$1s = ["as", "className", "left", "catalogueLabel", "availableCatalogues", "right", "children"];
+var _excluded$1j = ["as", "className", "left", "catalogueLabel", "availableCatalogues", "right", "children"];
 function DataHeader(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
@@ -22518,7 +22521,7 @@ function DataHeader(_ref) {
       availableCatalogues = _ref.availableCatalogues,
       right = _ref.right,
       children = _ref.children,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1s);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1j);
 
   var theme = React.useContext(ThemeContext);
   var showCatalogue = availableCatalogues && availableCatalogues.length > 1;
@@ -22576,39 +22579,39 @@ function Separator() {
   });
 }
 
-var _ref2$d = {
-  name: "zasaf2",
-  styles: "padding:0;margin:0;list-style:none;li{border-bottom:1px solid #f0f0f0;margin-bottom:0!important;&:last-of-type{border:none;}}"
+var _ref2$c = {
+  name: "yveijv-contactList",
+  styles: "padding:0;margin:0;list-style:none;li{border-bottom:1px solid #f0f0f0;margin-bottom:0!important;&:last-of-type{border:none;}};label:contactList;"
 } ;
 
 var contactList = function contactList(_ref3) {
   _extends__default["default"]({}, _ref3);
 
-  return _ref2$d;
+  return _ref2$c;
 };
 
-var _ref$j = {
-  name: "ka1oxj",
-  styles: "padding:8px 0;h4{font-size:inherit;margin:0;}display:flex;align-items:center;>h4,>div{flex:1 1 33%;padding:0 8px;}a{color:inherit;}.gb-contactListImage{width:48px;height:48px;flex:0 0 auto;border-radius:4px;background-size:contain;background-repeat:no-repeat;background-position:center;padding:0;}.gb-discreet{color:#555;}.gb-expandRow{flex:0 0 auto;}"
+var _ref$h = {
+  name: "9ztxyl-contactListItem",
+  styles: "padding:8px 0;h4{font-size:inherit;margin:0;}display:flex;align-items:center;>h4,>div{flex:1 1 33%;padding:0 8px;}a{color:inherit;}.gb-contactListImage{width:48px;height:48px;flex:0 0 auto;border-radius:4px;background-size:contain;background-repeat:no-repeat;background-position:center;padding:0;}.gb-discreet{color:#555;}.gb-expandRow{flex:0 0 auto;};label:contactListItem;"
 } ;
 
 var contactListItem = function contactListItem(_ref4) {
   _extends__default["default"]({}, _ref4);
 
-  return _ref$j;
+  return _ref$h;
 };
 
-var _excluded$1r = ["contacts", "className"],
+var _excluded$1i = ["contacts", "className"],
     _excluded2$5 = ["contact"],
-    _excluded3$4 = ["field", "contact", "value"],
-    _excluded4$2 = ["field", "contact", "value"];
+    _excluded3$3 = ["field", "contact", "value"],
+    _excluded4$1 = ["field", "contact", "value"];
 var T$g = Properties.Term,
     V$g = Properties.Value;
 function ContactList(_ref) {
   var _ref$contacts = _ref.contacts,
       contacts = _ref$contacts === void 0 ? [] : _ref$contacts,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1r);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1i);
 
   var theme = React.useContext(ThemeContext);
 
@@ -22724,7 +22727,7 @@ function Field$1(_ref3) {
       _ref3$contact = _ref3.contact,
       contact = _ref3$contact === void 0 ? {} : _ref3$contact,
       value = _ref3.value,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded3$4);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded3$3);
 
   if (!value && Array.isArray(contact[field])) return react.jsx(ArrayField, _extends__default["default"]({
     field: field,
@@ -22744,7 +22747,7 @@ function ArrayField(_ref4) {
       _ref4$contact = _ref4.contact,
       contact = _ref4$contact === void 0 ? {} : _ref4$contact;
       _ref4.value;
-      _objectWithoutProperties__default["default"](_ref4, _excluded4$2);
+      _objectWithoutProperties__default["default"](_ref4, _excluded4$1);
 
   if (!contact[field] || ((_contact$field = contact[field]) === null || _contact$field === void 0 ? void 0 : _contact$field.length) === 0) return null;
   return react.jsx(React__default["default"].Fragment, null, react.jsx(T$g, null, react.jsx(reactIntl.FormattedMessage, {
@@ -22803,7 +22806,7 @@ var license = [
 	"UNSUPPORTED"
 ];
 
-var _excluded$1q = ["value", "className"];
+var _excluded$1h = ["value", "className"];
 var url2enum = {
   '//creativecommons.org/publicdomain/zero/1.0/legalcode': 'CC0_1_0',
   '//creativecommons.org/licenses/by/4.0/legalcode': 'CC_BY_4_0',
@@ -22817,7 +22820,7 @@ var enum2url = {
 function LicenseTag(_ref) {
   var value = _ref.value;
       _ref.className;
-      var props = _objectWithoutProperties__default["default"](_ref, _excluded$1q);
+      var props = _objectWithoutProperties__default["default"](_ref, _excluded$1h);
 
   React.useContext(ThemeContext);
   var val = value.replace(/http(s)?:/, '');
@@ -22841,13 +22844,13 @@ function LicenseTag(_ref) {
   })));
 }
 
-function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
+function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
 
-function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 var QueryError = /*#__PURE__*/function (_Error) {
   _inherits__default["default"](QueryError, _Error);
 
-  var _super = _createSuper$6(QueryError);
+  var _super = _createSuper$4(QueryError);
 
   function QueryError(_ref) {
     var _this;
@@ -23050,14 +23053,20 @@ var ApiClient = /*#__PURE__*/function () {
   return ApiClient;
 }();
 
-var API_V1 = "https://api.gbif.org/v1";
-var API_V2 = "https://api.gbif.org/v2";
+var API_V1 = "https://api.gbif-staging.org/v1";
+var API_V2 = "https://api.gbif-staging.org/v2";
 var GRAPH_API = "https://graphql.gbif-staging.org/graphql";
+var _GRAPH_API = "http://localhost:4000/graphql";
+var EVENT_GRAPH_API = "http://localhost:4003/graphql";
 var TILE_API = "https://hp-maps.gbif-staging.org";
+var EVENT_TILE_API = "http://localhost:4005";
 var MAPBOX_KEY = "pk.eyJ1IjoiZ2JpZiIsImEiOiJja3VmZm50Z3kxcm1vMnBtdnBmeGd5cm9hIn0.M2z2n9QP9fRHZUCw9vbgOA";
 var DOMAIN = "react-components.gbif-staging.org";
 var GBIF_ORG = "https://www.gbif.org";
+var BASEMAPS = "https://tile.gbif-uat.org";
+var MAP_STYLES = "http://localhost:4000/unstable-api/map-styles";
 var TRANSLATIONS = "https://react-components.gbif-staging.org/lib/translations";
+var _TRANSLATIONS = "http://localhost:5002";
 var LOCALES = [
 	"en-developer",
 	"en-pseudo",
@@ -23086,16 +23095,29 @@ var LOCALES = [
 	"zh",
 	"zh-tw"
 ];
+var _FOR_STORYBOOK_BUT_PUBLIC = {
+	apiKeys: {
+		maptiler: "wFxbBf3Tv2e75QQfYOOW",
+		mapbox: "pk.eyJ1IjoiZ2JpZiIsImEiOiJja3VmZm50Z3kxcm1vMnBtdnBmeGd5cm9hIn0.M2z2n9QP9fRHZUCw9vbgOA"
+	}
+};
 var env = {
 	API_V1: API_V1,
 	API_V2: API_V2,
 	GRAPH_API: GRAPH_API,
+	_GRAPH_API: _GRAPH_API,
+	EVENT_GRAPH_API: EVENT_GRAPH_API,
 	TILE_API: TILE_API,
+	EVENT_TILE_API: EVENT_TILE_API,
 	MAPBOX_KEY: MAPBOX_KEY,
 	DOMAIN: DOMAIN,
 	GBIF_ORG: GBIF_ORG,
+	BASEMAPS: BASEMAPS,
+	MAP_STYLES: MAP_STYLES,
 	TRANSLATIONS: TRANSLATIONS,
-	LOCALES: LOCALES
+	_TRANSLATIONS: _TRANSLATIONS,
+	LOCALES: LOCALES,
+	_FOR_STORYBOOK_BUT_PUBLIC: _FOR_STORYBOOK_BUT_PUBLIC
 };
 
 var client$1 = new ApiClient({
@@ -23112,6 +23134,125 @@ var client$1 = new ApiClient({
 
 var ApiContext = /*#__PURE__*/React__default["default"].createContext(client$1);
 
+var _excluded$1g = ["initialState"],
+    _excluded2$4 = ["initialData"];
+var CollateContext = /*#__PURE__*/React__default["default"].createContext({
+  requests: [],
+  resolved: false,
+  current: 0,
+  enabled: false
+});
+var DataContext = /*#__PURE__*/React__default["default"].createContext({});
+function createServerContext() {
+  var resolvedData = {};
+  var collatorState = {
+    requests: [],
+    resolved: false,
+    current: 0,
+    enabled: true
+  };
+
+  function ServerDataContext(_ref) {
+    var _ref$initialState = _ref.initialState,
+        initialState = _ref$initialState === void 0 ? {} : _ref$initialState,
+        props = _objectWithoutProperties__default["default"](_ref, _excluded$1g);
+
+    resolvedData = initialState;
+    return react.jsx(CollateContext.Provider, {
+      value: collatorState
+    }, react.jsx(DataContext.Provider, {
+      value: resolvedData
+    }, props.children));
+  }
+
+  var resolveData = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee(timeout) {
+      var timeOutPr, effects;
+      return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!timeout) {
+                _context.next = 6;
+                break;
+              }
+
+              timeOutPr = wait(timeout);
+              _context.next = 4;
+              return Promise.all(collatorState.requests.map(function (effect) {
+                return Promise.race([effect.promise, timeOutPr])["catch"](function () {
+                  return effect.cancel();
+                });
+              }));
+
+            case 4:
+              _context.next = 9;
+              break;
+
+            case 6:
+              effects = collatorState.requests.map(function (item) {
+                return item.promise;
+              });
+              _context.next = 9;
+              return Promise.all(effects);
+
+            case 9:
+              collatorState.resolved = true;
+              collatorState.current = 0;
+              collatorState.enabled = false;
+              return _context.abrupt("return", {
+                data: resolvedData
+              });
+
+            case 13:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function resolveData(_x) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
+  return {
+    ServerDataContext: ServerDataContext,
+    resolveData: resolveData
+  };
+}
+var BrowserDataContext = function BrowserDataContext(_ref3) {
+  var initialData = _ref3.initialData,
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded2$4);
+
+  var _useState = React.useState(initialData || {}),
+      _useState2 = _slicedToArray__default["default"](_useState, 1),
+      initial = _useState2[0];
+
+  var collatorState = {
+    requests: [],
+    resolved: true,
+    current: 0,
+    enabled: false
+  };
+  return react.jsx(CollateContext.Provider, {
+    value: collatorState
+  }, react.jsx(DataContext.Provider, {
+    value: initial
+  }, props.children));
+};
+
+var wait = function wait(time) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      reject({
+        error: "timeout"
+      });
+    }, time);
+  });
+};
+
 var RENEW_REQUEST = 'RENEW_REQUEST';
 
 var useUnmounted$1 = function useUnmounted() {
@@ -23125,60 +23266,75 @@ var useUnmounted$1 = function useUnmounted() {
 };
 
 function useQuery(query) {
+  var _dataContext$data, _dataContext$data$cal;
+
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var collateContext = React.useContext(CollateContext);
+  var dataContext = React.useContext(DataContext);
+  var callId = collateContext.current;
+  collateContext.current++;
 
-  var _useState = React.useState(),
+  var _useState = React.useState(options === null || options === void 0 ? void 0 : options.variables),
       _useState2 = _slicedToArray__default["default"](_useState, 2),
-      data = _useState2[0],
-      setData = _useState2[1];
+      latestVariables = _useState2[0],
+      setVariables = _useState2[1];
 
-  var _useState3 = React.useState(false),
+  var _useState3 = React.useState(((_dataContext$data = dataContext.data) === null || _dataContext$data === void 0 ? void 0 : (_dataContext$data$cal = _dataContext$data[callId]) === null || _dataContext$data$cal === void 0 ? void 0 : _dataContext$data$cal.data) || null),
       _useState4 = _slicedToArray__default["default"](_useState3, 2),
-      loading = _useState4[0],
-      setLoading = _useState4[1];
+      data = _useState4[0],
+      setData = _useState4[1];
 
   var _useState5 = React.useState(false),
       _useState6 = _slicedToArray__default["default"](_useState5, 2),
-      error = _useState6[0],
-      setError = _useState6[1]; // functions are called when passed to useState so it has to be wrapped. 
+      loading = _useState6[0],
+      setLoading = _useState6[1];
+
+  var _useState7 = React.useState(false),
+      _useState8 = _slicedToArray__default["default"](_useState7, 2),
+      error = _useState8[0],
+      setError = _useState8[1]; // functions are called when passed to useState so it has to be wrapped. 
   // We provide an empty call, just so we do not have to check for existence subsequently
 
 
-  var _useState7 = React.useState(function () {
+  var _useState9 = React.useState(function () {
     return function () {};
   }),
-      _useState8 = _slicedToArray__default["default"](_useState7, 2),
-      cancelRequest = _useState8[0],
-      setCancel = _useState8[1];
+      _useState10 = _slicedToArray__default["default"](_useState9, 2),
+      cancelRequest = _useState10[0],
+      setCancel = _useState10[1];
 
   var unmounted = useUnmounted$1();
   var apiClient = React.useContext(ApiContext);
   var client = (options === null || options === void 0 ? void 0 : options.client) || apiClient;
 
-  function init(_ref) {
-    var keepDataWhileLoading = _ref.keepDataWhileLoading;
-    if (!keepDataWhileLoading) setData();
+  function init(options) {
+    if (!(options !== null && options !== void 0 && options.keepDataWhileLoading)) setData();
     setLoading(true);
     setError(false);
     cancelRequest(RENEW_REQUEST);
   }
 
   function load(options) {
-    init(options);
     var variables = options === null || options === void 0 ? void 0 : options.variables;
+    if (data && !error && hash__default["default"](variables) === hash__default["default"](latestVariables)) return;
 
     var _client$query = client.query({
       query: query,
       variables: variables
     }),
         dataPromise = _client$query.promise,
-        cancel = _client$query.cancel; // functions cannot be direct values in states as function are taken as a way to create derived states
-    // https://medium.com/swlh/how-to-store-a-function-with-the-usestate-hook-in-react-8a88dd4eede1
+        cancel = _client$query.cancel;
 
+    if (typeof window !== 'undefined') {
+      init(options); // functions cannot be direct values in states as function are taken as a way to create derived states
+      // https://medium.com/swlh/how-to-store-a-function-with-the-usestate-hook-in-react-8a88dd4eede1
 
-    setCancel(function () {
-      return cancel;
-    });
+      setCancel(function () {
+        return cancel;
+      });
+      setVariables(variables);
+    }
+
     dataPromise.then(function (response) {
       var _error$isCanceled;
 
@@ -23201,7 +23357,49 @@ function useQuery(query) {
       });
       setData();
       setLoading(false);
-    });
+    }); // if we are on the server and haven't resolved the intial data, then collect the requests
+
+    if (!collateContext.resolved) {
+      var cancelCollator = Function.prototype;
+      var effectPr = new Promise(function (resolve) {
+        cancelCollator = function cancelCollator() {
+          if (!dataContext[callId]) {
+            dataContext[callId] = {
+              error: {
+                message: 'timeout'
+              },
+              id: callId
+            };
+          }
+
+          cancel();
+          resolve(callId);
+        };
+
+        return dataPromise.then(function (response) {
+          var data = response.data,
+              error = response.error;
+          dataContext[callId] = {
+            data: data,
+            error: error
+          };
+          resolve(callId);
+        })["catch"](function (error) {
+          dataContext[callId] = {
+            error: {
+              error: true,
+              type: 'unknown'
+            }
+          };
+          resolve(callId);
+        });
+      });
+      collateContext.requests.push({
+        id: callId,
+        promise: effectPr,
+        cancel: cancelCollator
+      });
+    }
   } // Cancel pending request on unmount
 
 
@@ -23210,12 +23408,17 @@ function useQuery(query) {
       cancelRequest();
     };
   }, [cancelRequest]);
-  React.useEffect(function () {
+  useDeepCompareEffect__default["default"](function () {
     if (!(options !== null && options !== void 0 && options.lazyLoad)) {
       load(options);
     } // we leave cleaning to a seperate useEffect cleanup step
 
-  }, [query, options.lazyLoad, options.ignoreVariableUpdates ? void 0 : options.variables]);
+  }, [query, options]); // On the server we want to load immediately unless specified as lazy loading
+
+  if (typeof window === 'undefined' && !(options !== null && options !== void 0 && options.lazyLoad)) {
+    load(options);
+  }
+
   return {
     data: data,
     loading: loading,
@@ -23225,256 +23428,24 @@ function useQuery(query) {
   };
 }
 
-function getLayerConfig$1(_ref) {
-  var tileString = _ref.tileString,
-      theme = _ref.theme;
-  return {
-    id: "occurrences",
-    type: "circle",
-    source: {
-      type: "vector",
-      tiles: [tileString]
-    },
-    "source-layer": "occurrence",
-    paint: {
-      // make circles larger as the user zooms from z12 to z22
-      "circle-radius": {
-        property: "total",
-        type: "interval",
-        //stops: [[0, 2]]
-        stops: [[0, 2], [10, 3], [100, 5], [1000, 8], [10000, 12]]
-      },
-      // color circles by ethnicity, using data-driven styles
-      "circle-color": {
-        property: "total",
-        type: "interval",
-        stops: [0, 10, 100, 1000, 10000].map(function (x, i) {
-          return [x, theme.mapDensityColors[i]];
-        })
-      },
-      "circle-opacity": {
-        property: "total",
-        type: "interval",
-        // stops: theme.darkTheme ? [[0, .6], [10, 0.7], [100, 0.8], [1000, 0.8], [10000, 0.9]] : [[0, 1], [10, 0.8], [100, 0.7], [1000, 0.6], [10000, 0.6]]
-        stops: [[0, 1], [10, 0.8], [100, 0.7], [1000, 0.6], [10000, 0.6]]
-      },
-      "circle-stroke-color": theme.mapDensityColors[1],
-      "circle-stroke-width": {
-        property: "total",
-        type: "interval",
-        stops: [[0, 1], [10, 0]]
-      }
-    }
-  };
-}
-
-var _excluded$1p = ["query", "onMapClick", "predicateHash"];
-
-function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-
-function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-var Map$9 = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](Map, _Component);
-
-  var _super = _createSuper$5(Map);
-
-  function Map(props) {
-    var _this;
-
-    _classCallCheck__default["default"](this, Map);
-
-    _this = _super.call(this, props);
-    _this.addLayer = _this.addLayer.bind(_assertThisInitialized__default["default"](_this));
-    _this.updateLayer = _this.updateLayer.bind(_assertThisInitialized__default["default"](_this));
-    _this.fitBbox = _this.fitBbox.bind(_assertThisInitialized__default["default"](_this));
-    _this.myRef = /*#__PURE__*/React__default["default"].createRef();
-    _this.state = {};
-    return _this;
-  }
-
-  _createClass__default["default"](Map, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this$props$defaultMa, _this$props$defaultMa2, _this$props$defaultMa3;
-
-      var mapStyle = this.props.theme.darkTheme ? 'dark-v9' : 'light-v9';
-      mapboxgl__default["default"].accessToken = env.MAPBOX_KEY;
-      this.map = new mapboxgl__default["default"].Map({
-        container: this.myRef.current,
-        style: "mapbox://styles/mapbox/".concat(mapStyle),
-        zoom: sessionStorage.getItem('mapZoom') || ((_this$props$defaultMa = this.props.defaultMapSettings) === null || _this$props$defaultMa === void 0 ? void 0 : _this$props$defaultMa.zoom) || 0,
-        center: [sessionStorage.getItem('mapLng') || ((_this$props$defaultMa2 = this.props.defaultMapSettings) === null || _this$props$defaultMa2 === void 0 ? void 0 : _this$props$defaultMa2.lng) || 0, sessionStorage.getItem('mapLat') || ((_this$props$defaultMa3 = this.props.defaultMapSettings) === null || _this$props$defaultMa3 === void 0 ? void 0 : _this$props$defaultMa3.lat) || 0]
-      });
-      this.map.addControl(new mapboxgl__default["default"].NavigationControl({
-        showCompass: false
-      }), 'top-left');
-      this.map.on("load", this.addLayer);
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.map.remove();
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      var _this2 = this;
-
-      if (prevProps.query !== this.props.query && this.mapLoaded) {
-        this.updateLayer();
-      }
-
-      if (prevProps.bbox !== this.props.bbox && typeof this.props.bbox !== 'undefined') {
-        this.fitBbox(this.props.bbox);
-      }
-
-      if (prevProps.theme !== this.props.theme && this.mapLoaded) {
-        var mapStyle = this.props.theme.darkTheme ? 'dark-v9' : 'light-v9';
-        this.map.setStyle("mapbox://styles/mapbox/".concat(mapStyle));
-        this.map.on('style.load', function () {
-          _this2.updateLayer();
-        });
-      }
-    }
-  }, {
-    key: "updateLayer",
-    value: function updateLayer() {
-      var layer = this.map.getSource("occurrences");
-
-      if (layer) {
-        this.map.removeLayer("occurrences");
-        this.map.removeSource("occurrences");
-        this.addLayer();
-      } else {
-        this.addLayer();
-      }
-    }
-  }, {
-    key: "fitBbox",
-    value: function fitBbox(_ref) {
-      var south = _ref.south,
-          west = _ref.west,
-          north = _ref.north,
-          east = _ref.east;
-      if (typeof south !== 'number') return null; // https://docs.mapbox.com/mapbox-gl-js/example/fitbounds/
-
-      this.map.fitBounds([[west, south], [east, north]], {
-        duration: 0,
-        padding: 100,
-        maxZoom: 8
-      });
-    }
-  }, {
-    key: "addLayer",
-    value: function addLayer() {
-      var _this3 = this;
-
-      var tileString = "".concat(env.API_V2, "/map/occurrence/adhoc/{z}/{x}/{y}.mvt?style=scaled.circles&mode=GEO_CENTROID&srs=EPSG%3A3857&squareSize=256&predicateHash=").concat(this.props.predicateHash);
-      this.map.addLayer(getLayerConfig$1({
-        tileString: tileString,
-        theme: this.props.theme
-      }), "poi-scalerank2");
-      var map = this.map;
-
-      if (!this.mapLoaded) {
-        // remember map position
-        map.on('zoomend', function () {
-          var center = map.getCenter();
-          sessionStorage.setItem('mapZoom', map.getZoom());
-          sessionStorage.setItem('mapLng', center.lng);
-          sessionStorage.setItem('mapLat', center.lat);
-        });
-        map.on('moveend', function () {
-          var center = map.getCenter();
-          sessionStorage.setItem('mapZoom', map.getZoom());
-          sessionStorage.setItem('mapLng', center.lng);
-          sessionStorage.setItem('mapLat', center.lat);
-        });
-        map.on('click', function (e) {
-          if (!e._defaultPrevented && _this3.props.onMapClick) _this3.props.onMapClick();
-        });
-        map.on('error', function (e) {
-          var _e$error;
-
-          if ((e === null || e === void 0 ? void 0 : (_e$error = e.error) === null || _e$error === void 0 ? void 0 : _e$error.status) === 400 && _this3.props.registerPredicate) {
-            _this3.props.registerPredicate();
-          }
-        });
-      }
-
-      this.mapLoaded = true;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props = this.props;
-          _this$props.query;
-          _this$props.onMapClick;
-          _this$props.predicateHash;
-          var props = _objectWithoutProperties__default["default"](_this$props, _excluded$1p);
-
-      return react.jsx("div", _extends__default["default"]({
-        ref: this.myRef
-      }, props));
-    }
-  }]);
-
-  return Map;
-}(React.Component);
-
-var mapComponent$1 = function mapComponent(_ref2) {
-  var theme = _ref2.theme;
-  return /*#__PURE__*/react.css("border:1px solid ", theme.paperBorderColor, ";border-radius:", theme.borderRadius, "px;canvas:focus{outline:none;}" + ("" ), "" );
+var Map$7 = function Map() {
+  return null;
 };
 
-var _excluded$1o = ["query", "loading", "total", "predicateHash", "registerPredicate", "defaultMapSettings", "bbox", "style", "className"];
+var _excluded$1f = ["mapSettings", "rootPredicate"];
 
-function Map$8(_ref) {
-  var query = _ref.query;
-      _ref.loading;
-      _ref.total;
-      var predicateHash = _ref.predicateHash,
-      registerPredicate = _ref.registerPredicate,
-      defaultMapSettings = _ref.defaultMapSettings,
-      bbox = _ref.bbox,
-      style = _ref.style,
-      className = _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1o);
+function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-  var theme = React.useContext(ThemeContext);
-  return react.jsx(Map$9, {
-    style: style,
-    className: className,
-    defaultMapSettings: defaultMapSettings,
-    predicateHash: predicateHash,
-    css: mapComponent$1({
-      theme: theme
-    }),
-    theme: theme,
-    query: query,
-    onMapClick: function onMapClick(e) {
-      return showList(false);
-    },
-    registerPredicate: registerPredicate,
-    bbox: bbox
-  });
-}
-
-var _excluded$1n = ["mapSettings", "rootPredicate"];
-
-function ownKeys$j(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread$j(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$j(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$j(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$e(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$e(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var intervalSize = .25;
 var OCCURRENCE_MAP$1 = "\nquery map($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    _meta\n    stats {\n      decimalLatitude {\n        min\n        max\n      }\n    }\n    histogram {\n      decimalLongitude(interval: ".concat(intervalSize, ") {\n        bounds\n      }\n    }\n    documents {\n      total\n    }\n    _v1PredicateHash\n  }\n}\n");
 
-function Map$7(_ref) {
+function Map$6(_ref) {
   var _data$occurrenceSearc2, _data$occurrenceSearc3, _data$occurrenceSearc4, _data$occurrenceSearc5, _data$occurrenceSearc6;
 
   var mapSettings = _ref.mapSettings,
       rootPredicate = _ref.rootPredicate;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1n);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1f);
 
   var _useQuery = useQuery(OCCURRENCE_MAP$1, {
     lazyLoad: true
@@ -23509,7 +23480,7 @@ function Map$7(_ref) {
       var bounds = histogram.decimalLongitude.bounds;
 
       if (bounds) {
-        var box = _objectSpread$j({
+        var box = _objectSpread$e({
           south: lat.min,
           north: lat.max
         }, bounds);
@@ -23570,8 +23541,9 @@ function Map$7(_ref) {
     bbox: bbox
   }; // if (!bbox) return null;
 
-  if (typeof window !== 'undefined') {
-    return react.jsx(Map$8, _extends__default["default"]({}, options, {
+  if (!loading && data) {
+    // if (typeof window !== 'undefined') {
+    return react.jsx(Map$7, _extends__default["default"]({}, options, {
       style: {
         height: 500
       }
@@ -23581,11 +23553,11 @@ function Map$7(_ref) {
   }
 }
 
-var _excluded$1m = ["rootPredicate", "className"];
+var _excluded$1e = ["rootPredicate", "className"];
 function OccurrenceMap(_ref) {
   var rootPredicate = _ref.rootPredicate,
       className = _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1m);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1e);
 
   var theme = React.useContext(ThemeContext);
 
@@ -23595,7 +23567,7 @@ function OccurrenceMap(_ref) {
       classNames = _getClasses.classNames; // return <Div css={styles.occurrenceMap({theme})} {...props} />
 
 
-  return react.jsx(Map$7, {
+  return react.jsx(Map$6, {
     classNames: classNames,
     rootPredicate: rootPredicate
   });
@@ -24297,6 +24269,15 @@ var en = {
 	"download.download": "Download",
 	"download.redirectNotice": "You are about to download data and to do so, you will be redirected to GBIF.org. {br}{br} Be aware that an account is needed on GBIF.org to download the content.",
 	"download.continueToGBIF": "Continue",
+	"map.styles.satellite": "Satellite",
+	"map.styles.natural": "Nature",
+	"map.styles.bright": "Bright",
+	"map.styles.dark": "Dark",
+	"map.styles.outdoor": "Outdoor",
+	"map.projections.ARCTIC": "Arctic",
+	"map.projections.MERCATOR": "Mercator",
+	"map.projections.ANTARCTIC": "Antarctic",
+	"map.projections.PLATE_CAREE": "Plate Carrée",
 	"enums.basisOfRecord.PRESERVED_SPECIMEN": "Preserved specimen",
 	"enums.basisOfRecord.FOSSIL_SPECIMEN": "Fossil specimen",
 	"enums.basisOfRecord.LIVING_SPECIMEN": "Living specimen",
@@ -24536,7 +24517,7 @@ var en = {
 	"enums.countryCode.TO": "Tonga",
 	"enums.countryCode.TT": "Trinidad and Tobago",
 	"enums.countryCode.TN": "Tunisia",
-	"enums.countryCode.TR": "Turkey",
+	"enums.countryCode.TR": "Türkiye",
 	"enums.countryCode.TM": "Turkmenistan",
 	"enums.countryCode.TC": "Turks and Caicos Islands",
 	"enums.countryCode.TV": "Tuvalu",
@@ -25042,16 +25023,16 @@ function useTranslation(_ref) {
   };
 }
 
-var _excluded$1l = ["locale", "messages"];
+var _excluded$1d = ["locale", "messages"];
 
-function ownKeys$i(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$d(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$i(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$i(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$i(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$d(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$d(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$d(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function LocaleProvider(_ref) {
   var locale = _ref.locale,
       _ref$messages = _ref.messages,
       customMessages = _ref$messages === void 0 ? {} : _ref$messages,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1l);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1d);
 
   var _useTranslation = useTranslation({
     locale: locale
@@ -25065,7 +25046,7 @@ function LocaleProvider(_ref) {
     }
   }, react.jsx(reactIntl.IntlProvider, _extends__default["default"]({
     locale: locale,
-    messages: _objectSpread$i(_objectSpread$i({}, messages), customMessages)
+    messages: _objectSpread$d(_objectSpread$d({}, messages), customMessages)
   }, props)));
 }
 
@@ -25674,13 +25655,13 @@ var getNative$5 = _getNative,
     root$5 = _root;
 
 /* Built-in method references that are verified to be native. */
-var Map$6 = getNative$5(root$5, 'Map');
+var Map$5 = getNative$5(root$5, 'Map');
 
-var _Map = Map$6;
+var _Map = Map$5;
 
 var Hash = _Hash,
     ListCache$3 = _ListCache,
-    Map$5 = _Map;
+    Map$4 = _Map;
 
 /**
  * Removes all key-value entries from the map.
@@ -25693,7 +25674,7 @@ function mapCacheClear$1() {
   this.size = 0;
   this.__data__ = {
     'hash': new Hash,
-    'map': new (Map$5 || ListCache$3),
+    'map': new (Map$4 || ListCache$3),
     'string': new Hash
   };
 }
@@ -26146,7 +26127,7 @@ function stackHas$1(key) {
 var _stackHas = stackHas$1;
 
 var ListCache$1 = _ListCache,
-    Map$4 = _Map,
+    Map$3 = _Map,
     MapCache$1 = _MapCache;
 
 /** Used as the size to enable large array optimizations. */
@@ -26166,7 +26147,7 @@ function stackSet$1(key, value) {
   var data = this.__data__;
   if (data instanceof ListCache$1) {
     var pairs = data.__data__;
-    if (!Map$4 || (pairs.length < LARGE_ARRAY_SIZE$2 - 1)) {
+    if (!Map$3 || (pairs.length < LARGE_ARRAY_SIZE$2 - 1)) {
       pairs.push([key, value]);
       this.size = ++data.size;
       return this;
@@ -27776,7 +27757,7 @@ var defaultContext = {
 };
 var SiteContext = /*#__PURE__*/React__default["default"].createContext(defaultContext);
 
-var _excluded$1k = ["siteConfig"];
+var _excluded$1c = ["siteConfig"];
 var client = new ApiClient({
   gql: {
     endpoint: env.GRAPH_API
@@ -27789,7 +27770,7 @@ var client = new ApiClient({
 function StandaloneWrapper(_ref) {
   var _ref$siteConfig = _ref.siteConfig,
       siteConfig = _ref$siteConfig === void 0 ? {} : _ref$siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1k);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1c);
 
   var _siteConfig$theme = siteConfig.theme,
       theme = _siteConfig$theme === void 0 ? lightTheme : _siteConfig$theme,
@@ -27800,13 +27781,16 @@ function StandaloneWrapper(_ref) {
 
   var routeConfig = merge_1({}, defaultContext$1, routes || {});
 
-  var basename = get_1(routeConfig, 'basename');
+  var basename = get_1(routeConfig, 'basename', '');
+
+  var location = typeof window === 'undefined' ? get_1(routeConfig, 'ssr_location') : null;
 
   var root = react.jsx(Root, {
     id: "application",
     appRoot: true
-  }, react.jsx(reactRouterDom.BrowserRouter, _extends__default["default"]({}, props, {
-    basename: basename
+  }, react.jsx(Router__default["default"], _extends__default["default"]({}, props, {
+    basename: basename,
+    location: location
   }), react.jsx(useQueryParams.QueryParamProvider, _extends__default["default"]({
     ReactRouterRoute: reactRouterDom.Route
   }, props))));
@@ -28217,7 +28201,7 @@ var WeakMap$1 = getNative(root, 'WeakMap');
 var _WeakMap = WeakMap$1;
 
 var DataView = _DataView,
-    Map$3 = _Map,
+    Map$2 = _Map,
     Promise$1 = _Promise,
     Set$2 = _Set,
     WeakMap = _WeakMap,
@@ -28235,7 +28219,7 @@ var dataViewTag$3 = '[object DataView]';
 
 /** Used to detect maps, sets, and weakmaps. */
 var dataViewCtorString = toSource(DataView),
-    mapCtorString = toSource(Map$3),
+    mapCtorString = toSource(Map$2),
     promiseCtorString = toSource(Promise$1),
     setCtorString = toSource(Set$2),
     weakMapCtorString = toSource(WeakMap);
@@ -28251,7 +28235,7 @@ var getTag$5 = baseGetTag;
 
 // Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
 if ((DataView && getTag$5(new DataView(new ArrayBuffer(1))) != dataViewTag$3) ||
-    (Map$3 && getTag$5(new Map$3) != mapTag$5) ||
+    (Map$2 && getTag$5(new Map$2) != mapTag$5) ||
     (Promise$1 && getTag$5(Promise$1.resolve()) != promiseTag) ||
     (Set$2 && getTag$5(new Set$2) != setTag$5) ||
     (WeakMap && getTag$5(new WeakMap) != weakMapTag$1)) {
@@ -30113,18 +30097,18 @@ function pickBy(object, predicate) {
 
 var pickBy_1 = pickBy;
 
-function ownKeys$h(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$c(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$h(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$h(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$h(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$c(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$c(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$c(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
-function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
+function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
 
-function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 var FilterState = /*#__PURE__*/function (_React$Component) {
   _inherits__default["default"](FilterState, _React$Component);
 
-  var _super = _createSuper$4(FilterState);
+  var _super = _createSuper$3(FilterState);
 
   function FilterState() {
     var _this;
@@ -30192,7 +30176,7 @@ var FilterState = /*#__PURE__*/function (_React$Component) {
                 filter = _this.props.filter ? cloneDeep_1(_this.props.filter) : {};
                 type = must ? 'must' : 'must_not';
 
-                _this.setFilter(_objectSpread$h(_objectSpread$h({}, filter), {}, _defineProperty__default["default"]({}, type, _objectSpread$h(_objectSpread$h({}, filter[type]), {}, _defineProperty__default["default"]({}, field, value)))));
+                _this.setFilter(_objectSpread$c(_objectSpread$c({}, filter), {}, _defineProperty__default["default"]({}, type, _objectSpread$c(_objectSpread$c({}, filter[type]), {}, _defineProperty__default["default"]({}, field, value)))));
 
               case 4:
               case "end":
@@ -30216,9 +30200,9 @@ var FilterState = /*#__PURE__*/function (_React$Component) {
               case 0:
                 filter = _this.props.filter ? cloneDeep_1(_this.props.filter) : {};
                 _context3.next = 3;
-                return _this.setFilter(_objectSpread$h(_objectSpread$h({}, filter), {}, {
-                  must: _objectSpread$h(_objectSpread$h({}, filter.must), {}, _defineProperty__default["default"]({}, field, mustValue)),
-                  must_not: _objectSpread$h(_objectSpread$h({}, filter.must_not), {}, _defineProperty__default["default"]({}, field, mustNotValue))
+                return _this.setFilter(_objectSpread$c(_objectSpread$c({}, filter), {}, {
+                  must: _objectSpread$c(_objectSpread$c({}, filter.must), {}, _defineProperty__default["default"]({}, field, mustValue)),
+                  must_not: _objectSpread$c(_objectSpread$c({}, filter.must_not), {}, _defineProperty__default["default"]({}, field, mustNotValue))
                 }));
 
               case 3:
@@ -30254,7 +30238,7 @@ var FilterState = /*#__PURE__*/function (_React$Component) {
                 typeToSet = isNegated ? 'must_not' : 'must';
                 typeToRemove = !isNegated ? 'must_not' : 'must';
 
-                _this.setFilter(_objectSpread$h(_objectSpread$h({}, filter), {}, (_objectSpread8 = {}, _defineProperty__default["default"](_objectSpread8, typeToSet, _objectSpread$h(_objectSpread$h({}, filter[typeToSet]), {}, _defineProperty__default["default"]({}, field, value))), _defineProperty__default["default"](_objectSpread8, typeToRemove, _objectSpread$h(_objectSpread$h({}, filter[typeToRemove]), {}, _defineProperty__default["default"]({}, field, []))), _objectSpread8)));
+                _this.setFilter(_objectSpread$c(_objectSpread$c({}, filter), {}, (_objectSpread8 = {}, _defineProperty__default["default"](_objectSpread8, typeToSet, _objectSpread$c(_objectSpread$c({}, filter[typeToSet]), {}, _defineProperty__default["default"]({}, field, value))), _defineProperty__default["default"](_objectSpread8, typeToRemove, _objectSpread$c(_objectSpread$c({}, filter[typeToRemove]), {}, _defineProperty__default["default"]({}, field, []))), _objectSpread8)));
 
               case 7:
               case "end":
@@ -30430,12 +30414,12 @@ var withContext = function withContext() {
 var cssNavBar = function cssNavBar(_ref4) {
   var theme = _ref4.theme;
       _ref4.isActive;
-  return /*#__PURE__*/react.css("background:", theme.paperBackground, ";border:1px solid ", theme.paperBorderColor, ";flex:0 0 auto;margin:10px;border-radius:", theme.borderRadius, "px;" + ("" ), "" );
+  return /*#__PURE__*/react.css("background:", theme.paperBackground, ";border:1px solid ", theme.paperBorderColor, ";flex:0 0 auto;margin:10px;border-radius:", theme.borderRadius, "px;;label:cssNavBar;" + ("" ));
 };
 
 var _ref3$8 = {
-  name: "unv3er",
-  styles: "flex:1 1 auto;margin:10px;margin-top:0;display:flex;flex-direction:column"
+  name: "565dp8-cssViewArea",
+  styles: "flex:1 1 auto;margin:10px;margin-top:0;display:flex;flex-direction:column;label:cssViewArea;"
 } ;
 
 var cssViewArea = function cssViewArea(_ref5) {
@@ -30443,18 +30427,18 @@ var cssViewArea = function cssViewArea(_ref5) {
   return _ref3$8;
 };
 
-var _ref2$c = {
-  name: "sidtwu",
-  styles: "display:flex;flex-direction:column;height:100%;overflow:auto"
+var _ref2$b = {
+  name: "11bdlan-cssLayout",
+  styles: "display:flex;flex-direction:column;height:100%;overflow:auto;label:cssLayout;"
 } ;
 
 var cssLayout = function cssLayout(_ref6) {
   _ref6.theme;
-  return _ref2$c;
+  return _ref2$b;
 };
 var cssFilter = function cssFilter(_ref8) {
   var theme = _ref8.theme;
-  return /*#__PURE__*/react.css("padding:10px;border-bottom:1px solid ", theme.paperBorderColor, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("padding:10px;border-bottom:1px solid ", theme.paperBorderColor, ";;label:cssFilter;" + ("" ));
 };
 
 var SearchContext = /*#__PURE__*/React__default["default"].createContext();
@@ -30596,9 +30580,9 @@ function serializeValue(_ref8) {
   }
 }
 
-function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$b(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$g(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$g(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$g(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$b(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$b(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$b(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 /**
  * A query is expected to have format: {filterNameA: [1], filterNameB: ['a', 'b']}
  * A query can composed by adding one filter ad a time. the order of filters should not matter.
@@ -30732,7 +30716,7 @@ function getPredicateFromSingleValue(_ref5) {
       value: value
     };
   } else if (_typeof__default["default"](value) === 'object' && value !== null) {
-    return _objectSpread$g({
+    return _objectSpread$b({
       type: (config === null || config === void 0 ? void 0 : config.defaultType) || 'equals',
       key: (config === null || config === void 0 ? void 0 : config.defaultKey) || filterName
     }, value);
@@ -30804,13 +30788,296 @@ function v12filter(query, filterConfig) {
   };
 }
 
-var _excluded$1j = ["theme"],
-    _excluded2$4 = ["isTrackingData", "theme"],
-    _excluded3$3 = ["theme"];
+var Map$1 = function Map() {
+  return react.jsx("h1", null, "Map placeholder");
+};
+
+var OCCURRENCE_MAP = "\nquery map($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    _meta\n    documents {\n      total\n    }\n    _v1PredicateHash\n  }\n}\n";
+var OCCURRENCE_POINT = "\nquery point($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    documents {\n      total\n      results {\n        key\n        basisOfRecord\n        eventDate\n        gbifClassification{\n          usage {\n            rank\n            formattedName\n          }\n        }\n        primaryImage {\n          identifier\n        }\n      }\n    }\n  }\n}\n";
+var wktBBoxTemplate = '((W S,E S,E N,W N,W S))';
+
+function Map() {
+  var _currentFilterContext, _currentFilterContext2, _currentFilterContext3, _data$occurrenceSearc, _data$occurrenceSearc2, _data$occurrenceSearc3, _data$occurrenceSearc4, _data$occurrenceSearc5;
+
+  var currentFilterContext = React.useContext(FilterContext);
+
+  var _useContext = React.useContext(SearchContext),
+      labelMap = _useContext.labelMap,
+      rootPredicate = _useContext.rootPredicate,
+      predicateConfig = _useContext.predicateConfig,
+      more = _useContext.more;
+
+  var _useQuery = useQuery(OCCURRENCE_MAP, {
+    lazyLoad: true
+  }),
+      data = _useQuery.data,
+      error = _useQuery.error,
+      loading = _useQuery.loading,
+      load = _useQuery.load;
+
+  var _useQuery2 = useQuery(OCCURRENCE_POINT, {
+    lazyLoad: true
+  }),
+      pointData = _useQuery2.data,
+      pointError = _useQuery2.error,
+      pointLoading = _useQuery2.loading,
+      pointLoad = _useQuery2.load;
+
+  React.useEffect(function () {
+    loadHashAndCount({
+      filter: currentFilterContext.filter,
+      predicateConfig: predicateConfig,
+      rootPredicate: rootPredicate
+    });
+  }, [currentFilterContext.filterHash, rootPredicate, predicateConfig]);
+  var loadHashAndCount = React.useCallback(function (_ref) {
+    var filter = _ref.filter,
+        predicateConfig = _ref.predicateConfig,
+        rootPredicate = _ref.rootPredicate;
+    var predicate = {
+      type: 'and',
+      predicates: [rootPredicate, filter2predicate(filter, predicateConfig), {
+        type: 'equals',
+        key: 'hasCoordinate',
+        value: true
+      }].filter(function (x) {
+        return x;
+      })
+    };
+    load({
+      keepDataWhileLoading: true,
+      variables: {
+        predicate: predicate
+      }
+    });
+  }, []);
+  var registrationEmbargo;
+  /**
+   * Allow the map to register the predicate again. This can be useful when tile with status code 400 errors come back. 
+   * But it should only be allowed to do every so often as we do not want to send request 500 times a second when an error is persistent.
+   * In theory it should only ever be called once and that is in the relatively rare case when the tile server is redployed just as someone is browsing the map.
+   */
+
+  var registerPredicate = React.useCallback(function () {
+    if (registrationEmbargo) return;
+    registrationEmbargo = true;
+    window.setTimeout(function () {
+      return registrationEmbargo = false;
+    }, 10000); //only allow registering an error every 10 seconds.
+
+    loadHashAndCount({
+      filter: currentFilterContext.filter,
+      predicateConfig: predicateConfig,
+      rootPredicate: rootPredicate
+    });
+  }, [currentFilterContext.filterHash, rootPredicate, predicateConfig]);
+  var loadPointData = React.useCallback(function (_ref2) {
+    _ref2.geohash;
+    var latLon = {};
+    var N = latLon.ne.lat,
+        S = latLon.sw.lat,
+        W = latLon.sw.lon,
+        E = latLon.ne.lon;
+    var wkt = 'POLYGON' + wktBBoxTemplate.replace(/N/g, N).replace(/S/g, S).replace(/W/g, W).replace(/E/g, E);
+    var predicate = {
+      type: 'and',
+      predicates: [rootPredicate, filter2predicate(currentFilterContext.filter, predicateConfig), {
+        type: 'within',
+        key: 'geometry',
+        value: wkt
+      }].filter(function (x) {
+        return x;
+      })
+    };
+    pointLoad({
+      variables: {
+        predicate: predicate
+      }
+    });
+  }, [currentFilterContext.filterHash, rootPredicate]);
+  var q = (_currentFilterContext = currentFilterContext.filter) === null || _currentFilterContext === void 0 ? void 0 : (_currentFilterContext2 = _currentFilterContext.must) === null || _currentFilterContext2 === void 0 ? void 0 : (_currentFilterContext3 = _currentFilterContext2.q) === null || _currentFilterContext3 === void 0 ? void 0 : _currentFilterContext3[0];
+  var options = {
+    loading: loading,
+    error: error,
+    total: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc = data.occurrenceSearch) === null || _data$occurrenceSearc === void 0 ? void 0 : (_data$occurrenceSearc2 = _data$occurrenceSearc.documents) === null || _data$occurrenceSearc2 === void 0 ? void 0 : _data$occurrenceSearc2.total,
+    query: (data === null || data === void 0 ? void 0 : (_data$occurrenceSearc3 = data.occurrenceSearch) === null || _data$occurrenceSearc3 === void 0 ? void 0 : (_data$occurrenceSearc4 = _data$occurrenceSearc3._meta) === null || _data$occurrenceSearc4 === void 0 ? void 0 : _data$occurrenceSearc4.query) || {},
+    predicateHash: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc5 = data.occurrenceSearch) === null || _data$occurrenceSearc5 === void 0 ? void 0 : _data$occurrenceSearc5._v1PredicateHash,
+    rootPredicate: rootPredicate,
+    predicateConfig: predicateConfig,
+    loadPointData: loadPointData,
+    registerPredicate: registerPredicate,
+    pointData: pointData,
+    pointLoading: pointLoading,
+    pointError: pointError,
+    labelMap: labelMap,
+    q: q,
+    defaultMapSettings: more === null || more === void 0 ? void 0 : more.mapSettings
+  }; // if (typeof window !== 'undefined') {
+
+  return react.jsx(Map$1, options); // } else {
+  //   return <h1>Map placeholder</h1>
+  // }
+}
+
+function useUrlState(_ref) {
+  var param = _ref.param,
+      _ref$dataType = _ref.dataType,
+      dataType = _ref$dataType === void 0 ? dynamicParam : _ref$dataType,
+      _ref$replaceState = _ref.replaceState,
+      replaceState = _ref$replaceState === void 0 ? false : _ref$replaceState,
+      defaultValue = _ref.defaultValue,
+      _ref$base64encode = _ref.base64encode,
+      base64encode = _ref$base64encode === void 0 ? false : _ref$base64encode;
+      _ref.stripEmptyKeys;
+      var initialState = _ref.initialState;
+
+  var _useState = React.useState(),
+      _useState2 = _slicedToArray__default["default"](_useState, 2),
+      value = _useState2[0],
+      setValue = _useState2[1];
+
+  var history = reactRouterDom.useHistory();
+  var location = reactRouterDom.useLocation();
+  var action = replaceState ? 'replace' : 'push';
+  var updateUrl = React.useCallback(function (newValue) {
+    var currentState = queryString__default["default"].parse(location.search);
+    var parsed = queryString__default["default"].parse(location.search);
+    console.log(location.search); // basic check for equality. Do not update if there is nothing to update. This will not work for anything but strings
+
+    if (equal__default["default"](newValue, currentState[param])) return;
+
+    if (isObjectLike_1(newValue)) {
+      if (isEmpty_1(newValue.must)) delete newValue.must;
+      if (isEmpty_1(newValue.must_not)) delete newValue.must_not;
+      if (isEmpty_1(newValue)) newValue = undefined;
+    }
+
+    if (newValue) {
+      var stringifiedValue = Array.isArray(newValue) ? newValue.map(function (x) {
+        return dataType.stringify(x);
+      }) : dataType.stringify(newValue);
+      if (base64encode) stringifiedValue = jsBase64.Base64.encode(stringifiedValue);
+      parsed[param] = stringifiedValue;
+    } else {
+      delete parsed[param];
+    }
+
+    if (typeof defaultValue !== 'undefined' && newValue === defaultValue) {
+      delete parsed[param];
+    }
+
+    if (equal__default["default"](parsed[param], currentState[param])) return;
+    history[action](location.pathname + '?' + queryString__default["default"].stringify(parsed));
+    console.log('dep changed in useCallback');
+  }, [location, history]);
+  React.useEffect(function () {
+    var changeHandler = function changeHandler(_ref2) {
+      var location = _ref2.location;
+      var parsed = queryString__default["default"].parse(location === null || location === void 0 ? void 0 : location.search);
+      var parsedValue = parsed[param];
+      if (base64encode && parsedValue) parsedValue = jsBase64.Base64.decode(parsedValue);
+      parsedValue = dataType.parse(parsedValue);
+      var parsedNormalizedValue = Array.isArray(parsedValue) ? parsedValue.map(function (x) {
+        return dataType.parse(x);
+      }) : dataType.parse(parsedValue);
+
+      if (typeof parsedNormalizedValue === 'undefined' && typeof defaultValue !== 'undefined') {
+        parsedNormalizedValue = defaultValue;
+      }
+
+      setValue(parsedNormalizedValue);
+    };
+
+    changeHandler({
+      location: location
+    });
+    var unlisten = history.listen(changeHandler);
+    if (initialState) updateUrl(initialState);
+    console.log('dep changed in useEffect');
+    return function () {
+      unlisten();
+      var parsed = queryString__default["default"].parse(location.search);
+      delete parsed[param]; // history.replace(location.pathname + '?' + queryString.stringify(parsed));
+    };
+  }, []);
+  return [value, updateUrl];
+}
+var dynamicParam = {
+  parse: guessType,
+  stringify: function stringify(val) {
+    return _typeof__default["default"](val) === 'object' ? JSON.stringify(val) : val;
+  }
+};
+
+function guessType(value) {
+  //try to guess
+  try {
+    var parsedValue = JSON.parse(value);
+    return parsedValue;
+  } catch (err) {
+    return value;
+  }
+} // Usage
+// import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
+// const [num, setNum] = useQueryParam('x', NumberParam);
+// export const getParams = function (url, { alwaysAsArray, guessType, typeConfig = {} }) {
+//   var params = {};
+//   let query;
+//   if (typeof document !== 'undefined') {
+//     var parser = document.createElement('a');
+//     parser.href = url;
+//     query = parser.search.substring(1);
+//   } else if (url.indexOf('?') > -1) {
+//     query = url.substr(url.indexOf('?') + 1);
+//   } else {
+//     query = '';
+//   }
+//   var vars = query.split('&');
+//   for (var i = 0; i < vars.length; i++) {
+//     var pair = vars[i].split('=');
+//     var key = pair[0];
+//     if (typeof key === 'undefined' || key === '' || typeof pair[1] === 'undefined') continue;
+//     var value = decodeURIComponent(pair[1]);
+//     var type = typeConfig[key];
+//     if (type) {
+//       switch (type) {
+//         case 'number':
+//           value = Number(value);
+//         default:
+//           value = value;
+//       }
+//     } else if (guessType) {
+//       //try to guess
+//       value = convert(value);
+//     }
+//     if (typeof params[key] === 'undefined') {
+//       params[key] = alwaysAsArray ? [value] : value;
+//     } else if (Array.isArray(params[key])) {
+//       params[key].push(value);
+//     } else {
+//       params[key] = [params[key], value];
+//     }
+//   }
+//   return params;
+// };
+// function convert(value) {
+//   //try to guess
+//   try {
+//     let parsedValue = JSON.parse(value);
+//     return parsedValue;
+//   } catch (err) {
+//     return value;
+//   }
+// }
+// console.log(JSON.stringify(getParams('/sdf?test=0&t&r=test=6,7&j=%7B%22a%22%3A5%7D', {guessType: true}), null, 2));
+
+var _excluded$1b = ["theme"],
+    _excluded2$3 = ["isTrackingData", "theme"],
+    _excluded3$2 = ["theme"];
 
 var _ref12 = {
-  name: "h15532",
-  styles: "border-radius:4px;border:1px solid #eee;background:white;overflow:hidden;box-shadow:0 2px 3px 3px rgb(0 0 0 / 2%);>div:last-of-type{flex:1 1 auto;padding:12px;}>div:first-of-type{flex:0 0 auto;img{display:block;}}h4{margin:0;}"
+  name: "1fdmh6b-agentSummary",
+  styles: "border-radius:4px;border:1px solid #eee;background:white;overflow:hidden;box-shadow:0 2px 3px 3px rgb(0 0 0 / 2%);>div:last-of-type{flex:1 1 auto;padding:12px;}>div:first-of-type{flex:0 0 auto;img{display:block;}}h4{margin:0;};label:agentSummary;"
 } ;
 
 var agentSummary = function agentSummary(_ref13) {
@@ -30820,8 +31087,8 @@ var agentSummary = function agentSummary(_ref13) {
 };
 
 var _ref11 = {
-  name: "pje21s",
-  styles: "margin-top:4px;margin-bottom:4px"
+  name: "6mn5wd-features",
+  styles: "margin-top:4px;margin-bottom:4px;label:features;"
 } ;
 
 var features$1 = function features(_ref14) {
@@ -30831,8 +31098,8 @@ var features$1 = function features(_ref14) {
 };
 
 var _ref10$3 = {
-  name: "1aj97u",
-  styles: "font-size:13px;margin-top:12px;margin-bottom:12px"
+  name: "wcn4fo-entitySummary",
+  styles: "font-size:13px;margin-top:12px;margin-bottom:12px;label:entitySummary;"
 } ;
 
 var entitySummary = function entitySummary(_ref15) {
@@ -30842,8 +31109,8 @@ var entitySummary = function entitySummary(_ref15) {
 };
 
 var _ref9$2 = {
-  name: "wy2uqj",
-  styles: "margin:0 16px;.gbif-header-location{font-size:13px;display:flex;align-items:center;margin-top:8px;}"
+  name: "jo4lpd-header",
+  styles: "margin:0 16px;.gbif-header-location{font-size:13px;display:flex;align-items:center;margin-top:8px;};label:header;"
 } ;
 
 var header$2 = function header(_ref16) {
@@ -30853,14 +31120,14 @@ var header$2 = function header(_ref16) {
 };
 var globeOverlay = function globeOverlay(_ref17) {
   var theme = _ref17.theme;
-      _objectWithoutProperties__default["default"](_ref17, _excluded$1j);
+      _objectWithoutProperties__default["default"](_ref17, _excluded$1b);
 
-  return /*#__PURE__*/react.css("position:absolute;border:1px solid #88888811;width:100%;height:100%;top:0;border-radius:100%;background-image:radial-gradient(farthest-corner at 30% 35%, ", theme.darkTheme ? '#ffffff33' : '#ffffffaa', " 0%, #fff0 30%);" + ("" ), "" );
+  return /*#__PURE__*/react.css("position:absolute;border:1px solid #88888811;width:100%;height:100%;top:0;border-radius:100%;background-image:radial-gradient(farthest-corner at 30% 35%, ", theme.darkTheme ? '#ffffff33' : '#ffffffaa', " 0%, #fff0 30%);;label:globeOverlay;" + ("" ));
 };
 
 var _ref8$2 = {
-  name: "iwjav3",
-  styles: "position:relative;width:75px;height:75px"
+  name: "1kpfnag-globe",
+  styles: "position:relative;width:75px;height:75px;label:globe;"
 } ;
 
 var globe = function globe(_ref18) {
@@ -30871,24 +31138,24 @@ var globe = function globe(_ref18) {
 var globeSvg = function globeSvg(_ref19) {
   var isTrackingData = _ref19.isTrackingData,
       theme = _ref19.theme;
-      _objectWithoutProperties__default["default"](_ref19, _excluded2$4);
+      _objectWithoutProperties__default["default"](_ref19, _excluded2$3);
 
-  return /*#__PURE__*/react.css("position:absolute;top:0;.land{fill:#88888844;}.graticule{stroke:#88888840;fill:transparent;stroke-width:0.3px;}.sphere{fill:#88888822;}.point{fill:", theme.color700, ";", isTrackingData ? "\n    fill: #ff3800;\n    stroke: #ff38006e;\n    animation: hideshow 1s ease infinite;\n    " : null, ";}@keyframes hideshow{0%{stroke-width:2px;}50%{stroke-width:10px;}100%{stroke-width:2px;}}" + ("" ), "" );
+  return /*#__PURE__*/react.css("position:absolute;top:0;.land{fill:#88888844;}.graticule{stroke:#88888840;fill:transparent;stroke-width:0.3px;}.sphere{fill:#88888822;}.point{fill:", theme.color700, ";", isTrackingData ? "\n    fill: #ff3800;\n    stroke: #ff38006e;\n    animation: hideshow 1s ease infinite;\n    " : null, ";}@keyframes hideshow{0%{stroke-width:2px;}50%{stroke-width:10px;}100%{stroke-width:2px;}};label:globeSvg;" + ("" ));
 };
 var sideBar$3 = function sideBar(_ref20) {
   var theme = _ref20.theme;
-      _objectWithoutProperties__default["default"](_ref20, _excluded3$3);
+      _objectWithoutProperties__default["default"](_ref20, _excluded3$2);
 
-  return /*#__PURE__*/react.css("background:", theme.paperBackground500, ";position:relative;max-width:100%;" + ("" ), "" );
+  return /*#__PURE__*/react.css("background:", theme.paperBackground500, ";position:relative;max-width:100%;;label:sideBar;" + ("" ));
 };
 var detailDrawerBar$1 = function detailDrawerBar(_ref21) {
   var theme = _ref21.theme;
-  return /*#__PURE__*/react.css("border:1px solid ", theme.paperBorderColor, ";border-width:0 1px;color:", theme.darkTheme ? theme.color600 : theme.color900, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("border:1px solid ", theme.paperBorderColor, ";border-width:0 1px;color:", theme.darkTheme ? theme.color600 : theme.color900, ";;label:detailDrawerBar;" + ("" ));
 };
 
 var _ref7$3 = {
-  name: "jtrtuq",
-  styles: "overflow:auto;flex:1 1 auto;>div{max-width:100%;}"
+  name: "1m4a6ge-detailDrawerContent",
+  styles: "overflow:auto;flex:1 1 auto;>div{max-width:100%;};label:detailDrawerContent;"
 } ;
 
 var detailDrawerContent$1 = function detailDrawerContent(_ref22) {
@@ -30897,8 +31164,8 @@ var detailDrawerContent$1 = function detailDrawerContent(_ref22) {
 };
 
 var _ref6$5 = {
-  name: "14xvobw",
-  styles: ">img{margin-right:24px;}>h3{display:inline-block;margin:0;font-size:1.2em;font-weight:700;}"
+  name: "bt51za-headline",
+  styles: ">img{margin-right:24px;}>h3{display:inline-block;margin:0;font-size:1.2em;font-weight:700;};label:headline;"
 } ;
 
 var headline$2 = function headline(_ref23) {
@@ -30907,12 +31174,12 @@ var headline$2 = function headline(_ref23) {
 };
 var controlFooter = function controlFooter(_ref24) {
   var theme = _ref24.theme;
-  return /*#__PURE__*/react.css("bottom:0;left:0;padding:4px 8px;border-top:1px solid ", theme.paperBorderColor, ";bottom:0;right:0;font-size:12px;background:", theme.paperBackground500, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("bottom:0;left:0;padding:4px 8px;border-top:1px solid ", theme.paperBorderColor, ";bottom:0;right:0;font-size:12px;background:", theme.paperBackground500, ";;label:controlFooter;" + ("" ));
 };
 
 var _ref4$4 = {
-  name: "1oocx5b",
-  styles: "background:#88888811;border:1px solid #88888818;margin-top:12px;>img{display:block;margin:auto;}"
+  name: "1g9olu9-imageContainer",
+  styles: "background:#88888811;border:1px solid #88888818;margin-top:12px;>img{display:block;margin:auto;};label:imageContainer;"
 } ;
 
 var imageContainer = function imageContainer(_ref26) {
@@ -30921,37 +31188,37 @@ var imageContainer = function imageContainer(_ref26) {
 };
 var clusterCard = function clusterCard(_ref27) {
   var theme = _ref27.theme;
-  return /*#__PURE__*/react.css("margin-bottom:24px;border:1px solid ", theme.paperBorderColor, ";box-shadow:0 2px 1px 1px #0000000a;" + ("" ), "" );
+  return /*#__PURE__*/react.css("margin-bottom:24px;border:1px solid ", theme.paperBorderColor, ";box-shadow:0 2px 1px 1px #0000000a;;label:clusterCard;" + ("" ));
 };
 var properties = {
-  name: "1p1ip2o",
-  styles: "font-size:85%"
+  name: "q0xxcc-properties",
+  styles: "font-size:85%;label:properties;"
 } ;
 
 var _ref3$7 = {
-  name: "1s1xgis",
-  styles: "summary{background:#f5f5f5;padding-left:16px;padding-right:16px;border-width:1px 0;border:1px solid #eee;border-width:1px 0;}>div{margin:0 16px 32px 16px;}"
+  name: "1hn876u-group",
+  styles: "summary{background:#f5f5f5;padding-left:16px;padding-right:16px;border-width:1px 0;border:1px solid #eee;border-width:1px 0;}>div{margin:0 16px 32px 16px;};label:group;"
 } ;
 
 var group = function group() {
   return _ref3$7;
 };
 
-var _ref2$b = {
-  name: "1kwyc3g",
-  styles: "font-size:11px;padding:0 4px;border:1px solid #dedede;background:#f3f3f3;margin:0 4px 4px 0;display:inline-block"
+var _ref2$a = {
+  name: "uvobqz-chip",
+  styles: "font-size:11px;padding:0 4px;border:1px solid #dedede;background:#f3f3f3;margin:0 4px 4px 0;display:inline-block;label:chip;"
 } ;
 
 var chip = function chip(_ref28) {
   _ref28.theme;
-  return _ref2$b;
+  return _ref2$a;
 };
 var clusterFooter = function clusterFooter(_ref29) {
   var theme = _ref29.theme;
-  return /*#__PURE__*/react.css("font-size:13px;padding:8px 12px;border-top:1px solid ", theme.paperBorderColor, ";margin-bottom:-4px;" + ("" ), "" );
+  return /*#__PURE__*/react.css("font-size:13px;padding:8px 12px;border-top:1px solid ", theme.paperBorderColor, ";margin-bottom:-4px;;label:clusterFooter;" + ("" ));
 };
 
-var _excluded$1i = ["lat", "lon", "svg", "className", "style"];
+var _excluded$1a = ["lat", "lon", "svg", "className", "style"];
 function Globe(_ref) {
   var _data$globe;
 
@@ -30960,7 +31227,7 @@ function Globe(_ref) {
       svg = _ref.svg;
       _ref.className;
       _ref.style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1i);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1a);
 
   var _useQuery = useQuery(GLOBE, {
     lazyLoad: true
@@ -31006,7 +31273,7 @@ function Globe(_ref) {
 }
 var GLOBE = "\nquery globe($lat: Float!, $lon: Float!){\n  globe(cLat: $lat, cLon: $lon) {\n    svg\n  }\n}\n";
 
-var _excluded$1h = ["data", "loading", "error", "className"];
+var _excluded$19 = ["data", "loading", "error", "className"];
 function Header$2(_ref) {
   var _data$occurrence, _data$occurrence$vola, _data$occurrence2, _data$occurrence2$vol, _data$occurrence3, _data$occurrence4, _data$occurrence5, _data$occurrence5$gbi, _data$occurrence5$gbi2, _item$typeStatus, _item$issues;
 
@@ -31014,7 +31281,7 @@ function Header$2(_ref) {
       _ref.loading;
       _ref.error;
       _ref.className;
-      var props = _objectWithoutProperties__default["default"](_ref, _excluded$1h);
+      var props = _objectWithoutProperties__default["default"](_ref, _excluded$19);
 
   var isBelow = useBelow(500);
   var theme = React.useContext(ThemeContext);
@@ -31203,9 +31470,9 @@ var intersection = baseRest$4(function(arrays) {
 
 var intersection_1 = intersection;
 
-function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
+function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
 
-function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 var labelMaker = (function (getData) {
   var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
       isHtmlResponse = _ref.isHtmlResponse;
@@ -31213,7 +31480,7 @@ var labelMaker = (function (getData) {
   return reactIntl.injectIntl( /*#__PURE__*/function (_Component) {
     _inherits__default["default"](Format, _Component);
 
-    var _super = _createSuper$3(Format);
+    var _super = _createSuper$2(Format);
 
     function Format(props) {
       var _this;
@@ -31503,9 +31770,9 @@ function prettifyEnum(text) {
   return typeof text === 'string' ? text.charAt(0) + text.slice(1).toLowerCase().replace(/_/g, ' ') : 'Unknown';
 }
 
-var _excluded$1g = ["getEnum"],
-    _excluded3$2 = ["label"],
-    _excluded4$1 = ["term", "label", "showDetails", "hideIssues", "hideRemarks"];
+var _excluded$18 = ["getEnum"],
+    _excluded3$1 = ["label"],
+    _excluded4 = ["term", "label", "showDetails", "hideIssues", "hideRemarks"];
 var T$f = Properties.Term,
     V$f = Properties.Value;
 function HtmlField(props) {
@@ -31533,7 +31800,7 @@ function CustomValueField(props) {
 }
 function EnumField(_ref) {
   var getEnum = _ref.getEnum,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1g);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$18);
 
   if (!props.term) return null;
   var value = props.term.value;
@@ -31548,7 +31815,7 @@ function EnumField(_ref) {
 }
 function BasicField(_ref3) {
   var label = _ref3.label,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded3$2);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded3$1);
 
   return react.jsx(React__default["default"].Fragment, null, react.jsx(T$f, null, react.jsx(reactIntl.FormattedMessage, {
     id: label,
@@ -31561,7 +31828,7 @@ function Field(_ref4) {
       showDetails = _ref4.showDetails,
       hideIssues = _ref4.hideIssues,
       hideRemarks = _ref4.hideRemarks,
-      props = _objectWithoutProperties__default["default"](_ref4, _excluded4$1);
+      props = _objectWithoutProperties__default["default"](_ref4, _excluded4);
 
   var simpleName = term.simpleName,
       verbatim = term.verbatim,
@@ -31646,13 +31913,13 @@ function Chips(_ref6) {
   }))));
 }
 
-var _excluded$1f = ["as", "includeTerminal", "ranks"];
+var _excluded$17 = ["as", "includeTerminal", "ranks"];
 function TaxonClassification(_ref) {
   _ref.as;
       var _ref$includeTerminal = _ref.includeTerminal,
       includeTerminal = _ref$includeTerminal === void 0 ? false : _ref$includeTerminal,
       ranks = _ref.ranks,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1f);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$17);
 
   // const theme = useContext(ThemeContext);
   return react.jsx(Classification, props, ranks.map(function (rank, i, _ref2) {
@@ -31667,14 +31934,14 @@ Classification.propTypes = {
   as: propTypes.exports.element
 };
 
-var _excluded$1e = ["agent"];
+var _excluded$16 = ["agent"];
 Properties.Term;
     Properties.Value;
 function AgentSummary(_ref) {
   var _person$image, _person$image2, _person$name, _person$birthDate, _person$birthDate2, _person$deathDate, _person$deathDate2;
 
   var agent = _ref.agent;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1e);
+      _objectWithoutProperties__default["default"](_ref, _excluded$16);
 
   var theme = React.useContext(ThemeContext);
   var person = agent.person;
@@ -31704,7 +31971,7 @@ function AgentSummary(_ref) {
   }, agent.value)));
 }
 
-var _excluded$1d = ["label"];
+var _excluded$15 = ["label"];
 var T$e = Properties.Term,
     V$e = Properties.Value;
 function Groups(_ref) {
@@ -31780,7 +32047,7 @@ function Groups(_ref) {
 }
 function Group(_ref2) {
   var label = _ref2.label,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1d);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$15);
 
   return react.jsx(Accordion, _extends__default["default"]({
     summary: react.jsx(reactIntl.FormattedMessage, {
@@ -33011,7 +33278,7 @@ function Agents(_ref26) {
   })));
 }
 
-var _excluded$1c = ["data", "activeImage", "setActiveImage", "className"];
+var _excluded$14 = ["data", "activeImage", "setActiveImage", "className"];
 var Term = Properties.Term,
     Value = Properties.Value;
 function ImageDetails(_ref) {
@@ -33021,7 +33288,7 @@ function ImageDetails(_ref) {
       activeImage = _ref.activeImage,
       setActiveImage = _ref.setActiveImage;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1c);
+      _objectWithoutProperties__default["default"](_ref, _excluded$14);
 
   var theme = React.useContext(ThemeContext);
   React.useEffect(function () {
@@ -33087,7 +33354,7 @@ function ImageDetails(_ref) {
   }), react.jsx("div", null))));
 }
 
-var _excluded$1b = ["data", "isSpecimen", "loading", "fieldGroups", "setActiveImage", "error", "className"];
+var _excluded$13 = ["data", "isSpecimen", "loading", "fieldGroups", "setActiveImage", "error", "className"];
 function Intro$1(_ref) {
   var _ref$data = _ref.data,
       data = _ref$data === void 0 ? {} : _ref$data;
@@ -33097,7 +33364,7 @@ function Intro$1(_ref) {
       var setActiveImage = _ref.setActiveImage,
       error = _ref.error;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1b);
+      _objectWithoutProperties__default["default"](_ref, _excluded$13);
 
   var theme = React.useContext(ThemeContext);
 
@@ -33155,160 +33422,8 @@ function Intro$1(_ref) {
 {$ occurrence.dataset.citation.text $} {$ _meta.domain $}/occurrence/{$ occurrence.record.key $}
 */
 
-function useUrlState(_ref) {
-  var param = _ref.param,
-      _ref$dataType = _ref.dataType,
-      dataType = _ref$dataType === void 0 ? dynamicParam : _ref$dataType,
-      _ref$replaceState = _ref.replaceState,
-      replaceState = _ref$replaceState === void 0 ? false : _ref$replaceState,
-      defaultValue = _ref.defaultValue,
-      _ref$base64encode = _ref.base64encode,
-      base64encode = _ref$base64encode === void 0 ? false : _ref$base64encode;
-      _ref.stripEmptyKeys;
-      var initialState = _ref.initialState;
-
-  var _useState = React.useState(),
-      _useState2 = _slicedToArray__default["default"](_useState, 2),
-      value = _useState2[0],
-      setValue = _useState2[1];
-
-  var history = reactRouterDom.useHistory();
-  var location = reactRouterDom.useLocation();
-  var action = replaceState ? 'replace' : 'push';
-  var updateUrl = React.useCallback(function (newValue) {
-    var currentState = queryString__default["default"].parse(location.search);
-    var parsed = queryString__default["default"].parse(location.search);
-    console.log(location.search); // basic check for equality. Do not update if there is nothing to update. This will not work for anything but strings
-
-    if (equal__default["default"](newValue, currentState[param])) return;
-
-    if (isObjectLike_1(newValue)) {
-      if (isEmpty_1(newValue.must)) delete newValue.must;
-      if (isEmpty_1(newValue.must_not)) delete newValue.must_not;
-      if (isEmpty_1(newValue)) newValue = undefined;
-    }
-
-    if (newValue) {
-      var stringifiedValue = Array.isArray(newValue) ? newValue.map(function (x) {
-        return dataType.stringify(x);
-      }) : dataType.stringify(newValue);
-      if (base64encode) stringifiedValue = jsBase64.Base64.encode(stringifiedValue);
-      parsed[param] = stringifiedValue;
-    } else {
-      delete parsed[param];
-    }
-
-    if (typeof defaultValue !== 'undefined' && newValue === defaultValue) {
-      delete parsed[param];
-    }
-
-    if (equal__default["default"](parsed[param], currentState[param])) return;
-    history[action](location.pathname + '?' + queryString__default["default"].stringify(parsed));
-    console.log('dep changed in useCallback');
-  }, [location, history]);
-  React.useEffect(function () {
-    var changeHandler = function changeHandler(_ref2) {
-      var location = _ref2.location;
-      var parsed = queryString__default["default"].parse(location === null || location === void 0 ? void 0 : location.search);
-      var parsedValue = parsed[param];
-      if (base64encode && parsedValue) parsedValue = jsBase64.Base64.decode(parsedValue);
-      parsedValue = dataType.parse(parsedValue);
-      var parsedNormalizedValue = Array.isArray(parsedValue) ? parsedValue.map(function (x) {
-        return dataType.parse(x);
-      }) : dataType.parse(parsedValue);
-
-      if (typeof parsedNormalizedValue === 'undefined' && typeof defaultValue !== 'undefined') {
-        parsedNormalizedValue = defaultValue;
-      }
-
-      setValue(parsedNormalizedValue);
-    };
-
-    changeHandler({
-      location: location
-    });
-    var unlisten = history.listen(changeHandler);
-    if (initialState) updateUrl(initialState);
-    console.log('dep changed in useEffect');
-    return function () {
-      unlisten();
-      var parsed = queryString__default["default"].parse(location.search);
-      delete parsed[param]; // history.replace(location.pathname + '?' + queryString.stringify(parsed));
-    };
-  }, []);
-  return [value, updateUrl];
-}
-var dynamicParam = {
-  parse: guessType,
-  stringify: function stringify(val) {
-    return _typeof__default["default"](val) === 'object' ? JSON.stringify(val) : val;
-  }
-};
-
-function guessType(value) {
-  //try to guess
-  try {
-    var parsedValue = JSON.parse(value);
-    return parsedValue;
-  } catch (err) {
-    return value;
-  }
-} // Usage
-// import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
-// const [num, setNum] = useQueryParam('x', NumberParam);
-// export const getParams = function (url, { alwaysAsArray, guessType, typeConfig = {} }) {
-//   var params = {};
-//   let query;
-//   if (typeof document !== 'undefined') {
-//     var parser = document.createElement('a');
-//     parser.href = url;
-//     query = parser.search.substring(1);
-//   } else if (url.indexOf('?') > -1) {
-//     query = url.substr(url.indexOf('?') + 1);
-//   } else {
-//     query = '';
-//   }
-//   var vars = query.split('&');
-//   for (var i = 0; i < vars.length; i++) {
-//     var pair = vars[i].split('=');
-//     var key = pair[0];
-//     if (typeof key === 'undefined' || key === '' || typeof pair[1] === 'undefined') continue;
-//     var value = decodeURIComponent(pair[1]);
-//     var type = typeConfig[key];
-//     if (type) {
-//       switch (type) {
-//         case 'number':
-//           value = Number(value);
-//         default:
-//           value = value;
-//       }
-//     } else if (guessType) {
-//       //try to guess
-//       value = convert(value);
-//     }
-//     if (typeof params[key] === 'undefined') {
-//       params[key] = alwaysAsArray ? [value] : value;
-//     } else if (Array.isArray(params[key])) {
-//       params[key].push(value);
-//     } else {
-//       params[key] = [params[key], value];
-//     }
-//   }
-//   return params;
-// };
-// function convert(value) {
-//   //try to guess
-//   try {
-//     let parsedValue = JSON.parse(value);
-//     return parsedValue;
-//   } catch (err) {
-//     return value;
-//   }
-// }
-// console.log(JSON.stringify(getParams('/sdf?test=0&t&r=test=6,7&j=%7B%22a%22%3A5%7D', {guessType: true}), null, 2));
-
-var _excluded$1a = ["data", "loading", "activeImage", "setActiveImage", "className"],
-    _excluded2$3 = ["original", "reasons", "related"];
+var _excluded$12 = ["data", "loading", "activeImage", "setActiveImage", "className"],
+    _excluded2$2 = ["original", "reasons", "related"];
 var T$d = Properties.Term,
     V$d = Properties.Value;
 function Cluster(_ref) {
@@ -33319,7 +33434,7 @@ function Cluster(_ref) {
       _ref.activeImage;
       _ref.setActiveImage;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1a);
+      _objectWithoutProperties__default["default"](_ref, _excluded$12);
 
   var _useUrlState = useUrlState({
     param: 'entity'
@@ -33412,7 +33527,7 @@ function RelatedOccurrence(_ref2) {
   _ref2.original;
       var reasons = _ref2.reasons,
       related = _ref2.related,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded2$3);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded2$2);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx("article", _extends__default["default"]({
@@ -33508,9 +33623,9 @@ var links = {
 	dataset: dataset$1
 };
 
-function ownKeys$f(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$a(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$f(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$f(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$f(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$a(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$a(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$a(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var defaultGbifOrgLinks = {
   dataset: {
     href: function href(occurrence) {
@@ -33535,7 +33650,7 @@ var defaultGbifOrgLinks = {
 }; // A context to share links for the full app/component
 
 var linksWithTemplates = Object.keys(links).reduce(function (acc, cur) {
-  return acc[cur] = links[cur] === 'default' ? defaultGbifOrgLinks[cur] : _objectSpread$f(_objectSpread$f({}, links[cur]), {}, {
+  return acc[cur] = links[cur] === 'default' ? defaultGbifOrgLinks[cur] : _objectSpread$a(_objectSpread$a({}, links[cur]), {}, {
     href: function href(occurrence) {
       return links[cur].template.replace('$key', occurrence[links[cur].key]);
     }
@@ -33543,7 +33658,7 @@ var linksWithTemplates = Object.keys(links).reduce(function (acc, cur) {
 }, {});
 var LinksContext = /*#__PURE__*/React__default["default"].createContext(linksWithTemplates);
 
-var _excluded$19 = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
+var _excluded$11 = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
 var TabList$4 = Tabs.TabList,
     Tab$1 = Tabs.Tab,
     TabPanel$1 = Tabs.TabPanel,
@@ -33557,7 +33672,7 @@ function OccurrenceSidebar(_ref) {
       defaultTab = _ref.defaultTab;
       _ref.className;
       var style = _ref.style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$19);
+      _objectWithoutProperties__default["default"](_ref, _excluded$11);
 
   var links = React.useContext(LinksContext); // Get the keys for custom dataset links and custom taxon links
 
@@ -33702,11 +33817,11 @@ var OCCURRENCE = function OCCURRENCE(linkKeys) {
   return "\nquery occurrence($key: ID!){\n  occurrence(key: $key) {\n    key\n    coordinates\n    countryCode\n    eventDate\n    typeStatus\n    issues\n    ".concat(linkKeys || '', "\n    institution {\n      name\n      key\n    }\n    collection {\n      name\n      key\n    }\n    volatile {\n      globe(sphere: false, land: false, graticule: false) {\n        svg\n        lat\n        lon\n      }\n      features {\n        isSpecimen\n        isTreament\n        isSequenced\n        isClustered\n        isSamplingEvent\n      }\n    }\n    datasetKey,\n    datasetTitle\n    publishingOrgKey,\n    publisherTitle,\n    dataset {\n      citation {\n        text\n      }\n    }\n    institutionCode\n    recordedByIDs {\n      value\n      person(expand: true) {\n        name\n        birthDate\n        deathDate\n        image\n      }\n    }\n    identifiedByIDs {\n      value\n      person(expand: true) {\n        name\n        birthDate\n        deathDate\n        image\n      }\n    }\n\n    gadm\n\n    stillImageCount\n    movingImageCount\n    soundCount\n    stillImages {\n      type\n      format\n      identifier\n      created\n      creator\n      license\n      publisher\n      references\n      rightsHolder\n      description\n    }\n\n    gbifClassification {\n      kingdom\n      kingdomKey\n      phylum\n      phylumKey\n      class\n      classKey\n      order\n      orderKey\n      family\n      familyKey\n      genus\n      genusKey\n      species\n      speciesKey\n      synonym\n      classification {\n        key\n        rank\n        name\n      }\n      usage {\n        rank\n        formattedName\n        key\n      }\n      acceptedUsage {\n        formattedName\n        key\n      }\n    }\n\n    primaryImage {\n      identifier\n    }\n\n    terms {\n      simpleName\n      verbatim\n      value\n      htmlValue\n      remarks\n      issues\n    }\n  }\n}\n");
 };
 
-var _excluded3$1 = ["theme"];
+var _excluded3 = ["theme"];
 
 var _ref10$2 = {
-  name: "jvsac8",
-  styles: ".gbif-header-location{font-size:13px;display:flex;align-items:center;margin-top:8px;}"
+  name: "beqbaw-header",
+  styles: ".gbif-header-location{font-size:13px;display:flex;align-items:center;margin-top:8px;};label:header;"
 } ;
 
 var header$1 = function header(_ref15) {
@@ -33716,8 +33831,8 @@ var header$1 = function header(_ref15) {
 };
 
 var _ref9$1 = {
-  name: "1dfk8o8",
-  styles: "border-left:2px solid orange;margin-left:6px;height:1em;padding-left:6px"
+  name: "uqjojc-breadcrumbSeperator",
+  styles: "border-left:2px solid orange;margin-left:6px;height:1em;padding-left:6px;label:breadcrumbSeperator;"
 } ;
 
 var breadcrumbSeperator = function breadcrumbSeperator(_ref16) {
@@ -33727,8 +33842,8 @@ var breadcrumbSeperator = function breadcrumbSeperator(_ref16) {
 };
 
 var _ref8$1 = {
-  name: "1wphcz4",
-  styles: "font-size:11px;margin-bottom:4px"
+  name: "hkos17-breadcrumb",
+  styles: "font-size:11px;margin-bottom:4px;label:breadcrumb;"
 } ;
 
 var breadcrumb = function breadcrumb(_ref17) {
@@ -33738,18 +33853,18 @@ var breadcrumb = function breadcrumb(_ref17) {
 };
 var sideBar$2 = function sideBar(_ref21) {
   var theme = _ref21.theme;
-      _objectWithoutProperties__default["default"](_ref21, _excluded3$1);
+      _objectWithoutProperties__default["default"](_ref21, _excluded3);
 
-  return /*#__PURE__*/react.css("background:", theme.paperBackground500, ";position:relative;" + ("" ), "" );
+  return /*#__PURE__*/react.css("background:", theme.paperBackground500, ";position:relative;;label:sideBar;" + ("" ));
 };
 var detailDrawerBar = function detailDrawerBar(_ref22) {
   var theme = _ref22.theme;
-  return /*#__PURE__*/react.css("border:1px solid ", theme.paperBorderColor, ";border-width:0 1px;color:", theme.darkTheme ? theme.color600 : theme.color900, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("border:1px solid ", theme.paperBorderColor, ";border-width:0 1px;color:", theme.darkTheme ? theme.color600 : theme.color900, ";;label:detailDrawerBar;" + ("" ));
 };
 
 var _ref6$4 = {
-  name: "jtrtuq",
-  styles: "overflow:auto;flex:1 1 auto;>div{max-width:100%;}"
+  name: "1m4a6ge-detailDrawerContent",
+  styles: "overflow:auto;flex:1 1 auto;>div{max-width:100%;};label:detailDrawerContent;"
 } ;
 
 var detailDrawerContent = function detailDrawerContent(_ref23) {
@@ -33758,8 +33873,8 @@ var detailDrawerContent = function detailDrawerContent(_ref23) {
 };
 
 var _ref5$4 = {
-  name: "9mdwn1",
-  styles: ">img{margin-right:24px;}>h3{display:inline-block;margin:0;}"
+  name: "10rrn6u-headline",
+  styles: ">img{margin-right:24px;}>h3{display:inline-block;margin:0;};label:headline;"
 } ;
 
 var headline$1 = function headline(_ref24) {
@@ -33767,7 +33882,7 @@ var headline$1 = function headline(_ref24) {
   return _ref5$4;
 };
 
-var _excluded$18 = ["data", "loading", "error"];
+var _excluded$10 = ["data", "loading", "error"];
 var T$c = Properties.Term,
     V$c = Properties.Value;
 function Intro(_ref) {
@@ -33777,7 +33892,7 @@ function Intro(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$18);
+      _objectWithoutProperties__default["default"](_ref, _excluded$10);
 
   React.useContext(ThemeContext);
   var dataset = data.dataset; // if (loading || !dataset) return <h1>Loading</h1>;
@@ -33843,7 +33958,7 @@ function temporalCoverage(period) {
   })), period['@type'] == 'verbatim' && react.jsx(V$c, null, period.period));
 }
 
-var _excluded$17 = ["url", "style"];
+var _excluded$$ = ["url", "style"];
 function Logo(_ref) {
   var url = _ref.url,
       _ref$style = _ref.style,
@@ -33851,7 +33966,7 @@ function Logo(_ref) {
     maxHeight: "64px",
     maxWidth: "100px"
   } : _ref$style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$17);
+      _objectWithoutProperties__default["default"](_ref, _excluded$$);
 
   var _useState = React.useState(true),
       _useState2 = _slicedToArray__default["default"](_useState, 2),
@@ -33877,10 +33992,10 @@ function Logo(_ref) {
   }) : null;
 }
 
-var _excluded$16 = ["url"];
+var _excluded$_ = ["url"];
 function License(_ref) {
   var url = _ref.url;
-      _objectWithoutProperties__default["default"](_ref, _excluded$16);
+      _objectWithoutProperties__default["default"](_ref, _excluded$_);
 
   if (!url) {
     return react.jsx(reactIntl.FormattedMessage, {
@@ -33937,7 +34052,7 @@ var isLink = function isLink(data) {
   }).test(data);
 };
 
-var _excluded$15 = ["data", "loading", "error"];
+var _excluded$Z = ["data", "loading", "error"];
 var T$b = Properties.Term,
     V$b = Properties.Value;
 function Header$1(_ref) {
@@ -33946,7 +34061,7 @@ function Header$1(_ref) {
   var data = _ref.data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$15);
+      _objectWithoutProperties__default["default"](_ref, _excluded$Z);
 
   var theme = React.useContext(ThemeContext);
   var item = data === null || data === void 0 ? void 0 : data.dataset;
@@ -34012,7 +34127,7 @@ var getHighlightedContributors = function getHighlightedContributors(dataset, th
   }).join(" • "));
 };
 
-var _excluded$14 = ["data", "loading", "error"];
+var _excluded$Y = ["data", "loading", "error"];
 var T$a = Properties.Term,
     V$a = Properties.Value;
 function Contacts(_ref) {
@@ -34022,7 +34137,7 @@ function Contacts(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$14);
+      _objectWithoutProperties__default["default"](_ref, _excluded$Y);
 
   React.useContext(ThemeContext);
   var dataset = data.dataset;
@@ -34057,7 +34172,7 @@ function contact(ctct) {
   }), ctct.organization && react.jsx("div", null, ctct.organization), ctct.address && react.jsx("div", null, ctct.address)));
 }
 
-var _excluded$13 = ["data", "loading", "error"];
+var _excluded$X = ["data", "loading", "error"];
 var T$9 = Properties.Term,
     V$9 = Properties.Value;
 function BibliographicCitations$1(_ref) {
@@ -34067,7 +34182,7 @@ function BibliographicCitations$1(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$13);
+      _objectWithoutProperties__default["default"](_ref, _excluded$X);
 
   var dataset = data.dataset;
   return (dataset === null || dataset === void 0 ? void 0 : (_dataset$bibliographi = dataset.bibliographicCitations) === null || _dataset$bibliographi === void 0 ? void 0 : _dataset$bibliographi.length) > 0 ? react.jsx(Accordion, {
@@ -34091,7 +34206,7 @@ function bibiliographicCitation(citation) {
   }))));
 }
 
-var _excluded$12 = ["data", "loading", "error"];
+var _excluded$W = ["data", "loading", "error"];
 var T$8 = Properties.Term,
     V$8 = Properties.Value;
 function SamplingDescription$1(_ref) {
@@ -34101,7 +34216,7 @@ function SamplingDescription$1(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$12);
+      _objectWithoutProperties__default["default"](_ref, _excluded$W);
 
   /*sampling
     qualityControl
@@ -34148,7 +34263,7 @@ function SamplingDescription$1(_ref) {
   })))))) : null;
 }
 
-var _excluded$11 = ["data", "loading", "error"];
+var _excluded$V = ["data", "loading", "error"];
 var T$7 = Properties.Term,
     V$7 = Properties.Value;
 function Citation$1(_ref) {
@@ -34158,7 +34273,7 @@ function Citation$1(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$11);
+      _objectWithoutProperties__default["default"](_ref, _excluded$V);
 
   var dataset = data.dataset;
   return dataset !== null && dataset !== void 0 && (_dataset$citation = dataset.citation) !== null && _dataset$citation !== void 0 && _dataset$citation.text ? react.jsx(Accordion, {
@@ -34175,7 +34290,7 @@ function Citation$1(_ref) {
   })))) : null;
 }
 
-var _excluded$10 = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
+var _excluded$U = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
 var TabList$3 = Tabs.TabList,
     Tab = Tabs.Tab,
     TabPanel = Tabs.TabPanel,
@@ -34187,7 +34302,7 @@ function DatasetSidebar(_ref) {
       defaultTab = _ref.defaultTab;
       _ref.className;
       var style = _ref.style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$10);
+      _objectWithoutProperties__default["default"](_ref, _excluded$U);
 
   var _useQuery = useQuery(DATASET$1, {
     lazyLoad: true
@@ -34277,213 +34392,6 @@ function DatasetSidebar(_ref) {
 }
 var DATASET$1 = "\nquery dataset($key: ID!){\n  dataset(key: $key) {\n    title\n    created\n    description\n    temporalCoverages\n    logoUrl\n    publishingOrganizationKey\n    publishingOrganizationTitle\n    volatileContributors {\n      firstName\n      lastName\n      position\n      organization\n      address\n      userId\n      type\n      _highlighted\n      roles\n    }\n    geographicCoverages {\n      description\n      boundingBox {\n        minLatitude\n        maxLatitude\n        minLongitude\n        maxLongitude\n        globalCoverage\n      }\n    }\n    taxonomicCoverages {\n      description\n      coverages {\n        scientificName\n        rank {\n          interpreted\n        }\n      }\n    }\n    bibliographicCitations {\n      identifier\n      text\n    }\n    samplingDescription {\n      studyExtent\n      sampling\n      qualityControl\n      methodSteps\n    } \n    citation {\n      text\n    }\n    license\n  }\n}\n";
 
-var _excluded$$ = ["BasisOfRecordLabel", "id", "item", "imageSrc", "onClick"],
-    _excluded2$2 = ["labelMap", "onCloseRequest", "onClick", "data", "error", "loading"],
-    _excluded3 = ["theme"],
-    _excluded4 = ["theme"],
-    _excluded5 = ["theme"];
-
-function ListItem(_ref2) {
-  var _item$primaryImage, _item$primaryImage2;
-
-  var BasisOfRecordLabel = _ref2.BasisOfRecordLabel,
-      id = _ref2.id,
-      item = _ref2.item;
-      _ref2.imageSrc;
-      var _ref2$onClick = _ref2.onClick,
-      _onClick = _ref2$onClick === void 0 ? function () {} : _ref2$onClick;
-      _objectWithoutProperties__default["default"](_ref2, _excluded$$);
-
-  var theme = React.useContext(ThemeContext);
-  return react.jsx("div", {
-    css: listItem({
-      theme: theme
-    }),
-    onClick: function onClick(e) {
-      return _onClick({
-        id: id
-      });
-    }
-  }, react.jsx(Row, {
-    wrap: "no-wrap",
-    alignItems: "center"
-  }, react.jsx(Col, {
-    grow: true,
-    css: listItemContent({
-      theme: theme
-    })
-  }, react.jsx("h4", {
-    dangerouslySetInnerHTML: {
-      __html: item.gbifClassification.usage.formattedName
-    }
-  }), item.eventDate && react.jsx("div", null, react.jsx(reactIntl.FormattedDate, {
-    value: item.eventDate,
-    year: "numeric",
-    month: "long",
-    day: "2-digit"
-  })), react.jsx("div", null, react.jsx(BasisOfRecordLabel, {
-    id: item.basisOfRecord
-  }))), react.jsx(Col, {
-    grow: false
-  }, react.jsx(Button, {
-    className: "gbif-map-listItem-chevreon",
-    appearance: "text",
-    style: {
-      padding: 3
-    },
-    onClick: function onClick(e) {
-      return _onClick({
-        id: id
-      });
-    }
-  }, react.jsx(md.MdChevronRight, null))), ((_item$primaryImage = item.primaryImage) === null || _item$primaryImage === void 0 ? void 0 : _item$primaryImage.identifier) && react.jsx(Col, {
-    grow: false
-  }, react.jsx(Image$1, {
-    src: (_item$primaryImage2 = item.primaryImage) === null || _item$primaryImage2 === void 0 ? void 0 : _item$primaryImage2.identifier,
-    w: 80,
-    h: 80,
-    style: {
-      display: 'block',
-      background: theme.paperBackground200,
-      width: 80,
-      height: 80
-    }
-  }))));
-}
-
-function ListBox(_ref3) {
-  var _data$occurrenceSearc3;
-
-  var labelMap = _ref3.labelMap,
-      onCloseRequest = _ref3.onCloseRequest,
-      _onClick2 = _ref3.onClick,
-      data = _ref3.data,
-      error = _ref3.error,
-      loading = _ref3.loading,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded2$2);
-
-  var theme = React.useContext(ThemeContext);
-  if (!error && !loading && !data) return null;
-  var BasisOfRecordLabel = labelMap.basisOfRecord;
-  var content;
-
-  if (loading) {
-    return react.jsx("section", props, react.jsx("div", {
-      css: container({
-        theme: theme
-      })
-    }, react.jsx(StripeLoader, {
-      active: true
-    }), react.jsx("div", {
-      css: listItemContent({
-        theme: theme
-      })
-    }, react.jsx(reactIntl.FormattedMessage, {
-      id: "phrases.loading"
-    }))));
-  } else if (error) {
-    return react.jsx("section", props, react.jsx("div", {
-      css: container({
-        theme: theme
-      })
-    }, react.jsx(StripeLoader, {
-      active: true,
-      error: true
-    }), react.jsx("div", {
-      css: listItemContent({
-        theme: theme
-      })
-    }, react.jsx(reactIntl.FormattedMessage, {
-      id: "phrases.loadError"
-    }))));
-  } else if (data) {
-    var _data$occurrenceSearc, _data$occurrenceSearc2;
-
-    var results = (data === null || data === void 0 ? void 0 : (_data$occurrenceSearc = data.occurrenceSearch) === null || _data$occurrenceSearc === void 0 ? void 0 : (_data$occurrenceSearc2 = _data$occurrenceSearc.documents) === null || _data$occurrenceSearc2 === void 0 ? void 0 : _data$occurrenceSearc2.results) || [];
-    content = react.jsx("ul", {
-      css: list({
-        theme: theme
-      })
-    }, results.map(function (x, index) {
-      return react.jsx("li", {
-        key: x.key
-      }, react.jsx(ListItem, {
-        BasisOfRecordLabel: BasisOfRecordLabel,
-        onClick: function onClick() {
-          return _onClick2({
-            index: index
-          });
-        },
-        id: x.key,
-        item: x
-      }));
-    }));
-  }
-
-  return react.jsx("section", props, react.jsx(Row, {
-    css: container({
-      theme: theme
-    }),
-    direction: "column"
-  }, react.jsx(Col, {
-    grow: false,
-    as: "header"
-  }, react.jsx(Row, {
-    alignItems: "center"
-  }, react.jsx(Col, {
-    grow: true
-  }, react.jsx(reactIntl.FormattedMessage, {
-    id: "counts.nResults",
-    values: {
-      total: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc3 = data.occurrenceSearch) === null || _data$occurrenceSearc3 === void 0 ? void 0 : _data$occurrenceSearc3.documents.total
-    }
-  })), react.jsx(Col, {
-    grow: false
-  }, react.jsx(Button, {
-    appearance: "outline",
-    onClick: onCloseRequest
-  }, react.jsx(reactIntl.FormattedMessage, {
-    id: "phrases.close"
-  }))))), react.jsx(Col, {
-    grow: true,
-    as: "main"
-  }, content)));
-}
-
-var container = function container(_ref4) {
-  var theme = _ref4.theme;
-      _objectWithoutProperties__default["default"](_ref4, _excluded3);
-
-  return /*#__PURE__*/react.css("background:", theme.paperBackground500, ";overflow:auto;border-radius:", theme.borderRadius, "px;border:1px solid ", theme.paperBorderColor, ";max-height:inherit;flex-wrap:nowrap;header{padding:8px 16px;border-bottom:1px solid ", theme.paperBorderColor, ";font-size:12px;font-weight:500;}main{overflow:auto;", styledScrollBars({
-    theme: theme
-  }), ";}footer{border-top:1px solid ", theme.paperBorderColor, ";padding:8px 16px;}" + ("" ), "" );
-};
-
-var list = function list(_ref5) {
-  var theme = _ref5.theme;
-      _objectWithoutProperties__default["default"](_ref5, _excluded4);
-
-  return /*#__PURE__*/react.css("list-style:none;padding:0;margin:0;border-top:1px solid ", theme.paperBorderColor, ";" + ("" ), "" );
-};
-
-var _ref$i = {
-  name: "in1zdj",
-  styles: "padding:8px 16px;font-size:13px;overflow:hidden;h4{margin:0 0 8px 0;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}"
-} ;
-
-var listItemContent = function listItemContent(_ref6) {
-  _extends__default["default"]({}, _ref6);
-
-  return _ref$i;
-};
-
-var listItem = function listItem(_ref7) {
-  var theme = _ref7.theme;
-      _objectWithoutProperties__default["default"](_ref7, _excluded5);
-
-  return /*#__PURE__*/react.css("border-bottom:1px solid ", theme.paperBorderColor, ";cursor:pointer;:hover{background:", theme.paperBackground700, ";}.gbif-map-listItem-chevreon{color:", theme.color500, ";}" + ("" ), "" );
-};
-
 var ViewHeader = function ViewHeader(_ref) {
   var children = _ref.children,
       total = _ref.total,
@@ -34493,7 +34401,7 @@ var ViewHeader = function ViewHeader(_ref) {
   var theme = React.useContext(ThemeContext);
   var showSkeleton = loading || typeof total !== 'number';
   return react.jsx("div", _extends__default["default"]({
-    css: /*#__PURE__*/react.css("color:", theme.color500, ";font-size:12px;margin:0 0 4px 4px;" + ("" ), "" )
+    css: /*#__PURE__*/react.css("color:", theme.color500, ";font-size:12px;margin:0 0 4px 4px;;label:ViewHeader;" + ("" ))
   }, props), showSkeleton && react.jsx(Skeleton, {
     style: {
       width: 100
@@ -34506,486 +34414,12 @@ var ViewHeader = function ViewHeader(_ref) {
   }), children);
 };
 
-function getLayerConfig(_ref) {
-  var tileString = _ref.tileString,
-      theme = _ref.theme;
-  return {
-    id: "occurrences",
-    type: "circle",
-    source: {
-      type: "vector",
-      tiles: [tileString]
-    },
-    "source-layer": "occurrence",
-    paint: {
-      // make circles larger as the user zooms from z12 to z22
-      "circle-radius": {
-        property: "total",
-        type: "interval",
-        //stops: [[0, 2]]
-        stops: [[0, 2], [10, 3], [100, 5], [1000, 8], [10000, 12]]
-      },
-      // color circles by ethnicity, using data-driven styles
-      "circle-color": {
-        property: "total",
-        type: "interval",
-        stops: [0, 10, 100, 1000, 10000].map(function (x, i) {
-          return [x, theme.mapDensityColors[i]];
-        })
-      },
-      "circle-opacity": {
-        property: "total",
-        type: "interval",
-        // stops: theme.darkTheme ? [[0, .6], [10, 0.7], [100, 0.8], [1000, 0.8], [10000, 0.9]] : [[0, 1], [10, 0.8], [100, 0.7], [1000, 0.6], [10000, 0.6]]
-        stops: [[0, 1], [10, 0.8], [100, 0.7], [1000, 0.6], [10000, 0.6]]
-      },
-      "circle-stroke-color": theme.mapDensityColors[1],
-      "circle-stroke-width": {
-        property: "total",
-        type: "interval",
-        stops: [[0, 1], [10, 0]]
-      }
-    }
-  };
-}
-
-var _excluded$_ = ["query", "onMapClick", "onPointClick", "predicateHash", "style", "className"];
-
-function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
-
-function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-var Map$2 = /*#__PURE__*/function (_Component) {
-  _inherits__default["default"](Map, _Component);
-
-  var _super = _createSuper$2(Map);
-
-  function Map(props) {
-    var _this;
-
-    _classCallCheck__default["default"](this, Map);
-
-    _this = _super.call(this, props);
-    _this.addLayer = _this.addLayer.bind(_assertThisInitialized__default["default"](_this));
-    _this.updateLayer = _this.updateLayer.bind(_assertThisInitialized__default["default"](_this));
-    _this.onPointClick = _this.onPointClick.bind(_assertThisInitialized__default["default"](_this));
-    _this.myRef = /*#__PURE__*/React__default["default"].createRef();
-    _this.state = {};
-    return _this;
-  }
-
-  _createClass__default["default"](Map, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this$props$defaultMa, _this$props$defaultMa2, _this$props$defaultMa3;
-
-      var mapStyle = this.props.theme.darkTheme ? 'dark-v9' : 'light-v9';
-      mapboxgl__default["default"].accessToken = env.MAPBOX_KEY;
-      this.map = new mapboxgl__default["default"].Map({
-        container: this.myRef.current,
-        style: "mapbox://styles/mapbox/".concat(mapStyle),
-        zoom: sessionStorage.getItem('mapZoom') || ((_this$props$defaultMa = this.props.defaultMapSettings) === null || _this$props$defaultMa === void 0 ? void 0 : _this$props$defaultMa.zoom) || 0,
-        center: [sessionStorage.getItem('mapLng') || ((_this$props$defaultMa2 = this.props.defaultMapSettings) === null || _this$props$defaultMa2 === void 0 ? void 0 : _this$props$defaultMa2.lng) || 0, sessionStorage.getItem('mapLat') || ((_this$props$defaultMa3 = this.props.defaultMapSettings) === null || _this$props$defaultMa3 === void 0 ? void 0 : _this$props$defaultMa3.lat) || 0]
-      });
-      this.map.addControl(new mapboxgl__default["default"].NavigationControl({
-        showCompass: false
-      }), 'top-left');
-      this.map.on("load", this.addLayer);
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.map.remove();
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      var _this2 = this;
-
-      if (prevProps.query !== this.props.query && this.mapLoaded) {
-        this.updateLayer();
-      }
-
-      if (prevProps.theme !== this.props.theme && this.mapLoaded) {
-        var mapStyle = this.props.theme.darkTheme ? 'dark-v9' : 'light-v9';
-        this.map.setStyle("mapbox://styles/mapbox/".concat(mapStyle));
-        this.map.on('style.load', function () {
-          _this2.updateLayer();
-        });
-      }
-    }
-  }, {
-    key: "updateLayer",
-    value: function updateLayer() {
-      var layer = this.map.getSource("occurrences");
-
-      if (layer) {
-        this.map.removeLayer("occurrences");
-        this.map.removeSource("occurrences");
-        this.addLayer();
-      } else {
-        this.addLayer();
-      }
-    }
-  }, {
-    key: "onPointClick",
-    value: function onPointClick(pointData) {
-      this.props.onPointClick(pointData);
-    }
-  }, {
-    key: "addLayer",
-    value: function addLayer() {
-      var _this3 = this;
-
-      var tileString = "".concat(env.API_V2, "/map/occurrence/adhoc/{z}/{x}/{y}.mvt?style=scaled.circles&mode=GEO_CENTROID&srs=EPSG%3A3857&squareSize=256&predicateHash=").concat(this.props.predicateHash, "&").concat(this.props.q ? "&q=".concat(this.props.q, " ") : '');
-      this.map.addLayer(getLayerConfig({
-        tileString: tileString,
-        theme: this.props.theme
-      }), "poi-scalerank2");
-      var map = this.map;
-
-      if (!this.mapLoaded) {
-        // remember map position
-        map.on('zoomend', function () {
-          var center = map.getCenter();
-          sessionStorage.setItem('mapZoom', map.getZoom());
-          sessionStorage.setItem('mapLng', center.lng);
-          sessionStorage.setItem('mapLat', center.lat);
-        });
-        map.on('moveend', function () {
-          var center = map.getCenter();
-          sessionStorage.setItem('mapZoom', map.getZoom());
-          sessionStorage.setItem('mapLng', center.lng);
-          sessionStorage.setItem('mapLat', center.lat);
-        });
-        map.on('mouseenter', 'occurrences', function (e) {
-          // Change the cursor style as a UI indicator.
-          map.getCanvas().style.cursor = 'pointer';
-        });
-        map.on('click', 'occurrences', function (e) {
-          _this3.onPointClick({
-            geohash: e.features[0].properties.geohash,
-            count: e.features[0].properties.count
-          });
-
-          e.preventDefault();
-        });
-        map.on('mouseleave', 'occurrences', function () {
-          map.getCanvas().style.cursor = '';
-        });
-        map.on('click', function (e) {
-          if (!e._defaultPrevented && _this3.props.onMapClick) _this3.props.onMapClick();
-        });
-        map.on('error', function (e) {
-          var _e$error;
-
-          if ((e === null || e === void 0 ? void 0 : (_e$error = e.error) === null || _e$error === void 0 ? void 0 : _e$error.status) === 400 && _this3.props.registerPredicate) {
-            _this3.props.registerPredicate();
-          }
-        });
-      }
-
-      this.mapLoaded = true;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props = this.props;
-          _this$props.query;
-          _this$props.onMapClick;
-          _this$props.onPointClick;
-          _this$props.predicateHash;
-          var style = _this$props.style,
-          className = _this$props.className;
-          _objectWithoutProperties__default["default"](_this$props, _excluded$_);
-
-      return react.jsx("div", {
-        ref: this.myRef,
-        style: style,
-        className: className
-      });
-    }
-  }]);
-
-  return Map;
-}(React.Component);
-
-var _ref2$a = {
-  name: "1ur9udb",
-  styles: "flex:1 1 100%;display:flex;height:100%;max-height:100vh;flex-direction:column;position:relative"
-} ;
-
-var mapArea = function mapArea(_ref3) {
-  _ref3.theme;
-  return _ref2$a;
-};
-var mapComponent = function mapComponent(_ref4) {
-  var theme = _ref4.theme;
-  return /*#__PURE__*/react.css("flex:1 1 100%;border:1px solid ", theme.paperBorderColor, ";border-radius:", theme.borderRadius, "px;display:flex;flex-direction:column;height:100%;canvas:focus{outline:none;}" + ("" ), "" );
-};
-
-var _ref$h = {
-  name: "iz8ie5",
-  styles: "z-index:10;margin:12px;position:absolute;left:0;top:0;width:350px;max-width:100%;height:auto;max-height:calc(100% - 24px);display:flex;flex-direction:column"
-} ;
-
-var resultList = function resultList(_ref5) {
-  _objectDestructuringEmpty__default["default"](_ref5);
-
-  return _ref$h;
-};
-
-var _excluded$Z = ["labelMap", "query", "q", "pointData", "pointError", "pointLoading", "loading", "total", "predicateHash", "registerPredicate", "loadPointData", "defaultMapSettings"];
-
-function Map$1(_ref) {
-  var _pointData$occurrence, _pointData$occurrence2;
-
-  var labelMap = _ref.labelMap,
-      query = _ref.query,
-      q = _ref.q,
-      pointData = _ref.pointData,
-      pointError = _ref.pointError,
-      pointLoading = _ref.pointLoading,
-      loading = _ref.loading,
-      total = _ref.total,
-      predicateHash = _ref.predicateHash,
-      registerPredicate = _ref.registerPredicate,
-      loadPointData = _ref.loadPointData,
-      defaultMapSettings = _ref.defaultMapSettings;
-      _objectWithoutProperties__default["default"](_ref, _excluded$Z);
-
-  var dialog = Dialog.useDialogState({
-    animated: true,
-    modal: false
-  });
-  var theme = React.useContext(ThemeContext);
-
-  var _useState = React.useState(),
-      _useState2 = _slicedToArray__default["default"](_useState, 2),
-      activeId = _useState2[0],
-      setActive = _useState2[1];
-
-  var _useState3 = React.useState(),
-      _useState4 = _slicedToArray__default["default"](_useState3, 2),
-      activeItem = _useState4[0],
-      setActiveItem = _useState4[1];
-
-  var _useState5 = React.useState(false),
-      _useState6 = _slicedToArray__default["default"](_useState5, 2),
-      listVisible = _useState6[0],
-      showList = _useState6[1];
-
-  var items = (pointData === null || pointData === void 0 ? void 0 : (_pointData$occurrence = pointData.occurrenceSearch) === null || _pointData$occurrence === void 0 ? void 0 : (_pointData$occurrence2 = _pointData$occurrence.documents) === null || _pointData$occurrence2 === void 0 ? void 0 : _pointData$occurrence2.results) || [];
-  React.useEffect(function () {
-    setActiveItem(items[activeId]);
-  }, [activeId, items]);
-  var nextItem = React.useCallback(function () {
-    setActive(Math.min(items.length - 1, activeId + 1));
-  }, [items, activeId]);
-  var previousItem = React.useCallback(function () {
-    setActive(Math.max(0, activeId - 1));
-  }, [items, activeId]);
-  return react.jsx(React__default["default"].Fragment, null, react.jsx(DetailsDrawer, {
-    href: "https://www.gbif.org/occurrence/".concat(activeItem === null || activeItem === void 0 ? void 0 : activeItem.key),
-    dialog: dialog,
-    nextItem: nextItem,
-    previousItem: previousItem
-  }, react.jsx(OccurrenceSidebar, {
-    id: activeItem === null || activeItem === void 0 ? void 0 : activeItem.key,
-    defaultTab: "details",
-    style: {
-      maxWidth: '100%',
-      width: 700,
-      height: '100%'
-    },
-    onCloseRequest: function onCloseRequest() {
-      return dialog.setVisible(false);
-    }
-  })), react.jsx("div", {
-    css: mapArea({
-      theme: theme
-    })
-  }, react.jsx(ViewHeader, {
-    message: "counts.nResultsWithCoordinates",
-    loading: loading,
-    total: total
-  }), react.jsx("div", {
-    style: {
-      position: 'relative',
-      height: '100%',
-      flex: '1 1 auto',
-      display: 'flex',
-      flexDirection: 'column'
-    }
-  }, listVisible && react.jsx(ListBox, {
-    onCloseRequest: function onCloseRequest(e) {
-      return showList(false);
-    },
-    labelMap: labelMap,
-    onClick: function onClick(_ref2) {
-      var index = _ref2.index;
-      dialog.show();
-      setActive(index);
-    },
-    data: pointData,
-    error: pointError,
-    loading: pointLoading,
-    css: resultList({})
-  }), react.jsx(Map$2, {
-    defaultMapSettings: defaultMapSettings,
-    predicateHash: predicateHash,
-    q: q,
-    css: mapComponent({
-      theme: theme
-    }),
-    theme: theme,
-    query: query,
-    onMapClick: function onMapClick(e) {
-      return showList(false);
-    },
-    onPointClick: function onPointClick(data) {
-      showList(true);
-      loadPointData(data);
-    },
-    registerPredicate: registerPredicate
-  }))));
-}
-
-var OCCURRENCE_MAP = "\nquery map($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    _meta\n    documents {\n      total\n    }\n    _v1PredicateHash\n  }\n}\n";
-var OCCURRENCE_POINT = "\nquery point($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    documents {\n      total\n      results {\n        key\n        basisOfRecord\n        eventDate\n        gbifClassification{\n          usage {\n            rank\n            formattedName\n          }\n        }\n        primaryImage {\n          identifier\n        }\n      }\n    }\n  }\n}\n";
-var wktBBoxTemplate = '((W S,E S,E N,W N,W S))';
-
-function Map() {
-  var _currentFilterContext, _currentFilterContext2, _currentFilterContext3, _data$occurrenceSearc, _data$occurrenceSearc2, _data$occurrenceSearc3, _data$occurrenceSearc4, _data$occurrenceSearc5;
-
-  var currentFilterContext = React.useContext(FilterContext);
-
-  var _useContext = React.useContext(SearchContext),
-      labelMap = _useContext.labelMap,
-      rootPredicate = _useContext.rootPredicate,
-      predicateConfig = _useContext.predicateConfig,
-      more = _useContext.more;
-
-  var _useQuery = useQuery(OCCURRENCE_MAP, {
-    lazyLoad: true
-  }),
-      data = _useQuery.data,
-      error = _useQuery.error,
-      loading = _useQuery.loading,
-      load = _useQuery.load;
-
-  var _useQuery2 = useQuery(OCCURRENCE_POINT, {
-    lazyLoad: true
-  }),
-      pointData = _useQuery2.data,
-      pointError = _useQuery2.error,
-      pointLoading = _useQuery2.loading,
-      pointLoad = _useQuery2.load;
-
-  React.useEffect(function () {
-    loadHashAndCount({
-      filter: currentFilterContext.filter,
-      predicateConfig: predicateConfig,
-      rootPredicate: rootPredicate
-    });
-  }, [currentFilterContext.filterHash, rootPredicate, predicateConfig]);
-  var loadHashAndCount = React.useCallback(function (_ref) {
-    var filter = _ref.filter,
-        predicateConfig = _ref.predicateConfig,
-        rootPredicate = _ref.rootPredicate;
-    var predicate = {
-      type: 'and',
-      predicates: [rootPredicate, filter2predicate(filter, predicateConfig), {
-        type: 'equals',
-        key: 'hasCoordinate',
-        value: true
-      }].filter(function (x) {
-        return x;
-      })
-    };
-    load({
-      keepDataWhileLoading: true,
-      variables: {
-        predicate: predicate
-      }
-    });
-  }, []);
-  var registrationEmbargo;
-  /**
-   * Allow the map to register the predicate again. This can be useful when tile with status code 400 errors come back. 
-   * But it should only be allowed to do every so often as we do not want to send request 500 times a second when an error is persistent.
-   * In theory it should only ever be called once and that is in the relatively rare case when the tile server is redployed just as someone is browsing the map.
-   */
-
-  var registerPredicate = React.useCallback(function () {
-    if (registrationEmbargo) return;
-    registrationEmbargo = true;
-    window.setTimeout(function () {
-      return registrationEmbargo = false;
-    }, 10000); //only allow registering an error every 10 seconds.
-
-    loadHashAndCount({
-      filter: currentFilterContext.filter,
-      predicateConfig: predicateConfig,
-      rootPredicate: rootPredicate
-    });
-  }, [currentFilterContext.filterHash, rootPredicate, predicateConfig]);
-  var loadPointData = React.useCallback(function (_ref2) {
-    var geohash = _ref2.geohash;
-    var latLon = Geohash__default["default"].bounds(geohash);
-    var N = latLon.ne.lat,
-        S = latLon.sw.lat,
-        W = latLon.sw.lon,
-        E = latLon.ne.lon;
-    var wkt = 'POLYGON' + wktBBoxTemplate.replace(/N/g, N).replace(/S/g, S).replace(/W/g, W).replace(/E/g, E);
-    var predicate = {
-      type: 'and',
-      predicates: [rootPredicate, filter2predicate(currentFilterContext.filter, predicateConfig), {
-        type: 'within',
-        key: 'scoordinates',
-        value: wkt
-      }].filter(function (x) {
-        return x;
-      })
-    };
-    pointLoad({
-      variables: {
-        predicate: predicate
-      }
-    });
-  }, [currentFilterContext.filterHash, rootPredicate]);
-  var q = (_currentFilterContext = currentFilterContext.filter) === null || _currentFilterContext === void 0 ? void 0 : (_currentFilterContext2 = _currentFilterContext.must) === null || _currentFilterContext2 === void 0 ? void 0 : (_currentFilterContext3 = _currentFilterContext2.q) === null || _currentFilterContext3 === void 0 ? void 0 : _currentFilterContext3[0];
-  var options = {
-    loading: loading,
-    error: error,
-    total: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc = data.occurrenceSearch) === null || _data$occurrenceSearc === void 0 ? void 0 : (_data$occurrenceSearc2 = _data$occurrenceSearc.documents) === null || _data$occurrenceSearc2 === void 0 ? void 0 : _data$occurrenceSearc2.total,
-    query: (data === null || data === void 0 ? void 0 : (_data$occurrenceSearc3 = data.occurrenceSearch) === null || _data$occurrenceSearc3 === void 0 ? void 0 : (_data$occurrenceSearc4 = _data$occurrenceSearc3._meta) === null || _data$occurrenceSearc4 === void 0 ? void 0 : _data$occurrenceSearc4.query) || {},
-    predicateHash: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc5 = data.occurrenceSearch) === null || _data$occurrenceSearc5 === void 0 ? void 0 : _data$occurrenceSearc5._v1PredicateHash,
-    rootPredicate: rootPredicate,
-    predicateConfig: predicateConfig,
-    loadPointData: loadPointData,
-    registerPredicate: registerPredicate,
-    pointData: pointData,
-    pointLoading: pointLoading,
-    pointError: pointError,
-    labelMap: labelMap,
-    q: q,
-    defaultMapSettings: more === null || more === void 0 ? void 0 : more.mapSettings
-  };
-
-  if (typeof window !== 'undefined') {
-    return react.jsx(Map$1, options);
-  } else {
-    return react.jsx("h1", null, "Map placeholder");
-  }
-}
-
 // Better would be to calculate the available space and decide based on that since the number of 
 // filters applied influence the decision. But this simple approach will perform better and is used for now.
 
 var _ref$g = {
-  name: "fks3ly",
-  styles: "display:flex;flex-direction:column;@media (min-height: 700px){height:100px;flex:1 1 auto;}"
+  name: "1cx1nzb-table",
+  styles: "display:flex;flex-direction:column;@media (min-height: 700px){height:100px;flex:1 1 auto;};label:table;"
 } ;
 
 var table = function table(props) {
@@ -35437,7 +34871,7 @@ var keyBy_1 = keyBy;
 
 var OCCURRENCE_TABLE = "\nquery table($predicate: Predicate, $size: Int = 20, $from: Int = 0){\n  occurrenceSearch(predicate: $predicate, size: $size, from: $from) {\n    documents(size: $size, from: $from) {\n      total\n      size\n      from\n      results {\n        key\n        gbifClassification{\n          usage {\n            rank\n            formattedName\n          }\n        }\n        year\n\t\t\t\tbasisOfRecord\n        datasetTitle\n        publisherTitle\n        countryCode\n        formattedCoordinates\n        catalogNumber\n        recordedBy\n        identifiedBy\n        recordNumber\n        preparations\n        institutionCode\n        collectionCode\n        locality\n\n        stillImageCount\n        movingImageCount\n        soundCount\n        typeStatus\n        issues\n        \n        volatile {\n          features {\n            isTreament\n            isSequenced\n            isClustered\n            isSamplingEvent\n          }\n        }\n      }\n    }\n  }\n}\n";
 
-function Table$6() {
+function Table$2() {
   var _data$occurrenceSearc, _data$occurrenceSearc2;
 
   var _useQueryParam = useQueryParams.useQueryParam('from', useQueryParams.NumberParam),
@@ -35525,12 +34959,12 @@ function Table$6() {
 
 var paper$5 = function paper(_ref2) {
   var theme = _ref2.theme;
-  return /*#__PURE__*/react.css("background:", theme.paperBackground500, ";border:1px solid ", theme.paperBorderColor, ";border-radius:", theme.borderRadius, "px;padding:12px;" + ("" ), "" );
+  return /*#__PURE__*/react.css("background:", theme.paperBackground500, ";border:1px solid ", theme.paperBorderColor, ";border-radius:", theme.borderRadius, "px;padding:12px;;label:paper;" + ("" ));
 };
 
 var _ref$f = {
-  name: "pjnpkg",
-  styles: "height:100%;min-height:150px;min-width:100px"
+  name: "1n56kgh-more",
+  styles: "height:100%;min-height:150px;min-width:100px;label:more;"
 } ;
 
 var more = function more(_ref3) {
@@ -35539,7 +34973,7 @@ var more = function more(_ref3) {
 };
 var features = function features(_ref4) {
   var theme = _ref4.theme;
-  return /*#__PURE__*/react.css("font-size:11px;color:", theme.color500, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("font-size:11px;color:", theme.color500, ";;label:features;" + ("" ));
 };
 
 var GalleryPresentation = function GalleryPresentation(_ref) {
@@ -35660,7 +35094,7 @@ var GalleryPresentation = function GalleryPresentation(_ref) {
 
 var OCCURRENCE_GALLERY = "\nquery gallery($predicate: Predicate, $size: Int = 20, $from: Int = 0){\n  occurrenceSearch(predicate: $predicate, size: $size, from: $from) {\n    documents(size: $size, from: $from) {\n      total\n      size\n      from\n      results {\n        key\n        countryCode\n        locality\n        basisOfRecord\n        typeStatus\n        eventDate\n        gbifClassification{\n          usage {\n            formattedName\n          }\n        }\n        primaryImage {\n          identifier\n        }\n        formattedCoordinates\n        volatile {\n          features {\n            isSpecimen\n            isTreament\n            isSequenced\n            isClustered\n            isSamplingEvent\n          }\n        }\n      }\n    }\n  }\n}\n";
 
-function Table$5() {
+function Table$1() {
   var _data$occurrenceSearc3, _data$occurrenceSearc4;
 
   var _useState = React.useState(0),
@@ -35740,8 +35174,8 @@ function Table$5() {
 }
 
 var _ref2$9 = {
-  name: "mqzxz1",
-  styles: "background:white;border:1px solid #eee;border-radius:3px"
+  name: "jm58bg-paper",
+  styles: "background:white;border:1px solid #eee;border-radius:3px;label:paper;"
 } ;
 
 var paper$4 = function paper(_ref3) {
@@ -35752,16 +35186,16 @@ var dataset = function dataset(_ref4) {
   var theme = _ref4.theme;
   return /*#__PURE__*/react.css(paper$4({
     theme: theme
-  }), " position:relative;padding:10px 20px;font-size:14px;margin-bottom:8px;" + ("" ), "" );
+  }), " position:relative;padding:10px 20px;font-size:14px;margin-bottom:8px;;label:dataset;" + ("" ));
 };
 var actionOverlay = function actionOverlay(_ref5) {
   _ref5.theme;
-  return /*#__PURE__*/react.css("position:absolute;bottom:0;left:0;right:0;top:0;", focusStyle(), ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("position:absolute;bottom:0;left:0;right:0;top:0;", focusStyle(), ";;label:actionOverlay;" + ("" ));
 };
 
 var _ref$e = {
-  name: "1t6lby3",
-  styles: "display:flex;flex-direction:row;align-items:center;margin:5px 0;span{font-size:80%;color:#999;}"
+  name: "13dhko1-title",
+  styles: "display:flex;flex-direction:row;align-items:center;margin:5px 0;span{font-size:80%;color:#999;};label:title;"
 } ;
 
 var title$1 = function title(_ref6) {
@@ -35769,7 +35203,7 @@ var title$1 = function title(_ref6) {
   return _ref$e;
 };
 
-var _excluded$Y = ["largest", "item", "indicator", "theme", "setActive", "index", "dialog"];
+var _excluded$T = ["largest", "item", "indicator", "theme", "setActive", "index", "dialog"];
 var DatasetsPresentation = function DatasetsPresentation(_ref) {
   var _data$occurrenceSearc, _data$occurrenceSearc2, _data$occurrenceSearc3, _data$occurrenceSearc4, _activeItem$dataset, _activeItem$dataset2;
 
@@ -35851,7 +35285,7 @@ function DatasetResult(_ref2) {
       setActive = _ref2.setActive,
       index = _ref2.index,
       dialog = _ref2.dialog;
-      _objectWithoutProperties__default["default"](_ref2, _excluded$Y);
+      _objectWithoutProperties__default["default"](_ref2, _excluded$T);
 
   return react.jsx("div", {
     css: dataset({
@@ -35949,8 +35383,8 @@ function Datasets() {
 }
 
 var _ref3$6 = {
-  name: "p8m6wo",
-  styles: "background:white;padding:24px;border-radius:8px;max-width:100%;width:300px;text-align:center"
+  name: "38lko9-card",
+  styles: "background:white;padding:24px;border-radius:8px;max-width:100%;width:300px;text-align:center;label:card;"
 } ;
 
 var card$1 = function card(_ref4) {
@@ -35960,8 +35394,8 @@ var card$1 = function card(_ref4) {
 };
 
 var _ref2$8 = {
-  name: "1ee42c1",
-  styles: "margin:12px 0"
+  name: "9z0123-title",
+  styles: "margin:12px 0;label:title;"
 } ;
 
 var title = function title(_ref5) {
@@ -35971,8 +35405,8 @@ var title = function title(_ref5) {
 };
 
 var _ref$d = {
-  name: "1uto9dc",
-  styles: "color:#888;font-size:14px;margin:12px 0 24px 0;p{margin-bottom:12px;}"
+  name: "1htxodz-description",
+  styles: "color:#888;font-size:14px;margin:12px 0 24px 0;p{margin-bottom:12px;};label:description;"
 } ;
 
 var description = function description(_ref6) {
@@ -35981,8 +35415,8 @@ var description = function description(_ref6) {
   return _ref$d;
 };
 var icon = {
-  name: "1i83uzg",
-  styles: "width:50px;height:50px;margin:0 auto 12px auto;display:block;border:2px solid #cecfd8;color:#cecfd8;border-radius:50%;display:flex;justify-content:center;align-items:center;svg{height:40px;width:40px;}"
+  name: "1bq8uw0-icon",
+  styles: "width:50px;height:50px;margin:0 auto 12px auto;display:block;border:2px solid #cecfd8;color:#cecfd8;border-radius:50%;display:flex;justify-content:center;align-items:center;svg{height:40px;width:40px;};label:icon;"
 } ;
 
 var DOWNLOAD = "\nquery($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate, size: 0) {\n    _downloadPredicate\n  }\n}\n";
@@ -36184,11 +35618,11 @@ var union = baseRest$3(function(arrays) {
 
 var union_1 = union;
 
-var _excluded$X = ["content", "placement", "modal", "children", "className", "style"];
+var _excluded$S = ["content", "placement", "modal", "children", "className", "style"];
 
-function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$e(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$e(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$9(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function Popover$8(_ref) {
   var content = _ref.content,
@@ -36197,7 +35631,7 @@ function Popover$8(_ref) {
       children = _ref.children,
       className = _ref.className,
       style = _ref.style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$X);
+      _objectWithoutProperties__default["default"](_ref, _excluded$S);
 
   var _React$useState = React__default["default"].useState(nanoid.nanoid),
       _React$useState2 = _slicedToArray__default["default"](_React$useState, 1),
@@ -36232,7 +35666,7 @@ function Popover$8(_ref) {
       currentFilterContext.setFilter(tmpFilter);
       popover.hide();
     },
-    style: _objectSpread$e({
+    style: _objectSpread$9({
       width: '22em',
       maxWidth: '100%'
     }, style),
@@ -36250,13 +35684,13 @@ function Popover$8(_ref) {
   }));
 }
 
-var _excluded$W = ["children", "menuItems", "labelledById"];
+var _excluded$R = ["children", "menuItems", "labelledById"];
 
 var Header = function Header(_ref) {
   var children = _ref.children,
       menuItems = _ref.menuItems,
       labelledById = _ref.labelledById,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$W);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$R);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx(Row, _extends__default["default"]({
@@ -36286,10 +35720,10 @@ var Header = function Header(_ref) {
 
 var header = function header(_ref2) {
   var theme = _ref2.theme;
-  return /*#__PURE__*/react.css("border-bottom:1px solid ", theme.paperBorderColor, ";padding:1.2em 1.5em;flex:0 0 auto;" + ("" ), "" );
+  return /*#__PURE__*/react.css("border-bottom:1px solid ", theme.paperBorderColor, ";padding:1.2em 1.5em;flex:0 0 auto;;label:header;" + ("" ));
 };
 
-var _excluded$V = ["onApply", "onCancel", "onBack", "showBack", "formId"];
+var _excluded$Q = ["onApply", "onCancel", "onBack", "showBack", "formId"];
 
 var Footer = function Footer(_ref2) {
   var onApply = _ref2.onApply,
@@ -36298,7 +35732,7 @@ var Footer = function Footer(_ref2) {
       _ref2$showBack = _ref2.showBack,
       showBack = _ref2$showBack === void 0 ? false : _ref2$showBack,
       formId = _ref2.formId,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$V);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$Q);
 
   React.useContext(ThemeContext);
   return react.jsx(Row, _extends__default["default"]({}, props, {
@@ -36325,8 +35759,8 @@ var Footer = function Footer(_ref2) {
 };
 
 var _ref$c = {
-  name: "1qq5h8y",
-  styles: "padding:.8em 1em;flex:0 0 auto"
+  name: "1lunlqt-footer",
+  styles: "padding:.8em 1em;flex:0 0 auto;label:footer;"
 } ;
 
 var footer = function footer(theme) {
@@ -36336,14 +35770,14 @@ var footer = function footer(theme) {
 function FilterBox(props) {
   var theme = React.useContext(ThemeContext);
   return react.jsx("div", _extends__default["default"]({}, props, {
-    css: /*#__PURE__*/react.css("display:flex;flex-direction:column;max-height:inherit;background:", theme.paperBackground200, ";" + ("" ), "" )
+    css: /*#__PURE__*/react.css("display:flex;flex-direction:column;max-height:inherit;background:", theme.paperBackground200, ";;label:FilterBox;" + ("" ))
   }));
 } // https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing
 // I would never have thought of this myself.
 
 var scrollBox = function scrollBox(_ref2) {
   var theme = _ref2.theme;
-  return /*#__PURE__*/react.css("background:linear-gradient(", theme.paperBackground500, " 30%, ", theme.paperBackground500, "00),linear-gradient(", theme.paperBackground500, "00, ", theme.paperBackground500, " 70%) 0 100%,linear-gradient(to bottom, ", theme.paperBorderColor, " 1px, transparent 1px 100%),linear-gradient(to bottom, transparent calc(100% - 1px), ", theme.paperBorderColor, " calc(100% - 1px) 100%);background-repeat:no-repeat;background-color:", theme.paperBackground500, ";background-size:100% 10px,100% 10px,100% 20px,100% 100%;background-attachment:local,local,scroll,scroll;" + ("" ), "" );
+  return /*#__PURE__*/react.css("background:linear-gradient(", theme.paperBackground500, " 30%, ", theme.paperBackground500, "00),linear-gradient(", theme.paperBackground500, "00, ", theme.paperBackground500, " 70%) 0 100%,linear-gradient(to bottom, ", theme.paperBorderColor, " 1px, transparent 1px 100%),linear-gradient(to bottom, transparent calc(100% - 1px), ", theme.paperBorderColor, " calc(100% - 1px) 100%);background-repeat:no-repeat;background-color:", theme.paperBackground500, ";background-size:100% 10px,100% 10px,100% 20px,100% 100%;background-attachment:local,local,scroll,scroll;;label:scrollBox;" + ("" ));
 };
 function FilterBody(props) {
   var theme = React.useContext(ThemeContext);
@@ -36352,13 +35786,13 @@ function FilterBody(props) {
       theme: theme
     }), "padding:.5em 1.5em;flex:1 1 auto;overflow:auto;scrollbar-width:thin;max-height:350px;", styledScrollBars({
       theme: theme
-    }), ";" + ("" ), "" )
+    }), ";;label:FilterBody;" + ("" ))
   }));
 }
 
 var _ref$b = {
-  name: "13wbhe6",
-  styles: "padding-top:20px;padding-bottom:20px"
+  name: "xyjc4e-FilterBodyDescription",
+  styles: "padding-top:20px;padding-bottom:20px;label:FilterBodyDescription;"
 } ;
 
 function FilterBodyDescription(props) {
@@ -36503,12 +35937,12 @@ var UncontrollableFilter = uncontrollable.uncontrollable(Filter, {
   filter: 'onFilterChange'
 });
 
-var _excluded$U = ["count", "onClear"];
+var _excluded$P = ["count", "onClear"];
 
 var SummaryBar = function SummaryBar(_ref2) {
   var count = _ref2.count,
       onClear = _ref2.onClear,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$U);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$P);
 
   React.useContext(ThemeContext);
   return react.jsx("div", _extends__default["default"]({}, props, {
@@ -36529,15 +35963,15 @@ var SummaryBar = function SummaryBar(_ref2) {
 };
 
 var _ref$a = {
-  name: "1c03pjv",
-  styles: "font-size:.85em;color:#999;font-weight:400;margin:.5em 1.5em"
+  name: "1xrx9y9-summary",
+  styles: "font-size:.85em;color:#999;font-weight:400;margin:.5em 1.5em;label:summary;"
 } ;
 
 var summary$4 = function summary(theme) {
   return _ref$a;
 };
 
-var _excluded$T = ["count", "onClear", "checked", "onChange", "children"];
+var _excluded$O = ["count", "onClear", "checked", "onChange", "children"];
 
 var AdditionalControl = function AdditionalControl(_ref) {
   _ref.count;
@@ -36545,7 +35979,7 @@ var AdditionalControl = function AdditionalControl(_ref) {
       var checked = _ref.checked,
       onChange = _ref.onChange,
       children = _ref.children,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$T);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$O);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx("div", _extends__default["default"]({}, props, {
@@ -36563,7 +35997,7 @@ var AdditionalControl = function AdditionalControl(_ref) {
 };
 
 var summary$3 = function summary(theme) {
-  return /*#__PURE__*/react.css("font-size:.85em;color:#999;font-weight:400;border-bottom:1px solid ", theme.paperBorderColor, ";>div{margin:.5em 1.5em;}" + ("" ), "" );
+  return /*#__PURE__*/react.css("font-size:.85em;color:#999;font-weight:400;border-bottom:1px solid ", theme.paperBorderColor, ";>div{margin:.5em 1.5em;};label:summary;" + ("" ));
 };
 
 function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf__default["default"](Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf__default["default"](this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn__default["default"](this, result); }; }
@@ -36749,11 +36183,11 @@ _defineProperty__default["default"](Suggest$2, "contextType", LocaleContext);
 
 var Suggest$3 = reactIntl.injectIntl(Suggest$2);
 
-var _excluded$S = ["helpVisible"],
+var _excluded$N = ["helpVisible"],
     _excluded2$1 = ["isRadio", "label", "tabIndex", "checked", "onChange", "helpText", "helpVisible", "loading"];
 function OptionSkeleton(_ref3) {
   var helpVisible = _ref3.helpVisible,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$S);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$N);
 
   return react.jsx("div", _extends__default["default"]({
     css: optionClass(),
@@ -36851,8 +36285,8 @@ var Option = /*#__PURE__*/React__default["default"].forwardRef(function (_ref4, 
 Option.displayName = 'FilterOption';
 
 var _ref2$7 = {
-  name: "sc26ll",
-  styles: "padding:6px 0;&:last-child{margin-bottom:0;}"
+  name: "1wkgetq-optionClass",
+  styles: "padding:6px 0;&:last-child{margin-bottom:0;};label:optionClass;"
 } ;
 
 var optionClass = function optionClass(theme) {
@@ -36860,8 +36294,8 @@ var optionClass = function optionClass(theme) {
 };
 
 var _ref$9 = {
-  name: "jqdeln",
-  styles: "background-color:#88888822;color:transparent"
+  name: "1ovl78e-textLoader",
+  styles: "background-color:#88888822;color:transparent;label:textLoader;"
 } ;
 
 var textLoader = function textLoader(_ref5) {
@@ -36870,7 +36304,7 @@ var textLoader = function textLoader(_ref5) {
   return _ref$9;
 };
 
-var _excluded$R = ["footerProps", "setFullField", "filterHandle", "onApply", "onCancel", "filter", "hide"];
+var _excluded$M = ["footerProps", "setFullField", "filterHandle", "onApply", "onCancel", "filter", "hide"];
 
 var Exists = function Exists(_ref) {
   var footerProps = _ref.footerProps,
@@ -36880,7 +36314,7 @@ var Exists = function Exists(_ref) {
       _onCancel = _ref.onCancel,
       filter = _ref.filter,
       hide = _ref.hide;
-      _objectWithoutProperties__default["default"](_ref, _excluded$R);
+      _objectWithoutProperties__default["default"](_ref, _excluded$M);
 
   var mustDefined = get_1(filter, "must.".concat(filterHandle, "[0]"));
   React.useEffect(function () {
@@ -37042,12 +36476,12 @@ var Suggest = /*#__PURE__*/function (_React$Component) {
 
 var Suggest$1 = reactIntl.injectIntl(Suggest);
 
-var _excluded$Q = ["focusRef"],
+var _excluded$L = ["focusRef"],
     _excluded2 = ["config"];
 
-function ownKeys$d(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$d(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$d(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$d(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function getSuggestConfig(_ref) {
   var options = _ref.options;
@@ -37060,7 +36494,7 @@ function getSuggestConfig(_ref) {
       return options.filter(function (x) {
         return x.displayName.toLowerCase().indexOf(q.toLowerCase()) === 0 || x.displayName.toLowerCase().indexOf(q.toLowerCase()) >= 0 && q.length > 1;
       }).map(function (x) {
-        return _objectSpread$d(_objectSpread$d({}, x), {}, {
+        return _objectSpread$8(_objectSpread$8({}, x), {}, {
           key: x.filterHandle
         });
       });
@@ -37078,7 +36512,7 @@ function getSuggestConfig(_ref) {
 }
 var FilterContent$7 = function FilterContent(_ref3) {
   var focusRef = _ref3.focusRef,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$Q);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$L);
 
   var ref = React__default["default"].useRef();
   React.useContext(ThemeContext);
@@ -37169,7 +36603,7 @@ function Trigger(props) {
   })));
 }
 
-var _excluded$P = ["className", "config", "filter"];
+var _excluded$K = ["className", "config", "filter"];
 
 function getVisibleFilters(currentFilter, commonFilters) {
   var visibleFilters = union_1(commonFilters, Object.keys(get_1(currentFilter, 'must', {})), Object.keys(get_1(currentFilter, 'must_not', {})));
@@ -37181,7 +36615,7 @@ var FilterBar = function FilterBar(_ref2) {
       className = _ref2$className === void 0 ? '' : _ref2$className,
       config = _ref2.config,
       filter = _ref2.filter,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$P);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$K);
 
   var theme = React.useContext(ThemeContext);
   var prefix = theme.prefix || 'gbif';
@@ -37192,7 +36626,7 @@ var FilterBar = function FilterBar(_ref2) {
   });
   return react.jsx("div", _extends__default["default"]({
     className: "".concat(className, " ").concat(prefix, "-").concat(elementName),
-    css: /*#__PURE__*/react.css(style(), ";" + ("" ), "" )
+    css: /*#__PURE__*/react.css(style(), ";;label:FilterBar;" + ("" ))
   }, props), availableFilters.map(function (x, i) {
     if (!x) return null; // if no widget is defined for this filter, then do not show anything
 
@@ -37203,8 +36637,8 @@ var FilterBar = function FilterBar(_ref2) {
 };
 
 var _ref$8 = {
-  name: "1dhou5a",
-  styles: "display:flex;flex-direction:row;flex-wrap:wrap;margin-bottom:-4px;>div{max-width:100%;margin-right:4px;margin-bottom:4px;}"
+  name: "odcqgu-style",
+  styles: "display:flex;flex-direction:row;flex-wrap:wrap;margin-bottom:-4px;>div{max-width:100%;margin-right:4px;margin-bottom:4px;};label:style;"
 } ;
 
 var style = function style(theme) {
@@ -37220,7 +36654,7 @@ var mapContextToProps$4 = function mapContextToProps(_ref3) {
 
 var FilterBar$1 = withContext(mapContextToProps$4)(FilterBar);
 
-var _excluded$O = ["className", "config", "tabs"];
+var _excluded$J = ["className", "config", "tabs"];
 Tabs.TabList;
     Tabs.Tab;
     Tabs.TabPanel;
@@ -37232,7 +36666,7 @@ var Layout$3 = function Layout(_ref) {
       config = _ref.config,
       _ref$tabs = _ref.tabs,
       tabs = _ref$tabs === void 0 ? ['TABLE', 'GALLERY', 'MAP'] : _ref$tabs,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$O);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$J);
 
   // const [activeView, setActiveView] = useUrlState({ param: 'view', defaultValue: tabs[0] || 'TABLE' });
   var _useQueryParam = useQueryParams.useQueryParam('view', useQueryParams.StringParam),
@@ -37326,7 +36760,7 @@ var Layout$3 = function Layout(_ref) {
     css: cssViewArea({
       theme: theme
     })
-  }, activeView === 'TABLE' && react.jsx(Table$6, null), activeView === 'MAP' && react.jsx(Map, null), activeView === 'GALLERY' && react.jsx(Table$5, null), activeView === 'DATASETS' && react.jsx(Datasets, null), activeView === 'DOWNLOAD' && react.jsx(Download, null)));
+  }, activeView === 'TABLE' && react.jsx(Table$2, null), activeView === 'MAP' && react.jsx(Map, null), activeView === 'GALLERY' && react.jsx(Table$1, null), activeView === 'DATASETS' && react.jsx(Datasets, null), activeView === 'DOWNLOAD' && react.jsx(Download, null)));
 };
 
 var mapContextToProps$3 = function mapContextToProps(_ref2) {
@@ -37338,7 +36772,7 @@ var mapContextToProps$3 = function mapContextToProps(_ref2) {
 
 var ComponentLayout$1 = withContext(mapContextToProps$3)(Layout$3);
 
-var _excluded$N = ["className", "config", "tabs"];
+var _excluded$I = ["className", "config", "tabs"];
 Tabs.TabList;
     Tabs.Tab;
     Tabs.TabPanel;
@@ -37350,7 +36784,7 @@ var Layout$2 = function Layout(_ref) {
       config = _ref.config,
       _ref$tabs = _ref.tabs,
       tabs = _ref$tabs === void 0 ? ['TABLE', 'GALLERY', 'MAP'] : _ref$tabs,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$N);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$I);
 
   // const [activeView, setActiveView] = useUrlState({ param: 'view', defaultValue: tabs[0] || 'TABLE' });
   var _useQueryParam = useQueryParams.useQueryParam('view', useQueryParams.StringParam),
@@ -37456,7 +36890,7 @@ var Layout$2 = function Layout(_ref) {
     css: cssViewArea({
       theme: theme
     })
-  }, activeView === 'TABLE' && react.jsx(Table$6, null), activeView === 'MAP' && react.jsx(Map, null), activeView === 'GALLERY' && react.jsx(Table$5, null), activeView === 'DATASETS' && react.jsx(Datasets, null), activeView === 'DOWNLOAD' && react.jsx(Download, null)));
+  }, activeView === 'TABLE' && react.jsx(Table$2, null), activeView === 'MAP' && react.jsx(Map, null), activeView === 'GALLERY' && react.jsx(Table$1, null), activeView === 'DATASETS' && react.jsx(Datasets, null), activeView === 'DOWNLOAD' && react.jsx(Download, null)));
 };
 
 var mapContextToProps$2 = function mapContextToProps(_ref2) {
@@ -37989,9 +37423,9 @@ var countryCodes = [
 	"ZZ"
 ];
 
-function ownKeys$c(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$c(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$c(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$c(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$7(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var BACKBONE_KEY = 'd7dddbf4-2cf0-4f39-9b2a-bb099caae36c';
 var suggestStyle = {
   whiteSpace: 'nowrap',
@@ -38231,7 +37665,7 @@ function getCommonSuggests(_ref) {
 
             return {
               data: (_response$data = response.data) === null || _response$data === void 0 ? void 0 : (_response$data$occurr = _response$data.occurrenceSearch) === null || _response$data$occurr === void 0 ? void 0 : (_response$data$occurr2 = _response$data$occurr.facet) === null || _response$data$occurr2 === void 0 ? void 0 : _response$data$occurr2.datasetKey.map(function (i) {
-                return _objectSpread$c(_objectSpread$c({}, i), {}, {
+                return _objectSpread$7(_objectSpread$7({}, i), {}, {
                   title: i.dataset.title
                 });
               }),
@@ -38316,7 +37750,7 @@ function getCommonSuggests(_ref) {
 
             return {
               data: (_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : (_response$data2$occur = _response$data2.occurrenceSearch) === null || _response$data2$occur === void 0 ? void 0 : (_response$data2$occur2 = _response$data2$occur.facet) === null || _response$data2$occur2 === void 0 ? void 0 : _response$data2$occur2.publishingOrg.map(function (i) {
-                return _objectSpread$c(_objectSpread$c({}, i), {}, {
+                return _objectSpread$7(_objectSpread$7({}, i), {}, {
                   title: i.publisher.title
                 });
               }),
@@ -38462,7 +37896,7 @@ function getCommonSuggests(_ref) {
 
             return {
               data: (_response$data3 = response.data) === null || _response$data3 === void 0 ? void 0 : (_response$data3$occur = _response$data3.occurrenceSearch) === null || _response$data3$occur === void 0 ? void 0 : (_response$data3$occur2 = _response$data3$occur.facet) === null || _response$data3$occur2 === void 0 ? void 0 : _response$data3$occur2.recordedBy.map(function (i) {
-                return _objectSpread$c(_objectSpread$c({}, i), {}, {
+                return _objectSpread$7(_objectSpread$7({}, i), {}, {
                   title: i.key
                 });
               }),
@@ -38539,7 +37973,7 @@ function getCommonSuggests(_ref) {
           promise: promise.then(function (response) {
             return {
               data: response.data.results.map(function (x) {
-                return _objectSpread$c({
+                return _objectSpread$7({
                   title: x.name,
                   key: x.id
                 }, x);
@@ -38587,7 +38021,7 @@ function getCommonSuggests(_ref) {
           promise: promise.then(function (response) {
             return {
               data: response.data.map(function (i) {
-                return _objectSpread$c({
+                return _objectSpread$7({
                   title: i.name
                 }, i);
               })
@@ -38634,7 +38068,7 @@ function getCommonSuggests(_ref) {
   };
 }
 
-var _excluded$M = ["mustOptions", "mustNotOptions", "filterHandle", "translations", "DisplayName", "loading"];
+var _excluded$H = ["mustOptions", "mustNotOptions", "filterHandle", "translations", "DisplayName", "loading"];
 var TriggerButton = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _options$;
 
@@ -38651,7 +38085,7 @@ var TriggerButton = /*#__PURE__*/React__default["default"].forwardRef(function (
     return react.jsx(React__default["default"].Fragment, null, id);
   } : _ref$DisplayName,
       loading = _ref.loading,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$M);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$H);
 
   var currentFilterContext = React.useContext(FilterContext);
   var _translations$count = translations.count,
@@ -38729,7 +38163,7 @@ var TriggerButton = /*#__PURE__*/React__default["default"].forwardRef(function (
 });
 TriggerButton.displayName = 'TriggerButton';
 
-var _excluded$L = ["filterHandle", "LabelFromID", "config", "translations"];
+var _excluded$G = ["filterHandle", "LabelFromID", "config", "translations"];
 var FilterContent$6 = function FilterContent(_ref) {
   var config = _ref.config,
       translations = _ref.translations,
@@ -38890,7 +38324,7 @@ function Popover$6(_ref4) {
       config = _ref4.config,
       _ref4$translations = _ref4.translations,
       translations = _ref4$translations === void 0 ? {} : _ref4$translations,
-      props = _objectWithoutProperties__default["default"](_ref4, _excluded$L);
+      props = _objectWithoutProperties__default["default"](_ref4, _excluded$G);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$6, {
@@ -39004,7 +38438,7 @@ function rangeOrTerm(value) {
   }
 }
 
-var _excluded$K = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$F = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$5 = function FilterContent(_ref) {
   var _ref$config = _ref.config,
       config = _ref$config === void 0 ? {} : _ref$config,
@@ -39197,7 +38631,7 @@ function Popover$5(_ref3) {
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$K);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$F);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$5, {
@@ -39209,7 +38643,7 @@ function Popover$5(_ref3) {
   }));
 }
 
-var _excluded$J = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$E = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$4 = function FilterContent(_ref) {
   var config = _ref.config,
       translations = _ref.translations,
@@ -39343,7 +38777,7 @@ function Popover$4(_ref3) {
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$J);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$E);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$4, {
@@ -39355,7 +38789,7 @@ function Popover$4(_ref3) {
   }));
 }
 
-var _excluded$I = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$D = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$3 = function FilterContent(_ref) {
   var _ref$config = _ref.config,
       config = _ref$config === void 0 ? {} : _ref$config,
@@ -39554,7 +38988,7 @@ function Popover$3(_ref3) {
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$I);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$D);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$3, {
@@ -39566,14 +39000,12 @@ function Popover$3(_ref3) {
   }));
 }
 var inputStyle = {
-  name: "1ru3akj",
-  styles: "margin:10px;z-index:10;display:inline-block;position:relative;&+div{margin-top:0;>div{margin-top:0;}}"
+  name: "108ri3b-inputStyle",
+  styles: "margin:10px;z-index:10;display:inline-block;position:relative;&+div{margin-top:0;>div{margin-top:0;}};label:inputStyle;"
 } ;
 
-var _excluded$H = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$C = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$2 = function FilterContent(_ref) {
-  var _EmotionJSX;
-
   var config = _ref.config,
       translations = _ref.translations,
       LabelFromID = _ref.LabelFromID,
@@ -39617,7 +39049,7 @@ var FilterContent$2 = function FilterContent(_ref) {
     return react.jsx(config.component, componentProps);
   }
 
-  return react.jsx(UncontrollableFilter, (_EmotionJSX = {
+  return react.jsx(UncontrollableFilter, {
     labelledById: labelledById,
     onApply: onApply,
     onCancel: onCancel,
@@ -39630,8 +39062,13 @@ var FilterContent$2 = function FilterContent(_ref) {
     aboutText: translations.description && react.jsx(reactIntl.FormattedMessage, {
       id: translations.description || "filters.".concat(filterHandle, ".description"),
       defaultMessage: translations.description
-    })
-  }, _defineProperty__default["default"](_EmotionJSX, "supportsExist", config.supportsExist), _defineProperty__default["default"](_EmotionJSX, "onFilterChange", onFilterChange), _defineProperty__default["default"](_EmotionJSX, "filterName", filterHandle), _defineProperty__default["default"](_EmotionJSX, "formId", id), _defineProperty__default["default"](_EmotionJSX, "defaultFilter", initFilter), _defineProperty__default["default"](_EmotionJSX, "defaultHelpVisible", config.showOptionHelp), _EmotionJSX), function (_ref2) {
+    }),
+    onFilterChange: onFilterChange,
+    filterName: filterHandle,
+    formId: id,
+    defaultFilter: initFilter,
+    defaultHelpVisible: config.showOptionHelp
+  }, function (_ref2) {
     var filter = _ref2.filter,
         toggle = _ref2.toggle,
         setFullField = _ref2.setFullField,
@@ -39680,25 +39117,25 @@ var FilterContent$2 = function FilterContent(_ref) {
   });
 };
 function Popover$2(_ref3) {
-  var _EmotionJSX2;
+  var _EmotionJSX;
 
   var filterHandle = _ref3.filterHandle,
       LabelFromID = _ref3.LabelFromID,
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$H);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$C);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
-    content: react.jsx(FilterContent$2, (_EmotionJSX2 = {
+    content: react.jsx(FilterContent$2, (_EmotionJSX = {
       filterHandle: filterHandle,
       LabelFromID: LabelFromID,
       translations: translations
-    }, _defineProperty__default["default"](_EmotionJSX2, "translations", translations), _defineProperty__default["default"](_EmotionJSX2, "config", config), _EmotionJSX2))
+    }, _defineProperty__default["default"](_EmotionJSX, "translations", translations), _defineProperty__default["default"](_EmotionJSX, "config", config), _EmotionJSX))
   }));
 }
 
-var _excluded$G = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$B = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$1 = function FilterContent(_ref) {
   var config = _ref.config;
       _ref.radio;
@@ -39788,7 +39225,7 @@ function Popover$1(_ref3) {
       _ref3.LabelFromID;
       _ref3.translations;
       var config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$G);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$B);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$1, {
@@ -39798,7 +39235,7 @@ function Popover$1(_ref3) {
   }));
 }
 
-var _excluded$F = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$A = ["filterHandle", "LabelFromID", "translations", "config"];
 var initialSize = 25;
 var FilterContent = function FilterContent(_ref) {
   var _data$occurrenceSearc, _data$occurrenceSearc2;
@@ -40118,7 +39555,7 @@ function Popover(_ref3) {
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$F);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$A);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent, {
@@ -40130,9 +39567,9 @@ function Popover(_ref3) {
   }));
 }
 
-function ownKeys$b(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$b(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$b(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$b(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function getButton(Popover, _ref) {
   var translations = _ref.translations,
       filterHandle = _ref.filterHandle,
@@ -40193,7 +39630,7 @@ function buildKeywordSearch(_ref4) {
     filterHandle: config.std.filterHandle || widgetHandle,
     translations: config.std.translations,
     // config: config.specific,
-    config: _objectSpread$b({
+    config: _objectSpread$6({
       suggestConfig: suggestConfigMap[config.specific.suggestHandle || widgetHandle]
     }, config.specific),
     LabelFromID: LabelFromID
@@ -40253,7 +39690,7 @@ function filterBuilder(_ref6) {
     }
 
     var trNameId = ((_config$std = config.std) === null || _config$std === void 0 ? void 0 : (_config$std$translati = _config$std.translations) === null || _config$std$translati === void 0 ? void 0 : _config$std$translati.name) || "filters.".concat((config === null || config === void 0 ? void 0 : (_config$std2 = config.std) === null || _config$std2 === void 0 ? void 0 : _config$std2.filterHandle) || widgetHandle, ".name");
-    acc[widgetHandle] = _objectSpread$b(_objectSpread$b({}, filter), {}, {
+    acc[widgetHandle] = _objectSpread$6(_objectSpread$6({}, filter), {}, {
       displayName: context.formatMessage({
         id: trNameId
       })
@@ -40278,7 +39715,7 @@ function buildSuggest(_ref9) {
   var conf = {
     filterHandle: config.std.filterHandle || widgetHandle,
     translations: config.std.translations,
-    config: _objectSpread$b(_objectSpread$b({
+    config: _objectSpread$6(_objectSpread$6({
       suggestConfig: suggestConfigMap[config.specific.suggestHandle || widgetHandle],
       LabelFromID: LabelFromID
     }, config.specific), config),
@@ -40342,7 +39779,7 @@ function buildEnum(_ref12) {
   var conf = {
     filterHandle: config.std.filterHandle || widgetHandle,
     translations: config.std.translations,
-    config: _objectSpread$b(_objectSpread$b({}, config.specific), {}, {
+    config: _objectSpread$6(_objectSpread$6({}, config.specific), {}, {
       options: config.specific.hasOptionDescriptions ? config.specific.options : config.specific.options.map(function (x) {
         return {
           key: x
@@ -40405,7 +39842,7 @@ function buildVocab(_ref15) {
   var conf = {
     filterHandle: config.std.filterHandle || widgetHandle,
     translations: config.std.translations,
-    config: _objectSpread$b(_objectSpread$b({
+    config: _objectSpread$6(_objectSpread$6({
       suggestConfig: suggestConfigMap[config.specific.suggestHandle || widgetHandle],
       LabelFromID: labelMap[config.specific.id2labelHandle]
     }, config.specific), config),
@@ -40683,7 +40120,7 @@ var dwcaExtension = [
 	"http://rs.tdwg.org/chrono/terms/ChronometricAge"
 ];
 
-var _excluded$E = ["standardComponents", "summaryProps", "filterHandle", "setFullField", "toggle", "focusRef", "footerProps", "onApply", "filter", "onCancel", "hide"];
+var _excluded$z = ["standardComponents", "summaryProps", "filterHandle", "setFullField", "toggle", "focusRef", "footerProps", "onApply", "filter", "onCancel", "hide"];
 var commonFilters = {
   taxonKey: {
     type: 'SUGGEST',
@@ -40837,6 +40274,26 @@ var commonFilters = {
       },
       specific: {
         suggestHandle: 'publisherKeyFromOccurrenceIndex',
+        allowEmptyQueries: true
+      }
+    }
+  },
+  anyPublisherKey: {
+    type: 'SUGGEST',
+    config: {
+      std: {
+        id2labelHandle: 'publisherKey',
+        translations: {
+          count: 'filters.publisherKey.count',
+          // translation path to display names with counts. e.g. "3 scientific names"
+          name: 'filters.publisherKey.name',
+          // translation path to a title for the popover and the button
+          description: 'filters.publisherKey.description' // translation path for the filter description
+
+        }
+      },
+      specific: {
+        suggestHandle: 'publisherKey',
         allowEmptyQueries: true
       }
     }
@@ -41886,7 +41343,7 @@ var commonFilters = {
               filter = _ref.filter,
               _onCancel = _ref.onCancel,
               hide = _ref.hide;
-              _objectWithoutProperties__default["default"](_ref, _excluded$E);
+              _objectWithoutProperties__default["default"](_ref, _excluded$z);
 
           var Footer = standardComponents.Footer;
               standardComponents.SummaryBar;
@@ -41991,21 +41448,21 @@ var commonFilters = {
 
 };
 
-var filters$5 = ['taxonKey', 'country', 'publishingCountryCode', 'datasetKey', 'publisherKey', 'institutionCode', 'catalogNumber', 'hostingOrganizationKey', 'year', 'basisOfRecord', 'typeStatus', 'occurrenceIssue', 'mediaType', 'sampleSizeUnit', 'license', 'coordinateUncertainty', 'depth', 'organismQuantity', 'sampleSizeValue', 'relativeOrganismQuantity', 'month', 'continent', 'protocol', 'establishmentMeans', 'recordedBy', 'recordNumber', 'collectionCode', 'recordedById', 'identifiedById', 'occurrenceId', 'organismId', 'locality', 'waterBody', 'stateProvince', 'eventId', 'samplingProtocol', 'elevation', 'occurrenceStatus', 'gadmGid', 'identifiedBy', 'isInCluster', 'institutionKey', 'q', 'verbatimScientificName', 'dwcaExtension'].sort();
-var highlighted$5 = ['occurrenceStatus', 'taxonKey', 'year', 'country', 'occurrenceIssue'];
-var defaultFilterConfig$5 = {
-  filters: filters$5,
-  included: filters$5,
-  highlighted: highlighted$5
+var filters$1 = ['taxonKey', 'country', 'publishingCountryCode', 'datasetKey', 'publisherKey', 'institutionCode', 'catalogNumber', 'hostingOrganizationKey', 'networkKey', 'year', 'basisOfRecord', 'typeStatus', 'occurrenceIssue', 'mediaType', 'sampleSizeUnit', 'license', 'coordinateUncertainty', 'depth', 'organismQuantity', 'sampleSizeValue', 'relativeOrganismQuantity', 'month', 'continent', 'protocol', 'establishmentMeans', 'recordedBy', 'recordNumber', 'collectionCode', 'recordedById', 'identifiedById', 'occurrenceId', 'organismId', 'locality', 'waterBody', 'stateProvince', 'eventId', 'samplingProtocol', 'elevation', 'occurrenceStatus', 'gadmGid', 'identifiedBy', 'isInCluster', 'institutionKey', 'q', 'verbatimScientificName', 'dwcaExtension'].sort();
+var highlighted$1 = ['occurrenceStatus', 'taxonKey', 'year', 'country', 'occurrenceIssue'];
+var defaultFilterConfig$1 = {
+  filters: filters$1,
+  included: filters$1,
+  highlighted: highlighted$1
 };
 
-function ownKeys$a(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$a(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$a(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$a(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 // import snakeCase from 'lodash/snakeCase';
 // const enum_case = str => snakeCase(str || '').toUpperCase();
 
-var filterConf$5 = {
+var filterConf$1 = {
   preFilterTransform: function preFilterTransform(filter) {
     var _filter$must_not;
 
@@ -42015,8 +41472,8 @@ var filterConf$5 = {
       return typeof i === "string";
     })) {
       return {
-        must: _objectSpread$a({}, filter.must),
-        must_not: _objectSpread$a({}, filter.must_not)
+        must: _objectSpread$5({}, filter.must),
+        must_not: _objectSpread$5({}, filter.must_not)
       };
     }
 
@@ -42114,8 +41571,8 @@ var filterConf$5 = {
     }
   }
 };
-filters$5.forEach(function (filter) {
-  filterConf$5.fields[filter] = filterConf$5.fields[filter] || {};
+filters$1.forEach(function (filter) {
+  filterConf$1.fields[filter] = filterConf$1.fields[filter] || {};
 });
 
 var Base64JsonParam = {
@@ -42133,9 +41590,9 @@ var Base64JsonParam = {
   }
 };
 
-function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$9(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$4(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function useFilterParams() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       predicateConfig = _ref.predicateConfig;
@@ -42185,11 +41642,11 @@ function useFilterParams() {
         errors = _filter2v.errors;
 
     if (errors) {
-      setQuery(_objectSpread$9(_objectSpread$9({}, emptyQuery), {}, {
+      setQuery(_objectSpread$4(_objectSpread$4({}, emptyQuery), {}, {
         filter: nextFilter
       }));
     } else {
-      setQuery(_objectSpread$9(_objectSpread$9({}, emptyQuery), v1Filter));
+      setQuery(_objectSpread$4(_objectSpread$4({}, emptyQuery), v1Filter));
     }
   }, [predicateConfig, emptyQuery]); // Transform the query from the url to the naming the consumer prefers. 
   // Field names can change according to the configuration
@@ -42562,11 +42019,11 @@ var tableConfig = {
   }]
 };
 
-var _excluded$D = ["config", "pageLayout"];
+var _excluded$y = ["config", "pageLayout"];
 
-function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function buildConfig$1(_ref, context) {
   var labelConfig = _ref.labelConfig,
@@ -42583,9 +42040,9 @@ function buildConfig$1(_ref, context) {
       customFilters = _customConfig$filters === void 0 ? {} : _customConfig$filters;
       customConfig.adapters;
 
-  var mergedLabels = _objectSpread$8(_objectSpread$8({}, labelConfig), labels);
+  var mergedLabels = _objectSpread$3(_objectSpread$3({}, labelConfig), labels);
 
-  var mergedFilters = _objectSpread$8(_objectSpread$8({}, filterWidgetConfig), customFilters);
+  var mergedFilters = _objectSpread$3(_objectSpread$3({}, filterWidgetConfig), customFilters);
 
   var suggestConfigMap = getSuggestConfig({
     context: context,
@@ -42597,7 +42054,7 @@ function buildConfig$1(_ref, context) {
     suggestStyle: suggestStyle
   });
 
-  var mergedSuggest = _objectSpread$8(_objectSpread$8({}, suggestConfigMap), suggestConfigMapCustom);
+  var mergedSuggest = _objectSpread$3(_objectSpread$3({}, suggestConfigMap), suggestConfigMapCustom);
 
   var labelMap = config2labels(mergedLabels, context.client, context.localeSettings);
   var filters = filterBuilder({
@@ -42606,8 +42063,8 @@ function buildConfig$1(_ref, context) {
     suggestConfigMap: mergedSuggest,
     context: context
   });
-  var includedFilters = without_1.apply(void 0, [customConfig.includedFilters || defaultFilterConfig$5.included].concat(_toConsumableArray__default["default"](customConfig.excludedFilters || [])));
-  var highlightedFilters = customConfig.highlightedFilters || defaultFilterConfig$5.highlighted;
+  var includedFilters = without_1.apply(void 0, [customConfig.includedFilters || defaultFilterConfig$1.included].concat(_toConsumableArray__default["default"](customConfig.excludedFilters || [])));
+  var highlightedFilters = customConfig.highlightedFilters || defaultFilterConfig$1.highlighted;
   return {
     labelMap: labelMap,
     suggestConfigMap: suggestConfigMap,
@@ -42624,7 +42081,7 @@ function buildConfig$1(_ref, context) {
     //   {type: 'equals', key: 'taxonKey', value: 44},
     //   {type: 'not', predicate: {type: 'equals', key: 'taxonKey', value: 212}}
     // ] },
-    predicateConfig: filterConf$5,
+    predicateConfig: filterConf$1,
     availableCatalogues: customConfig.availableCatalogues,
     tableConfig: tableConfig,
     defaultTableColumns: customConfig.defaultTableColumns,
@@ -42636,15 +42093,16 @@ function OccurrenceSearch(_ref2) {
   var _ref2$config = _ref2.config,
       customConfig = _ref2$config === void 0 ? {} : _ref2$config,
       pageLayout = _ref2.pageLayout,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$D);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$y);
 
+  console.log('inside occurrenceSEarch component');
   var theme = React.useContext(ThemeContext);
   var localeSettings = React.useContext(LocaleContext); // const [filter, setFilter] = useState();//useUrlState({param: 'filter', base64encode: true});
   // const [filter, setFilter] = useState({ must: { taxonKey: [2609958] } });
   // const [filter, setFilter] = useQueryParam('filter', Base64JsonParam);
 
   var _useFilterParams = useFilterParams({
-    predicateConfig: filterConf$5
+    predicateConfig: filterConf$1
   }),
       _useFilterParams2 = _slicedToArray__default["default"](_useFilterParams, 2),
       filter = _useFilterParams2[0],
@@ -42697,1371 +42155,9 @@ function OccurrenceSearch(_ref2) {
   })))));
 }
 
-var _excluded$C = ["siteConfig"];
-
-function Wrap$6(_ref) {
-  var siteConfig = _ref.siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$C);
-
-  return react.jsx(StandaloneWrapper, {
-    siteConfig: siteConfig
-  }, react.jsx(Standalone$8, _extends__default["default"]({}, props, {
-    siteConfig: siteConfig
-  })));
-}
-
-function Standalone$8(props) {
-  var routeContext = React.useContext(RouteContext);
-  var path = routeContext.occurrenceSearch.route;
-  return react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
-    path: path,
-    render: function render(routeProps) {
-      var _props$siteConfig;
-
-      return react.jsx(OccurrenceSearch, _extends__default["default"]({
-        pageLayout: true,
-        config: props === null || props === void 0 ? void 0 : (_props$siteConfig = props.siteConfig) === null || _props$siteConfig === void 0 ? void 0 : _props$siteConfig.occurrence
-      }, props, routeProps));
-    }
-  }));
-}
-
-var ResultsHeader = function ResultsHeader(_ref) {
-  var children = _ref.children,
-      total = _ref.total,
-      loading = _ref.loading,
-      message = _ref.message,
-      props = _ref.props;
-  var theme = React.useContext(ThemeContext);
-  var showSkeleton = loading || typeof total !== 'number';
-  return react.jsx("div", _extends__default["default"]({
-    css: /*#__PURE__*/react.css("color:", theme.color500, ";font-size:12px;margin:0 0 4px 4px;" + ("" ), "" )
-  }, props), showSkeleton && react.jsx(Skeleton, {
-    style: {
-      width: 100
-    }
-  }), !showSkeleton && react.jsx(reactIntl.FormattedMessage, {
-    id: message || "counts.nResults",
-    values: {
-      total: total
-    }
-  }), children);
-};
-
-var fallbackTableConfig = {
-  columns: [{
-    trKey: 'Not specified',
-    value: {
-      key: 'key',
-      labelHandle: 'key'
-    }
-  }]
-};
-var ResultsTable = function ResultsTable(_ref) {
-  var first = _ref.first,
-      prev = _ref.prev,
-      next = _ref.next,
-      size = _ref.size,
-      from = _ref.from,
-      results = _ref.results,
-      total = _ref.total,
-      loading = _ref.loading,
-      _ref$defaultTableConf = _ref.defaultTableConfig,
-      defaultTableConfig = _ref$defaultTableConf === void 0 ? fallbackTableConfig : _ref$defaultTableConf,
-      hideLock = _ref.hideLock;
-
-  var _useContext = React.useContext(SearchContext),
-      filters = _useContext.filters,
-      _useContext$tableConf = _useContext.tableConfig,
-      tableConfig = _useContext$tableConf === void 0 ? defaultTableConfig : _useContext$tableConf,
-      labelMap = _useContext.labelMap;
-
-  var _useState = React.useState(!hideLock),
-      _useState2 = _slicedToArray__default["default"](_useState, 2),
-      fixedColumn = _useState2[0];
-      _useState2[1];
-
-  var fixed = fixedColumn;
-  var headerss = tableConfig.columns.map(function (col, index) {
-    var _filters$col$filterKe;
-    var FilterPopover = col.filterKey ? (_filters$col$filterKe = filters[col.filterKey]) === null || _filters$col$filterKe === void 0 ? void 0 : _filters$col$filterKe.Popover : null;
-    return react.jsx(Th, {
-      key: col.trKey,
-      width: col.width
-    }, react.jsx(Row, {
-      wrap: "nowrap"
-    }, react.jsx(Col, {
-      grow: false,
-      style: {
-        whiteSpace: 'nowrap'
-      }
-    }, react.jsx(reactIntl.FormattedMessage, {
-      id: col.trKey
-    })), FilterPopover && react.jsx(Col, null, react.jsx(FilterPopover, {
-      modal: true,
-      placement: "auto"
-    }, react.jsx(Button, {
-      appearance: "text",
-      style: {
-        display: 'flex'
-      }
-    }, react.jsx(md.MdFilterList, null))))));
-  });
-  return react.jsx("div", {
-    style: {
-      flex: "1 1 100%",
-      display: "flex",
-      height: "100%",
-      maxHeight: "100vh",
-      flexDirection: "column"
-    }
-  }, react.jsx(ResultsHeader, {
-    loading: loading,
-    total: total
-  }), react.jsx(DataTable, {
-    fixedColumn: fixed,
-    first: first,
-    prev: prev,
-    next: next,
-    size: size,
-    from: from,
-    total: total,
-    loading: loading,
-    style: {
-      flex: "1 1 auto",
-      height: 100,
-      display: 'flex',
-      flexDirection: 'column'
-    }
-  }, react.jsx("thead", null, react.jsx("tr", null, headerss)), react.jsx(TBody, {
-    rowCount: size,
-    columnCount: 7,
-    loading: loading
-  }, getRows$1({
-    tableConfig: tableConfig,
-    labelMap: labelMap,
-    results: results
-  }))));
-};
-
-var getRows$1 = function getRows(_ref2) {
-  var tableConfig = _ref2.tableConfig,
-      labelMap = _ref2.labelMap,
-      _ref2$results = _ref2.results,
-      results = _ref2$results === void 0 ? [] : _ref2$results;
-  var rows = results.map(function (row, index) {
-    var cells = tableConfig.columns.map(function (field, i) {
-      var val = get_1(row, field.value.key);
-      var formattedVal = val;
-
-      if (!val && field.value.hideFalsy === true) {
-        formattedVal = '';
-      } else if (field.value.formatter) {
-        formattedVal = field.value.formatter(val, row);
-      } else if (field.value.labelHandle) {
-        var Label = labelMap[field.value.labelHandle];
-        formattedVal = Label ? react.jsx(Label, {
-          id: val
-        }) : val;
-      }
-
-      return react.jsx(Td, {
-        noWrap: field.noWrap,
-        key: field.trKey,
-        style: field.value.rightAlign ? {
-          textAlign: 'right'
-        } : {}
-      }, formattedVal);
-    });
-    return react.jsx("tr", {
-      key: row.key || row.id || index
-    }, cells);
-  });
-  return rows;
-};
-
-var _excluded$B = ["graphQuery", "resultKey", "offsetName", "defaultTableConfig"];
-
-function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$7(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function StandardSearchTable(_ref) {
-  var _data$resultKey, _data$resultKey$docum, _data$resultKey2, _data$resultKey3, _data$resultKey3$docu, _data$resultKey4;
-
-  var graphQuery = _ref.graphQuery,
-      resultKey = _ref.resultKey;
-      _ref.offsetName;
-      var defaultTableConfig = _ref.defaultTableConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$B);
-
-  // const [offset, setOffset] = useUrlState({ param: 'offset', defaultValue: 0 });
-  var _useQueryParam = useQueryParams.useQueryParam('from', useQueryParams.NumberParam),
-      _useQueryParam2 = _slicedToArray__default["default"](_useQueryParam, 2),
-      _useQueryParam2$ = _useQueryParam2[0],
-      offset = _useQueryParam2$ === void 0 ? 0 : _useQueryParam2$,
-      setOffset = _useQueryParam2[1];
-
-  var limit = 25;
-  var currentFilterContext = React.useContext(FilterContext);
-
-  var _useContext = React.useContext(SearchContext),
-      rootPredicate = _useContext.rootPredicate,
-      predicateConfig = _useContext.predicateConfig;
-
-  var _useQuery = useQuery(graphQuery, {
-    lazyLoad: true
-  }),
-      data = _useQuery.data,
-      error = _useQuery.error,
-      loading = _useQuery.loading,
-      load = _useQuery.load;
-
-  React.useEffect(function () {
-    var _filter2v = filter2v1(currentFilterContext.filter, predicateConfig),
-        v1Filter = _filter2v.v1Filter;
-
-    var filter = _objectSpread$7(_objectSpread$7({}, v1Filter), rootPredicate);
-
-    load({
-      keepDataWhileLoading: true,
-      variables: _objectSpread$7(_objectSpread$7({}, filter), {}, {
-        limit: limit,
-        offset: offset
-      })
-    });
-  }, [currentFilterContext.filterHash, rootPredicate, offset]); // https://stackoverflow.com/questions/55075604/react-hooks-useeffect-only-on-update
-
-  reactUse.useUpdateEffect(function () {
-    setOffset(undefined);
-  }, [currentFilterContext.filterHash]);
-  var next = React.useCallback(function () {
-    setOffset(Math.max(0, offset + limit));
-  });
-  var prev = React.useCallback(function () {
-    var offsetValue = Math.max(0, offset - limit);
-    setOffset(offsetValue !== 0 ? offsetValue : undefined);
-  });
-  var first = React.useCallback(function () {
-    setOffset(undefined);
-  });
-
-  if (error) {
-    return react.jsx("div", null, "Failed to fetch data");
-  } // allow both response types
-
-
-  var results = (data === null || data === void 0 ? void 0 : (_data$resultKey = data[resultKey]) === null || _data$resultKey === void 0 ? void 0 : (_data$resultKey$docum = _data$resultKey.documents) === null || _data$resultKey$docum === void 0 ? void 0 : _data$resultKey$docum.results) || (data === null || data === void 0 ? void 0 : (_data$resultKey2 = data[resultKey]) === null || _data$resultKey2 === void 0 ? void 0 : _data$resultKey2.results);
-  var total = (data === null || data === void 0 ? void 0 : (_data$resultKey3 = data[resultKey]) === null || _data$resultKey3 === void 0 ? void 0 : (_data$resultKey3$docu = _data$resultKey3.documents) === null || _data$resultKey3$docu === void 0 ? void 0 : _data$resultKey3$docu.count) || (data === null || data === void 0 ? void 0 : (_data$resultKey4 = data[resultKey]) === null || _data$resultKey4 === void 0 ? void 0 : _data$resultKey4.count);
-  return react.jsx(React__default["default"].Fragment, null, react.jsx(ResultsTable, _extends__default["default"]({}, props, {
-    loading: loading,
-    results: results,
-    next: next,
-    prev: prev,
-    first: first,
-    size: limit,
-    from: offset,
-    total: total,
-    defaultTableConfig: defaultTableConfig
-  })));
-}
-
-var QUERY$3 = "\nquery list($institution: [GUID], $code: String, $q: String, $offset: Int, $limit: Int, $country: Country, $fuzzyName: String, $city: String, $name: String, $active: Boolean){\n  collectionSearch(institution: $institution, code: $code, q: $q, limit: $limit, offset: $offset, country: $country, fuzzyName: $fuzzyName, city: $city, name: $name, active: $active) {\n    count\n    offset\n    limit\n    results {\n      key\n      name\n      code\n      active\n      occurrenceCount\n      address {\n        city\n        country\n      }\n      mailingAddress {\n        city\n        country\n      }\n    }\n  }\n}\n";
-var defaultTableConfig$4 = {
-  columns: [{
-    trKey: 'tableHeaders.title',
-    value: {
-      key: 'name',
-      formatter: function formatter(value, item) {
-        return react.jsx(ResourceLink, {
-          type: "collectionKey",
-          discreet: true,
-          id: item.key
-        }, value);
-      }
-    },
-    width: 'wide'
-  }, {
-    trKey: 'filters.code.name',
-    value: {
-      filterKey: 'code',
-      key: 'code',
-      hideFalsy: true
-    }
-  }, {
-    trKey: 'filters.country.name',
-    value: {
-      filterKey: 'country',
-      key: 'key',
-      formatter: function formatter(value, item) {
-        var _item$address, _item$mailingAddress;
-
-        var countryCode = ((_item$address = item.address) === null || _item$address === void 0 ? void 0 : _item$address.country) || ((_item$mailingAddress = item.mailingAddress) === null || _item$mailingAddress === void 0 ? void 0 : _item$mailingAddress.country);
-        return countryCode ? react.jsx(reactIntl.FormattedMessage, {
-          id: "enums.countryCode.".concat(countryCode)
-        }) : null;
-      },
-      hideFalsy: true
-    }
-  }, {
-    trKey: 'filters.city.name',
-    value: {
-      filterKey: 'city',
-      key: 'key',
-      formatter: function formatter(value, item) {
-        var _item$address2, _item$mailingAddress2;
-
-        return ((_item$address2 = item.address) === null || _item$address2 === void 0 ? void 0 : _item$address2.city) || ((_item$mailingAddress2 = item.mailingAddress) === null || _item$mailingAddress2 === void 0 ? void 0 : _item$mailingAddress2.city);
-      },
-      hideFalsy: true
-    }
-  }, {
-    trKey: 'tableHeaders.occurrences',
-    value: {
-      key: 'occurrenceCount',
-      formatter: function formatter(value, item) {
-        return react.jsx(reactIntl.FormattedNumber, {
-          value: value
-        });
-      },
-      hideFalsy: true,
-      rightAlign: true
-    }
-  }, {
-    trKey: 'active',
-    value: {
-      key: 'active',
-      formatter: function formatter(value, item) {
-        return value ? 'yes' : 'no';
-      }
-    }
-  }]
-};
-
-function Table$4() {
-  // const history = useHistory();
-  React.useContext(RouteContext);
-  return react.jsx(StandardSearchTable, {
-    graphQuery: QUERY$3,
-    resultKey: "collectionSearch",
-    defaultTableConfig: defaultTableConfig$4
-  });
-}
-
-var filters$4 = ['q', 'institutionKey', 'city', 'country', 'code'].sort();
-var highlighted$4 = ['q', 'institutionKey', 'city', 'country', 'code'];
-var defaultFilterConfig$4 = {
-  filters: filters$4,
-  included: filters$4,
-  highlighted: highlighted$4
-};
-
-var filterConf$4 = {
-  fields: {
-    country: {
-      singleValue: true
-    },
-    institutionKey: {
-      defaultKey: 'institution',
-      singleValue: true
-    },
-    q: {
-      singleValue: true
-    },
-    name: {
-      singleValue: true
-    },
-    fuzzyName: {
-      singleValue: true
-    },
-    city: {
-      singleValue: true
-    },
-    code: {
-      singleValue: true
-    }
-  }
-};
-filters$4.forEach(function (filter) {
-  filterConf$4.fields[filter] = filterConf$4.fields[filter] || {};
-});
-
-var _excluded$A = ["className", "config", "Table", "style"];
-Tabs.TabList;
-    Tabs.Tab;
-    Tabs.TabPanel;
-
-var Layout$1 = function Layout(_ref) {
-  var _ref$className = _ref.className,
-      className = _ref$className === void 0 ? '' : _ref$className,
-      config = _ref.config,
-      Table = _ref.Table,
-      style = _ref.style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$A);
-
-  var _useState = React.useState('list'),
-      _useState2 = _slicedToArray__default["default"](_useState, 2),
-      activeView = _useState2[0],
-      setActiveView = _useState2[1];
-
-  var theme = React.useContext(ThemeContext);
-  var prefix = theme.prefix || 'gbif';
-  var elementName = 'searchLayout';
-  return react.jsx("div", {
-    className: "".concat(className, " ").concat(prefix, "-").concat(elementName),
-    css: cssLayout({
-      theme: theme
-    }),
-    style: style
-  }, react.jsx(Tabs, {
-    activeId: activeView,
-    onChange: setActiveView
-  }, react.jsx("div", {
-    css: cssNavBar({
-      theme: theme
-    })
-  }, react.jsx("div", {
-    css: cssFilter({
-      theme: theme
-    })
-  }, react.jsx(FilterBar$1, {
-    config: config
-  }))), react.jsx("div", {
-    css: cssViewArea({
-      theme: theme
-    })
-  }, react.jsx(Table, null))));
-};
-
-var mapContextToProps$1 = function mapContextToProps(_ref2) {
-  var test = _ref2.test;
-  return {
-    test: test
-  };
-};
-
-var ComponentLayout = withContext(mapContextToProps$1)(Layout$1);
-
-var _excluded$z = ["className", "config", "Table"];
-Tabs.TabList;
-    Tabs.Tab;
-    Tabs.TabPanel;
-
-var Layout = function Layout(_ref) {
-  var _ref$className = _ref.className,
-      className = _ref$className === void 0 ? '' : _ref$className,
-      config = _ref.config,
-      Table = _ref.Table,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$z);
-
-  var _useState = React.useState('list'),
-      _useState2 = _slicedToArray__default["default"](_useState, 2),
-      activeView = _useState2[0],
-      setActiveView = _useState2[1];
-
-  var theme = React.useContext(ThemeContext);
-  var prefix = theme.prefix || 'gbif';
-  var elementName = 'searchLayout';
-  return react.jsx("div", _extends__default["default"]({
-    className: "".concat(className, " ").concat(prefix, "-").concat(elementName),
-    css: cssLayout({
-      theme: theme
-    })
-  }, props), react.jsx(Tabs, {
-    activeId: activeView,
-    onChange: setActiveView
-  }, react.jsx("div", {
-    css: cssNavBar({
-      theme: theme
-    }),
-    style: {
-      margin: '0 0 10px 0',
-      borderRadius: 0
-    }
-  }, react.jsx(DataHeader, {
-    availableCatalogues: config.availableCatalogues,
-    style: {
-      borderBottom: '1px solid #ddd'
-    }
-  }), react.jsx("div", {
-    css: cssFilter({
-      theme: theme
-    })
-  }, react.jsx(FilterBar$1, {
-    config: config
-  }))), react.jsx("div", {
-    css: cssViewArea({
-      theme: theme
-    })
-  }, react.jsx(Table, null))));
-};
-
-var mapContextToProps = function mapContextToProps(_ref2) {
-  var test = _ref2.test;
-  return {
-    test: test
-  };
-};
-
-var PageLayout = withContext(mapContextToProps)(Layout);
-
-function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function buildConfig(_ref, context) {
-  var customConfig = _ref.customConfig,
-      predicateConfig = _ref.predicateConfig,
-      defaultFilterConfig = _ref.defaultFilterConfig;
-  var _customConfig$labels = customConfig.labels,
-      labels = _customConfig$labels === void 0 ? {} : _customConfig$labels,
-      _customConfig$getSugg = customConfig.getSuggests,
-      getSuggests = _customConfig$getSugg === void 0 ? function () {
-    return {};
-  } : _customConfig$getSugg,
-      _customConfig$filters = customConfig.filters,
-      customFilters = _customConfig$filters === void 0 ? {} : _customConfig$filters;
-      customConfig.adapters;
-
-  var mergedLabels = _objectSpread$6(_objectSpread$6({}, commonLabels), labels);
-
-  var mergedFilters = _objectSpread$6(_objectSpread$6({}, commonFilters), customFilters);
-
-  var suggestConfigMap = getCommonSuggests({
-    context: context,
-    suggestStyle: suggestStyle
-  });
-  var suggestConfigMapCustom = getSuggests({
-    client: context.client,
-    suggestStyle: suggestStyle
-  });
-
-  var mergedSuggest = _objectSpread$6(_objectSpread$6({}, suggestConfigMap), suggestConfigMapCustom);
-
-  var labelMap = config2labels(mergedLabels, context.client, context.localeSettings);
-  var filters = filterBuilder({
-    filterWidgetConfig: mergedFilters,
-    labelMap: labelMap,
-    suggestConfigMap: mergedSuggest,
-    context: context
-  });
-  var includedFilters = without_1.apply(void 0, [customConfig.includedFilters || defaultFilterConfig.included].concat(_toConsumableArray__default["default"](customConfig.excludedFilters || [])));
-  var highlightedFilters = customConfig.highlightedFilters || defaultFilterConfig.highlighted;
-  var initialVisibleFilters = intersection_1(highlightedFilters, includedFilters);
-  return {
-    labelMap: labelMap,
-    suggestConfigMap: suggestConfigMap,
-    filters: pickBy_1(pick_1(filters, includedFilters), function (e) {
-      return !!e;
-    }),
-    defaultVisibleFilters: initialVisibleFilters,
-    rootPredicate: customConfig.rootFilter,
-    availableCatalogues: customConfig.availableCatalogues,
-    predicateConfig: predicateConfig
-  };
-}
-
-var _excluded$y = ["config", "predicateConfig", "defaultFilterConfig", "Table", "pageLayout"];
-
-function Search$5(_ref) {
-  var _ref$config = _ref.config,
-      customConfig = _ref$config === void 0 ? {} : _ref$config,
-      predicateConfig = _ref.predicateConfig,
-      defaultFilterConfig = _ref.defaultFilterConfig,
-      Table = _ref.Table,
-      pageLayout = _ref.pageLayout,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$y);
-
-  var theme = React.useContext(ThemeContext);
-  var localeSettings = React.useContext(LocaleContext);
-
-  var _useFilterParams = useFilterParams({
-    predicateConfig: predicateConfig
-  }),
-      _useFilterParams2 = _slicedToArray__default["default"](_useFilterParams, 3),
-      filter = _useFilterParams2[0],
-      setFilter = _useFilterParams2[1];
-      _useFilterParams2[2];
-
-  var apiContext = React.useContext(ApiContext);
-  var intl = reactIntl.useIntl();
-  var config = React.useMemo(function () {
-    return buildConfig({
-      customConfig: customConfig,
-      predicateConfig: predicateConfig,
-      defaultFilterConfig: defaultFilterConfig
-    }, {
-      client: apiContext,
-      formatMessage: intl.formatMessage,
-      localeSettings: localeSettings
-    });
-  }, [apiContext, intl]);
-  var Layout = pageLayout ? PageLayout : ComponentLayout;
-  return react.jsx(Root, {
-    dir: theme.dir
-  }, react.jsx(SearchContext.Provider, {
-    value: config
-  }, react.jsx(UncontrollableFilterState, {
-    filter: filter,
-    onChange: setFilter
-  }, react.jsx(Layout, _extends__default["default"]({
-    config: config,
-    Table: Table
-  }, props)))));
-}
-
-function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function Search$4(props) {
-  return react.jsx(Search$5, _objectSpread$5(_objectSpread$5({}, props), {}, {
-    predicateConfig: filterConf$4,
-    defaultFilterConfig: defaultFilterConfig$4,
-    Table: Table$4
-  }));
-}
-
-var _excluded$x = ["siteConfig"];
-
-function Wrap$5(_ref) {
-  var siteConfig = _ref.siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$x);
-
-  return react.jsx(StandaloneWrapper, {
-    siteConfig: siteConfig
-  }, react.jsx(Standalone$7, _extends__default["default"]({}, props, {
-    siteConfig: siteConfig
-  })));
-}
-
-function Standalone$7(props) {
-  var routeContext = React.useContext(RouteContext);
-  var path = routeContext.collectionSearch.route;
-  return react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
-    path: path,
-    render: function render(routeProps) {
-      var _props$siteConfig;
-
-      return react.jsx(Search$4, _extends__default["default"]({
-        pageLayout: true,
-        config: props === null || props === void 0 ? void 0 : (_props$siteConfig = props.siteConfig) === null || _props$siteConfig === void 0 ? void 0 : _props$siteConfig.collection
-      }, props, routeProps));
-    }
-  }));
-}
-
-var QUERY$2 = "\nquery list($code: String, $q: String, $offset: Int, $limit: Int, $country: Country, $fuzzyName: String, $city: String, $name: String, $active: Boolean){\n  institutionSearch(code: $code, q: $q, limit: $limit, offset: $offset, country: $country, fuzzyName: $fuzzyName, city: $city, name: $name, active: $active) {\n    count\n    offset\n    limit\n    results {\n      key\n      name\n      code\n      active\n      occurrenceCount\n      numberSpecimens\n      address {\n        city\n        country\n      }\n      mailingAddress {\n        city\n        country\n      }\n    }\n  }\n}\n";
-var defaultTableConfig$3 = {
-  columns: [{
-    trKey: 'title',
-    value: {
-      key: 'name',
-      formatter: function formatter(value, item) {
-        return react.jsx(ResourceLink, {
-          type: "institutionKey",
-          discreet: true,
-          id: item.key
-        }, value);
-      }
-    },
-    width: 'wide'
-  }, {
-    trKey: 'filters.code.name',
-    value: {
-      filterKey: 'code',
-      key: 'code',
-      hideFalsy: true
-    }
-  }, {
-    trKey: 'filters.country.name',
-    value: {
-      filterKey: 'country',
-      key: 'key',
-      formatter: function formatter(value, item) {
-        var _item$address, _item$mailingAddress;
-
-        var countryCode = ((_item$address = item.address) === null || _item$address === void 0 ? void 0 : _item$address.country) || ((_item$mailingAddress = item.mailingAddress) === null || _item$mailingAddress === void 0 ? void 0 : _item$mailingAddress.country);
-        return countryCode ? react.jsx(reactIntl.FormattedMessage, {
-          id: "enums.countryCode.".concat(countryCode)
-        }) : null;
-      },
-      hideFalsy: true
-    }
-  }, {
-    trKey: 'filters.city.name',
-    value: {
-      filterKey: 'city',
-      key: 'key',
-      formatter: function formatter(value, item) {
-        var _item$address2, _item$mailingAddress2;
-
-        return ((_item$address2 = item.address) === null || _item$address2 === void 0 ? void 0 : _item$address2.city) || ((_item$mailingAddress2 = item.mailingAddress) === null || _item$mailingAddress2 === void 0 ? void 0 : _item$mailingAddress2.city);
-      },
-      hideFalsy: true
-    }
-  }, {
-    trKey: 'tableHeaders.numberSpecimens',
-    value: {
-      key: 'numberSpecimens',
-      formatter: function formatter(value, item) {
-        return react.jsx(reactIntl.FormattedNumber, {
-          value: value
-        });
-      },
-      hideFalsy: true,
-      rightAlign: true
-    }
-  }, {
-    trKey: 'tableHeaders.gbifNumberSpecimens',
-    value: {
-      key: 'occurrenceCount',
-      formatter: function formatter(value, item) {
-        return react.jsx(reactIntl.FormattedNumber, {
-          value: value
-        });
-      },
-      hideFalsy: true,
-      rightAlign: true
-    }
-  }, {
-    trKey: 'active',
-    value: {
-      key: 'active',
-      formatter: function formatter(value, item) {
-        return value ? 'yes' : 'no';
-      }
-    }
-  }]
-};
-
-function Table$3() {
-  return react.jsx(StandardSearchTable, {
-    graphQuery: QUERY$2,
-    resultKey: "institutionSearch",
-    defaultTableConfig: defaultTableConfig$3
-  });
-}
-
-var filters$3 = ['q', 'code', 'city', 'country', 'name'].sort();
-var highlighted$3 = ['q', 'code', 'city', 'country'];
-var defaultFilterConfig$3 = {
-  filters: filters$3,
-  included: filters$3,
-  highlighted: highlighted$3
-};
-
-var filterConf$3 = {
-  fields: {
-    country: {
-      singleValue: true
-    },
-    q: {
-      singleValue: true
-    },
-    name: {
-      singleValue: true
-    },
-    fuzzyName: {
-      singleValue: true
-    },
-    city: {
-      singleValue: true
-    },
-    code: {
-      singleValue: true
-    }
-  }
-};
-filters$3.forEach(function (filter) {
-  filterConf$3.fields[filter] = filterConf$3.fields[filter] || {};
-});
-
-function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$4(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function Search$3(props) {
-  return react.jsx(Search$5, _objectSpread$4(_objectSpread$4({}, props), {}, {
-    predicateConfig: filterConf$3,
-    defaultFilterConfig: defaultFilterConfig$3,
-    Table: Table$3
-  }));
-}
-
-var _excluded$w = ["siteConfig"];
-
-function Wrap$4(_ref) {
-  var siteConfig = _ref.siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$w);
-
-  return react.jsx(StandaloneWrapper, {
-    siteConfig: siteConfig
-  }, react.jsx(Standalone$6, _extends__default["default"]({}, props, {
-    siteConfig: siteConfig
-  })));
-}
-
-function Standalone$6(props) {
-  var routeContext = React.useContext(RouteContext);
-  var path = routeContext.institutionSearch.route;
-  return react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
-    path: path,
-    render: function render(routeProps) {
-      var _props$siteConfig;
-
-      return react.jsx(Search$3, _extends__default["default"]({
-        pageLayout: true,
-        config: props === null || props === void 0 ? void 0 : (_props$siteConfig = props.siteConfig) === null || _props$siteConfig === void 0 ? void 0 : _props$siteConfig.institution
-      }, props, routeProps));
-    }
-  }));
-}
-
-var QUERY$1 = "\nquery list($predicate: Predicate, $publisher:[String], $source: [String], $doi: [String], $gbifDownloadKey: [ID], $openAccess: Boolean, $peerReview: Boolean, $publishingOrganizationKey: [ID], $topics: [String], $relevance: [String], $year: [String], $literatureType: [String], $countriesOfCoverage: [Country], $countriesOfResearcher: [Country], $gbifDatasetKey: [ID], $q: String, $offset: Int, $limit: Int, ){\n  literatureSearch(predicate:$predicate, \n    gbifDatasetKey: $gbifDatasetKey, \n    q: $q, \n    countriesOfResearcher: $countriesOfResearcher, \n    countriesOfCoverage: $countriesOfCoverage, \n    literatureType: $literatureType, \n    year: $year, \n    relevance: $relevance, \n    topics: $topics, \n    publishingOrganizationKey: $publishingOrganizationKey, \n    peerReview: $peerReview, \n    openAccess: $openAccess, \n    gbifDownloadKey: $gbifDownloadKey, \n    doi: $doi, \n    source: $source, \n    publisher: $publisher\n    limit: $limit, \n    offset: $offset\n    ) {\n    documents {\n      count\n      offset\n      limit\n      results {\n        title\n        abstract\n        authors {\n          firstName\n          lastName\n        }\n        literatureType\n        year\n        identifiers {\n          doi\n        }\n        websites\n      }\n    }\n  }\n}\n";
-
-function getLink(item) {
-  var _item$identifiers, _item$websites;
-
-  if (item !== null && item !== void 0 && (_item$identifiers = item.identifiers) !== null && _item$identifiers !== void 0 && _item$identifiers.doi) {
-    return "https://doi.org/".concat(item.identifiers.doi);
-  }
-
-  return item === null || item === void 0 ? void 0 : (_item$websites = item.websites) === null || _item$websites === void 0 ? void 0 : _item$websites[0];
-}
-
-var defaultTableConfig$2 = {
-  columns: [{
-    trKey: 'tableHeaders.titleAndAbstract',
-    value: {
-      key: 'title',
-      formatter: function formatter(value, item) {
-        var _item$abstract;
-
-        var maxLength = 200;
-        var truncatedAbstract = ((_item$abstract = item["abstract"]) === null || _item$abstract === void 0 ? void 0 : _item$abstract.length) > maxLength ? "".concat(item["abstract"].substr(0, maxLength), "...") : item["abstract"];
-        var link = getLink(item);
-        return react.jsx("div", null, link ? react.jsx("div", null, react.jsx("a", {
-          href: link,
-          style: {
-            color: 'inherit',
-            textDecoration: 'none'
-          }
-        }, value, " ", react.jsx(md.MdLink, null))) : react.jsx("div", null, value), react.jsx("div", {
-          style: {
-            color: '#aaa'
-          }
-        }, truncatedAbstract));
-      }
-    },
-    width: 'wide'
-  }, // {
-  //   trKey: 'tableHeaders.altmetric',
-  //   value: {
-  //     key: 'identifiers',
-  //     formatter: (value, item) => {
-  //       return <AltmetricDonut doi={item?.identifiers?.doi} />
-  //     },
-  //     hideFalsy: true
-  //   }
-  // },
-  {
-    trKey: 'filters.literatureType.name',
-    value: {
-      key: 'literatureType',
-      labelHandle: 'literatureType',
-      hideFalsy: true
-    }
-  }, {
-    trKey: 'filters.year.name',
-    value: {
-      filterKey: 'year',
-      key: 'year',
-      hideFalsy: true
-    }
-  } // {
-  //   trKey: 'tableHeaders.occurrences',
-  //   value: {
-  //     key: 'occurrenceCount',
-  //     formatter: (value, item) => <FormattedNumber value={value} />,
-  //     hideFalsy: true,
-  //     rightAlign: true
-  //   }
-  // },
-  // {
-  //   trKey: 'active',
-  //   value: {
-  //     key: 'active',
-  //     formatter: (value, item) => value ? 'yes' : 'no'
-  //   }
-  // }
-  ]
-};
-
-function Table$2() {
-  return react.jsx(StandardSearchTable, {
-    graphQuery: QUERY$1,
-    resultKey: "literatureSearch",
-    defaultTableConfig: defaultTableConfig$2
-  });
-}
-
-var filters$2 = ['q', 'year', 'countriesOfResearcher', 'countriesOfCoverage', 'datasetKey', 'publisherKey', 'literatureType'].sort();
-var highlighted$2 = ['q', 'year', 'countriesOfResearcher', 'datasetKey'];
-var defaultFilterConfig$2 = {
-  filters: filters$2,
-  included: filters$2,
-  highlighted: highlighted$2
-};
-
-var filterConf$2 = {
-  fields: {
-    countriesOfResearcher: {
-      defaultKey: 'countriesOfResearcher'
-    },
-    countriesOfCoverage: {
-      defaultKey: 'countriesOfCoverage'
-    },
-    datasetKey: {
-      defaultKey: 'gbifDatasetKey'
-    },
-    publisherKey: {
-      defaultKey: 'publishingOrganizationKey'
-    },
-    year: {
-      v1: {
-        supportedTypes: ['range', 'equals']
-      }
-    },
-    q: {
-      singleValue: true
-    }
-  }
-};
-filters$2.forEach(function (filter) {
-  filterConf$2.fields[filter] = filterConf$2.fields[filter] || {};
-});
-
-function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function Search$2(props) {
-  return react.jsx(Search$5, _objectSpread$3(_objectSpread$3({}, props), {}, {
-    predicateConfig: filterConf$2,
-    defaultFilterConfig: defaultFilterConfig$2,
-    Table: Table$2
-  }));
-}
-
-var _excluded$v = ["siteConfig"];
-
-function Wrap$3(_ref) {
-  var siteConfig = _ref.siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$v);
-
-  return react.jsx(StandaloneWrapper, {
-    siteConfig: siteConfig
-  }, react.jsx(Standalone$5, _extends__default["default"]({}, props, {
-    siteConfig: siteConfig
-  })));
-}
-
-function Standalone$5(props) {
-  var routeContext = React.useContext(RouteContext);
-  var path = routeContext.literatureSearch.route;
-  return react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
-    path: path,
-    render: function render(routeProps) {
-      var _props$siteConfig;
-
-      return react.jsx(Search$2, _extends__default["default"]({
-        pageLayout: true,
-        config: props === null || props === void 0 ? void 0 : (_props$siteConfig = props.siteConfig) === null || _props$siteConfig === void 0 ? void 0 : _props$siteConfig.literature
-      }, props, routeProps));
-    }
-  }));
-}
-
-var DATASET_LIST = "\nquery list($endorsingNodeKey: [ID], $networkKey: [ID], $publishingOrg: [ID], $hostingOrg: [ID], $publishingCountry: [Country], $q: String, $offset: Int, $limit: Int, $type: [DatasetType], $subtype: [DatasetSubtype]){\n  datasetSearch(endorsingNodeKey:$endorsingNodeKey, networkKey:$networkKey, publishingOrg:$publishingOrg, hostingOrg: $hostingOrg, publishingCountry: $publishingCountry, q: $q, limit: $limit, offset: $offset, type: $type, subtype: $subtype) {\n    count\n    offset\n    limit\n    results {\n      key\n      title\n      publishingOrganizationTitle\n      publishingOrganizationKey\n      type\n      subtype\n      recordCount\n      occurrenceCount\n      literatureCount\n    }\n  }\n}\n";
-var defaultTableConfig$1 = {
-  columns: [{
-    trKey: 'tableHeaders.title',
-    value: {
-      key: 'title',
-      formatter: function formatter(value, item) {
-        return react.jsx(DatasetKeyLink, {
-          discreet: true,
-          id: item.key
-        }, value);
-      }
-    },
-    width: 'wide'
-  }, {
-    trKey: 'filters.publisherKey.name',
-    filterKey: 'publisherKey',
-    // optional
-    value: {
-      key: 'publishingOrganizationKey',
-      formatter: function formatter(value, item) {
-        return item.publishingOrganizationTitle;
-      }
-    },
-    width: 'wide'
-  }, {
-    trKey: 'filters.datasetType.name',
-    filterKey: 'datasetType',
-    value: {
-      key: 'type',
-      labelHandle: 'datasetType'
-    }
-  }, // {
-  //   trKey: 'filters.datasetSubtype.name',
-  //   filterKey: 'datasetSubtype',
-  //   value: {
-  //     key: 'subtype',
-  //     labelHandle: 'datasetSubtype',
-  //     hideFalsy: true
-  //   }
-  // },
-  {
-    trKey: 'tableHeaders.citations',
-    value: {
-      key: 'literatureCount',
-      formatter: function formatter(value, item) {
-        return react.jsx(reactIntl.FormattedNumber, {
-          value: value
-        });
-      },
-      hideFalsy: true,
-      rightAlign: true
-    }
-  }, {
-    trKey: 'tableHeaders.occurrences',
-    value: {
-      key: 'occurrenceCount',
-      formatter: function formatter(value, item) {
-        return react.jsx(reactIntl.FormattedNumber, {
-          value: value
-        });
-      },
-      hideFalsy: true,
-      rightAlign: true
-    }
-  }]
-};
-
-function Table$1() {
-  React.useContext(RouteContext);
-  return react.jsx(StandardSearchTable, {
-    graphQuery: DATASET_LIST,
-    resultKey: "datasetSearch",
-    defaultTableConfig: defaultTableConfig$1
-  });
-}
-
-var filters$1 = ['q', 'datasetType', 'license', // 'keyword',
-'publisherKey', 'hostingOrganizationKey', // 'decade',
-'publishingCountryCode', 'hostingCountry', 'networkKey'].sort();
-var included = ['q', 'datasetType', 'license', 'publisherKey', 'hostingOrganizationKey', 'publishingCountryCode', 'hostingCountry'];
-var highlighted$1 = ['q', 'datasetType', 'publisherKey', 'license'];
-var defaultFilterConfig$1 = {
-  filters: filters$1,
-  included: included,
-  highlighted: highlighted$1
-};
-
-var filterConf$1 = {
-  fields: {
-    publisherKey: {
-      defaultKey: 'publishingOrg'
-    },
-    hostingOrganizationKey: {
-      defaultKey: 'hostingOrg'
-    },
-    publishingCountryCode: {
-      defaultKey: 'publishingCountry'
-    },
-    q: {
-      singleValue: true
-    },
-    datasetType: {
-      defaultKey: 'type'
-    },
-    datasetSubtype: {
-      defaultKey: 'subtype'
-    }
-  }
-};
-filters$1.forEach(function (filter) {
-  filterConf$1.fields[filter] = filterConf$1.fields[filter] || {};
-});
-
-function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function Search$1(props) {
-  return react.jsx(Search$5, _objectSpread$2(_objectSpread$2({}, props), {}, {
-    predicateConfig: filterConf$1,
-    defaultFilterConfig: defaultFilterConfig$1,
-    Table: Table$1
-  }));
-}
-
-var _excluded$u = ["siteConfig"];
-
-function Wrap$2(_ref) {
-  var siteConfig = _ref.siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$u);
-
-  return react.jsx(StandaloneWrapper, {
-    siteConfig: siteConfig
-  }, react.jsx(Standalone$4, _extends__default["default"]({}, props, {
-    siteConfig: siteConfig
-  })));
-}
-
-function Standalone$4(props) {
-  var routeContext = React.useContext(RouteContext);
-  var path = routeContext.datasetSearch.route;
-  return react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
-    path: path,
-    render: function render(routeProps) {
-      var _props$siteConfig;
-
-      return react.jsx(Search$1, _extends__default["default"]({
-        pageLayout: true,
-        config: props === null || props === void 0 ? void 0 : (_props$siteConfig = props.siteConfig) === null || _props$siteConfig === void 0 ? void 0 : _props$siteConfig.dataset
-      }, props, routeProps));
-    }
-  }));
-}
-
-var _excluded$t = ["presentationComponent", "presentationProps", "graphQuery", "resultKey", "offsetName", "defaultTableConfig"];
-
-function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$1(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function StandardSearch(_ref) {
-  var _data$resultKey;
-
-  var _ref$presentationComp = _ref.presentationComponent,
-      PresentationComponent = _ref$presentationComp === void 0 ? ResultsTable : _ref$presentationComp;
-      _ref.presentationProps;
-      var graphQuery = _ref.graphQuery,
-      resultKey = _ref.resultKey;
-      _ref.offsetName;
-      var defaultTableConfig = _ref.defaultTableConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$t);
-
-  var _useQueryParam = useQueryParams.useQueryParam('from', useQueryParams.NumberParam),
-      _useQueryParam2 = _slicedToArray__default["default"](_useQueryParam, 2),
-      _useQueryParam2$ = _useQueryParam2[0],
-      offset = _useQueryParam2$ === void 0 ? 0 : _useQueryParam2$,
-      setOffset = _useQueryParam2[1];
-
-  var limit = 20;
-  var currentFilterContext = React.useContext(FilterContext);
-
-  var _useContext = React.useContext(SearchContext),
-      rootPredicate = _useContext.rootPredicate,
-      predicateConfig = _useContext.predicateConfig;
-
-  var _useQuery = useQuery(graphQuery, {
-    lazyLoad: true
-  }),
-      data = _useQuery.data,
-      loading = _useQuery.loading,
-      load = _useQuery.load;
-
-  React.useEffect(function () {
-    var _filter2v = filter2v1(currentFilterContext.filter, predicateConfig),
-        v1Filter = _filter2v.v1Filter;
-
-    var filter = _objectSpread$1(_objectSpread$1({}, v1Filter), rootPredicate);
-
-    load({
-      keepDataWhileLoading: true,
-      variables: _objectSpread$1(_objectSpread$1({}, filter), {}, {
-        limit: limit,
-        offset: offset
-      })
-    });
-  }, [currentFilterContext.filterHash, rootPredicate, offset]); // https://stackoverflow.com/questions/55075604/react-hooks-useeffect-only-on-update
-
-  reactUse.useUpdateEffect(function () {
-    setOffset(undefined);
-  }, [currentFilterContext.filterHash]);
-  var next = React.useCallback(function () {
-    setOffset(Math.max(0, offset + limit));
-  });
-  var prev = React.useCallback(function () {
-    var offsetValue = Math.max(0, offset - limit);
-    setOffset(offsetValue !== 0 ? offsetValue : undefined);
-  });
-  var first = React.useCallback(function () {
-    setOffset(undefined);
-  });
-  return react.jsx(React__default["default"].Fragment, null, react.jsx(PresentationComponent, _extends__default["default"]({}, props, {
-    loading: loading,
-    results: data === null || data === void 0 ? void 0 : data[resultKey].results,
-    next: next,
-    prev: prev,
-    first: first,
-    size: limit,
-    from: offset,
-    total: data === null || data === void 0 ? void 0 : (_data$resultKey = data[resultKey]) === null || _data$resultKey === void 0 ? void 0 : _data$resultKey.count,
-    defaultTableConfig: defaultTableConfig
-  })));
-}
-
-var QUERY = "\nquery list($networkKey: ID, $country: Country, $q: String, $offset: Int, $limit: Int){\n  organizationSearch(networkKey: $networkKey, isEndorsed: true, q: $q, limit: $limit, offset: $offset, country: $country) {\n    count\n    offset\n    limit\n    results {\n      key\n      title\n      country\n      numPublishedDatasets\n      hostedDataset {\n        count\n      }\n      created\n    }\n  }\n}\n";
-var defaultTableConfig = {
-  columns: [{
-    trKey: 'filters.publisherKey.name',
-    value: {
-      key: 'title',
-      formatter: function formatter(value, item) {
-        return react.jsx(PublisherKeyLink, {
-          discreet: true,
-          id: item.key
-        }, value);
-      }
-    },
-    width: 'wide',
-    filterKey: 'q'
-  }, {
-    trKey: 'filters.publishingCountryCode.name',
-    value: {
-      key: 'country',
-      labelHandle: 'countryCode',
-      hideFalsy: true
-    },
-    filterKey: 'country'
-  }, {
-    trKey: 'tableHeaders.pubDatasets',
-    value: {
-      key: 'numPublishedDatasets',
-      formatter: function formatter(value, item) {
-        return react.jsx(reactIntl.FormattedNumber, {
-          value: value
-        });
-      },
-      hideFalsy: true,
-      rightAlign: true
-    }
-  }, {
-    trKey: 'tableHeaders.hostedDatasets',
-    value: {
-      key: 'hostedDataset.count',
-      formatter: function formatter(value, item) {
-        return react.jsx(reactIntl.FormattedNumber, {
-          value: value
-        });
-      },
-      hideFalsy: true,
-      rightAlign: true
-    }
-  }, {
-    trKey: 'tableHeaders.registered',
-    value: {
-      key: 'created',
-      formatter: function formatter(value, item) {
-        return react.jsx(reactIntl.FormattedDate, {
-          value: value,
-          year: "numeric",
-          month: "long",
-          day: "2-digit"
-        });
-      },
-      hideFalsy: true
-    },
-    noWrap: true
-  }]
-};
-
-function Table() {
-  React.useContext(RouteContext);
-  return react.jsx(StandardSearch, {
-    presentationComponent: ResultsTable,
-    graphQuery: QUERY,
-    resultKey: "organizationSearch",
-    defaultTableConfig: defaultTableConfig,
-    hideLock: true
-  });
-}
-
-var filters = ['q', 'countrySingle', 'networkKey'].sort();
-var highlighted = ['q', 'countrySingle'];
-var defaultFilterConfig = {
-  filters: filters,
-  included: highlighted,
-  highlighted: highlighted
-};
-
-var filterConf = {
-  fields: {
-    countrySingle: {
-      singleValue: true,
-      defaultKey: 'country'
-    },
-    q: {
-      singleValue: true
-    },
-    networkKey: {
-      singleValue: true
-    }
-  }
-};
-filters.forEach(function (filter) {
-  filterConf.fields[filter] = filterConf.fields[filter] || {};
-});
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function Search(props) {
-  return react.jsx(Search$5, _objectSpread(_objectSpread({}, props), {}, {
-    predicateConfig: filterConf,
-    defaultFilterConfig: defaultFilterConfig,
-    Table: Table
-  }));
-}
-
-var _excluded$s = ["siteConfig"];
-
-function Wrap$1(_ref) {
-  var siteConfig = _ref.siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$s);
-
-  return react.jsx(StandaloneWrapper, {
-    siteConfig: siteConfig
-  }, react.jsx(Standalone$3, _extends__default["default"]({}, props, {
-    siteConfig: siteConfig
-  })));
-}
-
-function Standalone$3(props) {
-  var routeContext = React.useContext(RouteContext);
-  var path = routeContext.publisherSearch.route;
-  return react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
-    path: path,
-    render: function render(routeProps) {
-      var _props$siteConfig;
-
-      return react.jsx(Search, _extends__default["default"]({
-        pageLayout: true,
-        config: props === null || props === void 0 ? void 0 : (_props$siteConfig = props.siteConfig) === null || _props$siteConfig === void 0 ? void 0 : _props$siteConfig.publisher
-      }, props, routeProps));
-    }
-  }));
-}
-
 var _ref$7 = {
-  name: "1cy8rru",
-  styles: "background:white;padding:24px"
+  name: "1nytiu8-paper",
+  styles: "background:white;padding:24px;label:paper;"
 } ;
 
 var paper$3 = function paper(_ref2) {
@@ -44070,7 +42166,7 @@ var paper$3 = function paper(_ref2) {
   return _ref$7;
 };
 
-var _excluded$r = ["data", "loading", "error", "collection", "className"];
+var _excluded$x = ["data", "loading", "error", "collection", "className"];
 var T$6 = Properties.Term,
     V$6 = Properties.Value;
 function Description$1(_ref) {
@@ -44080,7 +42176,7 @@ function Description$1(_ref) {
       _ref.error;
       var collection = _ref.collection;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$r);
+      _objectWithoutProperties__default["default"](_ref, _excluded$x);
 
   var theme = React.useContext(ThemeContext);
   var routeContext = React.useContext(RouteContext);
@@ -44161,11 +42257,11 @@ function getList$1(collection, fieldName) {
   }, "Not provided")));
 }
 
-var _excluded$q = ["theme"];
+var _excluded$w = ["theme"];
 
 var _ref10$1 = {
-  name: "104q5j8",
-  styles: "display:flex;margin:0 12px"
+  name: "po1wro-people",
+  styles: "display:flex;margin:0 12px;label:people;"
 } ;
 
 var people$1 = function people(_ref11) {
@@ -44175,8 +42271,8 @@ var people$1 = function people(_ref11) {
 };
 
 var _ref9 = {
-  name: "kv5zkl",
-  styles: "padding:8px 12px;line-height:1em;display:block;color:inherit;text-decoration:none;&.isActive{background:#e0e7ee;font-weight:500;}"
+  name: "seocr6-navItem",
+  styles: "padding:8px 12px;line-height:1em;display:block;color:inherit;text-decoration:none;&.isActive{background:#e0e7ee;font-weight:500;};label:navItem;"
 } ;
 
 var navItem = function navItem(_ref12) {
@@ -44186,8 +42282,8 @@ var navItem = function navItem(_ref12) {
 };
 
 var _ref8 = {
-  name: "8vuc0z",
-  styles: "display:flex;margin-bottom:24px;margin-left:0;width:100%;input{margin-right:12px;height:auto;}"
+  name: "17dhcll-search",
+  styles: "display:flex;margin-bottom:24px;margin-left:0;width:100%;input{margin-right:12px;height:auto;};label:search;"
 } ;
 
 var search = function search(_ref13) {
@@ -44197,8 +42293,8 @@ var search = function search(_ref13) {
 };
 
 var _ref7$2 = {
-  name: "yjzycu",
-  styles: "flex:0 0 280px;padding:24px 12px;margin:0;font-size:14px;ul{list-style:none;padding:0;margin:0;}"
+  name: "10dt751-nav",
+  styles: "flex:0 0 280px;padding:24px 12px;margin:0;font-size:14px;ul{list-style:none;padding:0;margin:0;};label:nav;"
 } ;
 
 var nav = function nav(_ref14) {
@@ -44208,8 +42304,8 @@ var nav = function nav(_ref14) {
 };
 
 var _ref6$3 = {
-  name: "1gyac2f",
-  styles: "background:#65808a;color:white;padding:12px 24px;border-radius:4px;margin-bottom:12px"
+  name: "1b2cfsw-info",
+  styles: "background:#65808a;color:white;padding:12px 24px;border-radius:4px;margin-bottom:12px;label:info;"
 } ;
 
 var info = function info(_ref15) {
@@ -44219,8 +42315,8 @@ var info = function info(_ref15) {
 };
 
 var _ref5$3 = {
-  name: "10h7o7i",
-  styles: "flex:1 1 100%"
+  name: "1evtvqa-staffList",
+  styles: "flex:1 1 100%;label:staffList;"
 } ;
 
 var staffList$1 = function staffList(_ref16) {
@@ -44230,8 +42326,8 @@ var staffList$1 = function staffList(_ref16) {
 };
 
 var _ref4$3 = {
-  name: "1fsgsda",
-  styles: "margin-bottom:18px;font-size:85%;color:#888"
+  name: "tgx0le-staffPosition",
+  styles: "margin-bottom:18px;font-size:85%;color:#888;label:staffPosition;"
 } ;
 
 var staffPosition$1 = function staffPosition(_ref17) {
@@ -44241,14 +42337,14 @@ var staffPosition$1 = function staffPosition(_ref17) {
 };
 var staffDesc$1 = function staffDesc(_ref18) {
   var theme = _ref18.theme;
-      _objectWithoutProperties__default["default"](_ref18, _excluded$q);
+      _objectWithoutProperties__default["default"](_ref18, _excluded$w);
 
-  return /*#__PURE__*/react.css("flex:1 1 auto;margin:12px;a{color:", theme.primary500, ";text-decoration:none;}h4{margin:0;font-weight:bold;}" + ("" ), "" );
+  return /*#__PURE__*/react.css("flex:1 1 auto;margin:12px;a{color:", theme.primary500, ";text-decoration:none;}h4{margin:0;font-weight:bold;};label:staffDesc;" + ("" ));
 };
 
 var _ref3$5 = {
-  name: "1ssixu",
-  styles: "flex:0 0 220px;display:flex;font-size:14px;text-align:right;flex-direction:column;>div{flex:1 1 auto;}background:#f8f8f8;padding:12px"
+  name: "1isa3et-staffContact",
+  styles: "flex:0 0 220px;display:flex;font-size:14px;text-align:right;flex-direction:column;>div{flex:1 1 auto;}background:#f8f8f8;padding:12px;label:staffContact;"
 } ;
 
 var staffContact$1 = function staffContact(_ref19) {
@@ -44258,8 +42354,8 @@ var staffContact$1 = function staffContact(_ref19) {
 };
 
 var _ref$6 = {
-  name: "kdj9w5",
-  styles: "background:white;margin-bottom:12px;display:flex;flex-wrap:nowrap;border:1px solid #eee"
+  name: "ujub2h-person",
+  styles: "background:white;margin-bottom:12px;display:flex;flex-wrap:nowrap;border:1px solid #eee;label:person;"
 } ;
 
 var person$1 = function person(_ref21) {
@@ -44268,18 +42364,18 @@ var person$1 = function person(_ref21) {
   return _ref$6;
 };
 
-var _excluded$p = ["noData"];
+var _excluded$v = ["noData"];
 
 var tab = function tab(_ref5) {
   var noData = _ref5.noData;
-      _objectWithoutProperties__default["default"](_ref5, _excluded$p);
+      _objectWithoutProperties__default["default"](_ref5, _excluded$v);
 
-  return /*#__PURE__*/react.css("color:", noData ? '#888' : null, ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("color:", noData ? '#888' : null, ";;label:tab;" + ("" ));
 };
 
 var _ref4$2 = {
-  name: "13h0mpt",
-  styles: "background:#88888847;color:#00000085;padding:2px 5px;font-size:10px;border-radius:4px;margin:0 4px;font-weight:bold"
+  name: "1kbpnfk-tabCountChip",
+  styles: "background:#88888847;color:#00000085;padding:2px 5px;font-size:10px;border-radius:4px;margin:0 4px;font-weight:bold;label:tabCountChip;"
 } ;
 
 var tabCountChip = function tabCountChip(_ref6) {
@@ -44289,8 +42385,8 @@ var tabCountChip = function tabCountChip(_ref6) {
 };
 
 var _ref3$4 = {
-  name: "6kfe4y",
-  styles: "background:white;padding:1rem 1rem 0 1rem;h1{margin-top:0;margin-bottom:.25em;font-size:2rem;font-weight:700;}a{color:#1393D8;}"
+  name: "2vitdd-headerWrapper",
+  styles: "background:white;padding:1rem 1rem 0 1rem;h1{margin-top:0;margin-bottom:.25em;font-size:2rem;font-weight:700;}a{color:#1393D8;};label:headerWrapper;"
 } ;
 
 var headerWrapper$2 = function headerWrapper(_ref7) {
@@ -44300,8 +42396,8 @@ var headerWrapper$2 = function headerWrapper(_ref7) {
 };
 
 var _ref2$6 = {
-  name: "66mye2",
-  styles: "margin-top:2.5rem;margin-bottom:1.5rem;>div{margin-bottom:8px;}"
+  name: "10fqydi-summary",
+  styles: "margin-top:2.5rem;margin-bottom:1.5rem;>div{margin-bottom:8px;};label:summary;"
 } ;
 
 var summary$2 = function summary(_ref8) {
@@ -44311,8 +42407,8 @@ var summary$2 = function summary(_ref8) {
 };
 
 var _ref$5 = {
-  name: "iswyxu",
-  styles: "margin:0 auto;width:1000px;max-width:100%"
+  name: "1dmaaf0-proseWrapper",
+  styles: "margin:0 auto;width:1000px;max-width:100%;label:proseWrapper;"
 } ;
 
 var proseWrapper$2 = function proseWrapper(_ref9) {
@@ -44396,7 +42492,7 @@ var CollectorsPresentation = function CollectorsPresentation(_ref) {
     rowCount: 10,
     columnCount: 7,
     loading: loading
-  }, getRows({
+  }, getRows$1({
     items: items,
     columns: columns,
     url: url,
@@ -44410,7 +42506,7 @@ var CollectorsPresentation = function CollectorsPresentation(_ref) {
   }, "Load more"))));
 };
 
-var getRows = function getRows(_ref2) {
+var getRows$1 = function getRows(_ref2) {
   var items = _ref2.items,
       history = _ref2.history;
   var rows = items.map(function (row, index) {
@@ -44447,11 +42543,11 @@ var getRows = function getRows(_ref2) {
   return rows;
 };
 
-var _excluded$o = ["id", "defaultTab"];
+var _excluded$u = ["id", "defaultTab"];
 function Collectors(_ref) {
   var id = _ref.id;
       _ref.defaultTab;
-      _objectWithoutProperties__default["default"](_ref, _excluded$o);
+      _objectWithoutProperties__default["default"](_ref, _excluded$u);
 
   var _useQuery = useQuery(COLLECTORS, {
     lazyLoad: true
@@ -44751,14 +42847,14 @@ var sortBy = baseRest(function(collection, iteratees) {
 
 var sortBy_1 = sortBy;
 
-var _excluded$n = ["collection", "recordedByCardinality", "className"];
+var _excluded$t = ["collection", "recordedByCardinality", "className"];
 function People$1(_ref) {
   var _collection$contacts, _collection$contacts2;
 
   var collection = _ref.collection,
       recordedByCardinality = _ref.recordedByCardinality;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$n);
+      _objectWithoutProperties__default["default"](_ref, _excluded$t);
 
   var _useRouteMatch = reactRouterDom.useRouteMatch(),
       url = _useRouteMatch.url,
@@ -44830,7 +42926,7 @@ function People$1(_ref) {
   }))))));
 }
 
-var _excluded$m = ["id", "data", "error", "loading"];
+var _excluded$s = ["id", "data", "error", "loading"];
 var TabList$2 = Tabs.TabList,
     RouterTab$2 = Tabs.RouterTab;
 function CollectionPresentation(_ref) {
@@ -44840,7 +42936,7 @@ function CollectionPresentation(_ref) {
       data = _ref.data,
       error = _ref.error,
       loading = _ref.loading;
-      _objectWithoutProperties__default["default"](_ref, _excluded$m);
+      _objectWithoutProperties__default["default"](_ref, _excluded$s);
 
   var _useRouteMatch = reactRouterDom.useRouteMatch(),
       url = _useRouteMatch.url,
@@ -44984,13 +43080,21 @@ function EnsureRouter$2(_ref) {
   }, children);
 }
 
-var _excluded$l = ["id"];
+var _excluded$r = ["id"];
 function Collection(_ref) {
   var id = _ref.id;
-      _objectWithoutProperties__default["default"](_ref, _excluded$l);
+      _objectWithoutProperties__default["default"](_ref, _excluded$r);
 
   var _useQuery = useQuery(COLLECTION, {
-    lazyLoad: true
+    lazyLoad: false,
+    variables: {
+      key: id,
+      predicate: {
+        type: "equals",
+        key: "collectionKey",
+        value: id
+      }
+    }
   }),
       data = _useQuery.data,
       error = _useQuery.error,
@@ -45021,22 +43125,33 @@ function Collection(_ref) {
 }
 var COLLECTION = "\nquery collection($key: String!, $predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    documents(size: 0) {\n      total\n    }\n    cardinality {\n      recordedBy\n    }\n  }\n  collection(key: $key) {\n    key\n    code\n    name\n    description\n    contentTypes\n    active\n    personalCollection\n    email\n    phone\n    homepage\n    catalogUrl\n    preservationTypes\n    accessionStatus\n    institutionKey\n    notes\n    identifiers {\n      key\n      type\n      identifier\n    }\n    contacts {\n      key\n      firstName\n      lastName\n      position\n      areaResponsibility\n      researchPursuits\n      phone\n      email\n      fax\n    }\n    numberSpecimens\n    taxonomicCoverage\n    geography\n    incorporatedCollections\n    importantCollectors\n    collectionSummary\n    alternativeCodes {\n      code\n      description\n    }\n    # occurrenceMappings\n    institution {\n      code\n      name\n      key\n    }\n    \n    mailingAddress {\n      address\n      city\n      province\n      postalCode\n      country\n    }\n    address {\n      address\n      city\n      province\n      postalCode\n      country\n    }\n  }\n}\n";
 
+var _excluded$q = ["siteConfig"];
+
+function Wrap$2(_ref) {
+  var siteConfig = _ref.siteConfig,
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$q);
+
+  return react.jsx(StandaloneWrapper, _extends__default["default"]({
+    siteConfig: siteConfig
+  }, props), react.jsx(Standalone$2, props));
+}
+
 function Standalone$2(props) {
   var routeContext = React.useContext(RouteContext);
   var path = routeContext.collectionKey.route;
-  return react.jsx(StandaloneWrapper, props, react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
+  return react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
     path: path,
     render: function render(routeProps) {
       return react.jsx(Collection, _extends__default["default"]({
         id: routeProps.match.params.key
       }, props, routeProps));
     }
-  })));
+  }));
 }
 
 var _ref$4 = {
-  name: "1cy8rru",
-  styles: "background:white;padding:24px"
+  name: "1nytiu8-paper",
+  styles: "background:white;padding:24px;label:paper;"
 } ;
 
 var paper$2 = function paper(_ref2) {
@@ -45045,7 +43160,7 @@ var paper$2 = function paper(_ref2) {
   return _ref$4;
 };
 
-var _excluded$k = ["data", "loading", "error", "institution", "className"];
+var _excluded$p = ["data", "loading", "error", "institution", "className"];
 var T$5 = Properties.Term,
     V$5 = Properties.Value;
 function Description(_ref) {
@@ -45054,7 +43169,7 @@ function Description(_ref) {
       _ref.error;
       var institution = _ref.institution;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$k);
+      _objectWithoutProperties__default["default"](_ref, _excluded$p);
 
   var theme = React.useContext(ThemeContext);
   console.log(institution);
@@ -45126,8 +43241,8 @@ function getList(institution, fieldName) {
 }
 
 var _ref10 = {
-  name: "104q5j8",
-  styles: "display:flex;margin:0 12px"
+  name: "po1wro-people",
+  styles: "display:flex;margin:0 12px;label:people;"
 } ;
 
 var people = function people(_ref11) {
@@ -45137,8 +43252,8 @@ var people = function people(_ref11) {
 };
 
 var _ref6$2 = {
-  name: "10h7o7i",
-  styles: "flex:1 1 100%"
+  name: "1evtvqa-staffList",
+  styles: "flex:1 1 100%;label:staffList;"
 } ;
 
 var staffList = function staffList(_ref15) {
@@ -45148,8 +43263,8 @@ var staffList = function staffList(_ref15) {
 };
 
 var _ref5$2 = {
-  name: "1fsgsda",
-  styles: "margin-bottom:18px;font-size:85%;color:#888"
+  name: "tgx0le-staffPosition",
+  styles: "margin-bottom:18px;font-size:85%;color:#888;label:staffPosition;"
 } ;
 
 var staffPosition = function staffPosition(_ref16) {
@@ -45159,8 +43274,8 @@ var staffPosition = function staffPosition(_ref16) {
 };
 
 var _ref4$1 = {
-  name: "1vvtxux",
-  styles: "flex:1 1 auto;margin:12px;h4{margin:0;}"
+  name: "ntu9u3-staffDesc",
+  styles: "flex:1 1 auto;margin:12px;h4{margin:0;};label:staffDesc;"
 } ;
 
 var staffDesc = function staffDesc(_ref17) {
@@ -45170,8 +43285,8 @@ var staffDesc = function staffDesc(_ref17) {
 };
 
 var _ref3$3 = {
-  name: "1pvn578",
-  styles: "flex:0 0 220px;display:flex;text-align:center;flex-direction:column;>div{flex:1 1 auto;}background:#eee;padding:12px"
+  name: "p3zhif-staffContact",
+  styles: "flex:0 0 220px;display:flex;text-align:center;flex-direction:column;>div{flex:1 1 auto;}background:#eee;padding:12px;label:staffContact;"
 } ;
 
 var staffContact = function staffContact(_ref18) {
@@ -45181,8 +43296,8 @@ var staffContact = function staffContact(_ref18) {
 };
 
 var _ref2$5 = {
-  name: "172dxbw",
-  styles: "margin:12px;flex:0 0 auto"
+  name: "aukq4h-staffImage",
+  styles: "margin:12px;flex:0 0 auto;label:staffImage;"
 } ;
 
 var staffImage = function staffImage(_ref19) {
@@ -45192,8 +43307,8 @@ var staffImage = function staffImage(_ref19) {
 };
 
 var _ref$3 = {
-  name: "n2p14l",
-  styles: "background:white;margin:12px;display:flex;flex-wrap:nowrap;border:1px solid #eee"
+  name: "1t4cn8-person",
+  styles: "background:white;margin:12px;display:flex;flex-wrap:nowrap;border:1px solid #eee;label:person;"
 } ;
 
 var person = function person(_ref20) {
@@ -45202,11 +43317,11 @@ var person = function person(_ref20) {
   return _ref$3;
 };
 
-var _excluded$j = ["institution", "className"];
+var _excluded$o = ["institution", "className"];
 function People(_ref) {
   var institution = _ref.institution;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$j);
+      _objectWithoutProperties__default["default"](_ref, _excluded$o);
 
   var _useRouteMatch = reactRouterDom.useRouteMatch();
       _useRouteMatch.path;
@@ -45256,8 +43371,8 @@ function People(_ref) {
 }
 
 var _ref3$2 = {
-  name: "6kfe4y",
-  styles: "background:white;padding:1rem 1rem 0 1rem;h1{margin-top:0;margin-bottom:.25em;font-size:2rem;font-weight:700;}a{color:#1393D8;}"
+  name: "2vitdd-headerWrapper",
+  styles: "background:white;padding:1rem 1rem 0 1rem;h1{margin-top:0;margin-bottom:.25em;font-size:2rem;font-weight:700;}a{color:#1393D8;};label:headerWrapper;"
 } ;
 
 var headerWrapper$1 = function headerWrapper(_ref4) {
@@ -45267,8 +43382,8 @@ var headerWrapper$1 = function headerWrapper(_ref4) {
 };
 
 var _ref2$4 = {
-  name: "66mye2",
-  styles: "margin-top:2.5rem;margin-bottom:1.5rem;>div{margin-bottom:8px;}"
+  name: "10fqydi-summary",
+  styles: "margin-top:2.5rem;margin-bottom:1.5rem;>div{margin-bottom:8px;};label:summary;"
 } ;
 
 var summary$1 = function summary(_ref5) {
@@ -45278,8 +43393,8 @@ var summary$1 = function summary(_ref5) {
 };
 
 var _ref$2 = {
-  name: "iswyxu",
-  styles: "margin:0 auto;width:1000px;max-width:100%"
+  name: "1dmaaf0-proseWrapper",
+  styles: "margin:0 auto;width:1000px;max-width:100%;label:proseWrapper;"
 } ;
 
 var proseWrapper$1 = function proseWrapper(_ref6) {
@@ -45288,7 +43403,7 @@ var proseWrapper$1 = function proseWrapper(_ref6) {
   return _ref$2;
 };
 
-var _excluded$i = ["id", "data", "error", "loading"];
+var _excluded$n = ["id", "data", "error", "loading"];
 var TabList$1 = Tabs.TabList,
     RouterTab$1 = Tabs.RouterTab;
 function InstitutionPresentation(_ref) {
@@ -45296,7 +43411,7 @@ function InstitutionPresentation(_ref) {
       data = _ref.data,
       error = _ref.error,
       loading = _ref.loading;
-      _objectWithoutProperties__default["default"](_ref, _excluded$i);
+      _objectWithoutProperties__default["default"](_ref, _excluded$n);
 
   var _useRouteMatch = reactRouterDom.useRouteMatch(),
       path = _useRouteMatch.path,
@@ -45392,7 +43507,7 @@ function InstitutionPresentation(_ref) {
   }))))));
 }
 
-var _excluded$h = ["id"];
+var _excluded$m = ["id"];
 
 function EnsureRouter$1(_ref) {
   var children = _ref.children;
@@ -45413,10 +43528,18 @@ function EnsureRouter$1(_ref) {
 
 function Institution(_ref2) {
   var id = _ref2.id;
-      _objectWithoutProperties__default["default"](_ref2, _excluded$h);
+      _objectWithoutProperties__default["default"](_ref2, _excluded$m);
 
   var _useQuery = useQuery(INSTITUTION, {
-    lazyLoad: true
+    lazyLoad: false,
+    variables: {
+      key: id,
+      predicate: {
+        type: "equals",
+        key: "institutionKey",
+        value: id
+      }
+    }
   }),
       data = _useQuery.data,
       error = _useQuery.error,
@@ -45447,22 +43570,50 @@ function Institution(_ref2) {
 }
 var INSTITUTION = "\nquery institution($key: String!, $predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    documents(size: 0) {\n      total\n    }\n    cardinality {\n      recordedBy\n    }\n  }\n  institution(key: $key) {\n    key\n    code\n    name\n    description\n    active\n    email\n    phone\n    homepage\n    catalogUrl\n    alternativeCodes {\n      code\n      description\n    }\n    type\n    apiUrl\n    institutionalGovernance\n    disciplines\n    latitude\n    longitude\n    additionalNames\n    foundingDate\n    geographicDescription\n    taxonomicDescription\n    numberSpecimens\n    indexHerbariorumRecord\n    logoUrl\n\n    identifiers {\n      identifier\n    }\n    contacts {\n      key\n      firstName\n      lastName\n      position\n      areaResponsibility\n      researchPursuits\n      phone\n      email\n      fax\n    }\n    numberSpecimens\n    \n    mailingAddress {\n      address\n      city\n      province\n      postalCode\n      country\n    }\n    address {\n      address\n      city\n      province\n      postalCode\n      country\n    }\n  }\n}\n";
 
+var _excluded$l = ["siteConfig"];
+
+function Wrap$1(_ref) {
+  var siteConfig = _ref.siteConfig,
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$l);
+
+  return react.jsx(StandaloneWrapper, _extends__default["default"]({
+    siteConfig: siteConfig
+  }, props), react.jsx(Standalone$1, props));
+}
+
 function Standalone$1(props) {
   var routeContext = React.useContext(RouteContext);
   var path = routeContext.institutionKey.route;
-  return react.jsx(StandaloneWrapper, props, react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
+  return react.jsx(reactRouterDom.Switch, null, react.jsx(reactRouterDom.Route, {
     path: path,
     render: function render(routeProps) {
       return react.jsx(Institution, _extends__default["default"]({
         id: routeProps.match.params.key
       }, props, routeProps));
     }
-  })));
+  }));
 }
+// import StandaloneWrapper from '../../StandaloneWrapper';
+// import { Institution } from './Institution';
+// import { Switch, Route } from 'react-router-dom';
+// import RouteContext from '../../dataManagement/RouteContext';
+// function Standalone(props) {
+//   const routeContext = useContext(RouteContext);
+//   const path = routeContext.institutionKey.route;
+//   return <StandaloneWrapper {...props}>
+//     <Switch>
+//       <Route
+//         path={path}
+//         render={routeProps => <Institution id={routeProps.match.params.key} {...props} {...routeProps}/>}
+//       />
+//     </Switch>
+//   </StandaloneWrapper>
+// }
+// export default Standalone;
 
 var _ref7$1 = {
-  name: "16h4zzf",
-  styles: "background:white;padding:24px 48px;margin:12px 0"
+  name: "w8a777-paper",
+  styles: "background:white;padding:24px 48px;margin:12px 0;label:paper;"
 } ;
 
 var paper$1 = function paper(_ref8) {
@@ -45472,8 +43623,8 @@ var paper$1 = function paper(_ref8) {
 };
 
 var _ref6$1 = {
-  name: "zjik7",
-  styles: "display:flex"
+  name: "145nvvj-withSideBar",
+  styles: "display:flex;label:withSideBar;"
 } ;
 
 var withSideBar$1 = function withSideBar(_ref9) {
@@ -45483,8 +43634,8 @@ var withSideBar$1 = function withSideBar(_ref9) {
 };
 
 var _ref5$1 = {
-  name: "154ddyn",
-  styles: "background:white;margin-bottom:12px;border-radius:4px;overflow:hidden;padding:4px;ul{list-style:none;padding:0;margin:0;}"
+  name: "zp8d2f-sideBarNav",
+  styles: "background:white;margin-bottom:12px;border-radius:4px;overflow:hidden;padding:4px;ul{list-style:none;padding:0;margin:0;};label:sideBarNav;"
 } ;
 
 var sideBarNav$1 = function sideBarNav(_ref10) {
@@ -45494,8 +43645,8 @@ var sideBarNav$1 = function sideBarNav(_ref10) {
 };
 
 var _ref4 = {
-  name: "69vnwp",
-  styles: "color:#888;margin-left:4px"
+  name: "1hy81rt-coverageItem_common",
+  styles: "color:#888;margin-left:4px;label:coverageItem_common;"
 } ;
 
 var coverageItem_common = function coverageItem_common(_ref11) {
@@ -45505,8 +43656,8 @@ var coverageItem_common = function coverageItem_common(_ref11) {
 };
 
 var _ref3$1 = {
-  name: "ikop4y",
-  styles: "margin:3px;padding:1px 3px;border:1px solid #ddd;display:inline-block;background:#efefef"
+  name: "1pb2wlx-coverageItem",
+  styles: "margin:3px;padding:1px 3px;border:1px solid #ddd;display:inline-block;background:#efefef;label:coverageItem;"
 } ;
 
 var coverageItem = function coverageItem(_ref12) {
@@ -45516,8 +43667,8 @@ var coverageItem = function coverageItem(_ref12) {
 };
 
 var _ref2$3 = {
-  name: "v80hby",
-  styles: "flex:0 0 250px;padding-top:12px;margin:0;font-size:14px;position:sticky;top:0;align-self:flex-start;height:100%"
+  name: "1nyvxv0-sideBar",
+  styles: "flex:0 0 250px;padding-top:12px;margin:0;font-size:14px;position:sticky;top:0;align-self:flex-start;height:100%;label:sideBar;"
 } ;
 
 var sideBar$1 = function sideBar(_ref13) {
@@ -45526,39 +43677,39 @@ var sideBar$1 = function sideBar(_ref13) {
   return _ref2$3;
 };
 var area = {
-  name: "1xbk6p4",
-  styles: "background:white;border-radius:4px;margin-bottom:8px;margin-right:12px"
+  name: "5qn4wr-area",
+  styles: "background:white;border-radius:4px;margin-bottom:8px;margin-right:12px;label:area;"
 } ;
 var testcard = {
-  name: "6u75bj",
-  styles: "padding:12px;display:flex"
+  name: "15olezo-testcard",
+  styles: "padding:12px;display:flex;label:testcard;"
 } ;
 var testicon = {
-  name: "qggz2r",
-  styles: "flex:0 0 auto;div{padding:8px 0;text-align:center;background:var(--primary500);color:white;font-weight:900;border-radius:50%;width:25px;height:25px;line-height:25px;padding:0;text-align:center;padding-top:2px;}"
+  name: "qm492h-testicon",
+  styles: "flex:0 0 auto;div{padding:8px 0;text-align:center;background:var(--primary500);color:white;font-weight:900;border-radius:50%;width:25px;height:25px;line-height:25px;padding:0;text-align:center;padding-top:2px;};label:testicon;"
 } ;
 var progress = {
-  name: "r1qpl1",
-  styles: "height:4px;border-radius:2px;background:#ddd;>div{background:var(--primary500);height:4px;border-radius:2px;}margin-bottom:12px"
+  name: "1ci9sws-progress",
+  styles: "height:4px;border-radius:2px;background:#ddd;>div{background:var(--primary500);height:4px;border-radius:2px;}margin-bottom:12px;label:progress;"
 } ;
 var testcardWrapper = {
-  name: "1a7qdqi",
-  styles: "img{width:100%;border-radius:4px 4px 0 0;}"
+  name: "w8vbk2-testcardWrapper",
+  styles: "img{width:100%;border-radius:4px 4px 0 0;};label:testcardWrapper;"
 } ;
 var testcontent = {
-  name: "1gtkkjd",
-  styles: "padding-left:12px;flex:1 1 auto;a{color:inherit;text-decoration:none;}h5{font-size:13px;margin:0;}p{font-size:13px;color:#888;margin:0;margin-top:8px;}"
+  name: "n98mil-testcontent",
+  styles: "padding-left:12px;flex:1 1 auto;a{color:inherit;text-decoration:none;}h5{font-size:13px;margin:0;}p{font-size:13px;color:#888;margin:0;margin-top:8px;};label:testcontent;"
 } ;
 var galleryHeight = '300';
-var galleryBar = /*#__PURE__*/react.css("height:", galleryHeight, "px;overflow:hidden;position:relative;margin:0 -6px;>a{position:absolute;margin:12px;bottom:0;right:0;}>div{display:flex;overflow-x:auto;height:", galleryHeight + 100, "px;padding-bottom:100px;>div{margin-right:10px;flex:0 0 auto;height:", galleryHeight, "px;}}img{display:block;height:", galleryHeight, "px;margin:0 6px;}" + ("" ), "" );
+var galleryBar = /*#__PURE__*/react.css("height:", galleryHeight, "px;overflow:hidden;position:relative;margin:0 -6px;>a{position:absolute;margin:12px;bottom:0;right:0;}>div{display:flex;overflow-x:auto;height:", galleryHeight + 100, "px;padding-bottom:100px;>div{margin-right:10px;flex:0 0 auto;height:", galleryHeight, "px;}}img{display:block;height:", galleryHeight, "px;margin:0 6px;};label:galleryBar;" + ("" ));
 
-var _excluded$g = ["bibliographicCitations"];
+var _excluded$k = ["bibliographicCitations"];
 Properties.Term;
     Properties.Value;
 function BibliographicCitations(_ref) {
   var _ref$bibliographicCit = _ref.bibliographicCitations,
       bibliographicCitations = _ref$bibliographicCit === void 0 ? [] : _ref$bibliographicCit;
-      _objectWithoutProperties__default["default"](_ref, _excluded$g);
+      _objectWithoutProperties__default["default"](_ref, _excluded$k);
 
   // I really dislike "show all"-buttons that only show me one more item. Just show the damn item to begin with then. It is such a disappointing experience.
   // So instead we do: if less than 10 items then show them all. If above 10, then show 5 + expand button.
@@ -45599,7 +43750,7 @@ function BibiliographicCitation(_ref2) {
   }, "Identifier: "), react.jsx("span", null, citation.identifier)));
 }
 
-var _excluded$f = ["data", "loading", "error"];
+var _excluded$j = ["data", "loading", "error"];
 Properties.Term;
     Properties.Value;
 function Citation(_ref) {
@@ -45609,7 +43760,7 @@ function Citation(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$f);
+      _objectWithoutProperties__default["default"](_ref, _excluded$j);
 
   var dataset = data.dataset;
   var doi = dataset.doi;
@@ -45642,14 +43793,14 @@ Properties.Term;
 Properties.Term;
     Properties.Value;
 
-var _excluded$e = ["dataset"];
+var _excluded$i = ["dataset"];
 var T$4 = Properties.Term,
     V$4 = Properties.Value;
 function SamplingDescription(_ref) {
   var _dataset$samplingDesc, _dataset$samplingDesc2, _dataset$samplingDesc3, _dataset$samplingDesc4, _dataset$samplingDesc5, _dataset$samplingDesc6;
 
   var dataset = _ref.dataset;
-      _objectWithoutProperties__default["default"](_ref, _excluded$e);
+      _objectWithoutProperties__default["default"](_ref, _excluded$i);
 
   return react.jsx(Properties, {
     style: {
@@ -45691,12 +43842,12 @@ function SamplingDescription(_ref) {
   })))));
 }
 
-var _excluded$d = ["temporalCoverages"];
+var _excluded$h = ["temporalCoverages"];
 var T$3 = Properties.Term,
     V$3 = Properties.Value;
 function TemporalCoverages(_ref) {
   var temporalCoverages = _ref.temporalCoverages;
-      _objectWithoutProperties__default["default"](_ref, _excluded$d);
+      _objectWithoutProperties__default["default"](_ref, _excluded$h);
 
   return react.jsx(React__default["default"].Fragment, null, react.jsx(Properties, {
     horizontal: true
@@ -45729,12 +43880,12 @@ function TemporalCoverage(_ref3) {
   })), period['@type'] == 'verbatim' && react.jsx(V$3, null, period.period));
 }
 
-var _excluded$c = ["geographicCoverages"];
+var _excluded$g = ["geographicCoverages"];
 var T$2 = Properties.Term,
     V$2 = Properties.Value;
 function GeographicCoverages(_ref) {
   var geographicCoverages = _ref.geographicCoverages;
-      _objectWithoutProperties__default["default"](_ref, _excluded$c);
+      _objectWithoutProperties__default["default"](_ref, _excluded$g);
 
   return react.jsx(React__default["default"].Fragment, null, geographicCoverages.map(function (coverage, idx) {
     return react.jsx(GeographicCoverage, {
@@ -45787,13 +43938,13 @@ function GeographicCoverage(_ref2) {
   }), Bbox)), !geoJSON && react.jsx(React__default["default"].Fragment, null, react.jsx(T$2, null, "Bounding box"), react.jsx(V$2, null, Bbox)));
 }
 
-var _excluded$b = ["dataset", "taxonomicCoverages"];
+var _excluded$f = ["dataset", "taxonomicCoverages"];
 var T$1 = Properties.Term,
     V$1 = Properties.Value;
 function TaxonomicCoverages(_ref) {
   _ref.dataset;
       var taxonomicCoverages = _ref.taxonomicCoverages;
-      _objectWithoutProperties__default["default"](_ref, _excluded$b);
+      _objectWithoutProperties__default["default"](_ref, _excluded$f);
 
   return react.jsx(React__default["default"].Fragment, null, taxonomicCoverages.map(function (coverage, idx) {
     return react.jsx(TaxonomicCoverage, {
@@ -45848,13 +43999,13 @@ function CoverageItem(_ref3) {
 Properties.Term;
     Properties.Value;
 
-var _excluded$a = ["dataset"];
+var _excluded$e = ["dataset"];
 var T = Properties.Term,
     V = Properties.Value;
 function Registration(_ref) {
   var _ref$dataset = _ref.dataset,
       dataset = _ref$dataset === void 0 ? {} : _ref$dataset;
-      _objectWithoutProperties__default["default"](_ref, _excluded$a);
+      _objectWithoutProperties__default["default"](_ref, _excluded$e);
 
   var _dataset$machineTags = dataset.machineTags,
       machineTags = _dataset$machineTags === void 0 ? [] : _dataset$machineTags,
@@ -45948,22 +44099,24 @@ function Registration(_ref) {
   }))));
 }
 
-var _excluded$9 = ["images"];
+var _excluded$d = ["images"];
 function Images(_ref) {
   var _images$documents, _images$documents2;
 
   var _ref$images = _ref.images,
       images = _ref$images === void 0 ? [] : _ref$images,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$9);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$d);
 
   if (!((images === null || images === void 0 ? void 0 : (_images$documents = images.documents) === null || _images$documents === void 0 ? void 0 : _images$documents.total) > 0)) return null;
   return react.jsx("div", _extends__default["default"]({
     css: galleryBar
   }, props), react.jsx("div", null, images.documents.results.map(function (occurrence) {
+    var _occurrence$stillImag;
+
     return react.jsx("div", {
       key: occurrence.key
     }, react.jsx(Image$1, {
-      src: occurrence.stillImages[0].identifier,
+      src: (_occurrence$stillImag = occurrence.stillImages[0]) === null || _occurrence$stillImag === void 0 ? void 0 : _occurrence$stillImag.identifier,
       height: 300
     }));
   })), react.jsx(Tooltip, {
@@ -45982,7 +44135,7 @@ function Images(_ref) {
   }))));
 }
 
-var _excluded$8 = ["data", "insights", "loading", "error", "tocState", "className"];
+var _excluded$c = ["data", "insights", "loading", "error", "tocState", "className"];
 Properties.Term;
     Properties.Value;
 function About(_ref) {
@@ -45995,7 +44148,7 @@ function About(_ref) {
       _ref.error;
       _ref.tocState;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$8);
+      _objectWithoutProperties__default["default"](_ref, _excluded$c);
 
   var isBelowTOC = useBelow(1200);
 
@@ -46280,8 +44433,8 @@ function asPercentage(fraction) {
 }
 
 var _ref7 = {
-  name: "16h4zzf",
-  styles: "background:white;padding:24px 48px;margin:12px 0"
+  name: "w8a777-paper",
+  styles: "background:white;padding:24px 48px;margin:12px 0;label:paper;"
 } ;
 
 var paper = function paper(_ref8) {
@@ -46291,8 +44444,8 @@ var paper = function paper(_ref8) {
 };
 
 var _ref6 = {
-  name: "zjik7",
-  styles: "display:flex"
+  name: "145nvvj-withSideBar",
+  styles: "display:flex;label:withSideBar;"
 } ;
 
 var withSideBar = function withSideBar(_ref9) {
@@ -46302,8 +44455,8 @@ var withSideBar = function withSideBar(_ref9) {
 };
 
 var _ref5 = {
-  name: "154ddyn",
-  styles: "background:white;margin-bottom:12px;border-radius:4px;overflow:hidden;padding:4px;ul{list-style:none;padding:0;margin:0;}"
+  name: "zp8d2f-sideBarNav",
+  styles: "background:white;margin-bottom:12px;border-radius:4px;overflow:hidden;padding:4px;ul{list-style:none;padding:0;margin:0;};label:sideBarNav;"
 } ;
 
 var sideBarNav = function sideBarNav(_ref10) {
@@ -46313,8 +44466,8 @@ var sideBarNav = function sideBarNav(_ref10) {
 };
 
 var _ref2$2 = {
-  name: "v80hby",
-  styles: "flex:0 0 250px;padding-top:12px;margin:0;font-size:14px;position:sticky;top:0;align-self:flex-start;height:100%"
+  name: "1nyvxv0-sideBar",
+  styles: "flex:0 0 250px;padding-top:12px;margin:0;font-size:14px;position:sticky;top:0;align-self:flex-start;height:100%;label:sideBar;"
 } ;
 
 var sideBar = function sideBar(_ref13) {
@@ -46323,7 +44476,7 @@ var sideBar = function sideBar(_ref13) {
   return _ref2$2;
 };
 
-var _excluded$7 = ["data", "loading", "error", "tocState", "className"];
+var _excluded$b = ["data", "loading", "error", "tocState", "className"];
 function Project(_ref) {
   var _ref$data = _ref.data,
       data = _ref$data === void 0 ? {} : _ref$data;
@@ -46331,7 +44484,7 @@ function Project(_ref) {
       _ref.error;
       _ref.tocState;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$7);
+      _objectWithoutProperties__default["default"](_ref, _excluded$b);
 
   var theme = React.useContext(ThemeContext);
 
@@ -46419,8 +44572,8 @@ function Project(_ref) {
 }
 
 var _ref3 = {
-  name: "cpyc7r",
-  styles: "background:var(--paperBackground);padding:2rem 1rem 0 1rem"
+  name: "xqh1s1-headerWrapper",
+  styles: "background:var(--paperBackground);padding:2rem 1rem 0 1rem;label:headerWrapper;"
 } ;
 
 var headerWrapper = function headerWrapper(_ref7) {
@@ -46430,8 +44583,8 @@ var headerWrapper = function headerWrapper(_ref7) {
 };
 
 var _ref2$1 = {
-  name: "9v6ty9",
-  styles: "margin-top:1.5rem;margin-bottom:1.5rem;>div{margin-bottom:8px;}"
+  name: "zvky1n-summary",
+  styles: "margin-top:1.5rem;margin-bottom:1.5rem;>div{margin-bottom:8px;};label:summary;"
 } ;
 
 var summary = function summary(_ref8) {
@@ -46440,21 +44593,17 @@ var summary = function summary(_ref8) {
   return _ref2$1;
 };
 var headerFlex = {
-  name: "lxew06",
-  styles: "display:flex;margin-top:.5em"
+  name: "8zw9hp-headerFlex",
+  styles: "display:flex;margin-top:.5em;label:headerFlex;"
 } ;
 var headerContent = {
-  name: "mkkf9p",
-  styles: "flex:1 1 auto"
-} ;
-var headerIcons = {
-  name: "1ju08nc",
-  styles: "padding:0 6px;align-items:center;display:flex;>button{padding:7px;font-size:18px;}>gbif-button-text{color:#555;}"
+  name: "qq0i84-headerContent",
+  styles: "flex:1 1 auto;label:headerContent;"
 } ;
 
 var _ref$1 = {
-  name: "zn1n19",
-  styles: "margin:0 auto;width:1350px;max-width:100%"
+  name: "1el943o-proseWrapper",
+  styles: "margin:0 auto;width:1350px;max-width:100%;label:proseWrapper;"
 } ;
 
 var proseWrapper = function proseWrapper(_ref9) {
@@ -46462,6 +44611,605 @@ var proseWrapper = function proseWrapper(_ref9) {
 
   return _ref$1;
 };
+
+var ResultsHeader = function ResultsHeader(_ref) {
+  var children = _ref.children,
+      total = _ref.total,
+      loading = _ref.loading,
+      message = _ref.message,
+      props = _ref.props;
+  var theme = React.useContext(ThemeContext);
+  var showSkeleton = loading || typeof total !== 'number';
+  return react.jsx("div", _extends__default["default"]({
+    css: /*#__PURE__*/react.css("color:", theme.color500, ";font-size:12px;margin:0 0 4px 4px;;label:ResultsHeader;" + ("" ))
+  }, props), showSkeleton && react.jsx(Skeleton, {
+    style: {
+      width: 100
+    }
+  }), !showSkeleton && react.jsx(reactIntl.FormattedMessage, {
+    id: message || "counts.nResults",
+    values: {
+      total: total
+    }
+  }), children);
+};
+
+var fallbackTableConfig = {
+  columns: [{
+    trKey: 'Not specified',
+    value: {
+      key: 'key',
+      labelHandle: 'key'
+    }
+  }]
+};
+var ResultsTable = function ResultsTable(_ref) {
+  var first = _ref.first,
+      prev = _ref.prev,
+      next = _ref.next,
+      size = _ref.size,
+      from = _ref.from,
+      results = _ref.results,
+      total = _ref.total,
+      loading = _ref.loading,
+      _ref$defaultTableConf = _ref.defaultTableConfig,
+      defaultTableConfig = _ref$defaultTableConf === void 0 ? fallbackTableConfig : _ref$defaultTableConf,
+      hideLock = _ref.hideLock;
+
+  var _useContext = React.useContext(SearchContext),
+      filters = _useContext.filters,
+      _useContext$tableConf = _useContext.tableConfig,
+      tableConfig = _useContext$tableConf === void 0 ? defaultTableConfig : _useContext$tableConf,
+      labelMap = _useContext.labelMap;
+
+  var _useState = React.useState(!hideLock),
+      _useState2 = _slicedToArray__default["default"](_useState, 2),
+      fixedColumn = _useState2[0];
+      _useState2[1];
+
+  var fixed = fixedColumn;
+  var headerss = tableConfig.columns.map(function (col, index) {
+    var _filters$col$filterKe;
+    var FilterPopover = col.filterKey ? (_filters$col$filterKe = filters[col.filterKey]) === null || _filters$col$filterKe === void 0 ? void 0 : _filters$col$filterKe.Popover : null;
+    return react.jsx(Th, {
+      key: col.trKey,
+      width: col.width
+    }, react.jsx(Row, {
+      wrap: "nowrap"
+    }, react.jsx(Col, {
+      grow: false,
+      style: {
+        whiteSpace: 'nowrap'
+      }
+    }, react.jsx(reactIntl.FormattedMessage, {
+      id: col.trKey
+    })), FilterPopover && react.jsx(Col, null, react.jsx(FilterPopover, {
+      modal: true,
+      placement: "auto"
+    }, react.jsx(Button, {
+      appearance: "text",
+      style: {
+        display: 'flex'
+      }
+    }, react.jsx(md.MdFilterList, null))))));
+  });
+  return react.jsx("div", {
+    style: {
+      flex: "1 1 100%",
+      display: "flex",
+      height: "100%",
+      maxHeight: "100vh",
+      flexDirection: "column"
+    }
+  }, react.jsx(ResultsHeader, {
+    loading: loading,
+    total: total
+  }), react.jsx(DataTable, {
+    fixedColumn: fixed,
+    first: first,
+    prev: prev,
+    next: next,
+    size: size,
+    from: from,
+    total: total,
+    loading: loading,
+    style: {
+      flex: "1 1 auto",
+      height: 100,
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, react.jsx("thead", null, react.jsx("tr", null, headerss)), react.jsx(TBody, {
+    rowCount: size,
+    columnCount: 7,
+    loading: loading
+  }, getRows({
+    tableConfig: tableConfig,
+    labelMap: labelMap,
+    results: results
+  }))));
+};
+
+var getRows = function getRows(_ref2) {
+  var tableConfig = _ref2.tableConfig,
+      labelMap = _ref2.labelMap,
+      _ref2$results = _ref2.results,
+      results = _ref2$results === void 0 ? [] : _ref2$results;
+  var rows = results.map(function (row, index) {
+    var cells = tableConfig.columns.map(function (field, i) {
+      var val = get_1(row, field.value.key);
+      var formattedVal = val;
+
+      if (!val && field.value.hideFalsy === true) {
+        formattedVal = '';
+      } else if (field.value.formatter) {
+        formattedVal = field.value.formatter(val, row);
+      } else if (field.value.labelHandle) {
+        var Label = labelMap[field.value.labelHandle];
+        formattedVal = Label ? react.jsx(Label, {
+          id: val
+        }) : val;
+      }
+
+      return react.jsx(Td, {
+        noWrap: field.noWrap,
+        key: field.trKey,
+        style: field.value.rightAlign ? {
+          textAlign: 'right'
+        } : {}
+      }, formattedVal);
+    });
+    return react.jsx("tr", {
+      key: row.key || row.id || index
+    }, cells);
+  });
+  return rows;
+};
+
+var _excluded$a = ["graphQuery", "resultKey", "offsetName", "defaultTableConfig"];
+
+function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function StandardSearchTable(_ref) {
+  var _data$resultKey, _data$resultKey$docum, _data$resultKey2, _data$resultKey3, _data$resultKey3$docu, _data$resultKey4;
+
+  var graphQuery = _ref.graphQuery,
+      resultKey = _ref.resultKey;
+      _ref.offsetName;
+      var defaultTableConfig = _ref.defaultTableConfig,
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$a);
+
+  // const [offset, setOffset] = useUrlState({ param: 'offset', defaultValue: 0 });
+  var _useQueryParam = useQueryParams.useQueryParam('from', useQueryParams.NumberParam),
+      _useQueryParam2 = _slicedToArray__default["default"](_useQueryParam, 2),
+      _useQueryParam2$ = _useQueryParam2[0],
+      offset = _useQueryParam2$ === void 0 ? 0 : _useQueryParam2$,
+      setOffset = _useQueryParam2[1];
+
+  var limit = 25;
+  var currentFilterContext = React.useContext(FilterContext);
+
+  var _useContext = React.useContext(SearchContext),
+      rootPredicate = _useContext.rootPredicate,
+      predicateConfig = _useContext.predicateConfig;
+
+  var _useQuery = useQuery(graphQuery, {
+    lazyLoad: true
+  }),
+      data = _useQuery.data,
+      error = _useQuery.error,
+      loading = _useQuery.loading,
+      load = _useQuery.load;
+
+  React.useEffect(function () {
+    var _filter2v = filter2v1(currentFilterContext.filter, predicateConfig),
+        v1Filter = _filter2v.v1Filter;
+
+    var filter = _objectSpread$2(_objectSpread$2({}, v1Filter), rootPredicate);
+
+    load({
+      keepDataWhileLoading: true,
+      variables: _objectSpread$2(_objectSpread$2({}, filter), {}, {
+        limit: limit,
+        offset: offset
+      })
+    });
+  }, [currentFilterContext.filterHash, rootPredicate, offset]); // https://stackoverflow.com/questions/55075604/react-hooks-useeffect-only-on-update
+
+  reactUse.useUpdateEffect(function () {
+    setOffset(undefined);
+  }, [currentFilterContext.filterHash]);
+  var next = React.useCallback(function () {
+    setOffset(Math.max(0, offset + limit));
+  });
+  var prev = React.useCallback(function () {
+    var offsetValue = Math.max(0, offset - limit);
+    setOffset(offsetValue !== 0 ? offsetValue : undefined);
+  });
+  var first = React.useCallback(function () {
+    setOffset(undefined);
+  });
+
+  if (error) {
+    return react.jsx("div", null, "Failed to fetch data");
+  } // allow both response types
+
+
+  var results = (data === null || data === void 0 ? void 0 : (_data$resultKey = data[resultKey]) === null || _data$resultKey === void 0 ? void 0 : (_data$resultKey$docum = _data$resultKey.documents) === null || _data$resultKey$docum === void 0 ? void 0 : _data$resultKey$docum.results) || (data === null || data === void 0 ? void 0 : (_data$resultKey2 = data[resultKey]) === null || _data$resultKey2 === void 0 ? void 0 : _data$resultKey2.results);
+  var total = (data === null || data === void 0 ? void 0 : (_data$resultKey3 = data[resultKey]) === null || _data$resultKey3 === void 0 ? void 0 : (_data$resultKey3$docu = _data$resultKey3.documents) === null || _data$resultKey3$docu === void 0 ? void 0 : _data$resultKey3$docu.count) || (data === null || data === void 0 ? void 0 : (_data$resultKey4 = data[resultKey]) === null || _data$resultKey4 === void 0 ? void 0 : _data$resultKey4.count);
+  return react.jsx(React__default["default"].Fragment, null, react.jsx(ResultsTable, _extends__default["default"]({}, props, {
+    loading: loading,
+    results: results,
+    next: next,
+    prev: prev,
+    first: first,
+    size: limit,
+    from: offset,
+    total: total,
+    defaultTableConfig: defaultTableConfig
+  })));
+}
+
+var QUERY = "\nquery list($predicate: Predicate, $publisher:[String], $source: [String], $doi: [String], $gbifDownloadKey: [ID], $openAccess: Boolean, $peerReview: Boolean, $publishingOrganizationKey: [ID], $topics: [String], $relevance: [String], $year: [String], $literatureType: [String], $countriesOfCoverage: [Country], $countriesOfResearcher: [Country], $gbifDatasetKey: [ID], $q: String, $offset: Int, $limit: Int, ){\n  literatureSearch(predicate:$predicate, \n    gbifDatasetKey: $gbifDatasetKey, \n    q: $q, \n    countriesOfResearcher: $countriesOfResearcher, \n    countriesOfCoverage: $countriesOfCoverage, \n    literatureType: $literatureType, \n    year: $year, \n    relevance: $relevance, \n    topics: $topics, \n    publishingOrganizationKey: $publishingOrganizationKey, \n    peerReview: $peerReview, \n    openAccess: $openAccess, \n    gbifDownloadKey: $gbifDownloadKey, \n    doi: $doi, \n    source: $source, \n    publisher: $publisher\n    limit: $limit, \n    offset: $offset\n    ) {\n    documents {\n      count\n      offset\n      limit\n      results {\n        title\n        abstract\n        authors {\n          firstName\n          lastName\n        }\n        literatureType\n        year\n        identifiers {\n          doi\n        }\n        websites\n      }\n    }\n  }\n}\n";
+
+function getLink(item) {
+  var _item$identifiers, _item$websites;
+
+  if (item !== null && item !== void 0 && (_item$identifiers = item.identifiers) !== null && _item$identifiers !== void 0 && _item$identifiers.doi) {
+    return "https://doi.org/".concat(item.identifiers.doi);
+  }
+
+  return item === null || item === void 0 ? void 0 : (_item$websites = item.websites) === null || _item$websites === void 0 ? void 0 : _item$websites[0];
+}
+
+var defaultTableConfig = {
+  columns: [{
+    trKey: 'tableHeaders.titleAndAbstract',
+    value: {
+      key: 'title',
+      formatter: function formatter(value, item) {
+        var _item$abstract;
+
+        var maxLength = 200;
+        var truncatedAbstract = ((_item$abstract = item["abstract"]) === null || _item$abstract === void 0 ? void 0 : _item$abstract.length) > maxLength ? "".concat(item["abstract"].substr(0, maxLength), "...") : item["abstract"];
+        var link = getLink(item);
+        return react.jsx("div", null, link ? react.jsx("div", null, react.jsx("a", {
+          href: link,
+          style: {
+            color: 'inherit',
+            textDecoration: 'none'
+          }
+        }, value, " ", react.jsx(md.MdLink, null))) : react.jsx("div", null, value), react.jsx("div", {
+          style: {
+            color: '#aaa'
+          }
+        }, truncatedAbstract));
+      }
+    },
+    width: 'wide'
+  }, // {
+  //   trKey: 'tableHeaders.altmetric',
+  //   value: {
+  //     key: 'identifiers',
+  //     formatter: (value, item) => {
+  //       return <AltmetricDonut doi={item?.identifiers?.doi} />
+  //     },
+  //     hideFalsy: true
+  //   }
+  // },
+  {
+    trKey: 'filters.literatureType.name',
+    value: {
+      key: 'literatureType',
+      labelHandle: 'literatureType',
+      hideFalsy: true
+    }
+  }, {
+    trKey: 'filters.year.name',
+    value: {
+      filterKey: 'year',
+      key: 'year',
+      hideFalsy: true
+    }
+  } // {
+  //   trKey: 'tableHeaders.occurrences',
+  //   value: {
+  //     key: 'occurrenceCount',
+  //     formatter: (value, item) => <FormattedNumber value={value} />,
+  //     hideFalsy: true,
+  //     rightAlign: true
+  //   }
+  // },
+  // {
+  //   trKey: 'active',
+  //   value: {
+  //     key: 'active',
+  //     formatter: (value, item) => value ? 'yes' : 'no'
+  //   }
+  // }
+  ]
+};
+
+function Table() {
+  return react.jsx(StandardSearchTable, {
+    graphQuery: QUERY,
+    resultKey: "literatureSearch",
+    defaultTableConfig: defaultTableConfig
+  });
+}
+
+var filters = ['q', 'year', 'countriesOfResearcher', 'countriesOfCoverage', 'datasetKey', 'publisherKey', 'literatureType'].sort();
+var highlighted = ['q', 'year', 'countriesOfResearcher', 'datasetKey'];
+var defaultFilterConfig = {
+  filters: filters,
+  included: filters,
+  highlighted: highlighted
+};
+
+var filterConf = {
+  fields: {
+    countriesOfResearcher: {
+      defaultKey: 'countriesOfResearcher'
+    },
+    countriesOfCoverage: {
+      defaultKey: 'countriesOfCoverage'
+    },
+    datasetKey: {
+      defaultKey: 'gbifDatasetKey'
+    },
+    publisherKey: {
+      defaultKey: 'publishingOrganizationKey'
+    },
+    year: {
+      v1: {
+        supportedTypes: ['range', 'equals']
+      }
+    },
+    q: {
+      singleValue: true
+    }
+  }
+};
+filters.forEach(function (filter) {
+  filterConf.fields[filter] = filterConf.fields[filter] || {};
+});
+
+var _excluded$9 = ["className", "config", "Table", "style"];
+Tabs.TabList;
+    Tabs.Tab;
+    Tabs.TabPanel;
+
+var Layout$1 = function Layout(_ref) {
+  var _ref$className = _ref.className,
+      className = _ref$className === void 0 ? '' : _ref$className,
+      config = _ref.config,
+      Table = _ref.Table,
+      style = _ref.style;
+      _objectWithoutProperties__default["default"](_ref, _excluded$9);
+
+  var _useState = React.useState('list'),
+      _useState2 = _slicedToArray__default["default"](_useState, 2),
+      activeView = _useState2[0],
+      setActiveView = _useState2[1];
+
+  var theme = React.useContext(ThemeContext);
+  var prefix = theme.prefix || 'gbif';
+  var elementName = 'searchLayout';
+  return react.jsx("div", {
+    className: "".concat(className, " ").concat(prefix, "-").concat(elementName),
+    css: cssLayout({
+      theme: theme
+    }),
+    style: style
+  }, react.jsx(Tabs, {
+    activeId: activeView,
+    onChange: setActiveView
+  }, react.jsx("div", {
+    css: cssNavBar({
+      theme: theme
+    })
+  }, react.jsx("div", {
+    css: cssFilter({
+      theme: theme
+    })
+  }, react.jsx(FilterBar$1, {
+    config: config
+  }))), react.jsx("div", {
+    css: cssViewArea({
+      theme: theme
+    })
+  }, react.jsx(Table, null))));
+};
+
+var mapContextToProps$1 = function mapContextToProps(_ref2) {
+  var test = _ref2.test;
+  return {
+    test: test
+  };
+};
+
+var ComponentLayout = withContext(mapContextToProps$1)(Layout$1);
+
+var _excluded$8 = ["className", "config", "Table"];
+Tabs.TabList;
+    Tabs.Tab;
+    Tabs.TabPanel;
+
+var Layout = function Layout(_ref) {
+  var _ref$className = _ref.className,
+      className = _ref$className === void 0 ? '' : _ref$className,
+      config = _ref.config,
+      Table = _ref.Table,
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$8);
+
+  var _useState = React.useState('list'),
+      _useState2 = _slicedToArray__default["default"](_useState, 2),
+      activeView = _useState2[0],
+      setActiveView = _useState2[1];
+
+  var theme = React.useContext(ThemeContext);
+  var prefix = theme.prefix || 'gbif';
+  var elementName = 'searchLayout';
+  return react.jsx("div", _extends__default["default"]({
+    className: "".concat(className, " ").concat(prefix, "-").concat(elementName),
+    css: cssLayout({
+      theme: theme
+    })
+  }, props), react.jsx(Tabs, {
+    activeId: activeView,
+    onChange: setActiveView
+  }, react.jsx("div", {
+    css: cssNavBar({
+      theme: theme
+    }),
+    style: {
+      margin: '0 0 10px 0',
+      borderRadius: 0
+    }
+  }, react.jsx(DataHeader, {
+    availableCatalogues: config.availableCatalogues,
+    style: {
+      borderBottom: '1px solid #ddd'
+    }
+  }), react.jsx("div", {
+    css: cssFilter({
+      theme: theme
+    })
+  }, react.jsx(FilterBar$1, {
+    config: config
+  }))), react.jsx("div", {
+    css: cssViewArea({
+      theme: theme
+    })
+  }, react.jsx(Table, null))));
+};
+
+var mapContextToProps = function mapContextToProps(_ref2) {
+  var test = _ref2.test;
+  return {
+    test: test
+  };
+};
+
+var PageLayout = withContext(mapContextToProps)(Layout);
+
+function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$1(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function buildConfig(_ref, context) {
+  var customConfig = _ref.customConfig,
+      predicateConfig = _ref.predicateConfig,
+      defaultFilterConfig = _ref.defaultFilterConfig;
+  var _customConfig$labels = customConfig.labels,
+      labels = _customConfig$labels === void 0 ? {} : _customConfig$labels,
+      _customConfig$getSugg = customConfig.getSuggests,
+      getSuggests = _customConfig$getSugg === void 0 ? function () {
+    return {};
+  } : _customConfig$getSugg,
+      _customConfig$filters = customConfig.filters,
+      customFilters = _customConfig$filters === void 0 ? {} : _customConfig$filters;
+      customConfig.adapters;
+
+  var mergedLabels = _objectSpread$1(_objectSpread$1({}, commonLabels), labels);
+
+  var mergedFilters = _objectSpread$1(_objectSpread$1({}, commonFilters), customFilters);
+
+  var suggestConfigMap = getCommonSuggests({
+    context: context,
+    suggestStyle: suggestStyle
+  });
+  var suggestConfigMapCustom = getSuggests({
+    client: context.client,
+    suggestStyle: suggestStyle
+  });
+
+  var mergedSuggest = _objectSpread$1(_objectSpread$1({}, suggestConfigMap), suggestConfigMapCustom);
+
+  var labelMap = config2labels(mergedLabels, context.client, context.localeSettings);
+  var filters = filterBuilder({
+    filterWidgetConfig: mergedFilters,
+    labelMap: labelMap,
+    suggestConfigMap: mergedSuggest,
+    context: context
+  });
+  var includedFilters = without_1.apply(void 0, [customConfig.includedFilters || defaultFilterConfig.included].concat(_toConsumableArray__default["default"](customConfig.excludedFilters || [])));
+  var highlightedFilters = customConfig.highlightedFilters || defaultFilterConfig.highlighted;
+  var initialVisibleFilters = intersection_1(highlightedFilters, includedFilters);
+  return {
+    labelMap: labelMap,
+    suggestConfigMap: suggestConfigMap,
+    filters: pickBy_1(pick_1(filters, includedFilters), function (e) {
+      return !!e;
+    }),
+    defaultVisibleFilters: initialVisibleFilters,
+    rootPredicate: customConfig.rootFilter,
+    availableCatalogues: customConfig.availableCatalogues,
+    predicateConfig: predicateConfig
+  };
+}
+
+var _excluded$7 = ["config", "predicateConfig", "defaultFilterConfig", "Table", "pageLayout"];
+
+function Search$1(_ref) {
+  var _ref$config = _ref.config,
+      customConfig = _ref$config === void 0 ? {} : _ref$config,
+      predicateConfig = _ref.predicateConfig,
+      defaultFilterConfig = _ref.defaultFilterConfig,
+      Table = _ref.Table,
+      pageLayout = _ref.pageLayout,
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$7);
+
+  var theme = React.useContext(ThemeContext);
+  var localeSettings = React.useContext(LocaleContext);
+
+  var _useFilterParams = useFilterParams({
+    predicateConfig: predicateConfig
+  }),
+      _useFilterParams2 = _slicedToArray__default["default"](_useFilterParams, 3),
+      filter = _useFilterParams2[0],
+      setFilter = _useFilterParams2[1];
+      _useFilterParams2[2];
+
+  var apiContext = React.useContext(ApiContext);
+  var intl = reactIntl.useIntl();
+  var config = React.useMemo(function () {
+    return buildConfig({
+      customConfig: customConfig,
+      predicateConfig: predicateConfig,
+      defaultFilterConfig: defaultFilterConfig
+    }, {
+      client: apiContext,
+      formatMessage: intl.formatMessage,
+      localeSettings: localeSettings
+    });
+  }, [apiContext, intl]);
+  var Layout = pageLayout ? PageLayout : ComponentLayout;
+  return react.jsx(Root, {
+    dir: theme.dir
+  }, react.jsx(SearchContext.Provider, {
+    value: config
+  }, react.jsx(UncontrollableFilterState, {
+    filter: filter,
+    onChange: setFilter
+  }, react.jsx(Layout, _extends__default["default"]({
+    config: config,
+    Table: Table
+  }, props)))));
+}
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty__default["default"](target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function Search(props) {
+  return react.jsx(Search$1, _objectSpread(_objectSpread({}, props), {}, {
+    predicateConfig: filterConf,
+    defaultFilterConfig: defaultFilterConfig,
+    Table: Table
+  }));
+}
 
 var _excluded$6 = ["dataset", "className"];
 function Activity(_ref) {
@@ -46481,7 +45229,7 @@ function Activity(_ref) {
     excludedFilters: ['datasetKey'] // highlightedFilters: ['taxonKey', 'catalogNumber', 'recordedBy', 'identifiedBy', 'typeStatus']
 
   };
-  return react.jsx("div", null, react.jsx(Search$2, {
+  return react.jsx("div", null, react.jsx(Search, {
     config: config,
     style: {
       margin: 'auto',
@@ -46494,8 +45242,8 @@ function Activity(_ref) {
 var _excluded$5 = ["highlighted"];
 
 var _ref2 = {
-  name: "p3cyll",
-  styles: "display:flex;justify-content:space-evenly;margin:24px 0"
+  name: "ykpqe9-options",
+  styles: "display:flex;justify-content:space-evenly;margin:24px 0;label:options;"
 } ;
 
 var options = function options(_ref3) {
@@ -46507,12 +45255,12 @@ var card = function card(_ref4) {
   var highlighted = _ref4.highlighted;
       _objectWithoutProperties__default["default"](_ref4, _excluded$5);
 
-  return /*#__PURE__*/react.css("background:white;width:250px;max-width:100%;background:white;padding:24px;margin:12px;border-radius:8px;box-shadow:0 0 3px 3px rgba(0,0,0,.05);font-size:14px;h4{font-size:16px;font-weight:bold;margin:0 0 24px 0;}>div{margin-bottom:12px;}", highlighted ? isHighlighted() : '', ";" + ("" ), "" );
+  return /*#__PURE__*/react.css("background:white;width:250px;max-width:100%;background:white;padding:24px;margin:12px;border-radius:8px;box-shadow:0 0 3px 3px rgba(0,0,0,.05);font-size:14px;h4{font-size:16px;font-weight:bold;margin:0 0 24px 0;}>div{margin-bottom:12px;}", highlighted ? isHighlighted() : '', ";;label:card;" + ("" ));
 };
 
 var _ref = {
-  name: "ieew9t",
-  styles: "transform:scale(1.025);border-color:#9ecaed;box-shadow:0 0 10px #9ecaed"
+  name: "s4ygd5-isHighlighted",
+  styles: "transform:scale(1.025);border-color:#9ecaed;box-shadow:0 0 10px #9ecaed;label:isHighlighted;"
 } ;
 
 function isHighlighted() {
@@ -46555,7 +45303,7 @@ var headline = function headline(_ref) {
   var theme = _ref.theme;
       _objectWithoutProperties__default["default"](_ref, _excluded$3);
 
-  return /*#__PURE__*/react.css("color:", theme.color, ";margin-top:0;" + ("" ), "" );
+  return /*#__PURE__*/react.css("color:", theme.color, ";margin-top:0;;label:headline;" + ("" ));
 };
 
 var H1 = Prose.H1;
@@ -46575,8 +45323,8 @@ Prose.H1;
 function DatasetPresentation(_ref) {
   var _literatureSearch$doc;
 
-  var id = _ref.id,
-      data = _ref.data,
+  _ref.id;
+      var data = _ref.data,
       insights = _ref.insights,
       error = _ref.error,
       loading = _ref.loading;
@@ -46589,7 +45337,7 @@ function DatasetPresentation(_ref) {
       path = _useRouteMatch.path;
 
   var theme = React.useContext(ThemeContext);
-  if (loading) return react.jsx("div", null, "loading");
+  if (loading && !data) return react.jsx("div", null, "loading");
   var dataset = data.dataset,
       literatureSearch = data.literatureSearch,
       occurrenceSearch = data.occurrenceSearch;
@@ -46600,41 +45348,7 @@ function DatasetPresentation(_ref) {
     // TODO a generic component for failures is needed
     return react.jsx("div", null, "Failed to retrieve item");
   }
-
-  var rootPredicate = {
-    "type": "equals",
-    "value": id,
-    "key": "datasetKey"
-  };
-  var config = {
-    rootPredicate: rootPredicate,
-    excludedFilters: ['datasetCode', 'datasetKey', 'institutionKey', 'institutionCode', 'hostingOrganizationKey', 'protocol', 'publishingCountryCode'],
-    occurrenceSearchTabs: ['TABLE', 'GALLERY', 'MAP'],
-    highlightedFilters: ['taxonKey', 'catalogNumber', 'recordedBy', 'identifiedBy', 'typeStatus']
-  };
-  return react.jsx(React__default["default"].Fragment, null, react.jsx(DataHeader, {
-    left: react.jsx(ResourceSearchLink, {
-      type: "datasetSearch",
-      discreet: true
-    }, react.jsx(md.MdKeyboardArrowLeft, null), react.jsx(reactIntl.FormattedMessage, {
-      id: "catalogues.datasets"
-    })),
-    style: {
-      borderBottom: "1px solid ".concat(theme.paperBorderColor),
-      background: 'white'
-    },
-    right: react.jsx("div", {
-      css: headerIcons
-    }, !isBelowNarrow && react.jsx(Doi, {
-      id: dataset.doi
-    }), react.jsx(Button, {
-      look: "text"
-    }, react.jsx(md.MdFormatQuote, null)), react.jsx(Button, {
-      look: "text"
-    }, react.jsx(md.MdOutlineCode, null)), react.jsx(Button, {
-      look: "text"
-    }, react.jsx(md.MdOutlineHelpOutline, null)))
-  }), react.jsx("div", {
+  return react.jsx(React__default["default"].Fragment, null, react.jsx("div", {
     css: headerWrapper({
       theme: theme
     })
@@ -46752,15 +45466,6 @@ function DatasetPresentation(_ref) {
   }, react.jsx(DownloadOptions, {
     dataset: dataset
   }))), react.jsx(reactRouterDom.Route, {
-    path: join(path, 'specimens')
-  }, react.jsx(OccurrenceSearch, {
-    config: config,
-    style: {
-      margin: 'auto',
-      maxWidth: 1000,
-      minHeight: 'calc(90vh)'
-    }
-  })), react.jsx(reactRouterDom.Route, {
     path: join(path, 'project')
   }, react.jsx("div", {
     css: proseWrapper({
@@ -46819,44 +45524,63 @@ function Dataset(_ref2) {
   var id = _ref2.id;
       _objectWithoutProperties__default["default"](_ref2, _excluded$1);
 
-  var _useQuery = useQuery(DATASET, {
+  var _useQuery = useQuery(DATASET_SECONDARY, {
     lazyLoad: true
   }),
-      data = _useQuery.data,
-      error = _useQuery.error,
-      loading = _useQuery.loading,
-      load = _useQuery.load;
+      insights = _useQuery.data,
+      insightsError = _useQuery.error,
+      insightsLoading = _useQuery.loading,
+      loadInsights = _useQuery.load;
 
-  var _useQuery2 = useQuery(DATASET_SECONDARY, {
-    lazyLoad: true
-  }),
-      insights = _useQuery2.data,
-      insightsError = _useQuery2.error,
-      insightsLoading = _useQuery2.loading,
-      loadInsights = _useQuery2.load;
-
-  React.useContext(ThemeContext);
   var siteContext = React.useContext(SiteContext);
   var sitePredicate = siteContext === null || siteContext === void 0 ? void 0 : (_siteContext$occurren = siteContext.occurrence) === null || _siteContext$occurren === void 0 ? void 0 : _siteContext$occurren.rootPredicate;
+
+  var getVariables = function getVariables(_ref3) {
+    var sitePredicate = _ref3.sitePredicate,
+        id = _ref3.id;
+    var datasetPredicate = {
+      type: "equals",
+      key: "datasetKey",
+      value: id
+    }; // we also want to know how many of those occurrences are included on the present site
+
+    var predicates = [datasetPredicate];
+    if (sitePredicate) predicates.push(sitePredicate);
+    return {
+      key: id,
+      predicate: datasetPredicate,
+      sitePredicate: {
+        type: 'and',
+        predicates: predicates
+      }
+    };
+  };
+
+  var _useState = React.useState(getVariables({
+    sitePredicate: sitePredicate,
+    id: id
+  })),
+      _useState2 = _slicedToArray__default["default"](_useState, 1),
+      variables = _useState2[0];
+
+  var _useQuery2 = useQuery(DATASET, {
+    variables: variables
+  }),
+      data = _useQuery2.data,
+      error = _useQuery2.error,
+      loading = _useQuery2.loading,
+      load = _useQuery2.load;
+
   React.useEffect(function () {
     if (typeof id !== 'undefined') {
-      var datasetPredicate = {
-        type: "equals",
-        key: "datasetKey",
-        value: id
-      }; // we also want to know how many of those occurrences are included on the present site
+      var _variables = getVariables({
+        sitePredicate: sitePredicate,
+        id: id
+      });
 
-      var predicates = [datasetPredicate];
-      if (sitePredicate) predicates.push(sitePredicate);
+      var datasetPredicate = _variables.predicate;
       load({
-        variables: {
-          key: id,
-          predicate: datasetPredicate,
-          sitePredicate: {
-            type: 'and',
-            predicates: predicates
-          }
-        }
+        variables: _variables
       });
       loadInsights({
         variables: {
@@ -46929,9 +45653,9 @@ function Wrap(_ref) {
   var siteConfig = _ref.siteConfig,
       props = _objectWithoutProperties__default["default"](_ref, _excluded);
 
-  return react.jsx(StandaloneWrapper, {
+  return react.jsx(StandaloneWrapper, _extends__default["default"]({
     siteConfig: siteConfig
-  }, react.jsx(Standalone, props));
+  }, props), react.jsx(Standalone, props));
 }
 
 function Standalone(props) {
@@ -46950,19 +45674,20 @@ function Standalone(props) {
 exports.Accordion = Accordion;
 exports.AltmetricDonut = AltmetricDonut;
 exports.Autocomplete = Autocomplete;
+exports.BrowserDataContext = BrowserDataContext;
 exports.Button = Button;
 exports.ButtonGroup = ButtonGroup;
 exports.Checkbox = Checkbox;
 exports.Classification = Classification;
 exports.Col = Col;
-exports.Collection = Standalone$2;
-exports.CollectionSearch = Wrap$5;
+exports.CollateContext = CollateContext;
+exports.Collection = Wrap$2;
 exports.ContactList = ContactList;
+exports.DataContext = DataContext;
 exports.DataHeader = DataHeader;
 exports.DataTable = DataTable;
 exports.Dataset = Wrap;
 exports.DatasetKeyLink = DatasetKeyLink;
-exports.DatasetSearch = Wrap$2;
 exports.DetailsDrawer = DetailsDrawer;
 exports.Doi = Doi;
 exports.Eyebrow = Eyebrow;
@@ -46978,11 +45703,9 @@ exports.IconFeatures = IconFeatures;
 exports.IdentifierBadge = IdentifierBadge;
 exports.Image = Image$1;
 exports.Input = Input;
-exports.Institution = Standalone$1;
-exports.InstitutionSearch = Wrap$4;
+exports.Institution = Wrap$1;
 exports.JazzIcon = JazzIcon;
 exports.LicenseTag = LicenseTag;
-exports.LiteratureSearch = Wrap$3;
 exports.MajorRanks = MajorRanks;
 exports.Menu = Menu;
 exports.MenuAction = MenuAction;
@@ -46991,13 +45714,11 @@ exports.Message = Message;
 exports.NavBar = NavBar;
 exports.NavItem = NavItem;
 exports.OccurrenceMap = OccurrenceMap;
-exports.OccurrenceSearch = Wrap$6;
 exports.Popover = Popover$9;
 exports.Progress = Progress;
 exports.Properties = Properties;
 exports.Prose = Prose;
 exports.PublisherKeyLink = PublisherKeyLink;
-exports.PublisherSearch = Wrap$1;
 exports.Radio = Radio;
 exports.ResourceLink = ResourceLink;
 exports.ResourceSearchLink = ResourceSearchLink;
@@ -47016,5 +45737,5 @@ exports.Th = Th;
 exports.Toc = Toc;
 exports.Tooltip = Tooltip;
 exports.ZoomableImage = ZoomableImage;
-exports.themeBuilder = themeBuilder;
+exports.createServerContext = createServerContext;
 exports.useToc = useToc;
