@@ -42,12 +42,12 @@ var _wrapNativeSuper = require('@babel/runtime/helpers/wrapNativeSuper');
 var useDeepCompareEffect = require('use-deep-compare-effect');
 var _asyncToGenerator = require('@babel/runtime/helpers/asyncToGenerator');
 var _regeneratorRuntime = require('@babel/runtime/regenerator');
-var reactUse = require('react-use');
 var Router = require('react-router-dom/StaticRouter');
 var useQueryParams = require('use-query-params');
 var _toConsumableArray = require('@babel/runtime/helpers/toConsumableArray');
 var _typeof = require('@babel/runtime/helpers/typeof');
 var isEqual = require('react-fast-compare');
+var reactUse = require('react-use');
 var queryString = require('query-string');
 var equal = require('fast-deep-equal/react');
 var jsBase64 = require('js-base64');
@@ -508,7 +508,7 @@ function join() {
   .join('/').replace(/\/\//g, '\/');
 }
 
-var _excluded$22 = ["className", "loading", "isFullWidth", "isIcon", "appearance", "look", "children", "truncate"],
+var _excluded$21 = ["className", "loading", "isFullWidth", "isIcon", "appearance", "look", "children", "truncate"],
     _excluded2$k = ["isActive", "onClearRequest", "onClick", "loading", "children", "title", "isNegated"];
 var truncateStyle = {
   overflow: 'hidden',
@@ -528,7 +528,7 @@ var Button = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, r
       look = _ref$look === void 0 ? 'primary' : _ref$look,
       children = _ref.children,
       truncate = _ref.truncate,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$22);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$21);
 
   appearance = appearance || look;
   var theme = React.useContext(ThemeContext);
@@ -616,7 +616,7 @@ var FilterButton = /*#__PURE__*/React__default["default"].forwardRef(function (_
   })));
 });
 
-var _excluded$21 = ["as", "className", "style"];
+var _excluded$20 = ["as", "className", "style"];
 var Switch = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Span = _ref$as === void 0 ? 'span' : _ref$as,
@@ -624,7 +624,7 @@ var Switch = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, r
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$21);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$20);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx(Span, {
@@ -708,7 +708,7 @@ var checkbox = function checkbox(props) {
   return /*#__PURE__*/react.css("position:relative;top:-0.09em;display:inline-block;line-height:1;white-space:nowrap;vertical-align:middle;outline:none;cursor:pointer;input{", transparentInputOverlay, ";}& input+span{position:relative;top:0;left:0;display:block;width:1em;height:1em;background-color:", props.theme.darkTheme ? props.theme.paperBackground700 : null, ";border:1px solid #88888855;border-radius:", Math.min(2, props.theme.borderRadius), "px;transition:all 0.1s;&:after{position:absolute;top:50%;left:30%;display:table;width:40%;height:60%;border:2px solid #fff;border-top:0;border-left:0;transform:rotate(45deg) scale(0) translate(-50%, -50%);opacity:0;transition:all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6),opacity 0.1s;content:' ';}}& input:checked+span{background-color:#1890ff;border-color:#1890ff;&:after{transform:rotate(45deg) scale(1) translate(-50%, -50%);opacity:1;transition:all 0.1s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;}}& input:focus+span{box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);};label:checkbox;" + ("" ));
 };
 
-var _excluded$20 = ["as", "className", "style"];
+var _excluded$1$ = ["as", "className", "style"];
 var Checkbox = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Span = _ref$as === void 0 ? 'span' : _ref$as,
@@ -716,7 +716,7 @@ var Checkbox = /*#__PURE__*/React__default["default"].forwardRef(function (_ref,
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$20);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1$);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx(Span, {
@@ -778,7 +778,7 @@ Input.displayName = 'Input'; // export const FilterInput2 = React.forwardRef(({
 //   </div>
 // });
 
-var _excluded$1$ = ["as", "appRoot", "style"];
+var _excluded$1_ = ["as", "appRoot", "style"];
 
 function ownKeys$m(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -789,7 +789,7 @@ var Root = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref
       _ref$appRoot = _ref.appRoot,
       appRoot = _ref$appRoot === void 0 ? false : _ref$appRoot,
       style = _ref.style,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1$);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1_);
 
   var theme = React.useContext(ThemeContext);
   var _theme$cssVariables = theme.cssVariables,
@@ -806,7 +806,7 @@ var Root = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref
 });
 Root.displayName = 'Root';
 
-var _excluded$1_ = ["trigger", "placement", "visible", "modal", "onClickOutside", "children"];
+var _excluded$1Z = ["trigger", "placement", "visible", "modal", "onClickOutside", "children"];
 
 var Popover$9 = function Popover(_ref2) {
   var trigger = _ref2.trigger;
@@ -815,7 +815,7 @@ var Popover$9 = function Popover(_ref2) {
       modal = _ref2.modal,
       onClickOutside = _ref2.onClickOutside,
       children = _ref2.children,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1_);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1Z);
 
   var theme = React.useContext(ThemeContext);
   var popover = Popover$a.usePopoverState({
@@ -883,7 +883,7 @@ var dialog = function dialog(theme) {
   return /*#__PURE__*/react.css("background-color:", theme.paperBackground500, ";top:28px;left:50%;transform:translateX(-50%);z-index:999;border-radius:", theme.borderRadius, "px;outline:0px;border:1px solid ", theme.paperBorderColor, ";&:focus{outline:none;}&>.arrow{background-color:transparent;& .stroke{fill:", theme.paperBorderColor, ";}& .fill{fill:", theme.paperBackground500, ";}};label:dialog;" + ("" ));
 };
 
-var _excluded$1Z = ["active", "error", "className"];
+var _excluded$1Y = ["active", "error", "className"];
 
 var _templateObject;
 var loading = react.keyframes(_templateObject || (_templateObject = _taggedTemplateLiteral__default["default"](["\n  from {\n    left: -200,\n    width: 30% \n  }\n  50% {\n    width: 30%\n  }\n  70% {\n    width: 70%\n  }\n  80% {\n    left: 50%\n  }\n  95% {\n    left: 120%\n  }\n  to {\n    left: 100%\n  }\n"])));
@@ -907,7 +907,7 @@ function StripeLoader(_ref3) {
   var active = _ref3.active,
       error = _ref3.error,
       className = _ref3.className;
-      _objectWithoutProperties__default["default"](_ref3, _excluded$1Z);
+      _objectWithoutProperties__default["default"](_ref3, _excluded$1Y);
 
   var theme = React.useContext(ThemeContext);
 
@@ -925,11 +925,11 @@ function StripeLoader(_ref3) {
   }));
 }
 
-var _excluded$1Y = ["theme"],
+var _excluded$1X = ["theme"],
     _excluded2$j = ["theme"];
 var wrapper$1 = function wrapper(_ref2) {
   var theme = _ref2.theme,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1Y);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1X);
 
   return /*#__PURE__*/react.css("display:inline-block;margin:0;padding:0;font-variant:tabular-nums;line-height:1.5;list-style:none;box-sizing:border-box;font-size:14px;font-variant:initial;background-color:", theme.paperBackground500, ";border-radius:", theme.borderRadius, "px;outline:none;box-shadow:0 2px 8px rgba(0, 0, 0, 0.15);width:100%;position:absolute;transform:translateY(", props.isOpen ? 5 : 0, "px);opacity:", props.isOpen ? 1 : 0, ";z-index:", props.isOpen ? 10 : null, ";transition:opacity .1s linear,transform .1s ease-in-out;;label:wrapper;" + ("" ));
 };
@@ -954,7 +954,7 @@ var styles$9 = {
   item: item
 };
 
-var _excluded$1X = ["onSuggestionsFetchRequested", "renderSuggestion", "getSuggestionValue", "onSuggestionSelected", "inputProps", "defaultIsOpen", "isLoading", "suggestions", "loadingError", "style", "listCss", "menuCss", "delay"];
+var _excluded$1W = ["onSuggestionsFetchRequested", "renderSuggestion", "getSuggestionValue", "onSuggestionSelected", "inputProps", "defaultIsOpen", "isLoading", "suggestions", "loadingError", "style", "listCss", "menuCss", "delay"];
 
 function ownKeys$l(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -974,7 +974,7 @@ var Autocomplete = /*#__PURE__*/React__default["default"].forwardRef(function (_
       menuCss = _ref.menuCss,
       _ref$delay = _ref.delay,
       delay = _ref$delay === void 0 ? 300 : _ref$delay;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1X);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1W);
 
   var theme = React.useContext(ThemeContext);
   var menuStyle = listCss || styles$9.menu;
@@ -2038,7 +2038,7 @@ var tabSpacer = function tabSpacer(_ref7) {
   return _ref$x;
 };
 
-var _excluded$1W = ["activeId", "onChange"],
+var _excluded$1V = ["activeId", "onChange"],
     _excluded2$i = ["vertical"],
     _excluded3$9 = ["direction", "label", "to", "exact", "className"],
     _excluded4$4 = ["tabId", "direction"],
@@ -2048,7 +2048,7 @@ var TabsContext = /*#__PURE__*/React__default["default"].createContext({});
 var ControlledTabs = function ControlledTabs(_ref) {
   var activeId = _ref.activeId,
       onChange = _ref.onChange,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1W);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1V);
 
   return react.jsx(TabsContext.Provider, _extends__default["default"]({
     value: {
@@ -2173,7 +2173,7 @@ Tabs.TapSeperator = TapSeperator$2;
 Tabs.TapSpacer = TapSpacer;
 Tabs.RouterTab = RouterTab$3;
 
-var _excluded$1V = ["shrink", "grow", "basis", "xs"];
+var _excluded$1U = ["shrink", "grow", "basis", "xs"];
 
 var row = function row(props) {
   return /*#__PURE__*/react.css("display:flex;flex-direction:", props.direction || null, ";flex-wrap:", props.wrap ? props.wrap : 'wrap', ";align-items:", props.alignItems ? props.alignItems : null, ";margin:", props.halfGutter ? -props.halfGutter + 'px' : null, ";justify-content:", props.justifyContent ? props.justifyContent : null, ";>*{padding:", props.halfGutter ? props.halfGutter + 'px' : null, ";};label:row;" + ("" ));
@@ -2193,12 +2193,12 @@ var col = function col(_ref) {
       grow = _ref.grow,
       basis = _ref.basis,
       xs = _ref.xs,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1V);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1U);
 
   return /*#__PURE__*/react.css("flex-grow:", asFlexValue(grow), ";flex-shrink:", asFlexValue(shrink), ";flex-basis:", basis ? typeof basis === 'number' ? basis + '%' : basis : 'auto', ";flex-basis:", xs ? xs * 100 / 24 + '%' : null, ";", getFlexSize(props.sm, 600), ";", getFlexSize(props.md, 700), ";", getFlexSize(props.lg, 800), ";", getFlexSize(props.xl, 1000), ";;label:col;" + ("" ));
 };
 
-var _excluded$1U = ["as", "className", "style", "wrap", "direction", "alignItems", "justifyContent", "halfGutter", "gridGutter", "shrink", "grow", "basis", "xs", "sm", "md", "lg", "xl"];
+var _excluded$1T = ["as", "className", "style", "wrap", "direction", "alignItems", "justifyContent", "halfGutter", "gridGutter", "shrink", "grow", "basis", "xs", "sm", "md", "lg", "xl"];
 
 var GetComponent = function GetComponent(rowComponentStyle) {
   return /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
@@ -2222,7 +2222,7 @@ var GetComponent = function GetComponent(rowComponentStyle) {
         md = _ref.md,
         lg = _ref.lg,
         xl = _ref.xl,
-        props = _objectWithoutProperties__default["default"](_ref, _excluded$1U);
+        props = _objectWithoutProperties__default["default"](_ref, _excluded$1T);
 
     return react.jsx(As, _extends__default["default"]({
       ref: ref,
@@ -2252,7 +2252,7 @@ var GetComponent = function GetComponent(rowComponentStyle) {
 var Row = GetComponent(row);
 var Col = GetComponent(col);
 
-var _excluded$1T = ["trigger", "placement", "items", "style"],
+var _excluded$1S = ["trigger", "placement", "items", "style"],
     _excluded2$h = ["children", "onChange", "className", "style"],
     _excluded3$8 = ["children"];
 var Menu = /*#__PURE__*/React__default["default"].memo(function (_ref2) {
@@ -2260,7 +2260,7 @@ var Menu = /*#__PURE__*/React__default["default"].memo(function (_ref2) {
       placement = _ref2.placement,
       items = _ref2.items,
       style = _ref2.style,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1T);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1S);
 
   var theme = React.useContext(ThemeContext);
   var menu = Menu$1.useMenuState({
@@ -2346,12 +2346,12 @@ var styles$8 = {
   tooltip: tooltip
 };
 
-var _excluded$1S = ["children", "title", "placement"];
+var _excluded$1R = ["children", "title", "placement"];
 function Tooltip(_ref) {
   var children = _ref.children,
       title = _ref.title,
       placement = _ref.placement,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1S);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1R);
 
   var tooltip = Tooltip$1.useTooltipState({
     placement: placement
@@ -2386,11 +2386,11 @@ var skeleton = function skeleton(_ref) {
   return /*#__PURE__*/react.css("width:", width, ";display:inline-block;height:1em;animation:", skeletonLoading, " 3s linear infinite;;label:skeleton;" + ("" ));
 };
 
-var _excluded$1R = ["width"];
+var _excluded$1Q = ["width"];
 var Skeleton = function Skeleton(_ref) {
   var _ref$width = _ref.width,
       width = _ref$width === void 0 ? '100%' : _ref$width,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1R);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1Q);
 
   var theme = React.useContext(ThemeContext);
   var w;
@@ -2412,7 +2412,7 @@ var Skeleton = function Skeleton(_ref) {
 };
 Skeleton.displayName = 'Skeleton';
 
-var _excluded$1Q = ["noWrap"];
+var _excluded$1P = ["noWrap"];
 var wrapper = function wrapper(props) {
   return /*#__PURE__*/react.css("border:1px solid ", props.theme.paperBorderColor, ";;label:wrapper;" + ("" ));
 };
@@ -2472,7 +2472,7 @@ var cell = function cell(props) {
 };
 var dataCell = function dataCell(_ref9) {
   var noWrap = _ref9.noWrap;
-      _objectWithoutProperties__default["default"](_ref9, _excluded$1Q);
+      _objectWithoutProperties__default["default"](_ref9, _excluded$1P);
 
   return /*#__PURE__*/react.css(noWrap ? 'white-space: nowrap;' : '', ";;label:dataCell;" + ("" ));
 };
@@ -2536,7 +2536,7 @@ var styles$7 = /*#__PURE__*/Object.freeze({
   'default': styles$6
 });
 
-var _excluded$1P = ["loading", "columnCount", "rowCount"],
+var _excluded$1O = ["loading", "columnCount", "rowCount"],
     _excluded2$g = ["children", "width", "toggle", "locked"],
     _excluded3$7 = ["children", "width", "noWrap"],
     _excluded4$3 = ["intl", "loading", "theme", "children", "first", "prev", "next", "size", "from", "total", "fixedColumn", "style"];
@@ -2548,7 +2548,7 @@ var TBody = function TBody(_ref) {
   var loading = _ref.loading,
       columnCount = _ref.columnCount,
       rowCount = _ref.rowCount,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1P);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1O);
 
   var theme = React.useContext(ThemeContext); // if not loading, then simply show the content as is
 
@@ -2761,7 +2761,7 @@ function DataTable(props) {
   }, props));
 }
 
-var _excluded$1O = ["src", "w", "h"];
+var _excluded$1N = ["src", "w", "h"];
 var getImageSrc = function getImageSrc(_ref) {
   var src = _ref.src,
       _ref$w = _ref.w,
@@ -2776,7 +2776,7 @@ var Image$1 = /*#__PURE__*/React__default["default"].forwardRef(function (_ref2,
       w = _ref2$w === void 0 ? '' : _ref2$w,
       _ref2$h = _ref2.h,
       h = _ref2$h === void 0 ? '' : _ref2$h,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1O);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$1N);
 
   return react.jsx("img", _extends__default["default"]({
     src: getImageSrc({
@@ -2870,11 +2870,11 @@ var styles$5 = {
   image: image
 };
 
-var _excluded$1N = ["src", "thumbnail"];
+var _excluded$1M = ["src", "thumbnail"];
 var ZoomableImage = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var src = _ref.src,
       thumbnail = _ref.thumbnail,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1N);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1M);
 
   var theme = React.useContext(ThemeContext);
 
@@ -2942,7 +2942,7 @@ var ZoomableImage = /*#__PURE__*/React__default["default"].forwardRef(function (
 });
 ZoomableImage.displayName = 'ZoomableImage';
 
-var _excluded$1M = ["closeRequest", "item", "title", "subtitle", "details", "previous", "next", "imageSrc"];
+var _excluded$1L = ["closeRequest", "item", "title", "subtitle", "details", "previous", "next", "imageSrc"];
 Tabs.TabList;
     Tabs.Tab;
     Tabs.TabPanel;
@@ -2955,7 +2955,7 @@ var GalleryDetails = function GalleryDetails(_ref) {
       previous = _ref.previous,
       next = _ref.next,
       imageSrc = _ref.imageSrc,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1M);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1L);
 
   var _useState = React.useState({
     src: imageSrc(item)
@@ -3011,7 +3011,7 @@ var GalleryDetails = function GalleryDetails(_ref) {
 GalleryDetails.displayName = 'Gallery'; // Gallery.propTypes = {
 // };
 
-var _excluded$1L = ["height"],
+var _excluded$1K = ["height"],
     _excluded2$f = ["src", "onSelect", "height", "minWidth", "children", "style"],
     _excluded3$6 = ["onSelect", "caption", "title", "subtitle", "details", "items", "loading", "loadMore", "imageSrc", "size"],
     _excluded4$2 = ["children"];
@@ -3022,7 +3022,7 @@ function _objectSpread$k(target) { for (var i = 1; i < arguments.length; i++) { 
 var GalleryTileSkeleton = function GalleryTileSkeleton(_ref) {
   var _ref$height = _ref.height,
       height = _ref$height === void 0 ? 150 : _ref$height,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1L);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1K);
 
   return react.jsx("div", _extends__default["default"]({
     css: skeletonTile({
@@ -3203,7 +3203,7 @@ var GalleryTiles = function GalleryTiles(_ref4) {
 Gallery.displayName = 'Gallery'; // Gallery.propTypes = {
 // };
 
-var _excluded$1K = ["size", "color"],
+var _excluded$1J = ["size", "color"],
     _excluded2$e = ["size", "color"],
     _excluded3$5 = ["theme"];
 var arrowDown = function arrowDown(_ref2) {
@@ -3211,7 +3211,7 @@ var arrowDown = function arrowDown(_ref2) {
       size = _ref2$size === void 0 ? 5 : _ref2$size,
       _ref2$color = _ref2.color,
       color = _ref2$color === void 0 ? '#88888855' : _ref2$color;
-      _objectWithoutProperties__default["default"](_ref2, _excluded$1K);
+      _objectWithoutProperties__default["default"](_ref2, _excluded$1J);
 
   return /*#__PURE__*/react.css("width:0;height:0;border-left:", size, "px solid transparent;border-right:", size, "px solid transparent;border-top:", size, "px solid ", color, ";;label:arrowDown;" + ("" ));
 };
@@ -3254,7 +3254,7 @@ var styles$4 = {
   arrowUp: arrowUp
 };
 
-var _excluded$1J = ["summary", "summaryStyle", "open", "onToggle", "children"];
+var _excluded$1I = ["summary", "summaryStyle", "open", "onToggle", "children"];
 
 function AccordionControlled(_ref) {
   var summary = _ref.summary,
@@ -3262,7 +3262,7 @@ function AccordionControlled(_ref) {
       open = _ref.open,
       onToggle = _ref.onToggle,
       children = _ref.children,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1J);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1I);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx("details", _extends__default["default"]({
@@ -3335,7 +3335,7 @@ function useBelow() {
   return isBelow;
 }
 
-var _excluded$1I = ["horizontal", "dense"],
+var _excluded$1H = ["horizontal", "dense"],
     _excluded2$d = ["horizontal", "theme"];
 
 function ownKeys$j(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -3362,7 +3362,7 @@ var notHorizontalProperties = function notHorizontalProperties() {
 var dl = function dl(_ref4) {
   var horizontal = _ref4.horizontal,
       dense = _ref4.dense,
-      props = _objectWithoutProperties__default["default"](_ref4, _excluded$1I);
+      props = _objectWithoutProperties__default["default"](_ref4, _excluded$1H);
 
   return /*#__PURE__*/react.css(horizontal ? horizontalProperties(_objectSpread$j({}, props)) : notHorizontalProperties(), ";margin-top:0;margin-bottom:0;>*{margin-bottom:", horizontal && dense ? 4 : 12, "px;};label:dl;" + ("" ));
 };
@@ -3385,7 +3385,7 @@ var dd = function dd(_ref6) {
   return _ref$s;
 };
 
-var _excluded$1H = ["as", "breakpoint", "horizontal", "dense"],
+var _excluded$1G = ["as", "breakpoint", "horizontal", "dense"],
     _excluded2$c = ["as"],
     _excluded3$4 = ["as"];
 function Properties(_ref) {
@@ -3395,7 +3395,7 @@ function Properties(_ref) {
       horizontal = _ref.horizontal,
       _ref$dense = _ref.dense,
       dense = _ref$dense === void 0 ? false : _ref$dense,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1H);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1G);
 
   var isBelow = useBelow(breakpoint);
   var theme = React.useContext(ThemeContext);
@@ -3442,7 +3442,7 @@ var styles$3 = {
   radio: radio
 };
 
-var _excluded$1G = ["as", "className", "style"];
+var _excluded$1F = ["as", "className", "style"];
 var Radio = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Span = _ref$as === void 0 ? 'span' : _ref$as,
@@ -3450,7 +3450,7 @@ var Radio = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, re
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1G);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1F);
 
   var theme = React.useContext(ThemeContext);
 
@@ -3472,7 +3472,7 @@ var Radio = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, re
 });
 Radio.displayName = 'Radio';
 
-var _excluded$1F = ["theme"];
+var _excluded$1E = ["theme"];
 
 var _ref$r = {
   name: "1aydhai-drawer",
@@ -3486,7 +3486,7 @@ var drawer = function drawer(_ref4) {
 };
 var detailsBackdrop = function detailsBackdrop(_ref5) {
   var theme = _ref5.theme;
-      _objectWithoutProperties__default["default"](_ref5, _excluded$1F);
+      _objectWithoutProperties__default["default"](_ref5, _excluded$1E);
 
   return /*#__PURE__*/react.css("position:fixed;bottom:0;top:0;right:0;left:0;background:", theme.darkTheme ? '#00000075' : '#00000050', ";z-index:", theme.drawerZIndex || 100, ";transition:opacity 50ms ease-in-out;opacity:0;&[data-enter]{opacity:1;};label:detailsBackdrop;" + ("" ));
 };
@@ -3592,14 +3592,14 @@ var sampleEventJson = {
 };
 reactIcons.GenIcon(sampleEventJson);
 
-var _excluded$1E = ["dialog", "nextItem", "previousItem", "href", "children"];
+var _excluded$1D = ["dialog", "nextItem", "previousItem", "href", "children"];
 function DetailsDrawer(_ref) {
   var dialog = _ref.dialog,
       nextItem = _ref.nextItem,
       previousItem = _ref.previousItem,
       href = _ref.href,
       children = _ref.children;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1E);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1D);
 
   var theme = React.useContext(ThemeContext);
   React.useEffect(function () {
@@ -3682,12 +3682,12 @@ function DetailsDrawer(_ref) {
 // import { css } from '@emotion/react';
 var classification = classification$1;
 
-var _excluded$1D = ["as", "className"];
+var _excluded$1C = ["as", "className"];
 function Classification(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1D);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1C);
 
   var theme = React.useContext(ThemeContext);
 
@@ -3704,13 +3704,13 @@ function Classification(_ref) {
   }, props));
 }
 
-var _excluded$1C = ["as", "taxon", "rank", "showUnknownRanks"];
+var _excluded$1B = ["as", "taxon", "rank", "showUnknownRanks"];
 function MajorRanks(_ref) {
   _ref.as;
       var taxon = _ref.taxon,
       rank = _ref.rank,
       showUnknownRanks = _ref.showUnknownRanks,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1C);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1B);
 
   React.useContext(ThemeContext);
   var ranks = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
@@ -3748,7 +3748,7 @@ var iconFeatures = function iconFeatures(_ref4) {
   return /*#__PURE__*/react.css("display:flex;flex-wrap:wrap;align-items:center;margin:-.25em -1em;div{", iconFeature(props), " margin:.25em 1em;};label:iconFeatures;" + ("" ));
 };
 
-var _excluded$1B = ["isSequenced", "isTreament", "isSpecimen", "isClustered", "isSamplingEvent", "formattedCoordinates", "eventDate", "stillImageCount", "movingImageCount", "soundCount", "typeStatus", "basisOfRecord", "countryCode", "locality", "issueCount", "children", "iconsOnly"];
+var _excluded$1A = ["isSequenced", "isTreament", "isSpecimen", "isClustered", "isSamplingEvent", "formattedCoordinates", "eventDate", "stillImageCount", "movingImageCount", "soundCount", "typeStatus", "basisOfRecord", "countryCode", "locality", "issueCount", "children", "iconsOnly"];
 function IconFeatures(_ref) {
   var isSequenced = _ref.isSequenced,
       isTreament = _ref.isTreament,
@@ -3767,7 +3767,7 @@ function IconFeatures(_ref) {
       issueCount = _ref.issueCount,
       children = _ref.children,
       iconsOnly = _ref.iconsOnly,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1B);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1A);
 
   var theme = React.useContext(ThemeContext);
   var typeStyle;
@@ -3856,13 +3856,13 @@ var identifierBadge = {
   styles: "display:inline-block;font-size:0.85em;&:hover{text-decoration:none;>span:first-of-type,>div:first-of-type{background-color:var(--primary700);}}>*{padding:0 5px;display:inline-block;border:1px solid #dbe3e7;}>span:first-of-type,>div:first-of-type{transition:all .3s ease;background-color:var(--primary500);border-color:var(--primary600);padding:0 4px;border-radius:var(--borderRadiusPx) 0 0 var(--borderRadiusPx);color:#fff;border-right-width:0;}>*:last-child{padding:0 7px;border-radius:0 var(--borderRadiusPx) var(--borderRadiusPx) 0;border-left-width:0;color:var(--color);text-decoration:none;};label:identifierBadge;"
 } ;
 
-var _excluded$1A = ["as", "className"],
+var _excluded$1z = ["as", "className"],
     _excluded2$b = ["id"];
 var IdentifierBadge = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1A);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1z);
 
   var theme = React.useContext(ThemeContext);
 
@@ -3948,7 +3948,7 @@ var content = function content() {
   return _ref$n;
 };
 
-var _excluded$1z = ["text"];
+var _excluded$1y = ["text"];
 var autolinker = new Autolinker__default["default"]({
   truncate: {
     length: 64,
@@ -4007,7 +4007,7 @@ var getDoi = function getDoi(text) {
 
 var HyperText = function HyperText(_ref) {
   var text = _ref.text,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1z);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1y);
 
   if (text === false || text === true) {
     return react.jsx(BooleanValue, _extends__default["default"]({
@@ -4070,11 +4070,11 @@ var styles$2 = {
   progress: progress$1
 };
 
-var _excluded$1y = ["className", "percent"];
+var _excluded$1x = ["className", "percent"];
 function Progress(_ref) {
   var className = _ref.className,
       percent = _ref.percent,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1y);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1x);
 
   var theme = React.useContext(ThemeContext);
 
@@ -4093,7 +4093,7 @@ function Progress(_ref) {
   }));
 }
 
-var _excluded$1x = ["type"];
+var _excluded$1w = ["type"];
 
 var _ref8$3 = {
   name: "bxtlz7-tags",
@@ -4107,7 +4107,7 @@ var tags = function tags(_ref9) {
 };
 var tag = function tag(_ref10) {
   var type = _ref10.type,
-      props = _objectWithoutProperties__default["default"](_ref10, _excluded$1x);
+      props = _objectWithoutProperties__default["default"](_ref10, _excluded$1w);
 
   return /*#__PURE__*/react.css("align-items:center;background-color:#f5f5f5;border-radius:4px;color:#4a4a4a;display:inline-flex;font-size:.85em;justify-content:center;line-height:1.5;padding-left:.75em;padding-right:.75em;white-space:nowrap;", types[type] ? types[type]({
     props: props
@@ -4173,13 +4173,13 @@ var types = {
   }
 };
 
-var _excluded$1w = ["as", "className"],
+var _excluded$1v = ["as", "className"],
     _excluded2$a = ["as", "type", "outline", "className"];
 function Tags(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1w);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1v);
 
   var theme = React.useContext(ThemeContext);
 
@@ -4221,11 +4221,11 @@ function Tag(_ref2) {
   }, classNames, props));
 }
 
-var _excluded$1v = ["gadm", "className"];
+var _excluded$1u = ["gadm", "className"];
 function GadmClassification(_ref) {
   var gadm = _ref.gadm,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1v);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1u);
 
   var theme = React.useContext(ThemeContext);
   if (!gadm) return react.jsx("span", null, "Unknown");
@@ -4254,14 +4254,14 @@ var suffix = {
   styles: "margin-left:6px;padding-left:8px;label:suffix;"
 } ;
 
-var _excluded$1u = ["as", "prefix", "suffix", "className"];
+var _excluded$1t = ["as", "prefix", "suffix", "className"];
 function Eyebrow(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       prefix = _ref.prefix,
       suffix$1 = _ref.suffix,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1u);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1t);
 
   var theme = React.useContext(ThemeContext);
 
@@ -4285,12 +4285,12 @@ var styles$1 = {
   jazzIcon: jazzIcon
 };
 
-var _excluded$1t = ["className", "children", "seed"];
+var _excluded$1s = ["className", "children", "seed"];
 function JazzIcon(_ref) {
   var className = _ref.className;
       _ref.children;
       var seed = _ref.seed,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1t);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1s);
 
   var theme = React.useContext(ThemeContext);
 
@@ -4379,12 +4379,12 @@ var genColor = function genColor(colors, random) {
   return color;
 };
 
-var _excluded$1s = ["as"],
+var _excluded$1r = ["as"],
     _excluded2$9 = ["as"];
 var Prose = function Prose(_ref5) {
   var _ref5$as = _ref5.as,
       Div = _ref5$as === void 0 ? 'div' : _ref5$as,
-      props = _objectWithoutProperties__default["default"](_ref5, _excluded$1s);
+      props = _objectWithoutProperties__default["default"](_ref5, _excluded$1r);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx(Div, _extends__default["default"]({}, props, {
@@ -21799,10 +21799,10 @@ var useToc = function useToc() {
   return [activeSection, clickHandlers, setRefs];
 };
 
-var _excluded$1r = ["refs"];
+var _excluded$1q = ["refs"];
 var Toc = function Toc(_ref) {
   var refs = _ref.refs;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1r);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1q);
 
   var theme = React.useContext(ThemeContext);
 
@@ -21871,10 +21871,10 @@ var axios = _objectSpread$h(_objectSpread$h({}, axios__default["default"]), {}, 
   post: post
 });
 
-var _excluded$1q = ["doi"];
+var _excluded$1p = ["doi"];
 function AltmetricDonut(_ref) {
   var doi = _ref.doi,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1q);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1p);
 
   var _useState = React.useState(),
       _useState2 = _slicedToArray__default["default"](_useState, 2),
@@ -21905,7 +21905,7 @@ function AltmetricDonut(_ref) {
   }));
 }
 
-var _excluded$1p = ["allowNewLines", "allowedTags", "allowedAttr", "textComponent", "isHTML", "values"];
+var _excluded$1o = ["allowNewLines", "allowedTags", "allowedAttr", "textComponent", "isHTML", "values"];
 
 function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -21918,7 +21918,7 @@ function Message(_ref) {
       isHTML = _ref.isHTML,
       _ref$values = _ref.values,
       values = _ref$values === void 0 ? {} : _ref$values,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1p);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1o);
 
   var _useIntl = reactIntl.useIntl(),
       formatMessage = _useIntl.formatMessage;
@@ -22073,13 +22073,13 @@ var LocaleContext = /*#__PURE__*/React__default["default"].createContext({
   }
 });
 
-var _excluded$1o = ["queryString", "type", "discreet"],
+var _excluded$1n = ["queryString", "type", "discreet"],
     _excluded2$8 = ["id", "type", "discreet"];
 var ResourceSearchLink = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var queryString = _ref.queryString,
       type = _ref.type,
       discreet = _ref.discreet,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1o);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1n);
 
   var routeContext = React.useContext(RouteContext);
   var basename = routeContext.basename;
@@ -22186,7 +22186,7 @@ var overflowStyle = {
   styles: "order:99;display:flex;align-items:center;label:overflowStyle;"
 } ;
 
-var _excluded$1n = ["label", "to", "icon", "exact", "className", "data-targetid", "data-inmenu", "isActive"],
+var _excluded$1m = ["label", "to", "icon", "exact", "className", "data-targetid", "data-inmenu", "isActive"],
     _excluded2$7 = ["label", "to", "icon", "exact", "className", "data-targetid", "isActive"];
 var NavTab = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var label = _ref.label,
@@ -22197,7 +22197,7 @@ var NavTab = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, r
       targetId = _ref['data-targetid'],
       inMenu = _ref['data-inmenu'],
       isActive = _ref.isActive,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1n);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1m);
 
   var theme = React.useContext(ThemeContext);
   var activeRoute = reactRouterDom.useRouteMatch({
@@ -22246,12 +22246,12 @@ var MenuRouteOption = /*#__PURE__*/React__default["default"].forwardRef(function
   }, props), icon, label);
 });
 
-var _excluded$1m = ["children", "visibilityMap"],
+var _excluded$1l = ["children", "visibilityMap"],
     _excluded2$6 = ["onClick"];
 function OverflowMenu(_ref) {
   var children = _ref.children,
       visibilityMap = _ref.visibilityMap,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1m);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1l);
 
   var shouldShowMenu = React.useMemo(function () {
     return Object.values(visibilityMap).some(function (v) {
@@ -22317,7 +22317,7 @@ function OverflowMenu(_ref) {
   }));
 }
 
-var _excluded$1l = ["children"];
+var _excluded$1k = ["children"];
 
 function ownKeys$f(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -22327,7 +22327,7 @@ function NavItem(props) {
 }
 function NavBar(_ref) {
   var children = _ref.children,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1l);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1k);
 
   var navRef = React.useRef(null);
 
@@ -22399,7 +22399,7 @@ var styles = {
   dataHeader: dataHeader
 };
 
-var _excluded$1k = ["as", "className", "availableCatalogues", "label"];
+var _excluded$1j = ["as", "className", "availableCatalogues", "label"];
 function CatalogueSelector(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
@@ -22407,7 +22407,7 @@ function CatalogueSelector(_ref) {
       _ref$availableCatalog = _ref.availableCatalogues,
       availableCatalogues = _ref$availableCatalog === void 0 ? ['OCCURRENCE', 'DATASET', 'PUBLISHER', 'LITERATURE', 'COLLECTION', 'INSTITUTION'] : _ref$availableCatalog,
       label = _ref.label;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1k);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1j);
 
   var theme = React.useContext(ThemeContext);
   var routeContext = React.useContext(RouteContext);
@@ -22511,7 +22511,7 @@ function CatalogueSelector(_ref) {
   }));
 }
 
-var _excluded$1j = ["as", "className", "left", "catalogueLabel", "availableCatalogues", "right", "children"];
+var _excluded$1i = ["as", "className", "left", "catalogueLabel", "availableCatalogues", "right", "children"];
 function DataHeader(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
@@ -22521,7 +22521,7 @@ function DataHeader(_ref) {
       availableCatalogues = _ref.availableCatalogues,
       right = _ref.right,
       children = _ref.children,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1j);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1i);
 
   var theme = React.useContext(ThemeContext);
   var showCatalogue = availableCatalogues && availableCatalogues.length > 1;
@@ -22601,7 +22601,7 @@ var contactListItem = function contactListItem(_ref4) {
   return _ref$h;
 };
 
-var _excluded$1i = ["contacts", "className"],
+var _excluded$1h = ["contacts", "className"],
     _excluded2$5 = ["contact"],
     _excluded3$3 = ["field", "contact", "value"],
     _excluded4$1 = ["field", "contact", "value"];
@@ -22611,7 +22611,7 @@ function ContactList(_ref) {
   var _ref$contacts = _ref.contacts,
       contacts = _ref$contacts === void 0 ? [] : _ref$contacts,
       className = _ref.className,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1i);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1h);
 
   var theme = React.useContext(ThemeContext);
 
@@ -22806,7 +22806,7 @@ var license = [
 	"UNSUPPORTED"
 ];
 
-var _excluded$1h = ["value", "className"];
+var _excluded$1g = ["value", "className"];
 var url2enum = {
   '//creativecommons.org/publicdomain/zero/1.0/legalcode': 'CC0_1_0',
   '//creativecommons.org/licenses/by/4.0/legalcode': 'CC_BY_4_0',
@@ -22820,7 +22820,7 @@ var enum2url = {
 function LicenseTag(_ref) {
   var value = _ref.value;
       _ref.className;
-      var props = _objectWithoutProperties__default["default"](_ref, _excluded$1h);
+      var props = _objectWithoutProperties__default["default"](_ref, _excluded$1g);
 
   React.useContext(ThemeContext);
   var val = value.replace(/http(s)?:/, '');
@@ -23134,7 +23134,7 @@ var client$1 = new ApiClient({
 
 var ApiContext = /*#__PURE__*/React__default["default"].createContext(client$1);
 
-var _excluded$1g = ["initialState"],
+var _excluded$1f = ["initialState"],
     _excluded2$4 = ["initialData"];
 var CollateContext = /*#__PURE__*/React__default["default"].createContext({
   requests: [],
@@ -23155,7 +23155,7 @@ function createServerContext() {
   function ServerDataContext(_ref) {
     var _ref$initialState = _ref.initialState,
         initialState = _ref$initialState === void 0 ? {} : _ref$initialState,
-        props = _objectWithoutProperties__default["default"](_ref, _excluded$1g);
+        props = _objectWithoutProperties__default["default"](_ref, _excluded$1f);
 
     resolvedData = initialState;
     return react.jsx(CollateContext.Provider, {
@@ -23181,7 +23181,9 @@ function createServerContext() {
               _context.next = 4;
               return Promise.all(collatorState.requests.map(function (effect) {
                 return Promise.race([effect.promise, timeOutPr])["catch"](function () {
-                  return effect.cancel();
+                  if (typeof (effect === null || effect === void 0 ? void 0 : effect.cancel) === 'function') {
+                    return effect.cancel();
+                  }
                 });
               }));
 
@@ -23432,7 +23434,7 @@ var Map$7 = function Map() {
   return null;
 };
 
-var _excluded$1f = ["mapSettings", "rootPredicate"];
+var _excluded$1e = ["mapSettings", "rootPredicate"];
 
 function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -23445,7 +23447,7 @@ function Map$6(_ref) {
 
   var mapSettings = _ref.mapSettings,
       rootPredicate = _ref.rootPredicate;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1f);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1e);
 
   var _useQuery = useQuery(OCCURRENCE_MAP$1, {
     lazyLoad: true
@@ -23553,11 +23555,11 @@ function Map$6(_ref) {
   }
 }
 
-var _excluded$1e = ["rootPredicate", "className"];
+var _excluded$1d = ["rootPredicate", "className"];
 function OccurrenceMap(_ref) {
   var rootPredicate = _ref.rootPredicate,
       className = _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1e);
+      _objectWithoutProperties__default["default"](_ref, _excluded$1d);
 
   var theme = React.useContext(ThemeContext);
 
@@ -25023,7 +25025,7 @@ function useTranslation(_ref) {
   };
 }
 
-var _excluded$1d = ["locale", "messages"];
+var _excluded$1c = ["locale", "messages"];
 
 function ownKeys$d(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -25032,7 +25034,7 @@ function LocaleProvider(_ref) {
   var locale = _ref.locale,
       _ref$messages = _ref.messages,
       customMessages = _ref$messages === void 0 ? {} : _ref$messages,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1d);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1c);
 
   var _useTranslation = useTranslation({
     locale: locale
@@ -27757,7 +27759,7 @@ var defaultContext = {
 };
 var SiteContext = /*#__PURE__*/React__default["default"].createContext(defaultContext);
 
-var _excluded$1c = ["siteConfig"];
+var _excluded$1b = ["siteConfig"];
 var client = new ApiClient({
   gql: {
     endpoint: env.GRAPH_API
@@ -27770,7 +27772,7 @@ var client = new ApiClient({
 function StandaloneWrapper(_ref) {
   var _ref$siteConfig = _ref.siteConfig,
       siteConfig = _ref$siteConfig === void 0 ? {} : _ref$siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$1c);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$1b);
 
   var _siteConfig$theme = siteConfig.theme,
       theme = _siteConfig$theme === void 0 ? lightTheme : _siteConfig$theme,
@@ -31071,7 +31073,7 @@ function guessType(value) {
 // }
 // console.log(JSON.stringify(getParams('/sdf?test=0&t&r=test=6,7&j=%7B%22a%22%3A5%7D', {guessType: true}), null, 2));
 
-var _excluded$1b = ["theme"],
+var _excluded$1a = ["theme"],
     _excluded2$3 = ["isTrackingData", "theme"],
     _excluded3$2 = ["theme"];
 
@@ -31120,7 +31122,7 @@ var header$2 = function header(_ref16) {
 };
 var globeOverlay = function globeOverlay(_ref17) {
   var theme = _ref17.theme;
-      _objectWithoutProperties__default["default"](_ref17, _excluded$1b);
+      _objectWithoutProperties__default["default"](_ref17, _excluded$1a);
 
   return /*#__PURE__*/react.css("position:absolute;border:1px solid #88888811;width:100%;height:100%;top:0;border-radius:100%;background-image:radial-gradient(farthest-corner at 30% 35%, ", theme.darkTheme ? '#ffffff33' : '#ffffffaa', " 0%, #fff0 30%);;label:globeOverlay;" + ("" ));
 };
@@ -31218,7 +31220,7 @@ var clusterFooter = function clusterFooter(_ref29) {
   return /*#__PURE__*/react.css("font-size:13px;padding:8px 12px;border-top:1px solid ", theme.paperBorderColor, ";margin-bottom:-4px;;label:clusterFooter;" + ("" ));
 };
 
-var _excluded$1a = ["lat", "lon", "svg", "className", "style"];
+var _excluded$19 = ["lat", "lon", "svg", "className", "style"];
 function Globe(_ref) {
   var _data$globe;
 
@@ -31227,7 +31229,7 @@ function Globe(_ref) {
       svg = _ref.svg;
       _ref.className;
       _ref.style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$1a);
+      _objectWithoutProperties__default["default"](_ref, _excluded$19);
 
   var _useQuery = useQuery(GLOBE, {
     lazyLoad: true
@@ -31273,7 +31275,7 @@ function Globe(_ref) {
 }
 var GLOBE = "\nquery globe($lat: Float!, $lon: Float!){\n  globe(cLat: $lat, cLon: $lon) {\n    svg\n  }\n}\n";
 
-var _excluded$19 = ["data", "loading", "error", "className"];
+var _excluded$18 = ["data", "loading", "error", "className"];
 function Header$2(_ref) {
   var _data$occurrence, _data$occurrence$vola, _data$occurrence2, _data$occurrence2$vol, _data$occurrence3, _data$occurrence4, _data$occurrence5, _data$occurrence5$gbi, _data$occurrence5$gbi2, _item$typeStatus, _item$issues;
 
@@ -31281,7 +31283,7 @@ function Header$2(_ref) {
       _ref.loading;
       _ref.error;
       _ref.className;
-      var props = _objectWithoutProperties__default["default"](_ref, _excluded$19);
+      var props = _objectWithoutProperties__default["default"](_ref, _excluded$18);
 
   var isBelow = useBelow(500);
   var theme = React.useContext(ThemeContext);
@@ -31770,7 +31772,7 @@ function prettifyEnum(text) {
   return typeof text === 'string' ? text.charAt(0) + text.slice(1).toLowerCase().replace(/_/g, ' ') : 'Unknown';
 }
 
-var _excluded$18 = ["getEnum"],
+var _excluded$17 = ["getEnum"],
     _excluded3$1 = ["label"],
     _excluded4 = ["term", "label", "showDetails", "hideIssues", "hideRemarks"];
 var T$f = Properties.Term,
@@ -31800,7 +31802,7 @@ function CustomValueField(props) {
 }
 function EnumField(_ref) {
   var getEnum = _ref.getEnum,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$18);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$17);
 
   if (!props.term) return null;
   var value = props.term.value;
@@ -31913,13 +31915,13 @@ function Chips(_ref6) {
   }))));
 }
 
-var _excluded$17 = ["as", "includeTerminal", "ranks"];
+var _excluded$16 = ["as", "includeTerminal", "ranks"];
 function TaxonClassification(_ref) {
   _ref.as;
       var _ref$includeTerminal = _ref.includeTerminal,
       includeTerminal = _ref$includeTerminal === void 0 ? false : _ref$includeTerminal,
       ranks = _ref.ranks,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$17);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$16);
 
   // const theme = useContext(ThemeContext);
   return react.jsx(Classification, props, ranks.map(function (rank, i, _ref2) {
@@ -31934,14 +31936,14 @@ Classification.propTypes = {
   as: propTypes.exports.element
 };
 
-var _excluded$16 = ["agent"];
+var _excluded$15 = ["agent"];
 Properties.Term;
     Properties.Value;
 function AgentSummary(_ref) {
   var _person$image, _person$image2, _person$name, _person$birthDate, _person$birthDate2, _person$deathDate, _person$deathDate2;
 
   var agent = _ref.agent;
-      _objectWithoutProperties__default["default"](_ref, _excluded$16);
+      _objectWithoutProperties__default["default"](_ref, _excluded$15);
 
   var theme = React.useContext(ThemeContext);
   var person = agent.person;
@@ -31971,7 +31973,7 @@ function AgentSummary(_ref) {
   }, agent.value)));
 }
 
-var _excluded$15 = ["label"];
+var _excluded$14 = ["label"];
 var T$e = Properties.Term,
     V$e = Properties.Value;
 function Groups(_ref) {
@@ -32047,7 +32049,7 @@ function Groups(_ref) {
 }
 function Group(_ref2) {
   var label = _ref2.label,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$15);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$14);
 
   return react.jsx(Accordion, _extends__default["default"]({
     summary: react.jsx(reactIntl.FormattedMessage, {
@@ -32070,7 +32072,7 @@ function Summary(_ref3) {
   }, react.jsx(Properties, {
     css: properties,
     breakpoint: 800
-  }, react.jsx(Images$1, {
+  }, react.jsx(Images, {
     showAll: showAll,
     termMap: termMap,
     occurrence: occurrence,
@@ -33077,7 +33079,7 @@ function DynamicProperties(_ref15) {
   })), react.jsx(V$e, null, content));
 }
 
-function Images$1(_ref16) {
+function Images(_ref16) {
   var occurrence = _ref16.occurrence,
       setActiveImage = _ref16.setActiveImage;
   if (occurrence.stillImageCount < 1) return null;
@@ -33278,7 +33280,7 @@ function Agents(_ref26) {
   })));
 }
 
-var _excluded$14 = ["data", "activeImage", "setActiveImage", "className"];
+var _excluded$13 = ["data", "activeImage", "setActiveImage", "className"];
 var Term = Properties.Term,
     Value = Properties.Value;
 function ImageDetails(_ref) {
@@ -33288,7 +33290,7 @@ function ImageDetails(_ref) {
       activeImage = _ref.activeImage,
       setActiveImage = _ref.setActiveImage;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$14);
+      _objectWithoutProperties__default["default"](_ref, _excluded$13);
 
   var theme = React.useContext(ThemeContext);
   React.useEffect(function () {
@@ -33354,7 +33356,7 @@ function ImageDetails(_ref) {
   }), react.jsx("div", null))));
 }
 
-var _excluded$13 = ["data", "isSpecimen", "loading", "fieldGroups", "setActiveImage", "error", "className"];
+var _excluded$12 = ["data", "isSpecimen", "loading", "fieldGroups", "setActiveImage", "error", "className"];
 function Intro$1(_ref) {
   var _ref$data = _ref.data,
       data = _ref$data === void 0 ? {} : _ref$data;
@@ -33364,7 +33366,7 @@ function Intro$1(_ref) {
       var setActiveImage = _ref.setActiveImage,
       error = _ref.error;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$13);
+      _objectWithoutProperties__default["default"](_ref, _excluded$12);
 
   var theme = React.useContext(ThemeContext);
 
@@ -33422,7 +33424,7 @@ function Intro$1(_ref) {
 {$ occurrence.dataset.citation.text $} {$ _meta.domain $}/occurrence/{$ occurrence.record.key $}
 */
 
-var _excluded$12 = ["data", "loading", "activeImage", "setActiveImage", "className"],
+var _excluded$11 = ["data", "loading", "activeImage", "setActiveImage", "className"],
     _excluded2$2 = ["original", "reasons", "related"];
 var T$d = Properties.Term,
     V$d = Properties.Value;
@@ -33434,7 +33436,7 @@ function Cluster(_ref) {
       _ref.activeImage;
       _ref.setActiveImage;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$12);
+      _objectWithoutProperties__default["default"](_ref, _excluded$11);
 
   var _useUrlState = useUrlState({
     param: 'entity'
@@ -33658,7 +33660,7 @@ var linksWithTemplates = Object.keys(links).reduce(function (acc, cur) {
 }, {});
 var LinksContext = /*#__PURE__*/React__default["default"].createContext(linksWithTemplates);
 
-var _excluded$11 = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
+var _excluded$10 = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
 var TabList$4 = Tabs.TabList,
     Tab$1 = Tabs.Tab,
     TabPanel$1 = Tabs.TabPanel,
@@ -33672,7 +33674,7 @@ function OccurrenceSidebar(_ref) {
       defaultTab = _ref.defaultTab;
       _ref.className;
       var style = _ref.style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$11);
+      _objectWithoutProperties__default["default"](_ref, _excluded$10);
 
   var links = React.useContext(LinksContext); // Get the keys for custom dataset links and custom taxon links
 
@@ -33882,7 +33884,7 @@ var headline$1 = function headline(_ref24) {
   return _ref5$4;
 };
 
-var _excluded$10 = ["data", "loading", "error"];
+var _excluded$$ = ["data", "loading", "error"];
 var T$c = Properties.Term,
     V$c = Properties.Value;
 function Intro(_ref) {
@@ -33892,7 +33894,7 @@ function Intro(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$10);
+      _objectWithoutProperties__default["default"](_ref, _excluded$$);
 
   React.useContext(ThemeContext);
   var dataset = data.dataset; // if (loading || !dataset) return <h1>Loading</h1>;
@@ -33958,7 +33960,7 @@ function temporalCoverage(period) {
   })), period['@type'] == 'verbatim' && react.jsx(V$c, null, period.period));
 }
 
-var _excluded$$ = ["url", "style"];
+var _excluded$_ = ["url", "style"];
 function Logo(_ref) {
   var url = _ref.url,
       _ref$style = _ref.style,
@@ -33966,7 +33968,7 @@ function Logo(_ref) {
     maxHeight: "64px",
     maxWidth: "100px"
   } : _ref$style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$$);
+      _objectWithoutProperties__default["default"](_ref, _excluded$_);
 
   var _useState = React.useState(true),
       _useState2 = _slicedToArray__default["default"](_useState, 2),
@@ -33992,10 +33994,10 @@ function Logo(_ref) {
   }) : null;
 }
 
-var _excluded$_ = ["url"];
+var _excluded$Z = ["url"];
 function License(_ref) {
   var url = _ref.url;
-      _objectWithoutProperties__default["default"](_ref, _excluded$_);
+      _objectWithoutProperties__default["default"](_ref, _excluded$Z);
 
   if (!url) {
     return react.jsx(reactIntl.FormattedMessage, {
@@ -34052,7 +34054,7 @@ var isLink = function isLink(data) {
   }).test(data);
 };
 
-var _excluded$Z = ["data", "loading", "error"];
+var _excluded$Y = ["data", "loading", "error"];
 var T$b = Properties.Term,
     V$b = Properties.Value;
 function Header$1(_ref) {
@@ -34061,7 +34063,7 @@ function Header$1(_ref) {
   var data = _ref.data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$Z);
+      _objectWithoutProperties__default["default"](_ref, _excluded$Y);
 
   var theme = React.useContext(ThemeContext);
   var item = data === null || data === void 0 ? void 0 : data.dataset;
@@ -34127,7 +34129,7 @@ var getHighlightedContributors = function getHighlightedContributors(dataset, th
   }).join(" • "));
 };
 
-var _excluded$Y = ["data", "loading", "error"];
+var _excluded$X = ["data", "loading", "error"];
 var T$a = Properties.Term,
     V$a = Properties.Value;
 function Contacts(_ref) {
@@ -34137,7 +34139,7 @@ function Contacts(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$Y);
+      _objectWithoutProperties__default["default"](_ref, _excluded$X);
 
   React.useContext(ThemeContext);
   var dataset = data.dataset;
@@ -34172,7 +34174,7 @@ function contact(ctct) {
   }), ctct.organization && react.jsx("div", null, ctct.organization), ctct.address && react.jsx("div", null, ctct.address)));
 }
 
-var _excluded$X = ["data", "loading", "error"];
+var _excluded$W = ["data", "loading", "error"];
 var T$9 = Properties.Term,
     V$9 = Properties.Value;
 function BibliographicCitations$1(_ref) {
@@ -34182,7 +34184,7 @@ function BibliographicCitations$1(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$X);
+      _objectWithoutProperties__default["default"](_ref, _excluded$W);
 
   var dataset = data.dataset;
   return (dataset === null || dataset === void 0 ? void 0 : (_dataset$bibliographi = dataset.bibliographicCitations) === null || _dataset$bibliographi === void 0 ? void 0 : _dataset$bibliographi.length) > 0 ? react.jsx(Accordion, {
@@ -34206,7 +34208,7 @@ function bibiliographicCitation(citation) {
   }))));
 }
 
-var _excluded$W = ["data", "loading", "error"];
+var _excluded$V = ["data", "loading", "error"];
 var T$8 = Properties.Term,
     V$8 = Properties.Value;
 function SamplingDescription$1(_ref) {
@@ -34216,7 +34218,7 @@ function SamplingDescription$1(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$W);
+      _objectWithoutProperties__default["default"](_ref, _excluded$V);
 
   /*sampling
     qualityControl
@@ -34263,7 +34265,7 @@ function SamplingDescription$1(_ref) {
   })))))) : null;
 }
 
-var _excluded$V = ["data", "loading", "error"];
+var _excluded$U = ["data", "loading", "error"];
 var T$7 = Properties.Term,
     V$7 = Properties.Value;
 function Citation$1(_ref) {
@@ -34273,7 +34275,7 @@ function Citation$1(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$V);
+      _objectWithoutProperties__default["default"](_ref, _excluded$U);
 
   var dataset = data.dataset;
   return dataset !== null && dataset !== void 0 && (_dataset$citation = dataset.citation) !== null && _dataset$citation !== void 0 && _dataset$citation.text ? react.jsx(Accordion, {
@@ -34290,7 +34292,7 @@ function Citation$1(_ref) {
   })))) : null;
 }
 
-var _excluded$U = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
+var _excluded$T = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
 var TabList$3 = Tabs.TabList,
     Tab = Tabs.Tab,
     TabPanel = Tabs.TabPanel,
@@ -34302,7 +34304,7 @@ function DatasetSidebar(_ref) {
       defaultTab = _ref.defaultTab;
       _ref.className;
       var style = _ref.style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$U);
+      _objectWithoutProperties__default["default"](_ref, _excluded$T);
 
   var _useQuery = useQuery(DATASET$1, {
     lazyLoad: true
@@ -35203,7 +35205,7 @@ var title$1 = function title(_ref6) {
   return _ref$e;
 };
 
-var _excluded$T = ["largest", "item", "indicator", "theme", "setActive", "index", "dialog"];
+var _excluded$S = ["largest", "item", "indicator", "theme", "setActive", "index", "dialog"];
 var DatasetsPresentation = function DatasetsPresentation(_ref) {
   var _data$occurrenceSearc, _data$occurrenceSearc2, _data$occurrenceSearc3, _data$occurrenceSearc4, _activeItem$dataset, _activeItem$dataset2;
 
@@ -35285,7 +35287,7 @@ function DatasetResult(_ref2) {
       setActive = _ref2.setActive,
       index = _ref2.index,
       dialog = _ref2.dialog;
-      _objectWithoutProperties__default["default"](_ref2, _excluded$T);
+      _objectWithoutProperties__default["default"](_ref2, _excluded$S);
 
   return react.jsx("div", {
     css: dataset({
@@ -35618,7 +35620,7 @@ var union = baseRest$3(function(arrays) {
 
 var union_1 = union;
 
-var _excluded$S = ["content", "placement", "modal", "children", "className", "style"];
+var _excluded$R = ["content", "placement", "modal", "children", "className", "style"];
 
 function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -35631,7 +35633,7 @@ function Popover$8(_ref) {
       children = _ref.children,
       className = _ref.className,
       style = _ref.style;
-      _objectWithoutProperties__default["default"](_ref, _excluded$S);
+      _objectWithoutProperties__default["default"](_ref, _excluded$R);
 
   var _React$useState = React__default["default"].useState(nanoid.nanoid),
       _React$useState2 = _slicedToArray__default["default"](_React$useState, 1),
@@ -35684,13 +35686,13 @@ function Popover$8(_ref) {
   }));
 }
 
-var _excluded$R = ["children", "menuItems", "labelledById"];
+var _excluded$Q = ["children", "menuItems", "labelledById"];
 
 var Header = function Header(_ref) {
   var children = _ref.children,
       menuItems = _ref.menuItems,
       labelledById = _ref.labelledById,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$R);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$Q);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx(Row, _extends__default["default"]({
@@ -35723,7 +35725,7 @@ var header = function header(_ref2) {
   return /*#__PURE__*/react.css("border-bottom:1px solid ", theme.paperBorderColor, ";padding:1.2em 1.5em;flex:0 0 auto;;label:header;" + ("" ));
 };
 
-var _excluded$Q = ["onApply", "onCancel", "onBack", "showBack", "formId"];
+var _excluded$P = ["onApply", "onCancel", "onBack", "showBack", "formId"];
 
 var Footer = function Footer(_ref2) {
   var onApply = _ref2.onApply,
@@ -35732,7 +35734,7 @@ var Footer = function Footer(_ref2) {
       _ref2$showBack = _ref2.showBack,
       showBack = _ref2$showBack === void 0 ? false : _ref2$showBack,
       formId = _ref2.formId,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$Q);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$P);
 
   React.useContext(ThemeContext);
   return react.jsx(Row, _extends__default["default"]({}, props, {
@@ -35937,12 +35939,12 @@ var UncontrollableFilter = uncontrollable.uncontrollable(Filter, {
   filter: 'onFilterChange'
 });
 
-var _excluded$P = ["count", "onClear"];
+var _excluded$O = ["count", "onClear"];
 
 var SummaryBar = function SummaryBar(_ref2) {
   var count = _ref2.count,
       onClear = _ref2.onClear,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$P);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$O);
 
   React.useContext(ThemeContext);
   return react.jsx("div", _extends__default["default"]({}, props, {
@@ -35971,7 +35973,7 @@ var summary$4 = function summary(theme) {
   return _ref$a;
 };
 
-var _excluded$O = ["count", "onClear", "checked", "onChange", "children"];
+var _excluded$N = ["count", "onClear", "checked", "onChange", "children"];
 
 var AdditionalControl = function AdditionalControl(_ref) {
   _ref.count;
@@ -35979,7 +35981,7 @@ var AdditionalControl = function AdditionalControl(_ref) {
       var checked = _ref.checked,
       onChange = _ref.onChange,
       children = _ref.children,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$O);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$N);
 
   var theme = React.useContext(ThemeContext);
   return react.jsx("div", _extends__default["default"]({}, props, {
@@ -36183,11 +36185,11 @@ _defineProperty__default["default"](Suggest$2, "contextType", LocaleContext);
 
 var Suggest$3 = reactIntl.injectIntl(Suggest$2);
 
-var _excluded$N = ["helpVisible"],
+var _excluded$M = ["helpVisible"],
     _excluded2$1 = ["isRadio", "label", "tabIndex", "checked", "onChange", "helpText", "helpVisible", "loading"];
 function OptionSkeleton(_ref3) {
   var helpVisible = _ref3.helpVisible,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$N);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$M);
 
   return react.jsx("div", _extends__default["default"]({
     css: optionClass(),
@@ -36304,7 +36306,7 @@ var textLoader = function textLoader(_ref5) {
   return _ref$9;
 };
 
-var _excluded$M = ["footerProps", "setFullField", "filterHandle", "onApply", "onCancel", "filter", "hide"];
+var _excluded$L = ["footerProps", "setFullField", "filterHandle", "onApply", "onCancel", "filter", "hide"];
 
 var Exists = function Exists(_ref) {
   var footerProps = _ref.footerProps,
@@ -36314,7 +36316,7 @@ var Exists = function Exists(_ref) {
       _onCancel = _ref.onCancel,
       filter = _ref.filter,
       hide = _ref.hide;
-      _objectWithoutProperties__default["default"](_ref, _excluded$M);
+      _objectWithoutProperties__default["default"](_ref, _excluded$L);
 
   var mustDefined = get_1(filter, "must.".concat(filterHandle, "[0]"));
   React.useEffect(function () {
@@ -36476,7 +36478,7 @@ var Suggest = /*#__PURE__*/function (_React$Component) {
 
 var Suggest$1 = reactIntl.injectIntl(Suggest);
 
-var _excluded$L = ["focusRef"],
+var _excluded$K = ["focusRef"],
     _excluded2 = ["config"];
 
 function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -36512,7 +36514,7 @@ function getSuggestConfig(_ref) {
 }
 var FilterContent$7 = function FilterContent(_ref3) {
   var focusRef = _ref3.focusRef,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$L);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$K);
 
   var ref = React__default["default"].useRef();
   React.useContext(ThemeContext);
@@ -36603,7 +36605,7 @@ function Trigger(props) {
   })));
 }
 
-var _excluded$K = ["className", "config", "filter"];
+var _excluded$J = ["className", "config", "filter"];
 
 function getVisibleFilters(currentFilter, commonFilters) {
   var visibleFilters = union_1(commonFilters, Object.keys(get_1(currentFilter, 'must', {})), Object.keys(get_1(currentFilter, 'must_not', {})));
@@ -36615,7 +36617,7 @@ var FilterBar = function FilterBar(_ref2) {
       className = _ref2$className === void 0 ? '' : _ref2$className,
       config = _ref2.config,
       filter = _ref2.filter,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$K);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$J);
 
   var theme = React.useContext(ThemeContext);
   var prefix = theme.prefix || 'gbif';
@@ -36654,7 +36656,7 @@ var mapContextToProps$4 = function mapContextToProps(_ref3) {
 
 var FilterBar$1 = withContext(mapContextToProps$4)(FilterBar);
 
-var _excluded$J = ["className", "config", "tabs"];
+var _excluded$I = ["className", "config", "tabs"];
 Tabs.TabList;
     Tabs.Tab;
     Tabs.TabPanel;
@@ -36666,7 +36668,7 @@ var Layout$3 = function Layout(_ref) {
       config = _ref.config,
       _ref$tabs = _ref.tabs,
       tabs = _ref$tabs === void 0 ? ['TABLE', 'GALLERY', 'MAP'] : _ref$tabs,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$J);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$I);
 
   // const [activeView, setActiveView] = useUrlState({ param: 'view', defaultValue: tabs[0] || 'TABLE' });
   var _useQueryParam = useQueryParams.useQueryParam('view', useQueryParams.StringParam),
@@ -36772,7 +36774,7 @@ var mapContextToProps$3 = function mapContextToProps(_ref2) {
 
 var ComponentLayout$1 = withContext(mapContextToProps$3)(Layout$3);
 
-var _excluded$I = ["className", "config", "tabs"];
+var _excluded$H = ["className", "config", "tabs"];
 Tabs.TabList;
     Tabs.Tab;
     Tabs.TabPanel;
@@ -36784,7 +36786,7 @@ var Layout$2 = function Layout(_ref) {
       config = _ref.config,
       _ref$tabs = _ref.tabs,
       tabs = _ref$tabs === void 0 ? ['TABLE', 'GALLERY', 'MAP'] : _ref$tabs,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$I);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$H);
 
   // const [activeView, setActiveView] = useUrlState({ param: 'view', defaultValue: tabs[0] || 'TABLE' });
   var _useQueryParam = useQueryParams.useQueryParam('view', useQueryParams.StringParam),
@@ -38068,7 +38070,7 @@ function getCommonSuggests(_ref) {
   };
 }
 
-var _excluded$H = ["mustOptions", "mustNotOptions", "filterHandle", "translations", "DisplayName", "loading"];
+var _excluded$G = ["mustOptions", "mustNotOptions", "filterHandle", "translations", "DisplayName", "loading"];
 var TriggerButton = /*#__PURE__*/React__default["default"].forwardRef(function (_ref, ref) {
   var _options$;
 
@@ -38085,7 +38087,7 @@ var TriggerButton = /*#__PURE__*/React__default["default"].forwardRef(function (
     return react.jsx(React__default["default"].Fragment, null, id);
   } : _ref$DisplayName,
       loading = _ref.loading,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$H);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$G);
 
   var currentFilterContext = React.useContext(FilterContext);
   var _translations$count = translations.count,
@@ -38163,7 +38165,7 @@ var TriggerButton = /*#__PURE__*/React__default["default"].forwardRef(function (
 });
 TriggerButton.displayName = 'TriggerButton';
 
-var _excluded$G = ["filterHandle", "LabelFromID", "config", "translations"];
+var _excluded$F = ["filterHandle", "LabelFromID", "config", "translations"];
 var FilterContent$6 = function FilterContent(_ref) {
   var config = _ref.config,
       translations = _ref.translations,
@@ -38324,7 +38326,7 @@ function Popover$6(_ref4) {
       config = _ref4.config,
       _ref4$translations = _ref4.translations,
       translations = _ref4$translations === void 0 ? {} : _ref4$translations,
-      props = _objectWithoutProperties__default["default"](_ref4, _excluded$G);
+      props = _objectWithoutProperties__default["default"](_ref4, _excluded$F);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$6, {
@@ -38438,7 +38440,7 @@ function rangeOrTerm(value) {
   }
 }
 
-var _excluded$F = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$E = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$5 = function FilterContent(_ref) {
   var _ref$config = _ref.config,
       config = _ref$config === void 0 ? {} : _ref$config,
@@ -38631,7 +38633,7 @@ function Popover$5(_ref3) {
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$F);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$E);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$5, {
@@ -38643,7 +38645,7 @@ function Popover$5(_ref3) {
   }));
 }
 
-var _excluded$E = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$D = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$4 = function FilterContent(_ref) {
   var config = _ref.config,
       translations = _ref.translations,
@@ -38777,7 +38779,7 @@ function Popover$4(_ref3) {
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$E);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$D);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$4, {
@@ -38789,7 +38791,7 @@ function Popover$4(_ref3) {
   }));
 }
 
-var _excluded$D = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$C = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$3 = function FilterContent(_ref) {
   var _ref$config = _ref.config,
       config = _ref$config === void 0 ? {} : _ref$config,
@@ -38988,7 +38990,7 @@ function Popover$3(_ref3) {
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$D);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$C);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$3, {
@@ -39004,7 +39006,7 @@ var inputStyle = {
   styles: "margin:10px;z-index:10;display:inline-block;position:relative;&+div{margin-top:0;>div{margin-top:0;}};label:inputStyle;"
 } ;
 
-var _excluded$C = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$B = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$2 = function FilterContent(_ref) {
   var config = _ref.config,
       translations = _ref.translations,
@@ -39124,7 +39126,7 @@ function Popover$2(_ref3) {
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$C);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$B);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$2, (_EmotionJSX = {
@@ -39135,7 +39137,7 @@ function Popover$2(_ref3) {
   }));
 }
 
-var _excluded$B = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$A = ["filterHandle", "LabelFromID", "translations", "config"];
 var FilterContent$1 = function FilterContent(_ref) {
   var config = _ref.config;
       _ref.radio;
@@ -39225,7 +39227,7 @@ function Popover$1(_ref3) {
       _ref3.LabelFromID;
       _ref3.translations;
       var config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$B);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$A);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent$1, {
@@ -39235,7 +39237,7 @@ function Popover$1(_ref3) {
   }));
 }
 
-var _excluded$A = ["filterHandle", "LabelFromID", "translations", "config"];
+var _excluded$z = ["filterHandle", "LabelFromID", "translations", "config"];
 var initialSize = 25;
 var FilterContent = function FilterContent(_ref) {
   var _data$occurrenceSearc, _data$occurrenceSearc2;
@@ -39555,7 +39557,7 @@ function Popover(_ref3) {
       _ref3$translations = _ref3.translations,
       translations = _ref3$translations === void 0 ? {} : _ref3$translations,
       config = _ref3.config,
-      props = _objectWithoutProperties__default["default"](_ref3, _excluded$A);
+      props = _objectWithoutProperties__default["default"](_ref3, _excluded$z);
 
   return react.jsx(Popover$8, _extends__default["default"]({}, props, {
     content: react.jsx(FilterContent, {
@@ -40120,7 +40122,7 @@ var dwcaExtension = [
 	"http://rs.tdwg.org/chrono/terms/ChronometricAge"
 ];
 
-var _excluded$z = ["standardComponents", "summaryProps", "filterHandle", "setFullField", "toggle", "focusRef", "footerProps", "onApply", "filter", "onCancel", "hide"];
+var _excluded$y = ["standardComponents", "summaryProps", "filterHandle", "setFullField", "toggle", "focusRef", "footerProps", "onApply", "filter", "onCancel", "hide"];
 var commonFilters = {
   taxonKey: {
     type: 'SUGGEST',
@@ -41343,7 +41345,7 @@ var commonFilters = {
               filter = _ref.filter,
               _onCancel = _ref.onCancel,
               hide = _ref.hide;
-              _objectWithoutProperties__default["default"](_ref, _excluded$z);
+              _objectWithoutProperties__default["default"](_ref, _excluded$y);
 
           var Footer = standardComponents.Footer;
               standardComponents.SummaryBar;
@@ -42019,7 +42021,7 @@ var tableConfig = {
   }]
 };
 
-var _excluded$y = ["config", "pageLayout"];
+var _excluded$x = ["config", "pageLayout"];
 
 function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -42093,7 +42095,7 @@ function OccurrenceSearch(_ref2) {
   var _ref2$config = _ref2.config,
       customConfig = _ref2$config === void 0 ? {} : _ref2$config,
       pageLayout = _ref2.pageLayout,
-      props = _objectWithoutProperties__default["default"](_ref2, _excluded$y);
+      props = _objectWithoutProperties__default["default"](_ref2, _excluded$x);
 
   console.log('inside occurrenceSEarch component');
   var theme = React.useContext(ThemeContext);
@@ -42166,7 +42168,7 @@ var paper$3 = function paper(_ref2) {
   return _ref$7;
 };
 
-var _excluded$x = ["data", "loading", "error", "collection", "className"];
+var _excluded$w = ["data", "loading", "error", "collection", "className"];
 var T$6 = Properties.Term,
     V$6 = Properties.Value;
 function Description$1(_ref) {
@@ -42176,7 +42178,7 @@ function Description$1(_ref) {
       _ref.error;
       var collection = _ref.collection;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$x);
+      _objectWithoutProperties__default["default"](_ref, _excluded$w);
 
   var theme = React.useContext(ThemeContext);
   var routeContext = React.useContext(RouteContext);
@@ -42257,7 +42259,7 @@ function getList$1(collection, fieldName) {
   }, "Not provided")));
 }
 
-var _excluded$w = ["theme"];
+var _excluded$v = ["theme"];
 
 var _ref10$1 = {
   name: "po1wro-people",
@@ -42337,7 +42339,7 @@ var staffPosition$1 = function staffPosition(_ref17) {
 };
 var staffDesc$1 = function staffDesc(_ref18) {
   var theme = _ref18.theme;
-      _objectWithoutProperties__default["default"](_ref18, _excluded$w);
+      _objectWithoutProperties__default["default"](_ref18, _excluded$v);
 
   return /*#__PURE__*/react.css("flex:1 1 auto;margin:12px;a{color:", theme.primary500, ";text-decoration:none;}h4{margin:0;font-weight:bold;};label:staffDesc;" + ("" ));
 };
@@ -42364,11 +42366,11 @@ var person$1 = function person(_ref21) {
   return _ref$6;
 };
 
-var _excluded$v = ["noData"];
+var _excluded$u = ["noData"];
 
 var tab = function tab(_ref5) {
   var noData = _ref5.noData;
-      _objectWithoutProperties__default["default"](_ref5, _excluded$v);
+      _objectWithoutProperties__default["default"](_ref5, _excluded$u);
 
   return /*#__PURE__*/react.css("color:", noData ? '#888' : null, ";;label:tab;" + ("" ));
 };
@@ -42543,11 +42545,11 @@ var getRows$1 = function getRows(_ref2) {
   return rows;
 };
 
-var _excluded$u = ["id", "defaultTab"];
+var _excluded$t = ["id", "defaultTab"];
 function Collectors(_ref) {
   var id = _ref.id;
       _ref.defaultTab;
-      _objectWithoutProperties__default["default"](_ref, _excluded$u);
+      _objectWithoutProperties__default["default"](_ref, _excluded$t);
 
   var _useQuery = useQuery(COLLECTORS, {
     lazyLoad: true
@@ -42847,14 +42849,14 @@ var sortBy = baseRest(function(collection, iteratees) {
 
 var sortBy_1 = sortBy;
 
-var _excluded$t = ["collection", "recordedByCardinality", "className"];
+var _excluded$s = ["collection", "recordedByCardinality", "className"];
 function People$1(_ref) {
   var _collection$contacts, _collection$contacts2;
 
   var collection = _ref.collection,
       recordedByCardinality = _ref.recordedByCardinality;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$t);
+      _objectWithoutProperties__default["default"](_ref, _excluded$s);
 
   var _useRouteMatch = reactRouterDom.useRouteMatch(),
       url = _useRouteMatch.url,
@@ -42926,7 +42928,7 @@ function People$1(_ref) {
   }))))));
 }
 
-var _excluded$s = ["id", "data", "error", "loading"];
+var _excluded$r = ["id", "data", "error", "loading"];
 var TabList$2 = Tabs.TabList,
     RouterTab$2 = Tabs.RouterTab;
 function CollectionPresentation(_ref) {
@@ -42936,7 +42938,7 @@ function CollectionPresentation(_ref) {
       data = _ref.data,
       error = _ref.error,
       loading = _ref.loading;
-      _objectWithoutProperties__default["default"](_ref, _excluded$s);
+      _objectWithoutProperties__default["default"](_ref, _excluded$r);
 
   var _useRouteMatch = reactRouterDom.useRouteMatch(),
       url = _useRouteMatch.url,
@@ -43080,10 +43082,10 @@ function EnsureRouter$2(_ref) {
   }, children);
 }
 
-var _excluded$r = ["id"];
+var _excluded$q = ["id"];
 function Collection(_ref) {
   var id = _ref.id;
-      _objectWithoutProperties__default["default"](_ref, _excluded$r);
+      _objectWithoutProperties__default["default"](_ref, _excluded$q);
 
   var _useQuery = useQuery(COLLECTION, {
     lazyLoad: false,
@@ -43125,11 +43127,11 @@ function Collection(_ref) {
 }
 var COLLECTION = "\nquery collection($key: String!, $predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    documents(size: 0) {\n      total\n    }\n    cardinality {\n      recordedBy\n    }\n  }\n  collection(key: $key) {\n    key\n    code\n    name\n    description\n    contentTypes\n    active\n    personalCollection\n    email\n    phone\n    homepage\n    catalogUrl\n    preservationTypes\n    accessionStatus\n    institutionKey\n    notes\n    identifiers {\n      key\n      type\n      identifier\n    }\n    contacts {\n      key\n      firstName\n      lastName\n      position\n      areaResponsibility\n      researchPursuits\n      phone\n      email\n      fax\n    }\n    numberSpecimens\n    taxonomicCoverage\n    geography\n    incorporatedCollections\n    importantCollectors\n    collectionSummary\n    alternativeCodes {\n      code\n      description\n    }\n    # occurrenceMappings\n    institution {\n      code\n      name\n      key\n    }\n    \n    mailingAddress {\n      address\n      city\n      province\n      postalCode\n      country\n    }\n    address {\n      address\n      city\n      province\n      postalCode\n      country\n    }\n  }\n}\n";
 
-var _excluded$q = ["siteConfig"];
+var _excluded$p = ["siteConfig"];
 
 function Wrap$2(_ref) {
   var siteConfig = _ref.siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$q);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$p);
 
   return react.jsx(StandaloneWrapper, _extends__default["default"]({
     siteConfig: siteConfig
@@ -43160,7 +43162,7 @@ var paper$2 = function paper(_ref2) {
   return _ref$4;
 };
 
-var _excluded$p = ["data", "loading", "error", "institution", "className"];
+var _excluded$o = ["data", "loading", "error", "institution", "className"];
 var T$5 = Properties.Term,
     V$5 = Properties.Value;
 function Description(_ref) {
@@ -43169,7 +43171,7 @@ function Description(_ref) {
       _ref.error;
       var institution = _ref.institution;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$p);
+      _objectWithoutProperties__default["default"](_ref, _excluded$o);
 
   var theme = React.useContext(ThemeContext);
   console.log(institution);
@@ -43317,11 +43319,11 @@ var person = function person(_ref20) {
   return _ref$3;
 };
 
-var _excluded$o = ["institution", "className"];
+var _excluded$n = ["institution", "className"];
 function People(_ref) {
   var institution = _ref.institution;
       _ref.className;
-      _objectWithoutProperties__default["default"](_ref, _excluded$o);
+      _objectWithoutProperties__default["default"](_ref, _excluded$n);
 
   var _useRouteMatch = reactRouterDom.useRouteMatch();
       _useRouteMatch.path;
@@ -43403,7 +43405,7 @@ var proseWrapper$1 = function proseWrapper(_ref6) {
   return _ref$2;
 };
 
-var _excluded$n = ["id", "data", "error", "loading"];
+var _excluded$m = ["id", "data", "error", "loading"];
 var TabList$1 = Tabs.TabList,
     RouterTab$1 = Tabs.RouterTab;
 function InstitutionPresentation(_ref) {
@@ -43411,7 +43413,7 @@ function InstitutionPresentation(_ref) {
       data = _ref.data,
       error = _ref.error,
       loading = _ref.loading;
-      _objectWithoutProperties__default["default"](_ref, _excluded$n);
+      _objectWithoutProperties__default["default"](_ref, _excluded$m);
 
   var _useRouteMatch = reactRouterDom.useRouteMatch(),
       path = _useRouteMatch.path,
@@ -43507,7 +43509,7 @@ function InstitutionPresentation(_ref) {
   }))))));
 }
 
-var _excluded$m = ["id"];
+var _excluded$l = ["id"];
 
 function EnsureRouter$1(_ref) {
   var children = _ref.children;
@@ -43528,7 +43530,7 @@ function EnsureRouter$1(_ref) {
 
 function Institution(_ref2) {
   var id = _ref2.id;
-      _objectWithoutProperties__default["default"](_ref2, _excluded$m);
+      _objectWithoutProperties__default["default"](_ref2, _excluded$l);
 
   var _useQuery = useQuery(INSTITUTION, {
     lazyLoad: false,
@@ -43570,11 +43572,11 @@ function Institution(_ref2) {
 }
 var INSTITUTION = "\nquery institution($key: String!, $predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    documents(size: 0) {\n      total\n    }\n    cardinality {\n      recordedBy\n    }\n  }\n  institution(key: $key) {\n    key\n    code\n    name\n    description\n    active\n    email\n    phone\n    homepage\n    catalogUrl\n    alternativeCodes {\n      code\n      description\n    }\n    type\n    apiUrl\n    institutionalGovernance\n    disciplines\n    latitude\n    longitude\n    additionalNames\n    foundingDate\n    geographicDescription\n    taxonomicDescription\n    numberSpecimens\n    indexHerbariorumRecord\n    logoUrl\n\n    identifiers {\n      identifier\n    }\n    contacts {\n      key\n      firstName\n      lastName\n      position\n      areaResponsibility\n      researchPursuits\n      phone\n      email\n      fax\n    }\n    numberSpecimens\n    \n    mailingAddress {\n      address\n      city\n      province\n      postalCode\n      country\n    }\n    address {\n      address\n      city\n      province\n      postalCode\n      country\n    }\n  }\n}\n";
 
-var _excluded$l = ["siteConfig"];
+var _excluded$k = ["siteConfig"];
 
 function Wrap$1(_ref) {
   var siteConfig = _ref.siteConfig,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$l);
+      props = _objectWithoutProperties__default["default"](_ref, _excluded$k);
 
   return react.jsx(StandaloneWrapper, _extends__default["default"]({
     siteConfig: siteConfig
@@ -43700,16 +43702,14 @@ var testcontent = {
   name: "n98mil-testcontent",
   styles: "padding-left:12px;flex:1 1 auto;a{color:inherit;text-decoration:none;}h5{font-size:13px;margin:0;}p{font-size:13px;color:#888;margin:0;margin-top:8px;};label:testcontent;"
 } ;
-var galleryHeight = '300';
-var galleryBar = /*#__PURE__*/react.css("height:", galleryHeight, "px;overflow:hidden;position:relative;margin:0 -6px;>a{position:absolute;margin:12px;bottom:0;right:0;}>div{display:flex;overflow-x:auto;height:", galleryHeight + 100, "px;padding-bottom:100px;>div{margin-right:10px;flex:0 0 auto;height:", galleryHeight, "px;}}img{display:block;height:", galleryHeight, "px;margin:0 6px;};label:galleryBar;" + ("" ));
 
-var _excluded$k = ["bibliographicCitations"];
+var _excluded$j = ["bibliographicCitations"];
 Properties.Term;
     Properties.Value;
 function BibliographicCitations(_ref) {
   var _ref$bibliographicCit = _ref.bibliographicCitations,
       bibliographicCitations = _ref$bibliographicCit === void 0 ? [] : _ref$bibliographicCit;
-      _objectWithoutProperties__default["default"](_ref, _excluded$k);
+      _objectWithoutProperties__default["default"](_ref, _excluded$j);
 
   // I really dislike "show all"-buttons that only show me one more item. Just show the damn item to begin with then. It is such a disappointing experience.
   // So instead we do: if less than 10 items then show them all. If above 10, then show 5 + expand button.
@@ -43750,7 +43750,7 @@ function BibiliographicCitation(_ref2) {
   }, "Identifier: "), react.jsx("span", null, citation.identifier)));
 }
 
-var _excluded$j = ["data", "loading", "error"];
+var _excluded$i = ["data", "loading", "error"];
 Properties.Term;
     Properties.Value;
 function Citation(_ref) {
@@ -43760,7 +43760,7 @@ function Citation(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties__default["default"](_ref, _excluded$j);
+      _objectWithoutProperties__default["default"](_ref, _excluded$i);
 
   var dataset = data.dataset;
   var doi = dataset.doi;
@@ -43793,14 +43793,14 @@ Properties.Term;
 Properties.Term;
     Properties.Value;
 
-var _excluded$i = ["dataset"];
+var _excluded$h = ["dataset"];
 var T$4 = Properties.Term,
     V$4 = Properties.Value;
 function SamplingDescription(_ref) {
   var _dataset$samplingDesc, _dataset$samplingDesc2, _dataset$samplingDesc3, _dataset$samplingDesc4, _dataset$samplingDesc5, _dataset$samplingDesc6;
 
   var dataset = _ref.dataset;
-      _objectWithoutProperties__default["default"](_ref, _excluded$i);
+      _objectWithoutProperties__default["default"](_ref, _excluded$h);
 
   return react.jsx(Properties, {
     style: {
@@ -43842,12 +43842,12 @@ function SamplingDescription(_ref) {
   })))));
 }
 
-var _excluded$h = ["temporalCoverages"];
+var _excluded$g = ["temporalCoverages"];
 var T$3 = Properties.Term,
     V$3 = Properties.Value;
 function TemporalCoverages(_ref) {
   var temporalCoverages = _ref.temporalCoverages;
-      _objectWithoutProperties__default["default"](_ref, _excluded$h);
+      _objectWithoutProperties__default["default"](_ref, _excluded$g);
 
   return react.jsx(React__default["default"].Fragment, null, react.jsx(Properties, {
     horizontal: true
@@ -43880,12 +43880,12 @@ function TemporalCoverage(_ref3) {
   })), period['@type'] == 'verbatim' && react.jsx(V$3, null, period.period));
 }
 
-var _excluded$g = ["geographicCoverages"];
+var _excluded$f = ["geographicCoverages"];
 var T$2 = Properties.Term,
     V$2 = Properties.Value;
 function GeographicCoverages(_ref) {
   var geographicCoverages = _ref.geographicCoverages;
-      _objectWithoutProperties__default["default"](_ref, _excluded$g);
+      _objectWithoutProperties__default["default"](_ref, _excluded$f);
 
   return react.jsx(React__default["default"].Fragment, null, geographicCoverages.map(function (coverage, idx) {
     return react.jsx(GeographicCoverage, {
@@ -43938,13 +43938,13 @@ function GeographicCoverage(_ref2) {
   }), Bbox)), !geoJSON && react.jsx(React__default["default"].Fragment, null, react.jsx(T$2, null, "Bounding box"), react.jsx(V$2, null, Bbox)));
 }
 
-var _excluded$f = ["dataset", "taxonomicCoverages"];
+var _excluded$e = ["dataset", "taxonomicCoverages"];
 var T$1 = Properties.Term,
     V$1 = Properties.Value;
 function TaxonomicCoverages(_ref) {
   _ref.dataset;
       var taxonomicCoverages = _ref.taxonomicCoverages;
-      _objectWithoutProperties__default["default"](_ref, _excluded$f);
+      _objectWithoutProperties__default["default"](_ref, _excluded$e);
 
   return react.jsx(React__default["default"].Fragment, null, taxonomicCoverages.map(function (coverage, idx) {
     return react.jsx(TaxonomicCoverage, {
@@ -43999,13 +43999,13 @@ function CoverageItem(_ref3) {
 Properties.Term;
     Properties.Value;
 
-var _excluded$e = ["dataset"];
+var _excluded$d = ["dataset"];
 var T = Properties.Term,
     V = Properties.Value;
 function Registration(_ref) {
   var _ref$dataset = _ref.dataset,
       dataset = _ref$dataset === void 0 ? {} : _ref$dataset;
-      _objectWithoutProperties__default["default"](_ref, _excluded$e);
+      _objectWithoutProperties__default["default"](_ref, _excluded$d);
 
   var _dataset$machineTags = dataset.machineTags,
       machineTags = _dataset$machineTags === void 0 ? [] : _dataset$machineTags,
@@ -44099,47 +44099,11 @@ function Registration(_ref) {
   }))));
 }
 
-var _excluded$d = ["images"];
-function Images(_ref) {
-  var _images$documents, _images$documents2;
-
-  var _ref$images = _ref.images,
-      images = _ref$images === void 0 ? [] : _ref$images,
-      props = _objectWithoutProperties__default["default"](_ref, _excluded$d);
-
-  if (!((images === null || images === void 0 ? void 0 : (_images$documents = images.documents) === null || _images$documents === void 0 ? void 0 : _images$documents.total) > 0)) return null;
-  return react.jsx("div", _extends__default["default"]({
-    css: galleryBar
-  }, props), react.jsx("div", null, images.documents.results.map(function (occurrence) {
-    var _occurrence$stillImag;
-
-    return react.jsx("div", {
-      key: occurrence.key
-    }, react.jsx(Image$1, {
-      src: (_occurrence$stillImag = occurrence.stillImages[0]) === null || _occurrence$stillImag === void 0 ? void 0 : _occurrence$stillImag.identifier,
-      height: 300
-    }));
-  })), react.jsx(Tooltip, {
-    title: react.jsx("span", null, "Records with images"),
-    placement: "auto"
-  }, react.jsx(Button, {
-    look: "primary",
-    as: "a",
-    href: "/"
-  }, react.jsx(md.MdImage, {
-    style: {
-      marginRight: 8
-    }
-  }), " ", react.jsx(reactIntl.FormattedNumber, {
-    value: images === null || images === void 0 ? void 0 : (_images$documents2 = images.documents) === null || _images$documents2 === void 0 ? void 0 : _images$documents2.total
-  }))));
-}
-
 var _excluded$c = ["data", "insights", "loading", "error", "tocState", "className"];
 Properties.Term;
     Properties.Value;
 function About(_ref) {
-  var _dataset$gridded, _dataset$gridded$, _insights$data, _insights$data$unfilt, _insights$data$unfilt2, _insights$data2, _insights$data2$withC, _insights$data2$withC2, _insights$data3, _insights$data3$withY, _insights$data3$withY2, _occurrenceSearch$doc, _insights$data4, _insights$data4$withT, _insights$data4$withT2, _occurrenceSearch$doc2, _insights$data5, _insights$data5$unfil, _insights$data5$unfil2, _insights$data6, _dataset$geographicCo, _dataset$temporalCove, _dataset$taxonomicCov, _dataset$bibliographi, _occurrenceSearch$doc3;
+  var _dataset$gridded, _dataset$gridded$, _insights$data, _insights$data$unfilt, _insights$data$unfilt2, _insights$data2, _insights$data2$withC, _insights$data2$withC2, _insights$data3, _insights$data3$withY, _insights$data3$withY2, _occurrenceSearch$doc, _insights$data4, _insights$data4$withT, _insights$data4$withT2, _occurrenceSearch$doc2, _insights$data5, _insights$data5$unfil, _insights$data5$unfil2, _dataset$geographicCo, _dataset$temporalCove, _dataset$taxonomicCov, _dataset$bibliographi, _occurrenceSearch$doc3;
 
   var _ref$data = _ref.data,
       data = _ref$data === void 0 ? {} : _ref$data,
@@ -44221,9 +44185,7 @@ function About(_ref) {
     }
   }, "Description"), react.jsx(HyperText, {
     text: dataset.description
-  })), react.jsx(Images, {
-    images: insights === null || insights === void 0 ? void 0 : (_insights$data6 = insights.data) === null || _insights$data6 === void 0 ? void 0 : _insights$data6.images
-  }), dataset.purpose && react.jsx(Prose, {
+  })), dataset.purpose && react.jsx(Prose, {
     css: paper$1({
       theme: theme
     })

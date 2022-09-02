@@ -7,7 +7,7 @@ import _defineProperty$1 from '@babel/runtime/helpers/defineProperty';
 import { Button as Button$1 } from 'reakit/Button';
 import _taggedTemplateLiteral from '@babel/runtime/helpers/taggedTemplateLiteral';
 import stringify from 'fast-json-stable-stringify';
-import { MdClose, MdLock, MdLockOpen, MdFirstPage, MdChevronLeft, MdChevronRight, MdFullscreenExit, MdFullscreen, MdEvent, MdLocationOn, MdLabel, MdPhotoLibrary, MdImage, MdVideocam, MdInsertDriveFile, MdStar, MdGridOn, MdMoreHoriz, MdApps, MdMail, MdDone, MdInfo, MdInsertPhoto, MdFilterList, MdFileDownload, MdMoreVert, MdSearch, MdHelp, MdPeople, MdFormatQuote, MdLink, MdPlaylistAddCheck } from 'react-icons/md';
+import { MdClose, MdLock, MdLockOpen, MdFirstPage, MdChevronLeft, MdChevronRight, MdFullscreenExit, MdFullscreen, MdEvent, MdLocationOn, MdLabel, MdPhotoLibrary, MdImage, MdVideocam, MdInsertDriveFile, MdStar, MdGridOn, MdMoreHoriz, MdApps, MdMail, MdDone, MdInfo, MdInsertPhoto, MdZoomIn, MdZoomOut, MdLanguage, MdOutlineLayers, MdFilterList, MdFileDownload, MdMoreVert, MdSearch, MdHelp, MdPeople, MdFormatQuote, MdLink, MdPlaylistAddCheck } from 'react-icons/md';
 import { usePopoverState, PopoverDisclosure, PopoverBackdrop, Popover as Popover$a, PopoverArrow } from 'reakit/Popover';
 import Downshift from 'downshift';
 import { useDebounce } from 'use-debounce';
@@ -38,16 +38,34 @@ import _wrapNativeSuper from '@babel/runtime/helpers/wrapNativeSuper';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import _asyncToGenerator from '@babel/runtime/helpers/asyncToGenerator';
 import _regeneratorRuntime from '@babel/runtime/regenerator';
-import Router from 'react-router-dom/StaticRouter';
+import mapboxgl from 'mapbox-gl';
+import _objectDestructuringEmpty from '@babel/runtime/helpers/objectDestructuringEmpty';
+import Router from 'react-router-dom/BrowserRouter';
 import { QueryParamProvider, useQueryParam, NumberParam, StringParam, useQueryParams, ArrayParam } from 'use-query-params';
 import _toConsumableArray from '@babel/runtime/helpers/toConsumableArray';
 import _typeof from '@babel/runtime/helpers/typeof';
 import isEqual from 'react-fast-compare';
-import { useUpdateEffect } from 'react-use';
-import queryString from 'query-string';
 import equal from 'fast-deep-equal/react';
+import queryString from 'query-string';
 import { Base64 } from 'js-base64';
 import urlRegex from 'url-regex';
+import proj4 from 'proj4';
+import { Style, Circle, Fill, Stroke, Text, Icon } from 'ol/style';
+import { VectorTile as VectorTile$1 } from 'ol/layer';
+import { VectorTile, TileImage } from 'ol/source';
+import TileGrid from 'ol/tilegrid/TileGrid';
+import { MVT } from 'ol/format';
+import { register } from 'ol/proj/proj4';
+import * as olProj from 'ol/proj';
+import { transform } from 'ol/proj';
+import View from 'ol/View';
+import { createXYZ } from 'ol/tilegrid';
+import OlMap from 'ol/Map';
+import { defaults } from 'ol/control';
+import * as olInteraction from 'ol/interaction';
+import { apply as apply$2, stylefunction, applyBackground, applyStyle } from 'ol-mapbox-style';
+import Geohash from 'latlon-geohash';
+import { useUpdateEffect } from 'react-use';
 import { nanoid } from 'nanoid';
 import { matchSorter } from 'match-sorter';
 
@@ -358,22 +376,22 @@ var danger = function danger(theme) {
   return _ref3$e;
 };
 
-var _ref2$j = {
+var _ref2$k = {
   name: "4r8tmj-link",
   styles: "border-color:transparent;background:none;label:link;"
 } ;
 
 var link = function link(theme) {
-  return _ref2$j;
+  return _ref2$k;
 };
 
-var _ref$C = {
+var _ref$E = {
   name: "1l0jlz2-isFullWidth",
   styles: "display:flex;width:100%;label:isFullWidth;"
 } ;
 
 var isFullWidth = function isFullWidth(theme) {
-  return _ref$C;
+  return _ref$E;
 };
 var spinAround = keyframes(_templateObject$2 || (_templateObject$2 = _taggedTemplateLiteral(["\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(359deg);\n  }\n"])));
 var loading$1 = function loading(theme) {
@@ -470,8 +488,8 @@ function join() {
   .join('/').replace(/\/\//g, '\/');
 }
 
-var _excluded$21 = ["className", "loading", "isFullWidth", "isIcon", "appearance", "look", "children", "truncate"],
-    _excluded2$k = ["isActive", "onClearRequest", "onClick", "loading", "children", "title", "isNegated"];
+var _excluded$27 = ["className", "loading", "isFullWidth", "isIcon", "appearance", "look", "children", "truncate"],
+    _excluded2$l = ["isActive", "onClearRequest", "onClick", "loading", "children", "title", "isNegated"];
 var truncateStyle = {
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -490,7 +508,7 @@ var Button = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       look = _ref$look === void 0 ? 'primary' : _ref$look,
       children = _ref.children,
       truncate = _ref.truncate,
-      props = _objectWithoutProperties(_ref, _excluded$21);
+      props = _objectWithoutProperties(_ref, _excluded$27);
 
   appearance = appearance || look;
   var theme = useContext(ThemeContext);
@@ -535,7 +553,7 @@ var FilterButton = /*#__PURE__*/React.forwardRef(function (_ref3, ref) {
       title = _ref3.title,
       _ref3$isNegated = _ref3.isNegated,
       isNegated = _ref3$isNegated === void 0 ? false : _ref3$isNegated,
-      props = _objectWithoutProperties(_ref3, _excluded2$k);
+      props = _objectWithoutProperties(_ref3, _excluded2$l);
 
   if (!isActive) {
     return jsx(ButtonGroup, props, jsx(Button, _extends({}, props, {
@@ -578,7 +596,7 @@ var FilterButton = /*#__PURE__*/React.forwardRef(function (_ref3, ref) {
   })));
 });
 
-var _excluded$20 = ["as", "className", "style"];
+var _excluded$26 = ["as", "className", "style"];
 var Switch = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Span = _ref$as === void 0 ? 'span' : _ref$as,
@@ -586,7 +604,7 @@ var Switch = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
-      props = _objectWithoutProperties(_ref, _excluded$20);
+      props = _objectWithoutProperties(_ref, _excluded$26);
 
   var theme = useContext(ThemeContext);
   return jsx(Span, {
@@ -620,13 +638,13 @@ var noUserSelect = function noUserSelect(props) {
   return _ref3$d;
 };
 
-var _ref2$i = {
+var _ref2$j = {
   name: "azns2m-focusStyle",
   styles: "&:focus{outline:none;box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);}::-moz-focus-inner{border-style:none;};label:focusStyle;"
 } ;
 
 var focusStyle = function focusStyle(props) {
-  return _ref2$i;
+  return _ref2$j;
 };
 var transparentInputOverlay = {
   name: "8az07q-transparentInputOverlay",
@@ -637,7 +655,7 @@ var styledScrollBars = function styledScrollBars(_ref4) {
   return /*#__PURE__*/css("scrollbar-width:thin;&::-webkit-scrollbar{width:6px;height:6px;}&::-webkit-scrollbar-thumb{background-color:", theme.darkTheme ? '#ffffff38' : '#686868', ";};label:styledScrollBars;" + ("" ));
 };
 
-var _ref$B = {
+var _ref$D = {
   name: "f9zvej-classification",
   styles: "line-height:1.2em;&>span:after{font-style:normal;content:' \u276F ';font-size:80%;color:#ccc;display:inline-block;padding:0 3px;}&>span:last-of-type:after{display:none;}.gbif-classification-unknown{opacity:0.5;};label:classification;"
 } ;
@@ -645,7 +663,7 @@ var _ref$B = {
 var classification$1 = function classification(_ref5) {
   _extends({}, _ref5);
 
-  return _ref$B;
+  return _ref$D;
 };
 var root$9 = function root(_ref6) {
   var appRoot = _ref6.appRoot,
@@ -670,7 +688,7 @@ var checkbox = function checkbox(props) {
   return /*#__PURE__*/css("position:relative;top:-0.09em;display:inline-block;line-height:1;white-space:nowrap;vertical-align:middle;outline:none;cursor:pointer;input{", transparentInputOverlay, ";}& input+span{position:relative;top:0;left:0;display:block;width:1em;height:1em;background-color:", props.theme.darkTheme ? props.theme.paperBackground700 : null, ";border:1px solid #88888855;border-radius:", Math.min(2, props.theme.borderRadius), "px;transition:all 0.1s;&:after{position:absolute;top:50%;left:30%;display:table;width:40%;height:60%;border:2px solid #fff;border-top:0;border-left:0;transform:rotate(45deg) scale(0) translate(-50%, -50%);opacity:0;transition:all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6),opacity 0.1s;content:' ';}}& input:checked+span{background-color:#1890ff;border-color:#1890ff;&:after{transform:rotate(45deg) scale(1) translate(-50%, -50%);opacity:1;transition:all 0.1s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;}}& input:focus+span{box-shadow:0 0 0 0.125em rgba(50, 115, 220, 0.25);};label:checkbox;" + ("" ));
 };
 
-var _excluded$1$ = ["as", "className", "style"];
+var _excluded$25 = ["as", "className", "style"];
 var Checkbox = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Span = _ref$as === void 0 ? 'span' : _ref$as,
@@ -678,7 +696,7 @@ var Checkbox = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
-      props = _objectWithoutProperties(_ref, _excluded$1$);
+      props = _objectWithoutProperties(_ref, _excluded$25);
 
   var theme = useContext(ThemeContext);
   return jsx(Span, {
@@ -740,7 +758,7 @@ Input.displayName = 'Input'; // export const FilterInput2 = React.forwardRef(({
 //   </div>
 // });
 
-var _excluded$1_ = ["as", "appRoot", "style"];
+var _excluded$24 = ["as", "appRoot", "style"];
 
 function ownKeys$m(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -751,7 +769,7 @@ var Root = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       _ref$appRoot = _ref.appRoot,
       appRoot = _ref$appRoot === void 0 ? false : _ref$appRoot,
       style = _ref.style,
-      props = _objectWithoutProperties(_ref, _excluded$1_);
+      props = _objectWithoutProperties(_ref, _excluded$24);
 
   var theme = useContext(ThemeContext);
   var _theme$cssVariables = theme.cssVariables,
@@ -768,7 +786,7 @@ var Root = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
 });
 Root.displayName = 'Root';
 
-var _excluded$1Z = ["trigger", "placement", "visible", "modal", "onClickOutside", "children"];
+var _excluded$23 = ["trigger", "placement", "visible", "modal", "onClickOutside", "children"];
 
 var Popover$9 = function Popover(_ref2) {
   var trigger = _ref2.trigger;
@@ -777,7 +795,7 @@ var Popover$9 = function Popover(_ref2) {
       modal = _ref2.modal,
       onClickOutside = _ref2.onClickOutside,
       children = _ref2.children,
-      props = _objectWithoutProperties(_ref2, _excluded$1Z);
+      props = _objectWithoutProperties(_ref2, _excluded$23);
 
   var theme = useContext(ThemeContext);
   var popover = usePopoverState({
@@ -832,31 +850,31 @@ var backdrop = function backdrop(theme) {
   return /*#__PURE__*/css("background-color:", theme.darkTheme ? '#0000006b' : '#00000040', ";position:fixed;top:0px;right:0px;bottom:0px;left:0px;z-index:999;;label:backdrop;" + ("" ));
 };
 
-var _ref$A = {
+var _ref$C = {
   name: "1pf2ydh-dialogContent",
   styles: "max-height:calc(100vh - 100px);label:dialogContent;"
 } ;
 
 var dialogContent = function dialogContent(theme) {
-  return _ref$A;
+  return _ref$C;
 };
 
 var dialog = function dialog(theme) {
   return /*#__PURE__*/css("background-color:", theme.paperBackground500, ";top:28px;left:50%;transform:translateX(-50%);z-index:999;border-radius:", theme.borderRadius, "px;outline:0px;border:1px solid ", theme.paperBorderColor, ";&:focus{outline:none;}&>.arrow{background-color:transparent;& .stroke{fill:", theme.paperBorderColor, ";}& .fill{fill:", theme.paperBackground500, ";}};label:dialog;" + ("" ));
 };
 
-var _excluded$1Y = ["active", "error", "className"];
+var _excluded$22 = ["active", "error", "className"];
 
 var _templateObject;
 var loading = keyframes(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  from {\n    left: -200,\n    width: 30% \n  }\n  50% {\n    width: 30%\n  }\n  70% {\n    width: 70%\n  }\n  80% {\n    left: 50%\n  }\n  95% {\n    left: 120%\n  }\n  to {\n    left: 100%\n  }\n"])));
 
-var _ref$z = {
+var _ref$B = {
   name: "159gwrz-errorStyle",
   styles: "background-color:tomato;left:0;animation:none;width:100%;label:errorStyle;"
 } ;
 
 var errorStyle = function errorStyle(theme) {
-  return _ref$z;
+  return _ref$B;
 };
 
 var before = function before(_ref2) {
@@ -869,7 +887,7 @@ function StripeLoader(_ref3) {
   var active = _ref3.active,
       error = _ref3.error,
       className = _ref3.className;
-      _objectWithoutProperties(_ref3, _excluded$1Y);
+      _objectWithoutProperties(_ref3, _excluded$22);
 
   var theme = useContext(ThemeContext);
 
@@ -887,25 +905,25 @@ function StripeLoader(_ref3) {
   }));
 }
 
-var _excluded$1X = ["theme"],
-    _excluded2$j = ["theme"];
+var _excluded$21 = ["theme"],
+    _excluded2$k = ["theme"];
 var wrapper$1 = function wrapper(_ref2) {
   var theme = _ref2.theme,
-      props = _objectWithoutProperties(_ref2, _excluded$1X);
+      props = _objectWithoutProperties(_ref2, _excluded$21);
 
   return /*#__PURE__*/css("display:inline-block;margin:0;padding:0;font-variant:tabular-nums;line-height:1.5;list-style:none;box-sizing:border-box;font-size:14px;font-variant:initial;background-color:", theme.paperBackground500, ";border-radius:", theme.borderRadius, "px;outline:none;box-shadow:0 2px 8px rgba(0, 0, 0, 0.15);width:100%;position:absolute;transform:translateY(", props.isOpen ? 5 : 0, "px);opacity:", props.isOpen ? 1 : 0, ";z-index:", props.isOpen ? 10 : null, ";transition:opacity .1s linear,transform .1s ease-in-out;;label:wrapper;" + ("" ));
 };
 
-var _ref$y = {
+var _ref$A = {
   name: "tjdmd9-item",
   styles: "position:relative;display:block;padding:5px 12px;overflow:hidden;font-weight:normal;line-height:22px;cursor:pointer;transition:background 0.3s ease;label:item;"
 } ;
 
 var item = function item(_ref3) {
   _ref3.theme;
-      _objectWithoutProperties(_ref3, _excluded2$j);
+      _objectWithoutProperties(_ref3, _excluded2$k);
 
-  return _ref$y;
+  return _ref$A;
 };
 var menu = function menu(props) {
   return /*#__PURE__*/css("max-height:450px;margin:0;padding:4px 0;padding-left:0;overflow:auto;list-style:none;outline:none;", styledScrollBars(props), ";;label:menu;" + ("" ));
@@ -916,7 +934,7 @@ var styles$9 = {
   item: item
 };
 
-var _excluded$1W = ["onSuggestionsFetchRequested", "renderSuggestion", "getSuggestionValue", "onSuggestionSelected", "inputProps", "defaultIsOpen", "isLoading", "suggestions", "loadingError", "style", "listCss", "menuCss", "delay"];
+var _excluded$20 = ["onSuggestionsFetchRequested", "renderSuggestion", "getSuggestionValue", "onSuggestionSelected", "inputProps", "defaultIsOpen", "isLoading", "suggestions", "loadingError", "style", "listCss", "menuCss", "delay"];
 
 function ownKeys$l(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -936,7 +954,7 @@ var Autocomplete = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       menuCss = _ref.menuCss,
       _ref$delay = _ref.delay,
       delay = _ref$delay === void 0 ? 300 : _ref$delay;
-      _objectWithoutProperties(_ref, _excluded$1W);
+      _objectWithoutProperties(_ref, _excluded$20);
 
   var theme = useContext(ThemeContext);
   var menuStyle = listCss || styles$9.menu;
@@ -1989,7 +2007,7 @@ var tabSeperator = function tabSeperator(_ref6) {
   return /*#__PURE__*/css(vertical ? 'height: 1px' : 'width: 1px', ";margin:", vertical ? '0 5px' : '5px 0', ";flex:0 1 auto;border-", vertical ? 'top' : 'left', ":1px solid #ddd;;label:tabSeperator;" + ("" ));
 };
 
-var _ref$x = {
+var _ref$z = {
   name: "86he5k-tabSpacer",
   styles: "flex:1 1 auto;label:tabSpacer;"
 } ;
@@ -1997,20 +2015,20 @@ var _ref$x = {
 var tabSpacer = function tabSpacer(_ref7) {
   _ref7.theme;
       _ref7.vertical;
-  return _ref$x;
+  return _ref$z;
 };
 
-var _excluded$1V = ["activeId", "onChange"],
-    _excluded2$i = ["vertical"],
-    _excluded3$9 = ["direction", "label", "to", "exact", "className"],
-    _excluded4$4 = ["tabId", "direction"],
-    _excluded5 = ["tabId", "lazy"];
+var _excluded$1$ = ["activeId", "onChange"],
+    _excluded2$j = ["vertical"],
+    _excluded3$a = ["direction", "label", "to", "exact", "className"],
+    _excluded4$5 = ["tabId", "direction"],
+    _excluded5$1 = ["tabId", "lazy"];
 var TabsContext = /*#__PURE__*/React.createContext({});
 
 var ControlledTabs = function ControlledTabs(_ref) {
   var activeId = _ref.activeId,
       onChange = _ref.onChange,
-      props = _objectWithoutProperties(_ref, _excluded$1V);
+      props = _objectWithoutProperties(_ref, _excluded$1$);
 
   return jsx(TabsContext.Provider, _extends({
     value: {
@@ -2045,7 +2063,7 @@ var Tabs = uncontrollable(ControlledTabs, {
 var TabList$5 = function TabList(_ref3) {
   var _ref3$vertical = _ref3.vertical,
       vertical = _ref3$vertical === void 0 ? false : _ref3$vertical,
-      props = _objectWithoutProperties(_ref3, _excluded2$i);
+      props = _objectWithoutProperties(_ref3, _excluded2$j);
 
   var theme = useContext(ThemeContext);
   return jsx("ul", _extends({
@@ -2066,7 +2084,7 @@ var RouterTab$3 = function RouterTab(_ref4) {
       to = _ref4.to,
       exact = _ref4.exact,
       className = _ref4.className,
-      props = _objectWithoutProperties(_ref4, _excluded3$9);
+      props = _objectWithoutProperties(_ref4, _excluded3$a);
 
   var theme = useContext(ThemeContext);
   var isActive = useRouteMatch({
@@ -2087,7 +2105,7 @@ var RouterTab$3 = function RouterTab(_ref4) {
 var Tab$2 = function Tab(_ref5) {
   var tabId = _ref5.tabId,
       direction = _ref5.direction,
-      props = _objectWithoutProperties(_ref5, _excluded4$4);
+      props = _objectWithoutProperties(_ref5, _excluded4$5);
 
   var theme = useContext(ThemeContext);
   var tabContext = useContext(TabsContext);
@@ -2114,7 +2132,7 @@ Tab$2.displayName = 'Tab';
 var TabPanel$2 = function TabPanel(_ref6) {
   var tabId = _ref6.tabId,
       lazy = _ref6.lazy,
-      props = _objectWithoutProperties(_ref6, _excluded5);
+      props = _objectWithoutProperties(_ref6, _excluded5$1);
 
   // const theme = useContext(ThemeContext);
   var tabContext = useContext(TabsContext);
@@ -2135,7 +2153,7 @@ Tabs.TapSeperator = TapSeperator$2;
 Tabs.TapSpacer = TapSpacer;
 Tabs.RouterTab = RouterTab$3;
 
-var _excluded$1U = ["shrink", "grow", "basis", "xs"];
+var _excluded$1_ = ["shrink", "grow", "basis", "xs"];
 
 var row = function row(props) {
   return /*#__PURE__*/css("display:flex;flex-direction:", props.direction || null, ";flex-wrap:", props.wrap ? props.wrap : 'wrap', ";align-items:", props.alignItems ? props.alignItems : null, ";margin:", props.halfGutter ? -props.halfGutter + 'px' : null, ";justify-content:", props.justifyContent ? props.justifyContent : null, ";>*{padding:", props.halfGutter ? props.halfGutter + 'px' : null, ";};label:row;" + ("" ));
@@ -2155,12 +2173,12 @@ var col = function col(_ref) {
       grow = _ref.grow,
       basis = _ref.basis,
       xs = _ref.xs,
-      props = _objectWithoutProperties(_ref, _excluded$1U);
+      props = _objectWithoutProperties(_ref, _excluded$1_);
 
   return /*#__PURE__*/css("flex-grow:", asFlexValue(grow), ";flex-shrink:", asFlexValue(shrink), ";flex-basis:", basis ? typeof basis === 'number' ? basis + '%' : basis : 'auto', ";flex-basis:", xs ? xs * 100 / 24 + '%' : null, ";", getFlexSize(props.sm, 600), ";", getFlexSize(props.md, 700), ";", getFlexSize(props.lg, 800), ";", getFlexSize(props.xl, 1000), ";;label:col;" + ("" ));
 };
 
-var _excluded$1T = ["as", "className", "style", "wrap", "direction", "alignItems", "justifyContent", "halfGutter", "gridGutter", "shrink", "grow", "basis", "xs", "sm", "md", "lg", "xl"];
+var _excluded$1Z = ["as", "className", "style", "wrap", "direction", "alignItems", "justifyContent", "halfGutter", "gridGutter", "shrink", "grow", "basis", "xs", "sm", "md", "lg", "xl"];
 
 var GetComponent = function GetComponent(rowComponentStyle) {
   return /*#__PURE__*/React.forwardRef(function (_ref, ref) {
@@ -2184,7 +2202,7 @@ var GetComponent = function GetComponent(rowComponentStyle) {
         md = _ref.md,
         lg = _ref.lg,
         xl = _ref.xl,
-        props = _objectWithoutProperties(_ref, _excluded$1T);
+        props = _objectWithoutProperties(_ref, _excluded$1Z);
 
     return jsx(As, _extends({
       ref: ref,
@@ -2214,15 +2232,15 @@ var GetComponent = function GetComponent(rowComponentStyle) {
 var Row = GetComponent(row);
 var Col = GetComponent(col);
 
-var _excluded$1S = ["trigger", "placement", "items", "style"],
-    _excluded2$h = ["children", "onChange", "className", "style"],
-    _excluded3$8 = ["children"];
+var _excluded$1Y = ["trigger", "placement", "items", "style"],
+    _excluded2$i = ["children", "onChange", "className", "style"],
+    _excluded3$9 = ["children"];
 var Menu = /*#__PURE__*/React.memo(function (_ref2) {
   var trigger = _ref2.trigger,
       placement = _ref2.placement,
       items = _ref2.items,
       style = _ref2.style,
-      props = _objectWithoutProperties(_ref2, _excluded$1S);
+      props = _objectWithoutProperties(_ref2, _excluded$1Y);
 
   var theme = useContext(ThemeContext);
   var menu = useMenuState({
@@ -2255,7 +2273,7 @@ var MenuToggle = /*#__PURE__*/React.forwardRef(function (_ref3, ref) {
       onChange = _ref3.onChange,
       className = _ref3.className,
       style = _ref3.style,
-      props = _objectWithoutProperties(_ref3, _excluded2$h);
+      props = _objectWithoutProperties(_ref3, _excluded2$i);
 
   var theme = useContext(ThemeContext);
   return jsx("label", {
@@ -2270,7 +2288,7 @@ var MenuToggle = /*#__PURE__*/React.forwardRef(function (_ref3, ref) {
 });
 var MenuAction = /*#__PURE__*/React.forwardRef(function (_ref4, ref) {
   var children = _ref4.children,
-      props = _objectWithoutProperties(_ref4, _excluded3$8);
+      props = _objectWithoutProperties(_ref4, _excluded3$9);
 
   var theme = useContext(ThemeContext);
   return jsx("button", _extends({
@@ -2279,13 +2297,13 @@ var MenuAction = /*#__PURE__*/React.forwardRef(function (_ref4, ref) {
   }, props), jsx("span", null, children));
 });
 
-var _ref$w = {
+var _ref$y = {
   name: "jx6b1u-focus",
   styles: "&:focus{outline:none;box-shadow:0 0 0 0.125em #00000005;};label:focus;"
 } ;
 
 var focus = function focus(theme) {
-  return _ref$w;
+  return _ref$y;
 };
 
 var menuOption = function menuOption(theme) {
@@ -2308,12 +2326,12 @@ var styles$8 = {
   tooltip: tooltip
 };
 
-var _excluded$1R = ["children", "title", "placement"];
+var _excluded$1X = ["children", "title", "placement"];
 function Tooltip(_ref) {
   var children = _ref.children,
       title = _ref.title,
       placement = _ref.placement,
-      props = _objectWithoutProperties(_ref, _excluded$1R);
+      props = _objectWithoutProperties(_ref, _excluded$1X);
 
   var tooltip = useTooltipState({
     placement: placement
@@ -2348,11 +2366,11 @@ var skeleton = function skeleton(_ref) {
   return /*#__PURE__*/css("width:", width, ";display:inline-block;height:1em;animation:", skeletonLoading, " 3s linear infinite;;label:skeleton;" + ("" ));
 };
 
-var _excluded$1Q = ["width"];
+var _excluded$1W = ["width"];
 var Skeleton = function Skeleton(_ref) {
   var _ref$width = _ref.width,
       width = _ref$width === void 0 ? '100%' : _ref$width,
-      props = _objectWithoutProperties(_ref, _excluded$1Q);
+      props = _objectWithoutProperties(_ref, _excluded$1W);
 
   var theme = useContext(ThemeContext);
   var w;
@@ -2374,7 +2392,7 @@ var Skeleton = function Skeleton(_ref) {
 };
 Skeleton.displayName = 'Skeleton';
 
-var _excluded$1P = ["noWrap"];
+var _excluded$1V = ["noWrap"];
 var wrapper = function wrapper(props) {
   return /*#__PURE__*/css("border:1px solid ", props.theme.paperBorderColor, ";;label:wrapper;" + ("" ));
 };
@@ -2424,17 +2442,17 @@ var footerText = function footerText(props) {
   return /*#__PURE__*/css(footerItemBase(props), ";width:auto;font-size:12px;text-align:center;flex:1 1 auto;;label:footerText;" + ("" ));
 };
 
-var _ref2$h = {
+var _ref2$i = {
   name: "11d8wtd-cell",
   styles: "display:flex;word-break:break-word;label:cell;"
 } ;
 
 var cell = function cell(props) {
-  return _ref2$h;
+  return _ref2$i;
 };
 var dataCell = function dataCell(_ref9) {
   var noWrap = _ref9.noWrap;
-      _objectWithoutProperties(_ref9, _excluded$1P);
+      _objectWithoutProperties(_ref9, _excluded$1V);
 
   return /*#__PURE__*/css(noWrap ? 'white-space: nowrap;' : '', ";;label:dataCell;" + ("" ));
 };
@@ -2442,13 +2460,13 @@ var wide = function wide(props) {
   return /*#__PURE__*/css("min-width:20em;", cell(), ";;label:wide;" + ("" ));
 };
 
-var _ref$v = {
+var _ref$x = {
   name: "7plljj-noWrap",
   styles: "white-space:nowrap;label:noWrap;"
 } ;
 
 var noWrap = function noWrap(props) {
-  return _ref$v;
+  return _ref$x;
 };
 var tbodyLoading = function tbodyLoading(_ref10) {
   var theme = _ref10.theme;
@@ -2498,19 +2516,19 @@ var styles$7 = /*#__PURE__*/Object.freeze({
   'default': styles$6
 });
 
-var _excluded$1O = ["loading", "columnCount", "rowCount"],
-    _excluded2$g = ["children", "width", "toggle", "locked"],
-    _excluded3$7 = ["children", "width", "noWrap"],
-    _excluded4$3 = ["intl", "loading", "theme", "children", "first", "prev", "next", "size", "from", "total", "fixedColumn", "style"];
+var _excluded$1U = ["loading", "columnCount", "rowCount"],
+    _excluded2$h = ["children", "width", "toggle", "locked"],
+    _excluded3$8 = ["children", "width", "noWrap"],
+    _excluded4$4 = ["intl", "loading", "theme", "children", "first", "prev", "next", "size", "from", "total", "fixedColumn", "style"];
 
-function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct$8() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 var TBody = function TBody(_ref) {
   var loading = _ref.loading,
       columnCount = _ref.columnCount,
       rowCount = _ref.rowCount,
-      props = _objectWithoutProperties(_ref, _excluded$1O);
+      props = _objectWithoutProperties(_ref, _excluded$1U);
 
   var theme = useContext(ThemeContext); // if not loading, then simply show the content as is
 
@@ -2541,7 +2559,7 @@ var Th = function Th(_ref2) {
       width = _ref2.width,
       toggle = _ref2.toggle,
       locked = _ref2.locked,
-      rest = _objectWithoutProperties(_ref2, _excluded2$g);
+      rest = _objectWithoutProperties(_ref2, _excluded2$h);
 
   return jsx("th", rest, jsx("div", {
     style: {
@@ -2573,7 +2591,7 @@ var Td = function Td(_ref3) {
   var children = _ref3.children,
       width = _ref3.width,
       noWrap = _ref3.noWrap,
-      rest = _objectWithoutProperties(_ref3, _excluded3$7);
+      rest = _objectWithoutProperties(_ref3, _excluded3$8);
 
   return jsx("td", rest, jsx("span", {
     css: dataCell({
@@ -2586,7 +2604,7 @@ var Td = function Td(_ref3) {
 var DataTableCore = /*#__PURE__*/function (_Component) {
   _inherits(DataTableCore, _Component);
 
-  var _super = _createSuper$5(DataTableCore);
+  var _super = _createSuper$8(DataTableCore);
 
   function DataTableCore(props) {
     var _this;
@@ -2637,7 +2655,7 @@ var DataTableCore = /*#__PURE__*/function (_Component) {
           total = _this$props.total,
           fixedColumn = _this$props.fixedColumn,
           style = _this$props.style,
-          props = _objectWithoutProperties(_this$props, _excluded4$3);
+          props = _objectWithoutProperties(_this$props, _excluded4$4);
 
       var page = 1 + Math.floor(from / size);
       var totalPages = Math.ceil(total / size);
@@ -2723,7 +2741,7 @@ function DataTable(props) {
   }, props));
 }
 
-var _excluded$1N = ["src", "w", "h"];
+var _excluded$1T = ["src", "w", "h"];
 var getImageSrc = function getImageSrc(_ref) {
   var src = _ref.src,
       _ref$w = _ref.w,
@@ -2738,7 +2756,7 @@ var Image$1 = /*#__PURE__*/React.forwardRef(function (_ref2, ref) {
       w = _ref2$w === void 0 ? '' : _ref2$w,
       _ref2$h = _ref2.h,
       h = _ref2$h === void 0 ? '' : _ref2$h,
-      props = _objectWithoutProperties(_ref2, _excluded$1N);
+      props = _objectWithoutProperties(_ref2, _excluded$1T);
 
   return jsx("img", _extends({
     src: getImageSrc({
@@ -2803,14 +2821,14 @@ var skeletonTile = function skeletonTile(props) {
   return /*#__PURE__*/css("height:", props.height, "px;width:", props.height * 1.2, "px;flex:1 1 auto;margin:6px;animation:", skeletonLoading, " 3s linear infinite;;label:skeletonTile;" + ("" ));
 };
 
-var _ref2$g = {
+var _ref2$h = {
   name: "qrjmc2-zoomableImage",
   styles: "position:relative;label:zoomableImage;"
 } ;
 
 var zoomableImage = function zoomableImage(_ref3) {
   _ref3.src;
-  return _ref2$g;
+  return _ref2$h;
 };
 var image = function image(_ref4) {
   var src = _ref4.src,
@@ -2818,13 +2836,13 @@ var image = function image(_ref4) {
   return /*#__PURE__*/css("height:100%;width:100%;background:url(", src, ");background-position:center;background-size:contain;background-repeat:no-repeat;position:relative;text-align:center;", blur ? 'filter: blur(8px)' : '', ";;label:image;" + ("" ));
 };
 
-var _ref$u = {
+var _ref$w = {
   name: "1gkioda-toolBar",
   styles: "position:absolute;bottom:20px;right:20px;background:rgba(0,0,0,.8);color:white;padding:0;display:flex;label:toolBar;"
 } ;
 
 var toolBar = function toolBar() {
-  return _ref$u;
+  return _ref$w;
 };
 var styles$5 = {
   zoomableImage: zoomableImage,
@@ -2832,11 +2850,11 @@ var styles$5 = {
   image: image
 };
 
-var _excluded$1M = ["src", "thumbnail"];
+var _excluded$1S = ["src", "thumbnail"];
 var ZoomableImage = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var src = _ref.src,
       thumbnail = _ref.thumbnail,
-      props = _objectWithoutProperties(_ref, _excluded$1M);
+      props = _objectWithoutProperties(_ref, _excluded$1S);
 
   var theme = useContext(ThemeContext);
 
@@ -2904,7 +2922,7 @@ var ZoomableImage = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
 });
 ZoomableImage.displayName = 'ZoomableImage';
 
-var _excluded$1L = ["closeRequest", "item", "title", "subtitle", "details", "previous", "next", "imageSrc"];
+var _excluded$1R = ["closeRequest", "item", "title", "subtitle", "details", "previous", "next", "imageSrc"];
 Tabs.TabList;
     Tabs.Tab;
     Tabs.TabPanel;
@@ -2917,7 +2935,7 @@ var GalleryDetails = function GalleryDetails(_ref) {
       previous = _ref.previous,
       next = _ref.next,
       imageSrc = _ref.imageSrc,
-      props = _objectWithoutProperties(_ref, _excluded$1L);
+      props = _objectWithoutProperties(_ref, _excluded$1R);
 
   var _useState = useState({
     src: imageSrc(item)
@@ -2973,10 +2991,10 @@ var GalleryDetails = function GalleryDetails(_ref) {
 GalleryDetails.displayName = 'Gallery'; // Gallery.propTypes = {
 // };
 
-var _excluded$1K = ["height"],
-    _excluded2$f = ["src", "onSelect", "height", "minWidth", "children", "style"],
-    _excluded3$6 = ["onSelect", "caption", "title", "subtitle", "details", "items", "loading", "loadMore", "imageSrc", "size"],
-    _excluded4$2 = ["children"];
+var _excluded$1Q = ["height"],
+    _excluded2$g = ["src", "onSelect", "height", "minWidth", "children", "style"],
+    _excluded3$7 = ["onSelect", "caption", "title", "subtitle", "details", "items", "loading", "loadMore", "imageSrc", "size"],
+    _excluded4$3 = ["children"];
 
 function ownKeys$k(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -2984,7 +3002,7 @@ function _objectSpread$k(target) { for (var i = 1; i < arguments.length; i++) { 
 var GalleryTileSkeleton = function GalleryTileSkeleton(_ref) {
   var _ref$height = _ref.height,
       height = _ref$height === void 0 ? 150 : _ref$height,
-      props = _objectWithoutProperties(_ref, _excluded$1K);
+      props = _objectWithoutProperties(_ref, _excluded$1Q);
 
   return jsx("div", _extends({
     css: skeletonTile({
@@ -3000,7 +3018,7 @@ var GalleryTile = function GalleryTile(_ref2) {
       minWidth = _ref2.minWidth,
       children = _ref2.children,
       style = _ref2.style,
-      props = _objectWithoutProperties(_ref2, _excluded2$f);
+      props = _objectWithoutProperties(_ref2, _excluded2$g);
 
   var theme = useContext(ThemeContext);
 
@@ -3074,7 +3092,7 @@ var Gallery = function Gallery(_ref3) {
       imageSrc = _ref3.imageSrc,
       _ref3$size = _ref3.size,
       size = _ref3$size === void 0 ? 20 : _ref3$size,
-      props = _objectWithoutProperties(_ref3, _excluded3$6);
+      props = _objectWithoutProperties(_ref3, _excluded3$7);
 
   var theme = useContext(ThemeContext);
   var dialog = useDialogState({
@@ -3151,7 +3169,7 @@ var Gallery = function Gallery(_ref3) {
 };
 var GalleryTiles = function GalleryTiles(_ref4) {
   var children = _ref4.children,
-      props = _objectWithoutProperties(_ref4, _excluded4$2);
+      props = _objectWithoutProperties(_ref4, _excluded4$3);
 
   useContext(ThemeContext);
   return jsx("div", _extends({
@@ -3165,15 +3183,15 @@ var GalleryTiles = function GalleryTiles(_ref4) {
 Gallery.displayName = 'Gallery'; // Gallery.propTypes = {
 // };
 
-var _excluded$1J = ["size", "color"],
-    _excluded2$e = ["size", "color"],
-    _excluded3$5 = ["theme"];
+var _excluded$1P = ["size", "color"],
+    _excluded2$f = ["size", "color"],
+    _excluded3$6 = ["theme"];
 var arrowDown = function arrowDown(_ref2) {
   var _ref2$size = _ref2.size,
       size = _ref2$size === void 0 ? 5 : _ref2$size,
       _ref2$color = _ref2.color,
       color = _ref2$color === void 0 ? '#88888855' : _ref2$color;
-      _objectWithoutProperties(_ref2, _excluded$1J);
+      _objectWithoutProperties(_ref2, _excluded$1P);
 
   return /*#__PURE__*/css("width:0;height:0;border-left:", size, "px solid transparent;border-right:", size, "px solid transparent;border-top:", size, "px solid ", color, ";;label:arrowDown;" + ("" ));
 };
@@ -3182,12 +3200,12 @@ var arrowUp = function arrowUp(_ref3) {
       size = _ref3$size === void 0 ? 5 : _ref3$size,
       _ref3$color = _ref3.color,
       color = _ref3$color === void 0 ? '#88888855' : _ref3$color;
-      _objectWithoutProperties(_ref3, _excluded2$e);
+      _objectWithoutProperties(_ref3, _excluded2$f);
 
   return /*#__PURE__*/css("width:0;height:0;border-left:", size, "px solid transparent;border-right:", size, "px solid transparent;border-bottom:", size, "px solid ", color, ";;label:arrowUp;" + ("" ));
 };
 
-var _ref$t = {
+var _ref$v = {
   name: "au19k9-content",
   styles: "padding-top:8px;label:content;"
 } ;
@@ -3195,7 +3213,7 @@ var _ref$t = {
 var content$1 = function content(_ref4) {
   _extends({}, _ref4);
 
-  return _ref$t;
+  return _ref$v;
 };
 var accordion = function accordion(_ref5) {
   _extends({}, _ref5);
@@ -3204,7 +3222,7 @@ var accordion = function accordion(_ref5) {
 };
 var summary$5 = function summary(_ref6) {
   _ref6.theme;
-      _objectWithoutProperties(_ref6, _excluded3$5);
+      _objectWithoutProperties(_ref6, _excluded3$6);
 
   return /*#__PURE__*/css(">div{display:flex;flex-wrap:nowrap;align-items:center;}padding:12px 0 8px 0;list-style:none;list-style-type:none;", focusStyle(), " ", noUserSelect(), " &::-webkit-details-marker{display:none;};label:summary;" + ("" ));
 };
@@ -3216,7 +3234,7 @@ var styles$4 = {
   arrowUp: arrowUp
 };
 
-var _excluded$1I = ["summary", "summaryStyle", "open", "onToggle", "children"];
+var _excluded$1O = ["summary", "summaryStyle", "open", "onToggle", "children"];
 
 function AccordionControlled(_ref) {
   var summary = _ref.summary,
@@ -3224,7 +3242,7 @@ function AccordionControlled(_ref) {
       open = _ref.open,
       onToggle = _ref.onToggle,
       children = _ref.children,
-      props = _objectWithoutProperties(_ref, _excluded$1I);
+      props = _objectWithoutProperties(_ref, _excluded$1O);
 
   var theme = useContext(ThemeContext);
   return jsx("details", _extends({
@@ -3297,8 +3315,8 @@ function useBelow() {
   return isBelow;
 }
 
-var _excluded$1H = ["horizontal", "dense"],
-    _excluded2$d = ["horizontal", "theme"];
+var _excluded$1N = ["horizontal", "dense"],
+    _excluded2$e = ["horizontal", "theme"];
 
 function ownKeys$j(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -3313,30 +3331,30 @@ var horizontalProperties = function horizontalProperties() {
   return _ref3$b;
 };
 
-var _ref2$f = {
+var _ref2$g = {
   name: "wnk7jq-notHorizontalProperties",
   styles: ">dt{margin-bottom:.1em;};label:notHorizontalProperties;"
 } ;
 
 var notHorizontalProperties = function notHorizontalProperties() {
-  return _ref2$f;
+  return _ref2$g;
 };
 var dl = function dl(_ref4) {
   var horizontal = _ref4.horizontal,
       dense = _ref4.dense,
-      props = _objectWithoutProperties(_ref4, _excluded$1H);
+      props = _objectWithoutProperties(_ref4, _excluded$1N);
 
   return /*#__PURE__*/css(horizontal ? horizontalProperties(_objectSpread$j({}, props)) : notHorizontalProperties(), ";margin-top:0;margin-bottom:0;>*{margin-bottom:", horizontal && dense ? 4 : 12, "px;};label:dl;" + ("" ));
 };
 var dt = function dt(_ref5) {
   var horizontal = _ref5.horizontal,
       theme = _ref5.theme;
-      _objectWithoutProperties(_ref5, _excluded2$d);
+      _objectWithoutProperties(_ref5, _excluded2$e);
 
   return /*#__PURE__*/css("color:", theme.color400, ";margin-bottom :", horizontal ? 20 : 0, "px;word-break:break-word;&:last-of-type{margin-bottom:", horizontal ? 0 : '.1em', ";};label:dt;" + ("" ));
 };
 
-var _ref$s = {
+var _ref$u = {
   name: "rlj43c-dd",
   styles: "margin-left:0;line-height:1.4em;word-break:break-word;&:last-of-type{margin-bottom:0;};label:dd;"
 } ;
@@ -3344,12 +3362,12 @@ var _ref$s = {
 var dd = function dd(_ref6) {
   _extends({}, _ref6);
 
-  return _ref$s;
+  return _ref$u;
 };
 
-var _excluded$1G = ["as", "breakpoint", "horizontal", "dense"],
-    _excluded2$c = ["as"],
-    _excluded3$4 = ["as"];
+var _excluded$1M = ["as", "breakpoint", "horizontal", "dense"],
+    _excluded2$d = ["as"],
+    _excluded3$5 = ["as"];
 function Properties(_ref) {
   var _ref$as = _ref.as,
       Dl = _ref$as === void 0 ? 'dl' : _ref$as,
@@ -3357,7 +3375,7 @@ function Properties(_ref) {
       horizontal = _ref.horizontal,
       _ref$dense = _ref.dense,
       dense = _ref$dense === void 0 ? false : _ref$dense,
-      props = _objectWithoutProperties(_ref, _excluded$1G);
+      props = _objectWithoutProperties(_ref, _excluded$1M);
 
   var isBelow = useBelow(breakpoint);
   var theme = useContext(ThemeContext);
@@ -3372,7 +3390,7 @@ function Properties(_ref) {
 function Term$1(_ref2) {
   var _ref2$as = _ref2.as,
       Dt = _ref2$as === void 0 ? 'dt' : _ref2$as,
-      props = _objectWithoutProperties(_ref2, _excluded2$c);
+      props = _objectWithoutProperties(_ref2, _excluded2$d);
 
   var theme = useContext(ThemeContext);
   return jsx(Dt, _extends({
@@ -3385,7 +3403,7 @@ function Term$1(_ref2) {
 function Value$1(_ref3) {
   var _ref3$as = _ref3.as,
       Dd = _ref3$as === void 0 ? 'dd' : _ref3$as,
-      props = _objectWithoutProperties(_ref3, _excluded3$4);
+      props = _objectWithoutProperties(_ref3, _excluded3$5);
 
   var theme = useContext(ThemeContext);
   return jsx(Dd, _extends({
@@ -3404,7 +3422,7 @@ var styles$3 = {
   radio: radio
 };
 
-var _excluded$1F = ["as", "className", "style"];
+var _excluded$1L = ["as", "className", "style"];
 var Radio = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Span = _ref$as === void 0 ? 'span' : _ref$as,
@@ -3412,7 +3430,7 @@ var Radio = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
-      props = _objectWithoutProperties(_ref, _excluded$1F);
+      props = _objectWithoutProperties(_ref, _excluded$1L);
 
   var theme = useContext(ThemeContext);
 
@@ -3434,9 +3452,9 @@ var Radio = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
 });
 Radio.displayName = 'Radio';
 
-var _excluded$1E = ["theme"];
+var _excluded$1K = ["theme"];
 
-var _ref$r = {
+var _ref$t = {
   name: "1aydhai-drawer",
   styles: "position:fixed;bottom:0;top:0;right:0;max-width:100%;transform:translateX(100%);overflow:hidden;transition:transform 200ms ease-in-out;&[data-enter]{transform:translateX(0%);}&:focus{outline:none;};label:drawer;"
 } ;
@@ -3444,11 +3462,11 @@ var _ref$r = {
 var drawer = function drawer(_ref4) {
   _extends({}, _ref4);
 
-  return _ref$r;
+  return _ref$t;
 };
 var detailsBackdrop = function detailsBackdrop(_ref5) {
   var theme = _ref5.theme;
-      _objectWithoutProperties(_ref5, _excluded$1E);
+      _objectWithoutProperties(_ref5, _excluded$1K);
 
   return /*#__PURE__*/css("position:fixed;bottom:0;top:0;right:0;left:0;background:", theme.darkTheme ? '#00000075' : '#00000050', ";z-index:", theme.drawerZIndex || 100, ";transition:opacity 50ms ease-in-out;opacity:0;&[data-enter]{opacity:1;};label:detailsBackdrop;" + ("" ));
 };
@@ -3554,14 +3572,14 @@ var sampleEventJson = {
 };
 GenIcon(sampleEventJson);
 
-var _excluded$1D = ["dialog", "nextItem", "previousItem", "href", "children"];
+var _excluded$1J = ["dialog", "nextItem", "previousItem", "href", "children"];
 function DetailsDrawer(_ref) {
   var dialog = _ref.dialog,
       nextItem = _ref.nextItem,
       previousItem = _ref.previousItem,
       href = _ref.href,
       children = _ref.children;
-      _objectWithoutProperties(_ref, _excluded$1D);
+      _objectWithoutProperties(_ref, _excluded$1J);
 
   var theme = useContext(ThemeContext);
   useEffect(function () {
@@ -3644,12 +3662,12 @@ function DetailsDrawer(_ref) {
 // import { css } from '@emotion/react';
 var classification = classification$1;
 
-var _excluded$1C = ["as", "className"];
+var _excluded$1I = ["as", "className"];
 function Classification(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
-      props = _objectWithoutProperties(_ref, _excluded$1C);
+      props = _objectWithoutProperties(_ref, _excluded$1I);
 
   var theme = useContext(ThemeContext);
 
@@ -3666,13 +3684,13 @@ function Classification(_ref) {
   }, props));
 }
 
-var _excluded$1B = ["as", "taxon", "rank", "showUnknownRanks"];
+var _excluded$1H = ["as", "taxon", "rank", "showUnknownRanks"];
 function MajorRanks(_ref) {
   _ref.as;
       var taxon = _ref.taxon,
       rank = _ref.rank,
       showUnknownRanks = _ref.showUnknownRanks,
-      props = _objectWithoutProperties(_ref, _excluded$1B);
+      props = _objectWithoutProperties(_ref, _excluded$1H);
 
   useContext(ThemeContext);
   var ranks = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
@@ -3694,7 +3712,7 @@ function MajorRanks(_ref) {
   }));
 }
 
-var _ref$q = {
+var _ref$s = {
   name: "pkgb42-iconFeature",
   styles: "display:flex;align-items:center;flex:0 0 auto;align-items:flex-start;svg{flex:0 0 auto;height:1.2em;}>span,>div{margin:0 0.75em;};label:iconFeature;"
 } ;
@@ -3702,7 +3720,7 @@ var _ref$q = {
 var iconFeature = function iconFeature(_ref2) {
   _extends({}, _ref2);
 
-  return _ref$q;
+  return _ref$s;
 };
 var iconFeatures = function iconFeatures(_ref4) {
   var props = _extends({}, _ref4);
@@ -3710,7 +3728,7 @@ var iconFeatures = function iconFeatures(_ref4) {
   return /*#__PURE__*/css("display:flex;flex-wrap:wrap;align-items:center;margin:-.25em -1em;div{", iconFeature(props), " margin:.25em 1em;};label:iconFeatures;" + ("" ));
 };
 
-var _excluded$1A = ["isSequenced", "isTreament", "isSpecimen", "isClustered", "isSamplingEvent", "formattedCoordinates", "eventDate", "stillImageCount", "movingImageCount", "soundCount", "typeStatus", "basisOfRecord", "countryCode", "locality", "issueCount", "children", "iconsOnly"];
+var _excluded$1G = ["isSequenced", "isTreament", "isSpecimen", "isClustered", "isSamplingEvent", "formattedCoordinates", "eventDate", "stillImageCount", "movingImageCount", "soundCount", "typeStatus", "basisOfRecord", "countryCode", "locality", "issueCount", "children", "iconsOnly"];
 function IconFeatures(_ref) {
   var isSequenced = _ref.isSequenced,
       isTreament = _ref.isTreament,
@@ -3729,7 +3747,7 @@ function IconFeatures(_ref) {
       issueCount = _ref.issueCount,
       children = _ref.children,
       iconsOnly = _ref.iconsOnly,
-      props = _objectWithoutProperties(_ref, _excluded$1A);
+      props = _objectWithoutProperties(_ref, _excluded$1G);
 
   var theme = useContext(ThemeContext);
   var typeStyle;
@@ -3818,13 +3836,13 @@ var identifierBadge = {
   styles: "display:inline-block;font-size:0.85em;&:hover{text-decoration:none;>span:first-of-type,>div:first-of-type{background-color:var(--primary700);}}>*{padding:0 5px;display:inline-block;border:1px solid #dbe3e7;}>span:first-of-type,>div:first-of-type{transition:all .3s ease;background-color:var(--primary500);border-color:var(--primary600);padding:0 4px;border-radius:var(--borderRadiusPx) 0 0 var(--borderRadiusPx);color:#fff;border-right-width:0;}>*:last-child{padding:0 7px;border-radius:0 var(--borderRadiusPx) var(--borderRadiusPx) 0;border-left-width:0;color:var(--color);text-decoration:none;};label:identifierBadge;"
 } ;
 
-var _excluded$1z = ["as", "className"],
-    _excluded2$b = ["id"];
+var _excluded$1F = ["as", "className"],
+    _excluded2$c = ["id"];
 var IdentifierBadge = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
-      props = _objectWithoutProperties(_ref, _excluded$1z);
+      props = _objectWithoutProperties(_ref, _excluded$1F);
 
   var theme = useContext(ThemeContext);
 
@@ -3842,7 +3860,7 @@ var IdentifierBadge = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
 function Doi(_ref2) {
   var _ref2$id = _ref2.id,
       id = _ref2$id === void 0 ? '' : _ref2$id,
-      props = _objectWithoutProperties(_ref2, _excluded2$b);
+      props = _objectWithoutProperties(_ref2, _excluded2$c);
 
   var sanitizedId = id.replace(/^(.*doi.org\/)?(doi:)?(10\.)/, '10.');
   return jsx(IdentifierBadge, _extends({
@@ -3851,13 +3869,13 @@ function Doi(_ref2) {
   }, props), jsx("span", null, "DOI"), jsx("span", null, sanitizedId));
 }
 
-var _ref$p = {
+var _ref$r = {
   name: "14vl1ng-orcid",
   styles: "text-decoration:none;>img{margin-right:4px;vertical-align:middle;};label:orcid;"
 } ;
 
 var orcid = function orcid() {
-  return _ref$p;
+  return _ref$r;
 };
 
 var Orcid = (function (_ref) {
@@ -3871,13 +3889,13 @@ var Orcid = (function (_ref) {
   }), href);
 });
 
-var _ref$o = {
+var _ref$q = {
   name: "1lovijj-lsid",
   styles: "font-size:12px;text-decoration:none;display:inline-block;>span{border:1px solid #dbe3e7;}>span:first-of-type{transition:all 300ms ease;background:var(--primary500);padding:0 4px;border-radius:5px 0 0 5px;color:white;border-right-width:0;border-color:#218084;}>span:last-of-type{color:#333;background:white;text-decoration:none;padding:0 7px;border-radius:0 5px 5px 0;border-left-width:0;};label:lsid;"
 } ;
 
 var lsid = function lsid() {
-  return _ref$o;
+  return _ref$q;
 };
 
 var Lsid = (function (_ref) {
@@ -3901,16 +3919,16 @@ var BooleanValue = function BooleanValue(_ref) {
   return value === false || value === true ? value ? "Yes" : "No" : null;
 };
 
-var _ref$n = {
+var _ref$p = {
   name: "1gd7roc-content",
   styles: "a{text-decoration:none;};label:content;"
 } ;
 
 var content = function content() {
-  return _ref$n;
+  return _ref$p;
 };
 
-var _excluded$1y = ["text"];
+var _excluded$1E = ["text"];
 var autolinker = new Autolinker({
   truncate: {
     length: 64,
@@ -3969,7 +3987,7 @@ var getDoi = function getDoi(text) {
 
 var HyperText = function HyperText(_ref) {
   var text = _ref.text,
-      props = _objectWithoutProperties(_ref, _excluded$1y);
+      props = _objectWithoutProperties(_ref, _excluded$1E);
 
   if (text === false || text === true) {
     return jsx(BooleanValue, _extends({
@@ -4018,7 +4036,7 @@ var HyperText = function HyperText(_ref) {
   }, props));
 };
 
-var _ref$m = {
+var _ref$o = {
   name: "1ut0z8-progress",
   styles: "background:#eee;border-radius:2px;height:4px;>div{transition:width 300ms;height:4px;border-radius:2px;background:#68daa8;max-width:100%;};label:progress;"
 } ;
@@ -4026,17 +4044,17 @@ var _ref$m = {
 var progress$1 = function progress(_ref2) {
   _extends({}, _ref2);
 
-  return _ref$m;
+  return _ref$o;
 };
 var styles$2 = {
   progress: progress$1
 };
 
-var _excluded$1x = ["className", "percent"];
+var _excluded$1D = ["className", "percent"];
 function Progress(_ref) {
   var className = _ref.className,
       percent = _ref.percent,
-      props = _objectWithoutProperties(_ref, _excluded$1x);
+      props = _objectWithoutProperties(_ref, _excluded$1D);
 
   var theme = useContext(ThemeContext);
 
@@ -4055,7 +4073,7 @@ function Progress(_ref) {
   }));
 }
 
-var _excluded$1w = ["type"];
+var _excluded$1C = ["type"];
 
 var _ref8$3 = {
   name: "bxtlz7-tags",
@@ -4069,19 +4087,19 @@ var tags = function tags(_ref9) {
 };
 var tag = function tag(_ref10) {
   var type = _ref10.type,
-      props = _objectWithoutProperties(_ref10, _excluded$1w);
+      props = _objectWithoutProperties(_ref10, _excluded$1C);
 
   return /*#__PURE__*/css("align-items:center;background-color:#f5f5f5;border-radius:4px;color:#4a4a4a;display:inline-flex;font-size:.85em;justify-content:center;line-height:1.5;padding-left:.75em;padding-right:.75em;white-space:nowrap;", types[type] ? types[type]({
     props: props
   }) : null, ";;label:tag;" + ("" ));
 };
 
-var _ref$l = {
+var _ref$n = {
   name: "ijmqko-dark",
   styles: "background-color:#363636;color:#fff;label:dark;"
 } ;
 
-var _ref2$e = {
+var _ref2$f = {
   name: "15tm0f9-light",
   styles: "background-color:#f5f5f5;color:rgba(0,0,0,.7);label:light;"
 } ;
@@ -4128,20 +4146,20 @@ var types = {
     return _ref3$a;
   },
   light: function light(props) {
-    return _ref2$e;
+    return _ref2$f;
   },
   dark: function dark(props) {
-    return _ref$l;
+    return _ref$n;
   }
 };
 
-var _excluded$1v = ["as", "className"],
-    _excluded2$a = ["as", "type", "outline", "className"];
+var _excluded$1B = ["as", "className"],
+    _excluded2$b = ["as", "type", "outline", "className"];
 function Tags(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
-      props = _objectWithoutProperties(_ref, _excluded$1v);
+      props = _objectWithoutProperties(_ref, _excluded$1B);
 
   var theme = useContext(ThemeContext);
 
@@ -4164,7 +4182,7 @@ function Tag(_ref2) {
       _ref2$outline = _ref2.outline,
       outline = _ref2$outline === void 0 ? false : _ref2$outline,
       className = _ref2.className,
-      props = _objectWithoutProperties(_ref2, _excluded2$a);
+      props = _objectWithoutProperties(_ref2, _excluded2$b);
 
   var theme = useContext(ThemeContext);
 
@@ -4183,11 +4201,11 @@ function Tag(_ref2) {
   }, classNames, props));
 }
 
-var _excluded$1u = ["gadm", "className"];
+var _excluded$1A = ["gadm", "className"];
 function GadmClassification(_ref) {
   var gadm = _ref.gadm,
       className = _ref.className,
-      props = _objectWithoutProperties(_ref, _excluded$1u);
+      props = _objectWithoutProperties(_ref, _excluded$1A);
 
   var theme = useContext(ThemeContext);
   if (!gadm) return jsx("span", null, "Unknown");
@@ -4216,14 +4234,14 @@ var suffix = {
   styles: "margin-left:6px;padding-left:8px;label:suffix;"
 } ;
 
-var _excluded$1t = ["as", "prefix", "suffix", "className"];
+var _excluded$1z = ["as", "prefix", "suffix", "className"];
 function Eyebrow(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
       prefix = _ref.prefix,
       suffix$1 = _ref.suffix,
       className = _ref.className,
-      props = _objectWithoutProperties(_ref, _excluded$1t);
+      props = _objectWithoutProperties(_ref, _excluded$1z);
 
   var theme = useContext(ThemeContext);
 
@@ -4247,12 +4265,12 @@ var styles$1 = {
   jazzIcon: jazzIcon
 };
 
-var _excluded$1s = ["className", "children", "seed"];
+var _excluded$1y = ["className", "children", "seed"];
 function JazzIcon(_ref) {
   var className = _ref.className;
       _ref.children;
       var seed = _ref.seed,
-      props = _objectWithoutProperties(_ref, _excluded$1s);
+      props = _objectWithoutProperties(_ref, _excluded$1y);
 
   var theme = useContext(ThemeContext);
 
@@ -4341,12 +4359,12 @@ var genColor = function genColor(colors, random) {
   return color;
 };
 
-var _excluded$1r = ["as"],
-    _excluded2$9 = ["as"];
+var _excluded$1x = ["as"],
+    _excluded2$a = ["as"];
 var Prose = function Prose(_ref5) {
   var _ref5$as = _ref5.as,
       Div = _ref5$as === void 0 ? 'div' : _ref5$as,
-      props = _objectWithoutProperties(_ref5, _excluded$1r);
+      props = _objectWithoutProperties(_ref5, _excluded$1x);
 
   var theme = useContext(ThemeContext);
   return jsx(Div, _extends({}, props, {
@@ -4360,7 +4378,7 @@ function getTag$6(tagName, styleFn) {
   return function (_ref6) {
     var _ref6$as = _ref6.as,
         Tag = _ref6$as === void 0 ? tagName : _ref6$as,
-        props = _objectWithoutProperties(_ref6, _excluded2$9);
+        props = _objectWithoutProperties(_ref6, _excluded2$a);
 
     var theme = useContext(ThemeContext);
     return jsx(Tag, _extends({}, props, {
@@ -4387,22 +4405,22 @@ var h6 = function h6(theme) {
   return _ref3$9;
 };
 
-var _ref2$d = {
+var _ref2$e = {
   name: "qr4trc-h5",
   styles: "font-size:12px;line-height:24px;text-transform:uppercase;letter-spacing:1px;font-weight:500;color:#32536a;label:h5;"
 } ;
 
 var h5 = function h5(theme) {
-  return _ref2$d;
+  return _ref2$e;
 };
 
-var _ref$k = {
+var _ref$m = {
   name: "fme4ne-h4",
   styles: "font-size:18px;line-height:24px;label:h4;"
 } ;
 
 var h4 = function h4(theme) {
-  return _ref$k;
+  return _ref$m;
 };
 var h3 = function h3(theme) {
   return /*#__PURE__*/css("font-size:20px;line-height:24px;font-family:", theme.headerFontFamily, ";;label:h3;" + ("" ));
@@ -4434,7 +4452,7 @@ Prose.css = {
   h5: h5
 };
 
-var _ref$j = {
+var _ref$l = {
   name: "s05wqa-navItem",
   styles: "padding:8px 12px;line-height:1em;display:block;color:inherit;width:100%;text-align:left;text-decoration:none;&.isActive{background:#e0e7ee;font-weight:500;};label:navItem;"
 } ;
@@ -4442,7 +4460,7 @@ var _ref$j = {
 var navItem$1 = function navItem(_ref2) {
   _extends({}, _ref2);
 
-  return _ref$j;
+  return _ref$l;
 };
 
 var lodash = {exports: {}};
@@ -21761,10 +21779,10 @@ var useToc = function useToc() {
   return [activeSection, clickHandlers, setRefs];
 };
 
-var _excluded$1q = ["refs"];
+var _excluded$1w = ["refs"];
 var Toc = function Toc(_ref) {
   var refs = _ref.refs;
-      _objectWithoutProperties(_ref, _excluded$1q);
+      _objectWithoutProperties(_ref, _excluded$1w);
 
   var theme = useContext(ThemeContext);
 
@@ -21833,10 +21851,10 @@ var axios = _objectSpread$h(_objectSpread$h({}, axios$1), {}, {
   post: post
 });
 
-var _excluded$1p = ["doi"];
+var _excluded$1v = ["doi"];
 function AltmetricDonut(_ref) {
   var doi = _ref.doi,
-      props = _objectWithoutProperties(_ref, _excluded$1p);
+      props = _objectWithoutProperties(_ref, _excluded$1v);
 
   var _useState = useState(),
       _useState2 = _slicedToArray(_useState, 2),
@@ -21867,7 +21885,7 @@ function AltmetricDonut(_ref) {
   }));
 }
 
-var _excluded$1o = ["allowNewLines", "allowedTags", "allowedAttr", "textComponent", "isHTML", "values"];
+var _excluded$1u = ["allowNewLines", "allowedTags", "allowedAttr", "textComponent", "isHTML", "values"];
 
 function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -21880,7 +21898,7 @@ function Message(_ref) {
       isHTML = _ref.isHTML,
       _ref$values = _ref.values,
       values = _ref$values === void 0 ? {} : _ref$values,
-      props = _objectWithoutProperties(_ref, _excluded$1o);
+      props = _objectWithoutProperties(_ref, _excluded$1u);
 
   var _useIntl = useIntl(),
       formatMessage = _useIntl.formatMessage;
@@ -22035,13 +22053,13 @@ var LocaleContext = /*#__PURE__*/React.createContext({
   }
 });
 
-var _excluded$1n = ["queryString", "type", "discreet"],
-    _excluded2$8 = ["id", "type", "discreet"];
+var _excluded$1t = ["queryString", "type", "discreet"],
+    _excluded2$9 = ["id", "type", "discreet"];
 var ResourceSearchLink = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var queryString = _ref.queryString,
       type = _ref.type,
       discreet = _ref.discreet,
-      props = _objectWithoutProperties(_ref, _excluded$1n);
+      props = _objectWithoutProperties(_ref, _excluded$1t);
 
   var routeContext = useContext(RouteContext);
   var basename = routeContext.basename;
@@ -22076,7 +22094,7 @@ var ResourceLink = /*#__PURE__*/React.forwardRef(function (_ref2, ref) {
   var id = _ref2.id,
       type = _ref2.type,
       discreet = _ref2.discreet,
-      props = _objectWithoutProperties(_ref2, _excluded2$8);
+      props = _objectWithoutProperties(_ref2, _excluded2$9);
 
   var localeSettings = useContext(LocaleContext);
   var routeContext = useContext(RouteContext);
@@ -22148,8 +22166,8 @@ var overflowStyle = {
   styles: "order:99;display:flex;align-items:center;label:overflowStyle;"
 } ;
 
-var _excluded$1m = ["label", "to", "icon", "exact", "className", "data-targetid", "data-inmenu", "isActive"],
-    _excluded2$7 = ["label", "to", "icon", "exact", "className", "data-targetid", "isActive"];
+var _excluded$1s = ["label", "to", "icon", "exact", "className", "data-targetid", "data-inmenu", "isActive"],
+    _excluded2$8 = ["label", "to", "icon", "exact", "className", "data-targetid", "isActive"];
 var NavTab = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var label = _ref.label,
       to = _ref.to,
@@ -22159,7 +22177,7 @@ var NavTab = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       targetId = _ref['data-targetid'],
       inMenu = _ref['data-inmenu'],
       isActive = _ref.isActive,
-      props = _objectWithoutProperties(_ref, _excluded$1m);
+      props = _objectWithoutProperties(_ref, _excluded$1s);
 
   var theme = useContext(ThemeContext);
   var activeRoute = useRouteMatch({
@@ -22188,7 +22206,7 @@ var MenuRouteOption = /*#__PURE__*/React.forwardRef(function (_ref2, ref) {
       className = _ref2.className,
       targetId = _ref2['data-targetid'],
       isActive = _ref2.isActive,
-      props = _objectWithoutProperties(_ref2, _excluded2$7);
+      props = _objectWithoutProperties(_ref2, _excluded2$8);
 
   var theme = useContext(ThemeContext);
   var activeRoute = useRouteMatch({
@@ -22208,12 +22226,12 @@ var MenuRouteOption = /*#__PURE__*/React.forwardRef(function (_ref2, ref) {
   }, props), icon, label);
 });
 
-var _excluded$1l = ["children", "visibilityMap"],
-    _excluded2$6 = ["onClick"];
+var _excluded$1r = ["children", "visibilityMap"],
+    _excluded2$7 = ["onClick"];
 function OverflowMenu(_ref) {
   var children = _ref.children,
       visibilityMap = _ref.visibilityMap,
-      props = _objectWithoutProperties(_ref, _excluded$1l);
+      props = _objectWithoutProperties(_ref, _excluded$1r);
 
   var shouldShowMenu = useMemo(function () {
     return Object.values(visibilityMap).some(function (v) {
@@ -22262,7 +22280,7 @@ function OverflowMenu(_ref) {
           var _child$props = child.props,
               _child$props$onClick = _child$props.onClick,
               _onClick = _child$props$onClick === void 0 ? function () {} : _child$props$onClick,
-              p = _objectWithoutProperties(_child$props, _excluded2$6);
+              p = _objectWithoutProperties(_child$props, _excluded2$7);
 
           return jsx(MenuRouteOption, _extends({}, p, {
             onClick: function onClick() {
@@ -22279,7 +22297,7 @@ function OverflowMenu(_ref) {
   }));
 }
 
-var _excluded$1k = ["children"];
+var _excluded$1q = ["children"];
 
 function ownKeys$f(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -22289,7 +22307,7 @@ function NavItem(props) {
 }
 function NavBar(_ref) {
   var children = _ref.children,
-      props = _objectWithoutProperties(_ref, _excluded$1k);
+      props = _objectWithoutProperties(_ref, _excluded$1q);
 
   var navRef = useRef(null);
 
@@ -22347,7 +22365,7 @@ function NavBar(_ref) {
   }, children));
 }
 
-var _ref$i = {
+var _ref$k = {
   name: "1d484ih-dataHeader",
   styles: "display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;label:dataHeader;"
 } ;
@@ -22355,13 +22373,13 @@ var _ref$i = {
 var dataHeader = function dataHeader(_ref2) {
   _extends({}, _ref2);
 
-  return _ref$i;
+  return _ref$k;
 };
 var styles = {
   dataHeader: dataHeader
 };
 
-var _excluded$1j = ["as", "className", "availableCatalogues", "label"];
+var _excluded$1p = ["as", "className", "availableCatalogues", "label"];
 function CatalogueSelector(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
@@ -22369,7 +22387,7 @@ function CatalogueSelector(_ref) {
       _ref$availableCatalog = _ref.availableCatalogues,
       availableCatalogues = _ref$availableCatalog === void 0 ? ['OCCURRENCE', 'DATASET', 'PUBLISHER', 'LITERATURE', 'COLLECTION', 'INSTITUTION'] : _ref$availableCatalog,
       label = _ref.label;
-      _objectWithoutProperties(_ref, _excluded$1j);
+      _objectWithoutProperties(_ref, _excluded$1p);
 
   var theme = useContext(ThemeContext);
   var routeContext = useContext(RouteContext);
@@ -22473,7 +22491,7 @@ function CatalogueSelector(_ref) {
   }));
 }
 
-var _excluded$1i = ["as", "className", "left", "catalogueLabel", "availableCatalogues", "right", "children"];
+var _excluded$1o = ["as", "className", "left", "catalogueLabel", "availableCatalogues", "right", "children"];
 function DataHeader(_ref) {
   var _ref$as = _ref.as,
       Div = _ref$as === void 0 ? 'div' : _ref$as,
@@ -22483,7 +22501,7 @@ function DataHeader(_ref) {
       availableCatalogues = _ref.availableCatalogues,
       right = _ref.right,
       children = _ref.children,
-      props = _objectWithoutProperties(_ref, _excluded$1i);
+      props = _objectWithoutProperties(_ref, _excluded$1o);
 
   var theme = useContext(ThemeContext);
   var showCatalogue = availableCatalogues && availableCatalogues.length > 1;
@@ -22541,7 +22559,7 @@ function Separator() {
   });
 }
 
-var _ref2$c = {
+var _ref2$d = {
   name: "yveijv-contactList",
   styles: "padding:0;margin:0;list-style:none;li{border-bottom:1px solid #f0f0f0;margin-bottom:0!important;&:last-of-type{border:none;}};label:contactList;"
 } ;
@@ -22549,10 +22567,10 @@ var _ref2$c = {
 var contactList = function contactList(_ref3) {
   _extends({}, _ref3);
 
-  return _ref2$c;
+  return _ref2$d;
 };
 
-var _ref$h = {
+var _ref$j = {
   name: "9ztxyl-contactListItem",
   styles: "padding:8px 0;h4{font-size:inherit;margin:0;}display:flex;align-items:center;>h4,>div{flex:1 1 33%;padding:0 8px;}a{color:inherit;}.gb-contactListImage{width:48px;height:48px;flex:0 0 auto;border-radius:4px;background-size:contain;background-repeat:no-repeat;background-position:center;padding:0;}.gb-discreet{color:#555;}.gb-expandRow{flex:0 0 auto;};label:contactListItem;"
 } ;
@@ -22560,20 +22578,20 @@ var _ref$h = {
 var contactListItem = function contactListItem(_ref4) {
   _extends({}, _ref4);
 
-  return _ref$h;
+  return _ref$j;
 };
 
-var _excluded$1h = ["contacts", "className"],
-    _excluded2$5 = ["contact"],
-    _excluded3$3 = ["field", "contact", "value"],
-    _excluded4$1 = ["field", "contact", "value"];
+var _excluded$1n = ["contacts", "className"],
+    _excluded2$6 = ["contact"],
+    _excluded3$4 = ["field", "contact", "value"],
+    _excluded4$2 = ["field", "contact", "value"];
 var T$g = Properties.Term,
     V$g = Properties.Value;
 function ContactList(_ref) {
   var _ref$contacts = _ref.contacts,
       contacts = _ref$contacts === void 0 ? [] : _ref$contacts,
       className = _ref.className,
-      props = _objectWithoutProperties(_ref, _excluded$1h);
+      props = _objectWithoutProperties(_ref, _excluded$1n);
 
   var theme = useContext(ThemeContext);
 
@@ -22598,7 +22616,7 @@ function Contact(_ref2) {
   var _contact$email;
 
   var contact = _ref2.contact;
-      _objectWithoutProperties(_ref2, _excluded2$5);
+      _objectWithoutProperties(_ref2, _excluded2$6);
 
   var theme = useContext(ThemeContext);
   var name = contact.firstName || contact.lastName ? "".concat(contact.firstName || '', " ").concat(contact.lastName || '').trim() : undefined;
@@ -22689,7 +22707,7 @@ function Field$1(_ref3) {
       _ref3$contact = _ref3.contact,
       contact = _ref3$contact === void 0 ? {} : _ref3$contact,
       value = _ref3.value,
-      props = _objectWithoutProperties(_ref3, _excluded3$3);
+      props = _objectWithoutProperties(_ref3, _excluded3$4);
 
   if (!value && Array.isArray(contact[field])) return jsx(ArrayField, _extends({
     field: field,
@@ -22709,7 +22727,7 @@ function ArrayField(_ref4) {
       _ref4$contact = _ref4.contact,
       contact = _ref4$contact === void 0 ? {} : _ref4$contact;
       _ref4.value;
-      _objectWithoutProperties(_ref4, _excluded4$1);
+      _objectWithoutProperties(_ref4, _excluded4$2);
 
   if (!contact[field] || ((_contact$field = contact[field]) === null || _contact$field === void 0 ? void 0 : _contact$field.length) === 0) return null;
   return jsx(React.Fragment, null, jsx(T$g, null, jsx(FormattedMessage, {
@@ -22768,7 +22786,7 @@ var license = [
 	"UNSUPPORTED"
 ];
 
-var _excluded$1g = ["value", "className"];
+var _excluded$1m = ["value", "className"];
 var url2enum = {
   '//creativecommons.org/publicdomain/zero/1.0/legalcode': 'CC0_1_0',
   '//creativecommons.org/licenses/by/4.0/legalcode': 'CC_BY_4_0',
@@ -22782,7 +22800,7 @@ var enum2url = {
 function LicenseTag(_ref) {
   var value = _ref.value;
       _ref.className;
-      var props = _objectWithoutProperties(_ref, _excluded$1g);
+      var props = _objectWithoutProperties(_ref, _excluded$1m);
 
   useContext(ThemeContext);
   var val = value.replace(/http(s)?:/, '');
@@ -22806,13 +22824,13 @@ function LicenseTag(_ref) {
   })));
 }
 
-function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 var QueryError = /*#__PURE__*/function (_Error) {
   _inherits(QueryError, _Error);
 
-  var _super = _createSuper$4(QueryError);
+  var _super = _createSuper$7(QueryError);
 
   function QueryError(_ref) {
     var _this;
@@ -23096,8 +23114,8 @@ var client$1 = new ApiClient({
 
 var ApiContext = /*#__PURE__*/React.createContext(client$1);
 
-var _excluded$1f = ["initialState"],
-    _excluded2$4 = ["initialData"];
+var _excluded$1l = ["initialState"],
+    _excluded2$5 = ["initialData"];
 var CollateContext = /*#__PURE__*/React.createContext({
   requests: [],
   resolved: false,
@@ -23117,7 +23135,7 @@ function createServerContext() {
   function ServerDataContext(_ref) {
     var _ref$initialState = _ref.initialState,
         initialState = _ref$initialState === void 0 ? {} : _ref$initialState,
-        props = _objectWithoutProperties(_ref, _excluded$1f);
+        props = _objectWithoutProperties(_ref, _excluded$1l);
 
     resolvedData = initialState;
     return jsx(CollateContext.Provider, {
@@ -23188,7 +23206,7 @@ function createServerContext() {
 }
 var BrowserDataContext = function BrowserDataContext(_ref3) {
   var initialData = _ref3.initialData,
-      props = _objectWithoutProperties(_ref3, _excluded2$4);
+      props = _objectWithoutProperties(_ref3, _excluded2$5);
 
   var _useState = useState(initialData || {}),
       _useState2 = _slicedToArray(_useState, 1),
@@ -23392,11 +23410,243 @@ function useQuery(query) {
   };
 }
 
-var Map$7 = function Map() {
-  return null;
+function getLayerConfig$1(_ref) {
+  var tileString = _ref.tileString,
+      theme = _ref.theme;
+  return {
+    id: "occurrences",
+    type: "circle",
+    source: {
+      type: "vector",
+      tiles: [tileString]
+    },
+    "source-layer": "occurrence",
+    paint: {
+      // make circles larger as the user zooms from z12 to z22
+      "circle-radius": {
+        property: "total",
+        type: "interval",
+        //stops: [[0, 2]]
+        stops: [[0, 2], [10, 3], [100, 5], [1000, 8], [10000, 12]]
+      },
+      // color circles by ethnicity, using data-driven styles
+      "circle-color": {
+        property: "total",
+        type: "interval",
+        stops: [0, 10, 100, 1000, 10000].map(function (x, i) {
+          return [x, theme.mapDensityColors[i]];
+        })
+      },
+      "circle-opacity": {
+        property: "total",
+        type: "interval",
+        // stops: theme.darkTheme ? [[0, .6], [10, 0.7], [100, 0.8], [1000, 0.8], [10000, 0.9]] : [[0, 1], [10, 0.8], [100, 0.7], [1000, 0.6], [10000, 0.6]]
+        stops: [[0, 1], [10, 0.8], [100, 0.7], [1000, 0.6], [10000, 0.6]]
+      },
+      "circle-stroke-color": theme.mapDensityColors[1],
+      "circle-stroke-width": {
+        property: "total",
+        type: "interval",
+        stops: [[0, 1], [10, 0]]
+      }
+    }
+  };
+}
+
+var _excluded$1k = ["query", "onMapClick", "predicateHash"];
+
+function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+var Map$a = /*#__PURE__*/function (_Component) {
+  _inherits(Map, _Component);
+
+  var _super = _createSuper$6(Map);
+
+  function Map(props) {
+    var _this;
+
+    _classCallCheck(this, Map);
+
+    _this = _super.call(this, props);
+    _this.addLayer = _this.addLayer.bind(_assertThisInitialized(_this));
+    _this.updateLayer = _this.updateLayer.bind(_assertThisInitialized(_this));
+    _this.fitBbox = _this.fitBbox.bind(_assertThisInitialized(_this));
+    _this.myRef = /*#__PURE__*/React.createRef();
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(Map, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this$props$defaultMa, _this$props$defaultMa2, _this$props$defaultMa3;
+
+      var mapStyle = this.props.theme.darkTheme ? 'dark-v9' : 'light-v9';
+      mapboxgl.accessToken = env.MAPBOX_KEY;
+      this.map = new mapboxgl.Map({
+        container: this.myRef.current,
+        style: "mapbox://styles/mapbox/".concat(mapStyle),
+        zoom: sessionStorage.getItem('mapZoom') || ((_this$props$defaultMa = this.props.defaultMapSettings) === null || _this$props$defaultMa === void 0 ? void 0 : _this$props$defaultMa.zoom) || 0,
+        center: [sessionStorage.getItem('mapLng') || ((_this$props$defaultMa2 = this.props.defaultMapSettings) === null || _this$props$defaultMa2 === void 0 ? void 0 : _this$props$defaultMa2.lng) || 0, sessionStorage.getItem('mapLat') || ((_this$props$defaultMa3 = this.props.defaultMapSettings) === null || _this$props$defaultMa3 === void 0 ? void 0 : _this$props$defaultMa3.lat) || 0]
+      });
+      this.map.addControl(new mapboxgl.NavigationControl({
+        showCompass: false
+      }), 'top-left');
+      this.map.on("load", this.addLayer);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.map.remove();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var _this2 = this;
+
+      if (prevProps.query !== this.props.query && this.mapLoaded) {
+        this.updateLayer();
+      }
+
+      if (prevProps.bbox !== this.props.bbox && typeof this.props.bbox !== 'undefined') {
+        this.fitBbox(this.props.bbox);
+      }
+
+      if (prevProps.theme !== this.props.theme && this.mapLoaded) {
+        var mapStyle = this.props.theme.darkTheme ? 'dark-v9' : 'light-v9';
+        this.map.setStyle("mapbox://styles/mapbox/".concat(mapStyle));
+        this.map.on('style.load', function () {
+          _this2.updateLayer();
+        });
+      }
+    }
+  }, {
+    key: "updateLayer",
+    value: function updateLayer() {
+      var layer = this.map.getSource("occurrences");
+
+      if (layer) {
+        this.map.removeLayer("occurrences");
+        this.map.removeSource("occurrences");
+        this.addLayer();
+      } else {
+        this.addLayer();
+      }
+    }
+  }, {
+    key: "fitBbox",
+    value: function fitBbox(_ref) {
+      var south = _ref.south,
+          west = _ref.west,
+          north = _ref.north,
+          east = _ref.east;
+      if (typeof south !== 'number') return null; // https://docs.mapbox.com/mapbox-gl-js/example/fitbounds/
+
+      this.map.fitBounds([[west, south], [east, north]], {
+        duration: 0,
+        padding: 100,
+        maxZoom: 8
+      });
+    }
+  }, {
+    key: "addLayer",
+    value: function addLayer() {
+      var _this3 = this;
+
+      var tileString = "".concat(env.API_V2, "/map/occurrence/adhoc/{z}/{x}/{y}.mvt?style=scaled.circles&mode=GEO_CENTROID&srs=EPSG%3A3857&squareSize=256&predicateHash=").concat(this.props.predicateHash);
+      this.map.addLayer(getLayerConfig$1({
+        tileString: tileString,
+        theme: this.props.theme
+      }), "poi-scalerank2");
+      var map = this.map;
+
+      if (!this.mapLoaded) {
+        // remember map position
+        map.on('zoomend', function () {
+          var center = map.getCenter();
+          sessionStorage.setItem('mapZoom', map.getZoom());
+          sessionStorage.setItem('mapLng', center.lng);
+          sessionStorage.setItem('mapLat', center.lat);
+        });
+        map.on('moveend', function () {
+          var center = map.getCenter();
+          sessionStorage.setItem('mapZoom', map.getZoom());
+          sessionStorage.setItem('mapLng', center.lng);
+          sessionStorage.setItem('mapLat', center.lat);
+        });
+        map.on('click', function (e) {
+          if (!e._defaultPrevented && _this3.props.onMapClick) _this3.props.onMapClick();
+        });
+        map.on('error', function (e) {
+          var _e$error;
+
+          if ((e === null || e === void 0 ? void 0 : (_e$error = e.error) === null || _e$error === void 0 ? void 0 : _e$error.status) === 400 && _this3.props.registerPredicate) {
+            _this3.props.registerPredicate();
+          }
+        });
+      }
+
+      this.mapLoaded = true;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props;
+          _this$props.query;
+          _this$props.onMapClick;
+          _this$props.predicateHash;
+          var props = _objectWithoutProperties(_this$props, _excluded$1k);
+
+      return jsx("div", _extends({
+        ref: this.myRef
+      }, props));
+    }
+  }]);
+
+  return Map;
+}(Component);
+
+var mapComponent$1 = function mapComponent(_ref2) {
+  var theme = _ref2.theme;
+  return /*#__PURE__*/css("border:1px solid ", theme.paperBorderColor, ";border-radius:", theme.borderRadius, "px;canvas:focus{outline:none;};label:mapComponent;" + ("" ));
 };
 
-var _excluded$1e = ["mapSettings", "rootPredicate"];
+var _excluded$1j = ["query", "loading", "total", "predicateHash", "registerPredicate", "defaultMapSettings", "bbox", "style", "className"];
+
+function Map$9(_ref) {
+  var query = _ref.query;
+      _ref.loading;
+      _ref.total;
+      var predicateHash = _ref.predicateHash,
+      registerPredicate = _ref.registerPredicate,
+      defaultMapSettings = _ref.defaultMapSettings,
+      bbox = _ref.bbox,
+      style = _ref.style,
+      className = _ref.className;
+      _objectWithoutProperties(_ref, _excluded$1j);
+
+  var theme = useContext(ThemeContext);
+  return jsx(Map$a, {
+    style: style,
+    className: className,
+    defaultMapSettings: defaultMapSettings,
+    predicateHash: predicateHash,
+    css: mapComponent$1({
+      theme: theme
+    }),
+    theme: theme,
+    query: query,
+    onMapClick: function onMapClick(e) {
+      return showList(false);
+    },
+    registerPredicate: registerPredicate,
+    bbox: bbox
+  });
+}
+
+var _excluded$1i = ["mapSettings", "rootPredicate"];
 
 function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -23404,12 +23654,12 @@ function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { 
 var intervalSize = .25;
 var OCCURRENCE_MAP$1 = "\nquery map($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    _meta\n    stats {\n      decimalLatitude {\n        min\n        max\n      }\n    }\n    histogram {\n      decimalLongitude(interval: ".concat(intervalSize, ") {\n        bounds\n      }\n    }\n    documents {\n      total\n    }\n    _v1PredicateHash\n  }\n}\n");
 
-function Map$6(_ref) {
+function Map$8(_ref) {
   var _data$occurrenceSearc2, _data$occurrenceSearc3, _data$occurrenceSearc4, _data$occurrenceSearc5, _data$occurrenceSearc6;
 
   var mapSettings = _ref.mapSettings,
       rootPredicate = _ref.rootPredicate;
-      _objectWithoutProperties(_ref, _excluded$1e);
+      _objectWithoutProperties(_ref, _excluded$1i);
 
   var _useQuery = useQuery(OCCURRENCE_MAP$1, {
     lazyLoad: true
@@ -23507,7 +23757,7 @@ function Map$6(_ref) {
 
   if (!loading && data) {
     // if (typeof window !== 'undefined') {
-    return jsx(Map$7, _extends({}, options, {
+    return jsx(Map$9, _extends({}, options, {
       style: {
         height: 500
       }
@@ -23517,11 +23767,11 @@ function Map$6(_ref) {
   }
 }
 
-var _excluded$1d = ["rootPredicate", "className"];
+var _excluded$1h = ["rootPredicate", "className"];
 function OccurrenceMap(_ref) {
   var rootPredicate = _ref.rootPredicate,
       className = _ref.className;
-      _objectWithoutProperties(_ref, _excluded$1d);
+      _objectWithoutProperties(_ref, _excluded$1h);
 
   var theme = useContext(ThemeContext);
 
@@ -23531,7 +23781,7 @@ function OccurrenceMap(_ref) {
       classNames = _getClasses.classNames; // return <Div css={styles.occurrenceMap({theme})} {...props} />
 
 
-  return jsx(Map$6, {
+  return jsx(Map$8, {
     classNames: classNames,
     rootPredicate: rootPredicate
   });
@@ -24987,7 +25237,7 @@ function useTranslation(_ref) {
   };
 }
 
-var _excluded$1c = ["locale", "messages"];
+var _excluded$1g = ["locale", "messages"];
 
 function ownKeys$d(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -24996,7 +25246,7 @@ function LocaleProvider(_ref) {
   var locale = _ref.locale,
       _ref$messages = _ref.messages,
       customMessages = _ref$messages === void 0 ? {} : _ref$messages,
-      props = _objectWithoutProperties(_ref, _excluded$1c);
+      props = _objectWithoutProperties(_ref, _excluded$1g);
 
   var _useTranslation = useTranslation({
     locale: locale
@@ -25619,13 +25869,13 @@ var getNative$5 = _getNative,
     root$5 = _root;
 
 /* Built-in method references that are verified to be native. */
-var Map$5 = getNative$5(root$5, 'Map');
+var Map$7 = getNative$5(root$5, 'Map');
 
-var _Map = Map$5;
+var _Map = Map$7;
 
 var Hash = _Hash,
     ListCache$3 = _ListCache,
-    Map$4 = _Map;
+    Map$6 = _Map;
 
 /**
  * Removes all key-value entries from the map.
@@ -25638,7 +25888,7 @@ function mapCacheClear$1() {
   this.size = 0;
   this.__data__ = {
     'hash': new Hash,
-    'map': new (Map$4 || ListCache$3),
+    'map': new (Map$6 || ListCache$3),
     'string': new Hash
   };
 }
@@ -26091,7 +26341,7 @@ function stackHas$1(key) {
 var _stackHas = stackHas$1;
 
 var ListCache$1 = _ListCache,
-    Map$3 = _Map,
+    Map$5 = _Map,
     MapCache$1 = _MapCache;
 
 /** Used as the size to enable large array optimizations. */
@@ -26111,7 +26361,7 @@ function stackSet$1(key, value) {
   var data = this.__data__;
   if (data instanceof ListCache$1) {
     var pairs = data.__data__;
-    if (!Map$3 || (pairs.length < LARGE_ARRAY_SIZE$2 - 1)) {
+    if (!Map$5 || (pairs.length < LARGE_ARRAY_SIZE$2 - 1)) {
       pairs.push([key, value]);
       this.size = ++data.size;
       return this;
@@ -27721,7 +27971,7 @@ var defaultContext = {
 };
 var SiteContext = /*#__PURE__*/React.createContext(defaultContext);
 
-var _excluded$1b = ["siteConfig"];
+var _excluded$1f = ["siteConfig"];
 var client = new ApiClient({
   gql: {
     endpoint: env.GRAPH_API
@@ -27734,7 +27984,7 @@ var client = new ApiClient({
 function StandaloneWrapper(_ref) {
   var _ref$siteConfig = _ref.siteConfig,
       siteConfig = _ref$siteConfig === void 0 ? {} : _ref$siteConfig,
-      props = _objectWithoutProperties(_ref, _excluded$1b);
+      props = _objectWithoutProperties(_ref, _excluded$1f);
 
   var _siteConfig$theme = siteConfig.theme,
       theme = _siteConfig$theme === void 0 ? lightTheme : _siteConfig$theme,
@@ -28165,7 +28415,7 @@ var WeakMap$1 = getNative(root, 'WeakMap');
 var _WeakMap = WeakMap$1;
 
 var DataView = _DataView,
-    Map$2 = _Map,
+    Map$4 = _Map,
     Promise$1 = _Promise,
     Set$2 = _Set,
     WeakMap = _WeakMap,
@@ -28183,7 +28433,7 @@ var dataViewTag$3 = '[object DataView]';
 
 /** Used to detect maps, sets, and weakmaps. */
 var dataViewCtorString = toSource(DataView),
-    mapCtorString = toSource(Map$2),
+    mapCtorString = toSource(Map$4),
     promiseCtorString = toSource(Promise$1),
     setCtorString = toSource(Set$2),
     weakMapCtorString = toSource(WeakMap);
@@ -28199,7 +28449,7 @@ var getTag$5 = baseGetTag;
 
 // Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
 if ((DataView && getTag$5(new DataView(new ArrayBuffer(1))) != dataViewTag$3) ||
-    (Map$2 && getTag$5(new Map$2) != mapTag$5) ||
+    (Map$4 && getTag$5(new Map$4) != mapTag$5) ||
     (Promise$1 && getTag$5(Promise$1.resolve()) != promiseTag) ||
     (Set$2 && getTag$5(new Set$2) != setTag$5) ||
     (WeakMap && getTag$5(new WeakMap) != weakMapTag$1)) {
@@ -30065,14 +30315,14 @@ function ownKeys$c(object, enumerableOnly) { var keys = Object.keys(object); if 
 
 function _objectSpread$c(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$c(Object(source), !0).forEach(function (key) { _defineProperty$1(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$c(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
-function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 var FilterState = /*#__PURE__*/function (_React$Component) {
   _inherits(FilterState, _React$Component);
 
-  var _super = _createSuper$3(FilterState);
+  var _super = _createSuper$5(FilterState);
 
   function FilterState() {
     var _this;
@@ -30391,14 +30641,14 @@ var cssViewArea = function cssViewArea(_ref5) {
   return _ref3$8;
 };
 
-var _ref2$b = {
+var _ref2$c = {
   name: "11bdlan-cssLayout",
   styles: "display:flex;flex-direction:column;height:100%;overflow:auto;label:cssLayout;"
 } ;
 
 var cssLayout = function cssLayout(_ref6) {
   _ref6.theme;
-  return _ref2$b;
+  return _ref2$c;
 };
 var cssFilter = function cssFilter(_ref8) {
   var theme = _ref8.theme;
@@ -30752,292 +31002,9 @@ function v12filter(query, filterConfig) {
   };
 }
 
-var Map$1 = function Map() {
-  return jsx("h1", null, "Map placeholder");
-};
-
-var OCCURRENCE_MAP = "\nquery map($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    _meta\n    documents {\n      total\n    }\n    _v1PredicateHash\n  }\n}\n";
-var OCCURRENCE_POINT = "\nquery point($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    documents {\n      total\n      results {\n        key\n        basisOfRecord\n        eventDate\n        gbifClassification{\n          usage {\n            rank\n            formattedName\n          }\n        }\n        primaryImage {\n          identifier\n        }\n      }\n    }\n  }\n}\n";
-var wktBBoxTemplate = '((W S,E S,E N,W N,W S))';
-
-function Map() {
-  var _currentFilterContext, _currentFilterContext2, _currentFilterContext3, _data$occurrenceSearc, _data$occurrenceSearc2, _data$occurrenceSearc3, _data$occurrenceSearc4, _data$occurrenceSearc5;
-
-  var currentFilterContext = useContext(FilterContext);
-
-  var _useContext = useContext(SearchContext),
-      labelMap = _useContext.labelMap,
-      rootPredicate = _useContext.rootPredicate,
-      predicateConfig = _useContext.predicateConfig,
-      more = _useContext.more;
-
-  var _useQuery = useQuery(OCCURRENCE_MAP, {
-    lazyLoad: true
-  }),
-      data = _useQuery.data,
-      error = _useQuery.error,
-      loading = _useQuery.loading,
-      load = _useQuery.load;
-
-  var _useQuery2 = useQuery(OCCURRENCE_POINT, {
-    lazyLoad: true
-  }),
-      pointData = _useQuery2.data,
-      pointError = _useQuery2.error,
-      pointLoading = _useQuery2.loading,
-      pointLoad = _useQuery2.load;
-
-  useEffect(function () {
-    loadHashAndCount({
-      filter: currentFilterContext.filter,
-      predicateConfig: predicateConfig,
-      rootPredicate: rootPredicate
-    });
-  }, [currentFilterContext.filterHash, rootPredicate, predicateConfig]);
-  var loadHashAndCount = useCallback(function (_ref) {
-    var filter = _ref.filter,
-        predicateConfig = _ref.predicateConfig,
-        rootPredicate = _ref.rootPredicate;
-    var predicate = {
-      type: 'and',
-      predicates: [rootPredicate, filter2predicate(filter, predicateConfig), {
-        type: 'equals',
-        key: 'hasCoordinate',
-        value: true
-      }].filter(function (x) {
-        return x;
-      })
-    };
-    load({
-      keepDataWhileLoading: true,
-      variables: {
-        predicate: predicate
-      }
-    });
-  }, []);
-  var registrationEmbargo;
-  /**
-   * Allow the map to register the predicate again. This can be useful when tile with status code 400 errors come back. 
-   * But it should only be allowed to do every so often as we do not want to send request 500 times a second when an error is persistent.
-   * In theory it should only ever be called once and that is in the relatively rare case when the tile server is redployed just as someone is browsing the map.
-   */
-
-  var registerPredicate = useCallback(function () {
-    if (registrationEmbargo) return;
-    registrationEmbargo = true;
-    window.setTimeout(function () {
-      return registrationEmbargo = false;
-    }, 10000); //only allow registering an error every 10 seconds.
-
-    loadHashAndCount({
-      filter: currentFilterContext.filter,
-      predicateConfig: predicateConfig,
-      rootPredicate: rootPredicate
-    });
-  }, [currentFilterContext.filterHash, rootPredicate, predicateConfig]);
-  var loadPointData = useCallback(function (_ref2) {
-    _ref2.geohash;
-    var latLon = {};
-    var N = latLon.ne.lat,
-        S = latLon.sw.lat,
-        W = latLon.sw.lon,
-        E = latLon.ne.lon;
-    var wkt = 'POLYGON' + wktBBoxTemplate.replace(/N/g, N).replace(/S/g, S).replace(/W/g, W).replace(/E/g, E);
-    var predicate = {
-      type: 'and',
-      predicates: [rootPredicate, filter2predicate(currentFilterContext.filter, predicateConfig), {
-        type: 'within',
-        key: 'geometry',
-        value: wkt
-      }].filter(function (x) {
-        return x;
-      })
-    };
-    pointLoad({
-      variables: {
-        predicate: predicate
-      }
-    });
-  }, [currentFilterContext.filterHash, rootPredicate]);
-  var q = (_currentFilterContext = currentFilterContext.filter) === null || _currentFilterContext === void 0 ? void 0 : (_currentFilterContext2 = _currentFilterContext.must) === null || _currentFilterContext2 === void 0 ? void 0 : (_currentFilterContext3 = _currentFilterContext2.q) === null || _currentFilterContext3 === void 0 ? void 0 : _currentFilterContext3[0];
-  var options = {
-    loading: loading,
-    error: error,
-    total: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc = data.occurrenceSearch) === null || _data$occurrenceSearc === void 0 ? void 0 : (_data$occurrenceSearc2 = _data$occurrenceSearc.documents) === null || _data$occurrenceSearc2 === void 0 ? void 0 : _data$occurrenceSearc2.total,
-    query: (data === null || data === void 0 ? void 0 : (_data$occurrenceSearc3 = data.occurrenceSearch) === null || _data$occurrenceSearc3 === void 0 ? void 0 : (_data$occurrenceSearc4 = _data$occurrenceSearc3._meta) === null || _data$occurrenceSearc4 === void 0 ? void 0 : _data$occurrenceSearc4.query) || {},
-    predicateHash: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc5 = data.occurrenceSearch) === null || _data$occurrenceSearc5 === void 0 ? void 0 : _data$occurrenceSearc5._v1PredicateHash,
-    rootPredicate: rootPredicate,
-    predicateConfig: predicateConfig,
-    loadPointData: loadPointData,
-    registerPredicate: registerPredicate,
-    pointData: pointData,
-    pointLoading: pointLoading,
-    pointError: pointError,
-    labelMap: labelMap,
-    q: q,
-    defaultMapSettings: more === null || more === void 0 ? void 0 : more.mapSettings
-  }; // if (typeof window !== 'undefined') {
-
-  return jsx(Map$1, options); // } else {
-  //   return <h1>Map placeholder</h1>
-  // }
-}
-
-function useUrlState(_ref) {
-  var param = _ref.param,
-      _ref$dataType = _ref.dataType,
-      dataType = _ref$dataType === void 0 ? dynamicParam : _ref$dataType,
-      _ref$replaceState = _ref.replaceState,
-      replaceState = _ref$replaceState === void 0 ? false : _ref$replaceState,
-      defaultValue = _ref.defaultValue,
-      _ref$base64encode = _ref.base64encode,
-      base64encode = _ref$base64encode === void 0 ? false : _ref$base64encode;
-      _ref.stripEmptyKeys;
-      var initialState = _ref.initialState;
-
-  var _useState = useState(),
-      _useState2 = _slicedToArray(_useState, 2),
-      value = _useState2[0],
-      setValue = _useState2[1];
-
-  var history = useHistory();
-  var location = useLocation();
-  var action = replaceState ? 'replace' : 'push';
-  var updateUrl = useCallback(function (newValue) {
-    var currentState = queryString.parse(location.search);
-    var parsed = queryString.parse(location.search);
-    console.log(location.search); // basic check for equality. Do not update if there is nothing to update. This will not work for anything but strings
-
-    if (equal(newValue, currentState[param])) return;
-
-    if (isObjectLike_1(newValue)) {
-      if (isEmpty_1(newValue.must)) delete newValue.must;
-      if (isEmpty_1(newValue.must_not)) delete newValue.must_not;
-      if (isEmpty_1(newValue)) newValue = undefined;
-    }
-
-    if (newValue) {
-      var stringifiedValue = Array.isArray(newValue) ? newValue.map(function (x) {
-        return dataType.stringify(x);
-      }) : dataType.stringify(newValue);
-      if (base64encode) stringifiedValue = Base64.encode(stringifiedValue);
-      parsed[param] = stringifiedValue;
-    } else {
-      delete parsed[param];
-    }
-
-    if (typeof defaultValue !== 'undefined' && newValue === defaultValue) {
-      delete parsed[param];
-    }
-
-    if (equal(parsed[param], currentState[param])) return;
-    history[action](location.pathname + '?' + queryString.stringify(parsed));
-    console.log('dep changed in useCallback');
-  }, [location, history]);
-  useEffect(function () {
-    var changeHandler = function changeHandler(_ref2) {
-      var location = _ref2.location;
-      var parsed = queryString.parse(location === null || location === void 0 ? void 0 : location.search);
-      var parsedValue = parsed[param];
-      if (base64encode && parsedValue) parsedValue = Base64.decode(parsedValue);
-      parsedValue = dataType.parse(parsedValue);
-      var parsedNormalizedValue = Array.isArray(parsedValue) ? parsedValue.map(function (x) {
-        return dataType.parse(x);
-      }) : dataType.parse(parsedValue);
-
-      if (typeof parsedNormalizedValue === 'undefined' && typeof defaultValue !== 'undefined') {
-        parsedNormalizedValue = defaultValue;
-      }
-
-      setValue(parsedNormalizedValue);
-    };
-
-    changeHandler({
-      location: location
-    });
-    var unlisten = history.listen(changeHandler);
-    if (initialState) updateUrl(initialState);
-    console.log('dep changed in useEffect');
-    return function () {
-      unlisten();
-      var parsed = queryString.parse(location.search);
-      delete parsed[param]; // history.replace(location.pathname + '?' + queryString.stringify(parsed));
-    };
-  }, []);
-  return [value, updateUrl];
-}
-var dynamicParam = {
-  parse: guessType,
-  stringify: function stringify(val) {
-    return _typeof(val) === 'object' ? JSON.stringify(val) : val;
-  }
-};
-
-function guessType(value) {
-  //try to guess
-  try {
-    var parsedValue = JSON.parse(value);
-    return parsedValue;
-  } catch (err) {
-    return value;
-  }
-} // Usage
-// import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
-// const [num, setNum] = useQueryParam('x', NumberParam);
-// export const getParams = function (url, { alwaysAsArray, guessType, typeConfig = {} }) {
-//   var params = {};
-//   let query;
-//   if (typeof document !== 'undefined') {
-//     var parser = document.createElement('a');
-//     parser.href = url;
-//     query = parser.search.substring(1);
-//   } else if (url.indexOf('?') > -1) {
-//     query = url.substr(url.indexOf('?') + 1);
-//   } else {
-//     query = '';
-//   }
-//   var vars = query.split('&');
-//   for (var i = 0; i < vars.length; i++) {
-//     var pair = vars[i].split('=');
-//     var key = pair[0];
-//     if (typeof key === 'undefined' || key === '' || typeof pair[1] === 'undefined') continue;
-//     var value = decodeURIComponent(pair[1]);
-//     var type = typeConfig[key];
-//     if (type) {
-//       switch (type) {
-//         case 'number':
-//           value = Number(value);
-//         default:
-//           value = value;
-//       }
-//     } else if (guessType) {
-//       //try to guess
-//       value = convert(value);
-//     }
-//     if (typeof params[key] === 'undefined') {
-//       params[key] = alwaysAsArray ? [value] : value;
-//     } else if (Array.isArray(params[key])) {
-//       params[key].push(value);
-//     } else {
-//       params[key] = [params[key], value];
-//     }
-//   }
-//   return params;
-// };
-// function convert(value) {
-//   //try to guess
-//   try {
-//     let parsedValue = JSON.parse(value);
-//     return parsedValue;
-//   } catch (err) {
-//     return value;
-//   }
-// }
-// console.log(JSON.stringify(getParams('/sdf?test=0&t&r=test=6,7&j=%7B%22a%22%3A5%7D', {guessType: true}), null, 2));
-
-var _excluded$1a = ["theme"],
-    _excluded2$3 = ["isTrackingData", "theme"],
-    _excluded3$2 = ["theme"];
+var _excluded$1e = ["theme"],
+    _excluded2$4 = ["isTrackingData", "theme"],
+    _excluded3$3 = ["theme"];
 
 var _ref12 = {
   name: "1fdmh6b-agentSummary",
@@ -31084,7 +31051,7 @@ var header$2 = function header(_ref16) {
 };
 var globeOverlay = function globeOverlay(_ref17) {
   var theme = _ref17.theme;
-      _objectWithoutProperties(_ref17, _excluded$1a);
+      _objectWithoutProperties(_ref17, _excluded$1e);
 
   return /*#__PURE__*/css("position:absolute;border:1px solid #88888811;width:100%;height:100%;top:0;border-radius:100%;background-image:radial-gradient(farthest-corner at 30% 35%, ", theme.darkTheme ? '#ffffff33' : '#ffffffaa', " 0%, #fff0 30%);;label:globeOverlay;" + ("" ));
 };
@@ -31102,13 +31069,13 @@ var globe = function globe(_ref18) {
 var globeSvg = function globeSvg(_ref19) {
   var isTrackingData = _ref19.isTrackingData,
       theme = _ref19.theme;
-      _objectWithoutProperties(_ref19, _excluded2$3);
+      _objectWithoutProperties(_ref19, _excluded2$4);
 
   return /*#__PURE__*/css("position:absolute;top:0;.land{fill:#88888844;}.graticule{stroke:#88888840;fill:transparent;stroke-width:0.3px;}.sphere{fill:#88888822;}.point{fill:", theme.color700, ";", isTrackingData ? "\n    fill: #ff3800;\n    stroke: #ff38006e;\n    animation: hideshow 1s ease infinite;\n    " : null, ";}@keyframes hideshow{0%{stroke-width:2px;}50%{stroke-width:10px;}100%{stroke-width:2px;}};label:globeSvg;" + ("" ));
 };
 var sideBar$3 = function sideBar(_ref20) {
   var theme = _ref20.theme;
-      _objectWithoutProperties(_ref20, _excluded3$2);
+      _objectWithoutProperties(_ref20, _excluded3$3);
 
   return /*#__PURE__*/css("background:", theme.paperBackground500, ";position:relative;max-width:100%;;label:sideBar;" + ("" ));
 };
@@ -31168,21 +31135,21 @@ var group = function group() {
   return _ref3$7;
 };
 
-var _ref2$a = {
+var _ref2$b = {
   name: "uvobqz-chip",
   styles: "font-size:11px;padding:0 4px;border:1px solid #dedede;background:#f3f3f3;margin:0 4px 4px 0;display:inline-block;label:chip;"
 } ;
 
 var chip = function chip(_ref28) {
   _ref28.theme;
-  return _ref2$a;
+  return _ref2$b;
 };
 var clusterFooter = function clusterFooter(_ref29) {
   var theme = _ref29.theme;
   return /*#__PURE__*/css("font-size:13px;padding:8px 12px;border-top:1px solid ", theme.paperBorderColor, ";margin-bottom:-4px;;label:clusterFooter;" + ("" ));
 };
 
-var _excluded$19 = ["lat", "lon", "svg", "className", "style"];
+var _excluded$1d = ["lat", "lon", "svg", "className", "style"];
 function Globe(_ref) {
   var _data$globe;
 
@@ -31191,7 +31158,7 @@ function Globe(_ref) {
       svg = _ref.svg;
       _ref.className;
       _ref.style;
-      _objectWithoutProperties(_ref, _excluded$19);
+      _objectWithoutProperties(_ref, _excluded$1d);
 
   var _useQuery = useQuery(GLOBE, {
     lazyLoad: true
@@ -31237,7 +31204,7 @@ function Globe(_ref) {
 }
 var GLOBE = "\nquery globe($lat: Float!, $lon: Float!){\n  globe(cLat: $lat, cLon: $lon) {\n    svg\n  }\n}\n";
 
-var _excluded$18 = ["data", "loading", "error", "className"];
+var _excluded$1c = ["data", "loading", "error", "className"];
 function Header$2(_ref) {
   var _data$occurrence, _data$occurrence$vola, _data$occurrence2, _data$occurrence2$vol, _data$occurrence3, _data$occurrence4, _data$occurrence5, _data$occurrence5$gbi, _data$occurrence5$gbi2, _item$typeStatus, _item$issues;
 
@@ -31245,7 +31212,7 @@ function Header$2(_ref) {
       _ref.loading;
       _ref.error;
       _ref.className;
-      var props = _objectWithoutProperties(_ref, _excluded$18);
+      var props = _objectWithoutProperties(_ref, _excluded$1c);
 
   var isBelow = useBelow(500);
   var theme = useContext(ThemeContext);
@@ -31434,9 +31401,9 @@ var intersection = baseRest$4(function(arrays) {
 
 var intersection_1 = intersection;
 
-function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 var labelMaker = (function (getData) {
   var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
       isHtmlResponse = _ref.isHtmlResponse;
@@ -31444,7 +31411,7 @@ var labelMaker = (function (getData) {
   return injectIntl( /*#__PURE__*/function (_Component) {
     _inherits(Format, _Component);
 
-    var _super = _createSuper$2(Format);
+    var _super = _createSuper$4(Format);
 
     function Format(props) {
       var _this;
@@ -31734,9 +31701,9 @@ function prettifyEnum(text) {
   return typeof text === 'string' ? text.charAt(0) + text.slice(1).toLowerCase().replace(/_/g, ' ') : 'Unknown';
 }
 
-var _excluded$17 = ["getEnum"],
-    _excluded3$1 = ["label"],
-    _excluded4 = ["term", "label", "showDetails", "hideIssues", "hideRemarks"];
+var _excluded$1b = ["getEnum"],
+    _excluded3$2 = ["label"],
+    _excluded4$1 = ["term", "label", "showDetails", "hideIssues", "hideRemarks"];
 var T$f = Properties.Term,
     V$f = Properties.Value;
 function HtmlField(props) {
@@ -31764,7 +31731,7 @@ function CustomValueField(props) {
 }
 function EnumField(_ref) {
   var getEnum = _ref.getEnum,
-      props = _objectWithoutProperties(_ref, _excluded$17);
+      props = _objectWithoutProperties(_ref, _excluded$1b);
 
   if (!props.term) return null;
   var value = props.term.value;
@@ -31779,7 +31746,7 @@ function EnumField(_ref) {
 }
 function BasicField(_ref3) {
   var label = _ref3.label,
-      props = _objectWithoutProperties(_ref3, _excluded3$1);
+      props = _objectWithoutProperties(_ref3, _excluded3$2);
 
   return jsx(React.Fragment, null, jsx(T$f, null, jsx(FormattedMessage, {
     id: label,
@@ -31792,7 +31759,7 @@ function Field(_ref4) {
       showDetails = _ref4.showDetails,
       hideIssues = _ref4.hideIssues,
       hideRemarks = _ref4.hideRemarks,
-      props = _objectWithoutProperties(_ref4, _excluded4);
+      props = _objectWithoutProperties(_ref4, _excluded4$1);
 
   var simpleName = term.simpleName,
       verbatim = term.verbatim,
@@ -31877,13 +31844,13 @@ function Chips(_ref6) {
   }))));
 }
 
-var _excluded$16 = ["as", "includeTerminal", "ranks"];
+var _excluded$1a = ["as", "includeTerminal", "ranks"];
 function TaxonClassification(_ref) {
   _ref.as;
       var _ref$includeTerminal = _ref.includeTerminal,
       includeTerminal = _ref$includeTerminal === void 0 ? false : _ref$includeTerminal,
       ranks = _ref.ranks,
-      props = _objectWithoutProperties(_ref, _excluded$16);
+      props = _objectWithoutProperties(_ref, _excluded$1a);
 
   // const theme = useContext(ThemeContext);
   return jsx(Classification, props, ranks.map(function (rank, i, _ref2) {
@@ -31898,14 +31865,14 @@ Classification.propTypes = {
   as: propTypes.exports.element
 };
 
-var _excluded$15 = ["agent"];
+var _excluded$19 = ["agent"];
 Properties.Term;
     Properties.Value;
 function AgentSummary(_ref) {
   var _person$image, _person$image2, _person$name, _person$birthDate, _person$birthDate2, _person$deathDate, _person$deathDate2;
 
   var agent = _ref.agent;
-      _objectWithoutProperties(_ref, _excluded$15);
+      _objectWithoutProperties(_ref, _excluded$19);
 
   var theme = useContext(ThemeContext);
   var person = agent.person;
@@ -31935,7 +31902,7 @@ function AgentSummary(_ref) {
   }, agent.value)));
 }
 
-var _excluded$14 = ["label"];
+var _excluded$18 = ["label"];
 var T$e = Properties.Term,
     V$e = Properties.Value;
 function Groups(_ref) {
@@ -32011,7 +31978,7 @@ function Groups(_ref) {
 }
 function Group(_ref2) {
   var label = _ref2.label,
-      props = _objectWithoutProperties(_ref2, _excluded$14);
+      props = _objectWithoutProperties(_ref2, _excluded$18);
 
   return jsx(Accordion, _extends({
     summary: jsx(FormattedMessage, {
@@ -33242,7 +33209,7 @@ function Agents(_ref26) {
   })));
 }
 
-var _excluded$13 = ["data", "activeImage", "setActiveImage", "className"];
+var _excluded$17 = ["data", "activeImage", "setActiveImage", "className"];
 var Term = Properties.Term,
     Value = Properties.Value;
 function ImageDetails(_ref) {
@@ -33252,7 +33219,7 @@ function ImageDetails(_ref) {
       activeImage = _ref.activeImage,
       setActiveImage = _ref.setActiveImage;
       _ref.className;
-      _objectWithoutProperties(_ref, _excluded$13);
+      _objectWithoutProperties(_ref, _excluded$17);
 
   var theme = useContext(ThemeContext);
   useEffect(function () {
@@ -33318,7 +33285,7 @@ function ImageDetails(_ref) {
   }), jsx("div", null))));
 }
 
-var _excluded$12 = ["data", "isSpecimen", "loading", "fieldGroups", "setActiveImage", "error", "className"];
+var _excluded$16 = ["data", "isSpecimen", "loading", "fieldGroups", "setActiveImage", "error", "className"];
 function Intro$1(_ref) {
   var _ref$data = _ref.data,
       data = _ref$data === void 0 ? {} : _ref$data;
@@ -33328,7 +33295,7 @@ function Intro$1(_ref) {
       var setActiveImage = _ref.setActiveImage,
       error = _ref.error;
       _ref.className;
-      _objectWithoutProperties(_ref, _excluded$12);
+      _objectWithoutProperties(_ref, _excluded$16);
 
   var theme = useContext(ThemeContext);
 
@@ -33386,8 +33353,160 @@ function Intro$1(_ref) {
 {$ occurrence.dataset.citation.text $} {$ _meta.domain $}/occurrence/{$ occurrence.record.key $}
 */
 
-var _excluded$11 = ["data", "loading", "activeImage", "setActiveImage", "className"],
-    _excluded2$2 = ["original", "reasons", "related"];
+function useUrlState(_ref) {
+  var param = _ref.param,
+      _ref$dataType = _ref.dataType,
+      dataType = _ref$dataType === void 0 ? dynamicParam : _ref$dataType,
+      _ref$replaceState = _ref.replaceState,
+      replaceState = _ref$replaceState === void 0 ? false : _ref$replaceState,
+      defaultValue = _ref.defaultValue,
+      _ref$base64encode = _ref.base64encode,
+      base64encode = _ref$base64encode === void 0 ? false : _ref$base64encode;
+      _ref.stripEmptyKeys;
+      var initialState = _ref.initialState;
+
+  var _useState = useState(),
+      _useState2 = _slicedToArray(_useState, 2),
+      value = _useState2[0],
+      setValue = _useState2[1];
+
+  var history = useHistory();
+  var location = useLocation();
+  var action = replaceState ? 'replace' : 'push';
+  var updateUrl = useCallback(function (newValue) {
+    var currentState = queryString.parse(location.search);
+    var parsed = queryString.parse(location.search);
+    console.log(location.search); // basic check for equality. Do not update if there is nothing to update. This will not work for anything but strings
+
+    if (equal(newValue, currentState[param])) return;
+
+    if (isObjectLike_1(newValue)) {
+      if (isEmpty_1(newValue.must)) delete newValue.must;
+      if (isEmpty_1(newValue.must_not)) delete newValue.must_not;
+      if (isEmpty_1(newValue)) newValue = undefined;
+    }
+
+    if (newValue) {
+      var stringifiedValue = Array.isArray(newValue) ? newValue.map(function (x) {
+        return dataType.stringify(x);
+      }) : dataType.stringify(newValue);
+      if (base64encode) stringifiedValue = Base64.encode(stringifiedValue);
+      parsed[param] = stringifiedValue;
+    } else {
+      delete parsed[param];
+    }
+
+    if (typeof defaultValue !== 'undefined' && newValue === defaultValue) {
+      delete parsed[param];
+    }
+
+    if (equal(parsed[param], currentState[param])) return;
+    history[action](location.pathname + '?' + queryString.stringify(parsed));
+    console.log('dep changed in useCallback');
+  }, [location, history]);
+  useEffect(function () {
+    var changeHandler = function changeHandler(_ref2) {
+      var location = _ref2.location;
+      var parsed = queryString.parse(location === null || location === void 0 ? void 0 : location.search);
+      var parsedValue = parsed[param];
+      if (base64encode && parsedValue) parsedValue = Base64.decode(parsedValue);
+      parsedValue = dataType.parse(parsedValue);
+      var parsedNormalizedValue = Array.isArray(parsedValue) ? parsedValue.map(function (x) {
+        return dataType.parse(x);
+      }) : dataType.parse(parsedValue);
+
+      if (typeof parsedNormalizedValue === 'undefined' && typeof defaultValue !== 'undefined') {
+        parsedNormalizedValue = defaultValue;
+      }
+
+      setValue(parsedNormalizedValue);
+    };
+
+    changeHandler({
+      location: location
+    });
+    var unlisten = history.listen(changeHandler);
+    if (initialState) updateUrl(initialState);
+    console.log('dep changed in useEffect');
+    return function () {
+      unlisten();
+      var parsed = queryString.parse(location.search);
+      delete parsed[param]; // history.replace(location.pathname + '?' + queryString.stringify(parsed));
+    };
+  }, []);
+  return [value, updateUrl];
+}
+var dynamicParam = {
+  parse: guessType,
+  stringify: function stringify(val) {
+    return _typeof(val) === 'object' ? JSON.stringify(val) : val;
+  }
+};
+
+function guessType(value) {
+  //try to guess
+  try {
+    var parsedValue = JSON.parse(value);
+    return parsedValue;
+  } catch (err) {
+    return value;
+  }
+} // Usage
+// import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
+// const [num, setNum] = useQueryParam('x', NumberParam);
+// export const getParams = function (url, { alwaysAsArray, guessType, typeConfig = {} }) {
+//   var params = {};
+//   let query;
+//   if (typeof document !== 'undefined') {
+//     var parser = document.createElement('a');
+//     parser.href = url;
+//     query = parser.search.substring(1);
+//   } else if (url.indexOf('?') > -1) {
+//     query = url.substr(url.indexOf('?') + 1);
+//   } else {
+//     query = '';
+//   }
+//   var vars = query.split('&');
+//   for (var i = 0; i < vars.length; i++) {
+//     var pair = vars[i].split('=');
+//     var key = pair[0];
+//     if (typeof key === 'undefined' || key === '' || typeof pair[1] === 'undefined') continue;
+//     var value = decodeURIComponent(pair[1]);
+//     var type = typeConfig[key];
+//     if (type) {
+//       switch (type) {
+//         case 'number':
+//           value = Number(value);
+//         default:
+//           value = value;
+//       }
+//     } else if (guessType) {
+//       //try to guess
+//       value = convert(value);
+//     }
+//     if (typeof params[key] === 'undefined') {
+//       params[key] = alwaysAsArray ? [value] : value;
+//     } else if (Array.isArray(params[key])) {
+//       params[key].push(value);
+//     } else {
+//       params[key] = [params[key], value];
+//     }
+//   }
+//   return params;
+// };
+// function convert(value) {
+//   //try to guess
+//   try {
+//     let parsedValue = JSON.parse(value);
+//     return parsedValue;
+//   } catch (err) {
+//     return value;
+//   }
+// }
+// console.log(JSON.stringify(getParams('/sdf?test=0&t&r=test=6,7&j=%7B%22a%22%3A5%7D', {guessType: true}), null, 2));
+
+var _excluded$15 = ["data", "loading", "activeImage", "setActiveImage", "className"],
+    _excluded2$3 = ["original", "reasons", "related"];
 var T$d = Properties.Term,
     V$d = Properties.Value;
 function Cluster(_ref) {
@@ -33398,7 +33517,7 @@ function Cluster(_ref) {
       _ref.activeImage;
       _ref.setActiveImage;
       _ref.className;
-      _objectWithoutProperties(_ref, _excluded$11);
+      _objectWithoutProperties(_ref, _excluded$15);
 
   var _useUrlState = useUrlState({
     param: 'entity'
@@ -33491,7 +33610,7 @@ function RelatedOccurrence(_ref2) {
   _ref2.original;
       var reasons = _ref2.reasons,
       related = _ref2.related,
-      props = _objectWithoutProperties(_ref2, _excluded2$2);
+      props = _objectWithoutProperties(_ref2, _excluded2$3);
 
   var theme = useContext(ThemeContext);
   return jsx("article", _extends({
@@ -33622,7 +33741,7 @@ var linksWithTemplates = Object.keys(links).reduce(function (acc, cur) {
 }, {});
 var LinksContext = /*#__PURE__*/React.createContext(linksWithTemplates);
 
-var _excluded$10 = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
+var _excluded$14 = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
 var TabList$4 = Tabs.TabList,
     Tab$1 = Tabs.Tab,
     TabPanel$1 = Tabs.TabPanel,
@@ -33636,7 +33755,7 @@ function OccurrenceSidebar(_ref) {
       defaultTab = _ref.defaultTab;
       _ref.className;
       var style = _ref.style;
-      _objectWithoutProperties(_ref, _excluded$10);
+      _objectWithoutProperties(_ref, _excluded$14);
 
   var links = useContext(LinksContext); // Get the keys for custom dataset links and custom taxon links
 
@@ -33781,7 +33900,7 @@ var OCCURRENCE = function OCCURRENCE(linkKeys) {
   return "\nquery occurrence($key: ID!){\n  occurrence(key: $key) {\n    key\n    coordinates\n    countryCode\n    eventDate\n    typeStatus\n    issues\n    ".concat(linkKeys || '', "\n    institution {\n      name\n      key\n    }\n    collection {\n      name\n      key\n    }\n    volatile {\n      globe(sphere: false, land: false, graticule: false) {\n        svg\n        lat\n        lon\n      }\n      features {\n        isSpecimen\n        isTreament\n        isSequenced\n        isClustered\n        isSamplingEvent\n      }\n    }\n    datasetKey,\n    datasetTitle\n    publishingOrgKey,\n    publisherTitle,\n    dataset {\n      citation {\n        text\n      }\n    }\n    institutionCode\n    recordedByIDs {\n      value\n      person(expand: true) {\n        name\n        birthDate\n        deathDate\n        image\n      }\n    }\n    identifiedByIDs {\n      value\n      person(expand: true) {\n        name\n        birthDate\n        deathDate\n        image\n      }\n    }\n\n    gadm\n\n    stillImageCount\n    movingImageCount\n    soundCount\n    stillImages {\n      type\n      format\n      identifier\n      created\n      creator\n      license\n      publisher\n      references\n      rightsHolder\n      description\n    }\n\n    gbifClassification {\n      kingdom\n      kingdomKey\n      phylum\n      phylumKey\n      class\n      classKey\n      order\n      orderKey\n      family\n      familyKey\n      genus\n      genusKey\n      species\n      speciesKey\n      synonym\n      classification {\n        key\n        rank\n        name\n      }\n      usage {\n        rank\n        formattedName\n        key\n      }\n      acceptedUsage {\n        formattedName\n        key\n      }\n    }\n\n    primaryImage {\n      identifier\n    }\n\n    terms {\n      simpleName\n      verbatim\n      value\n      htmlValue\n      remarks\n      issues\n    }\n  }\n}\n");
 };
 
-var _excluded3 = ["theme"];
+var _excluded3$1 = ["theme"];
 
 var _ref10$2 = {
   name: "beqbaw-header",
@@ -33817,7 +33936,7 @@ var breadcrumb = function breadcrumb(_ref17) {
 };
 var sideBar$2 = function sideBar(_ref21) {
   var theme = _ref21.theme;
-      _objectWithoutProperties(_ref21, _excluded3);
+      _objectWithoutProperties(_ref21, _excluded3$1);
 
   return /*#__PURE__*/css("background:", theme.paperBackground500, ";position:relative;;label:sideBar;" + ("" ));
 };
@@ -33846,7 +33965,7 @@ var headline$1 = function headline(_ref24) {
   return _ref5$4;
 };
 
-var _excluded$$ = ["data", "loading", "error"];
+var _excluded$13 = ["data", "loading", "error"];
 var T$c = Properties.Term,
     V$c = Properties.Value;
 function Intro(_ref) {
@@ -33856,7 +33975,7 @@ function Intro(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties(_ref, _excluded$$);
+      _objectWithoutProperties(_ref, _excluded$13);
 
   useContext(ThemeContext);
   var dataset = data.dataset; // if (loading || !dataset) return <h1>Loading</h1>;
@@ -33922,7 +34041,7 @@ function temporalCoverage(period) {
   })), period['@type'] == 'verbatim' && jsx(V$c, null, period.period));
 }
 
-var _excluded$_ = ["url", "style"];
+var _excluded$12 = ["url", "style"];
 function Logo(_ref) {
   var url = _ref.url,
       _ref$style = _ref.style,
@@ -33930,7 +34049,7 @@ function Logo(_ref) {
     maxHeight: "64px",
     maxWidth: "100px"
   } : _ref$style;
-      _objectWithoutProperties(_ref, _excluded$_);
+      _objectWithoutProperties(_ref, _excluded$12);
 
   var _useState = useState(true),
       _useState2 = _slicedToArray(_useState, 2),
@@ -33956,10 +34075,10 @@ function Logo(_ref) {
   }) : null;
 }
 
-var _excluded$Z = ["url"];
+var _excluded$11 = ["url"];
 function License(_ref) {
   var url = _ref.url;
-      _objectWithoutProperties(_ref, _excluded$Z);
+      _objectWithoutProperties(_ref, _excluded$11);
 
   if (!url) {
     return jsx(FormattedMessage, {
@@ -34016,7 +34135,7 @@ var isLink = function isLink(data) {
   }).test(data);
 };
 
-var _excluded$Y = ["data", "loading", "error"];
+var _excluded$10 = ["data", "loading", "error"];
 var T$b = Properties.Term,
     V$b = Properties.Value;
 function Header$1(_ref) {
@@ -34025,7 +34144,7 @@ function Header$1(_ref) {
   var data = _ref.data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties(_ref, _excluded$Y);
+      _objectWithoutProperties(_ref, _excluded$10);
 
   var theme = useContext(ThemeContext);
   var item = data === null || data === void 0 ? void 0 : data.dataset;
@@ -34091,7 +34210,7 @@ var getHighlightedContributors = function getHighlightedContributors(dataset, th
   }).join(" • "));
 };
 
-var _excluded$X = ["data", "loading", "error"];
+var _excluded$$ = ["data", "loading", "error"];
 var T$a = Properties.Term,
     V$a = Properties.Value;
 function Contacts(_ref) {
@@ -34101,7 +34220,7 @@ function Contacts(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties(_ref, _excluded$X);
+      _objectWithoutProperties(_ref, _excluded$$);
 
   useContext(ThemeContext);
   var dataset = data.dataset;
@@ -34136,7 +34255,7 @@ function contact(ctct) {
   }), ctct.organization && jsx("div", null, ctct.organization), ctct.address && jsx("div", null, ctct.address)));
 }
 
-var _excluded$W = ["data", "loading", "error"];
+var _excluded$_ = ["data", "loading", "error"];
 var T$9 = Properties.Term,
     V$9 = Properties.Value;
 function BibliographicCitations$1(_ref) {
@@ -34146,7 +34265,7 @@ function BibliographicCitations$1(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties(_ref, _excluded$W);
+      _objectWithoutProperties(_ref, _excluded$_);
 
   var dataset = data.dataset;
   return (dataset === null || dataset === void 0 ? void 0 : (_dataset$bibliographi = dataset.bibliographicCitations) === null || _dataset$bibliographi === void 0 ? void 0 : _dataset$bibliographi.length) > 0 ? jsx(Accordion, {
@@ -34170,7 +34289,7 @@ function bibiliographicCitation(citation) {
   }))));
 }
 
-var _excluded$V = ["data", "loading", "error"];
+var _excluded$Z = ["data", "loading", "error"];
 var T$8 = Properties.Term,
     V$8 = Properties.Value;
 function SamplingDescription$1(_ref) {
@@ -34180,7 +34299,7 @@ function SamplingDescription$1(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties(_ref, _excluded$V);
+      _objectWithoutProperties(_ref, _excluded$Z);
 
   /*sampling
     qualityControl
@@ -34227,7 +34346,7 @@ function SamplingDescription$1(_ref) {
   })))))) : null;
 }
 
-var _excluded$U = ["data", "loading", "error"];
+var _excluded$Y = ["data", "loading", "error"];
 var T$7 = Properties.Term,
     V$7 = Properties.Value;
 function Citation$1(_ref) {
@@ -34237,7 +34356,7 @@ function Citation$1(_ref) {
       data = _ref$data === void 0 ? {} : _ref$data;
       _ref.loading;
       _ref.error;
-      _objectWithoutProperties(_ref, _excluded$U);
+      _objectWithoutProperties(_ref, _excluded$Y);
 
   var dataset = data.dataset;
   return dataset !== null && dataset !== void 0 && (_dataset$citation = dataset.citation) !== null && _dataset$citation !== void 0 && _dataset$citation.text ? jsx(Accordion, {
@@ -34254,7 +34373,7 @@ function Citation$1(_ref) {
   })))) : null;
 }
 
-var _excluded$T = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
+var _excluded$X = ["onImageChange", "onCloseRequest", "id", "defaultTab", "className", "style"];
 var TabList$3 = Tabs.TabList,
     Tab = Tabs.Tab,
     TabPanel = Tabs.TabPanel,
@@ -34266,7 +34385,7 @@ function DatasetSidebar(_ref) {
       defaultTab = _ref.defaultTab;
       _ref.className;
       var style = _ref.style;
-      _objectWithoutProperties(_ref, _excluded$T);
+      _objectWithoutProperties(_ref, _excluded$X);
 
   var _useQuery = useQuery(DATASET$1, {
     lazyLoad: true
@@ -34356,6 +34475,213 @@ function DatasetSidebar(_ref) {
 }
 var DATASET$1 = "\nquery dataset($key: ID!){\n  dataset(key: $key) {\n    title\n    created\n    description\n    temporalCoverages\n    logoUrl\n    publishingOrganizationKey\n    publishingOrganizationTitle\n    volatileContributors {\n      firstName\n      lastName\n      position\n      organization\n      address\n      userId\n      type\n      _highlighted\n      roles\n    }\n    geographicCoverages {\n      description\n      boundingBox {\n        minLatitude\n        maxLatitude\n        minLongitude\n        maxLongitude\n        globalCoverage\n      }\n    }\n    taxonomicCoverages {\n      description\n      coverages {\n        scientificName\n        rank {\n          interpreted\n        }\n      }\n    }\n    bibliographicCitations {\n      identifier\n      text\n    }\n    samplingDescription {\n      studyExtent\n      sampling\n      qualityControl\n      methodSteps\n    } \n    citation {\n      text\n    }\n    license\n  }\n}\n";
 
+var _excluded$W = ["BasisOfRecordLabel", "id", "item", "imageSrc", "onClick"],
+    _excluded2$2 = ["labelMap", "onCloseRequest", "onClick", "data", "error", "loading"],
+    _excluded3 = ["theme"],
+    _excluded4 = ["theme"],
+    _excluded5 = ["theme"];
+
+function ListItem(_ref2) {
+  var _item$primaryImage, _item$primaryImage2;
+
+  var BasisOfRecordLabel = _ref2.BasisOfRecordLabel,
+      id = _ref2.id,
+      item = _ref2.item;
+      _ref2.imageSrc;
+      var _ref2$onClick = _ref2.onClick,
+      _onClick = _ref2$onClick === void 0 ? function () {} : _ref2$onClick;
+      _objectWithoutProperties(_ref2, _excluded$W);
+
+  var theme = useContext(ThemeContext);
+  return jsx("div", {
+    css: listItem({
+      theme: theme
+    }),
+    onClick: function onClick(e) {
+      return _onClick({
+        id: id
+      });
+    }
+  }, jsx(Row, {
+    wrap: "no-wrap",
+    alignItems: "center"
+  }, jsx(Col, {
+    grow: true,
+    css: listItemContent({
+      theme: theme
+    })
+  }, jsx("h4", {
+    dangerouslySetInnerHTML: {
+      __html: item.gbifClassification.usage.formattedName
+    }
+  }), item.eventDate && jsx("div", null, jsx(FormattedDate, {
+    value: item.eventDate,
+    year: "numeric",
+    month: "long",
+    day: "2-digit"
+  })), jsx("div", null, jsx(BasisOfRecordLabel, {
+    id: item.basisOfRecord
+  }))), jsx(Col, {
+    grow: false
+  }, jsx(Button, {
+    className: "gbif-map-listItem-chevreon",
+    appearance: "text",
+    style: {
+      padding: 3
+    },
+    onClick: function onClick(e) {
+      return _onClick({
+        id: id
+      });
+    }
+  }, jsx(MdChevronRight, null))), ((_item$primaryImage = item.primaryImage) === null || _item$primaryImage === void 0 ? void 0 : _item$primaryImage.identifier) && jsx(Col, {
+    grow: false
+  }, jsx(Image$1, {
+    src: (_item$primaryImage2 = item.primaryImage) === null || _item$primaryImage2 === void 0 ? void 0 : _item$primaryImage2.identifier,
+    w: 80,
+    h: 80,
+    style: {
+      display: 'block',
+      background: theme.paperBackground200,
+      width: 80,
+      height: 80
+    }
+  }))));
+}
+
+function ListBox(_ref3) {
+  var _data$occurrenceSearc3;
+
+  var labelMap = _ref3.labelMap,
+      onCloseRequest = _ref3.onCloseRequest,
+      _onClick2 = _ref3.onClick,
+      data = _ref3.data,
+      error = _ref3.error,
+      loading = _ref3.loading,
+      props = _objectWithoutProperties(_ref3, _excluded2$2);
+
+  var theme = useContext(ThemeContext);
+  if (!error && !loading && !data) return null;
+  var BasisOfRecordLabel = labelMap.basisOfRecord;
+  var content;
+
+  if (loading) {
+    return jsx("section", props, jsx("div", {
+      css: container({
+        theme: theme
+      })
+    }, jsx(StripeLoader, {
+      active: true
+    }), jsx("div", {
+      css: listItemContent({
+        theme: theme
+      })
+    }, jsx(FormattedMessage, {
+      id: "phrases.loading"
+    }))));
+  } else if (error) {
+    return jsx("section", props, jsx("div", {
+      css: container({
+        theme: theme
+      })
+    }, jsx(StripeLoader, {
+      active: true,
+      error: true
+    }), jsx("div", {
+      css: listItemContent({
+        theme: theme
+      })
+    }, jsx(FormattedMessage, {
+      id: "phrases.loadError"
+    }))));
+  } else if (data) {
+    var _data$occurrenceSearc, _data$occurrenceSearc2;
+
+    var results = (data === null || data === void 0 ? void 0 : (_data$occurrenceSearc = data.occurrenceSearch) === null || _data$occurrenceSearc === void 0 ? void 0 : (_data$occurrenceSearc2 = _data$occurrenceSearc.documents) === null || _data$occurrenceSearc2 === void 0 ? void 0 : _data$occurrenceSearc2.results) || [];
+    content = jsx("ul", {
+      css: list({
+        theme: theme
+      })
+    }, results.map(function (x, index) {
+      return jsx("li", {
+        key: x.key
+      }, jsx(ListItem, {
+        BasisOfRecordLabel: BasisOfRecordLabel,
+        onClick: function onClick() {
+          return _onClick2({
+            index: index
+          });
+        },
+        id: x.key,
+        item: x
+      }));
+    }));
+  }
+
+  return jsx("section", props, jsx(Row, {
+    css: container({
+      theme: theme
+    }),
+    direction: "column"
+  }, jsx(Col, {
+    grow: false,
+    as: "header"
+  }, jsx(Row, {
+    alignItems: "center"
+  }, jsx(Col, {
+    grow: true
+  }, jsx(FormattedMessage, {
+    id: "counts.nResults",
+    values: {
+      total: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc3 = data.occurrenceSearch) === null || _data$occurrenceSearc3 === void 0 ? void 0 : _data$occurrenceSearc3.documents.total
+    }
+  })), jsx(Col, {
+    grow: false
+  }, jsx(Button, {
+    appearance: "outline",
+    onClick: onCloseRequest
+  }, jsx(FormattedMessage, {
+    id: "phrases.close"
+  }))))), jsx(Col, {
+    grow: true,
+    as: "main"
+  }, content)));
+}
+
+var container = function container(_ref4) {
+  var theme = _ref4.theme;
+      _objectWithoutProperties(_ref4, _excluded3);
+
+  return /*#__PURE__*/css("background:", theme.paperBackground500, ";overflow:auto;border-radius:", theme.borderRadius, "px;border:1px solid ", theme.paperBorderColor, ";max-height:inherit;flex-wrap:nowrap;header{padding:8px 16px;border-bottom:1px solid ", theme.paperBorderColor, ";font-size:12px;font-weight:500;}main{overflow:auto;", styledScrollBars({
+    theme: theme
+  }), ";}footer{border-top:1px solid ", theme.paperBorderColor, ";padding:8px 16px;};label:container;" + ("" ));
+};
+
+var list = function list(_ref5) {
+  var theme = _ref5.theme;
+      _objectWithoutProperties(_ref5, _excluded4);
+
+  return /*#__PURE__*/css("list-style:none;padding:0;margin:0;border-top:1px solid ", theme.paperBorderColor, ";;label:list;" + ("" ));
+};
+
+var _ref$i = {
+  name: "qw71cx-listItemContent",
+  styles: "padding:8px 16px;font-size:13px;overflow:hidden;h4{margin:0 0 8px 0;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;};label:listItemContent;"
+} ;
+
+var listItemContent = function listItemContent(_ref6) {
+  _extends({}, _ref6);
+
+  return _ref$i;
+};
+
+var listItem = function listItem(_ref7) {
+  var theme = _ref7.theme;
+      _objectWithoutProperties(_ref7, _excluded5);
+
+  return /*#__PURE__*/css("border-bottom:1px solid ", theme.paperBorderColor, ";cursor:pointer;:hover{background:", theme.paperBackground700, ";}.gbif-map-listItem-chevreon{color:", theme.color500, ";};label:listItem;" + ("" ));
+};
+
 var ViewHeader = function ViewHeader(_ref) {
   var children = _ref.children,
       total = _ref.total,
@@ -34377,6 +34703,3764 @@ var ViewHeader = function ViewHeader(_ref) {
     }
   }), children);
 };
+
+function getLayerConfig(_ref) {
+  var tileString = _ref.tileString,
+      theme = _ref.theme;
+  return {
+    id: "occurrences",
+    type: "circle",
+    source: {
+      type: "vector",
+      tiles: [tileString]
+    },
+    "source-layer": "occurrence",
+    paint: {
+      // make circles larger as the user zooms from z12 to z22
+      "circle-radius": {
+        property: "total",
+        type: "interval",
+        //stops: [[0, 2]]
+        stops: [[0, 4], [10, 4], [100, 5], [1000, 7], [10000, 10]]
+      },
+      // color circles by ethnicity, using data-driven styles
+      "circle-color": {
+        property: "total",
+        type: "interval",
+        stops: [0, 10, 100, 1000, 10000].map(function (x, i) {
+          return [x, theme.mapDensityColors[i]];
+        })
+      },
+      "circle-opacity": {
+        property: "total",
+        type: "interval",
+        stops: [[0, 1], [10, 0.8], [100, 0.8], [1000, 0.7], [10000, 0.7]]
+      },
+      "circle-stroke-color": theme.mapDensityColors[2],
+      "circle-stroke-width": {
+        property: "total",
+        type: "interval",
+        // stops: [[0, 1], [10, 0]]
+        stops: [[0, 1], [10, 1.5], [100, 0]]
+      }
+    }
+  };
+}
+
+var version = 8;
+var name$1 = "Klokantech Basic";
+var metadata = {
+	"mapbox:autocomposite": false,
+	"mapbox:type": "template",
+	"maputnik:renderer": "mbgljs",
+	"openmaptiles:version": "3.x",
+	"openmaptiles:mapbox:owner": "openmaptiles",
+	"openmaptiles:mapbox:source:url": "mapbox://openmaptiles.4qljc88t"
+};
+var sources = {
+	openmaptiles: {
+		type: "vector",
+		url: "https://nothing-here"
+	}
+};
+var sprite = "https://labs.gbif.org/klokantech-basic-gl-style/sprite";
+var glyphs = "https://maps.tilehosting.com/fonts/{fontstack}/{range}.pbf?key=SymbVzXrAD6Jmqe6yBOS";
+var layers = [
+	{
+		id: "background",
+		paint: {
+			"background-color": "hsl(47, 26%, 88%)"
+		},
+		type: "background"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"Polygon"
+			],
+			[
+				"==",
+				"class",
+				"residential"
+			]
+		],
+		id: "landuse-residential",
+		layout: {
+			visibility: "visible"
+		},
+		paint: {
+			"fill-color": "hsl(47, 13%, 86%)",
+			"fill-opacity": 0.7
+		},
+		source: "openmaptiles",
+		"source-layer": "landuse",
+		type: "fill"
+	},
+	{
+		filter: [
+			"==",
+			"class",
+			"grass"
+		],
+		id: "landcover_grass",
+		paint: {
+			"fill-color": "hsl(82, 46%, 72%)",
+			"fill-opacity": 0.45
+		},
+		source: "openmaptiles",
+		"source-layer": "landcover",
+		type: "fill"
+	},
+	{
+		filter: [
+			"==",
+			"class",
+			"wood"
+		],
+		id: "landcover_wood",
+		paint: {
+			"fill-color": "hsl(82, 46%, 72%)",
+			"fill-opacity": {
+				base: 1,
+				stops: [
+					[
+						8,
+						0.6
+					],
+					[
+						22,
+						1
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "landcover",
+		type: "fill"
+	},
+	{
+		filter: [
+			"==",
+			"$type",
+			"Polygon"
+		],
+		id: "water",
+		paint: {
+			"fill-color": "hsl(205, 56%, 73%)"
+		},
+		source: "openmaptiles",
+		"source-layer": "water",
+		type: "fill"
+	},
+	{
+		filter: [
+			"==",
+			"subclass",
+			"ice_shelf"
+		],
+		id: "landcover-ice-shelf",
+		layout: {
+			visibility: "visible"
+		},
+		paint: {
+			"fill-color": "hsl(47, 26%, 88%)",
+			"fill-opacity": 0.8
+		},
+		source: "openmaptiles",
+		"source-layer": "landcover",
+		type: "fill"
+	},
+	{
+		filter: [
+			"==",
+			"subclass",
+			"glacier"
+		],
+		id: "landcover-glacier",
+		layout: {
+			visibility: "visible"
+		},
+		paint: {
+			"fill-color": "hsl(47, 22%, 94%)",
+			"fill-opacity": {
+				base: 1,
+				stops: [
+					[
+						0,
+						1
+					],
+					[
+						8,
+						0.5
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "landcover",
+		type: "fill"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"in",
+				"class",
+				"sand"
+			]
+		],
+		id: "landcover_sand",
+		metadata: {
+		},
+		paint: {
+			"fill-antialias": false,
+			"fill-color": "rgba(232, 214, 38, 1)",
+			"fill-opacity": 0.3
+		},
+		source: "openmaptiles",
+		"source-layer": "landcover",
+		type: "fill"
+	},
+	{
+		filter: [
+			"==",
+			"class",
+			"agriculture"
+		],
+		id: "landuse",
+		layout: {
+			visibility: "visible"
+		},
+		paint: {
+			"fill-color": "#eae0d0"
+		},
+		source: "openmaptiles",
+		"source-layer": "landuse",
+		type: "fill"
+	},
+	{
+		filter: [
+			"==",
+			"class",
+			"national_park"
+		],
+		id: "landuse_overlay_national_park",
+		paint: {
+			"fill-color": "#E1EBB0",
+			"fill-opacity": {
+				base: 1,
+				stops: [
+					[
+						5,
+						0
+					],
+					[
+						9,
+						0.75
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "landcover",
+		type: "fill"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"tunnel"
+			]
+		],
+		id: "waterway-tunnel",
+		paint: {
+			"line-color": "hsl(205, 56%, 73%)",
+			"line-dasharray": [
+				3,
+				3
+			],
+			"line-gap-width": {
+				stops: [
+					[
+						12,
+						0
+					],
+					[
+						20,
+						6
+					]
+				]
+			},
+			"line-opacity": 1,
+			"line-width": {
+				base: 1.4,
+				stops: [
+					[
+						8,
+						1
+					],
+					[
+						20,
+						2
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "waterway",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"!in",
+				"brunnel",
+				"tunnel",
+				"bridge"
+			]
+		],
+		id: "waterway",
+		paint: {
+			"line-color": "hsl(205, 56%, 73%)",
+			"line-opacity": 1,
+			"line-width": {
+				base: 1.4,
+				stops: [
+					[
+						8,
+						1
+					],
+					[
+						20,
+						8
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "waterway",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"tunnel"
+			],
+			[
+				"==",
+				"class",
+				"transit"
+			]
+		],
+		id: "tunnel_railway_transit",
+		layout: {
+			"line-cap": "butt",
+			"line-join": "miter"
+		},
+		minzoom: 0,
+		paint: {
+			"line-color": "hsl(34, 12%, 66%)",
+			"line-dasharray": [
+				3,
+				3
+			],
+			"line-opacity": {
+				base: 1,
+				stops: [
+					[
+						11,
+						0
+					],
+					[
+						16,
+						1
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		id: "building",
+		paint: {
+			"fill-antialias": true,
+			"fill-color": "rgba(222, 211, 190, 1)",
+			"fill-opacity": {
+				base: 1,
+				stops: [
+					[
+						13,
+						0
+					],
+					[
+						15,
+						1
+					]
+				]
+			},
+			"fill-outline-color": {
+				stops: [
+					[
+						15,
+						"rgba(212, 177, 146, 0)"
+					],
+					[
+						16,
+						"rgba(212, 177, 146, 0.5)"
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "building",
+		type: "fill"
+	},
+	{
+		filter: [
+			"==",
+			"$type",
+			"Point"
+		],
+		id: "housenumber",
+		layout: {
+			"text-field": "{housenumber}",
+			"text-font": [
+				"Noto Sans Regular"
+			],
+			"text-size": 10
+		},
+		minzoom: 17,
+		paint: {
+			"text-color": "rgba(212, 177, 146, 1)"
+		},
+		source: "openmaptiles",
+		"source-layer": "housenumber",
+		type: "symbol"
+	},
+	{
+		id: "road_area_pier",
+		type: "fill",
+		metadata: {
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"Polygon"
+			],
+			[
+				"==",
+				"class",
+				"pier"
+			]
+		],
+		layout: {
+			visibility: "visible"
+		},
+		paint: {
+			"fill-color": "hsl(47, 26%, 88%)",
+			"fill-antialias": true
+		}
+	},
+	{
+		id: "road_pier",
+		type: "line",
+		metadata: {
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"in",
+				"class",
+				"pier"
+			]
+		],
+		layout: {
+			"line-cap": "round",
+			"line-join": "round"
+		},
+		paint: {
+			"line-color": "hsl(47, 26%, 88%)",
+			"line-width": {
+				base: 1.2,
+				stops: [
+					[
+						15,
+						1
+					],
+					[
+						17,
+						4
+					]
+				]
+			}
+		}
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"Polygon"
+			],
+			[
+				"in",
+				"brunnel",
+				"bridge"
+			]
+		],
+		id: "road_bridge_area",
+		layout: {
+		},
+		paint: {
+			"fill-color": "hsl(47, 26%, 88%)",
+			"fill-opacity": 0.5
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "fill"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"in",
+				"class",
+				"path",
+				"track"
+			]
+		],
+		id: "road_path",
+		layout: {
+			"line-cap": "square",
+			"line-join": "bevel"
+		},
+		paint: {
+			"line-color": "hsl(0, 0%, 97%)",
+			"line-dasharray": [
+				1,
+				1
+			],
+			"line-width": {
+				base: 1.55,
+				stops: [
+					[
+						4,
+						0.25
+					],
+					[
+						20,
+						10
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"in",
+				"class",
+				"minor",
+				"service"
+			]
+		],
+		id: "road_minor",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round"
+		},
+		paint: {
+			"line-color": "hsl(0, 0%, 97%)",
+			"line-width": {
+				base: 1.55,
+				stops: [
+					[
+						4,
+						0.25
+					],
+					[
+						20,
+						30
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line",
+		minzoom: 13
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"tunnel"
+			],
+			[
+				"==",
+				"class",
+				"minor_road"
+			]
+		],
+		id: "tunnel_minor",
+		layout: {
+			"line-cap": "butt",
+			"line-join": "miter"
+		},
+		paint: {
+			"line-color": "#efefef",
+			"line-dasharray": [
+				0.36,
+				0.18
+			],
+			"line-width": {
+				base: 1.55,
+				stops: [
+					[
+						4,
+						0.25
+					],
+					[
+						20,
+						30
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"tunnel"
+			],
+			[
+				"in",
+				"class",
+				"primary",
+				"secondary",
+				"tertiary",
+				"trunk"
+			]
+		],
+		id: "tunnel_major",
+		layout: {
+			"line-cap": "butt",
+			"line-join": "miter"
+		},
+		paint: {
+			"line-color": "#fff",
+			"line-dasharray": [
+				0.28,
+				0.14
+			],
+			"line-width": {
+				base: 1.4,
+				stops: [
+					[
+						6,
+						0.5
+					],
+					[
+						20,
+						30
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"Polygon"
+			],
+			[
+				"in",
+				"class",
+				"runway",
+				"taxiway"
+			]
+		],
+		id: "aeroway-area",
+		layout: {
+			visibility: "visible"
+		},
+		metadata: {
+			"mapbox:group": "1444849345966.4436"
+		},
+		minzoom: 4,
+		paint: {
+			"fill-color": "rgba(255, 255, 255, 1)",
+			"fill-opacity": {
+				base: 1,
+				stops: [
+					[
+						13,
+						0
+					],
+					[
+						14,
+						1
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "aeroway",
+		type: "fill"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"in",
+				"class",
+				"taxiway"
+			],
+			[
+				"==",
+				"$type",
+				"LineString"
+			]
+		],
+		id: "aeroway-taxiway",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round",
+			visibility: "visible"
+		},
+		metadata: {
+			"mapbox:group": "1444849345966.4436"
+		},
+		minzoom: 12,
+		paint: {
+			"line-color": "rgba(255, 255, 255, 1)",
+			"line-opacity": 1,
+			"line-width": {
+				base: 1.5,
+				stops: [
+					[
+						12,
+						1
+					],
+					[
+						17,
+						10
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "aeroway",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"in",
+				"class",
+				"runway"
+			],
+			[
+				"==",
+				"$type",
+				"LineString"
+			]
+		],
+		id: "aeroway-runway",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round",
+			visibility: "visible"
+		},
+		metadata: {
+			"mapbox:group": "1444849345966.4436"
+		},
+		minzoom: 4,
+		paint: {
+			"line-color": "rgba(255, 255, 255, 1)",
+			"line-opacity": 1,
+			"line-width": {
+				base: 1.5,
+				stops: [
+					[
+						11,
+						4
+					],
+					[
+						17,
+						50
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "aeroway",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"in",
+				"class",
+				"trunk",
+				"primary"
+			]
+		],
+		id: "road_trunk_primary",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round"
+		},
+		paint: {
+			"line-color": "#fff",
+			"line-width": {
+				base: 1.4,
+				stops: [
+					[
+						6,
+						0.5
+					],
+					[
+						20,
+						30
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"in",
+				"class",
+				"secondary",
+				"tertiary"
+			]
+		],
+		id: "road_secondary_tertiary",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round"
+		},
+		paint: {
+			"line-color": "#fff",
+			"line-width": {
+				base: 1.4,
+				stops: [
+					[
+						6,
+						0.5
+					],
+					[
+						20,
+						20
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"class",
+				"motorway"
+			]
+		],
+		id: "road_major_motorway",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round"
+		},
+		paint: {
+			"line-color": "hsl(0, 0%, 100%)",
+			"line-offset": 0,
+			"line-width": {
+				base: 1.4,
+				stops: [
+					[
+						8,
+						1
+					],
+					[
+						16,
+						10
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"oneway",
+				-1
+			]
+		],
+		id: "road_oneway_opposite",
+		layout: {
+			"icon-image": "oneway",
+			"icon-padding": 2,
+			"icon-rotate": 180,
+			"icon-rotation-alignment": "map",
+			"icon-size": {
+				stops: [
+					[
+						15,
+						0.5
+					],
+					[
+						19,
+						1
+					]
+				]
+			},
+			"symbol-placement": "line",
+			"symbol-spacing": 200
+		},
+		minzoom: 15,
+		paint: {
+			"icon-opacity": 0.5
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "symbol"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"class",
+				"transit"
+			],
+			[
+				"!=",
+				"brunnel",
+				"tunnel"
+			]
+		],
+		id: "railway-transit",
+		layout: {
+			visibility: "visible"
+		},
+		paint: {
+			"line-color": "hsl(34, 12%, 66%)",
+			"line-opacity": {
+				base: 1,
+				stops: [
+					[
+						11,
+						0
+					],
+					[
+						16,
+						1
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"==",
+			"class",
+			"rail"
+		],
+		id: "railway",
+		layout: {
+			visibility: "visible"
+		},
+		paint: {
+			"line-color": "hsl(34, 12%, 66%)",
+			"line-opacity": {
+				base: 1,
+				stops: [
+					[
+						11,
+						0
+					],
+					[
+						16,
+						1
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"bridge"
+			]
+		],
+		id: "waterway-bridge-case",
+		layout: {
+			"line-cap": "butt",
+			"line-join": "miter"
+		},
+		paint: {
+			"line-color": "#bbbbbb",
+			"line-gap-width": {
+				base: 1.55,
+				stops: [
+					[
+						4,
+						0.25
+					],
+					[
+						20,
+						30
+					]
+				]
+			},
+			"line-width": {
+				base: 1.6,
+				stops: [
+					[
+						12,
+						0.5
+					],
+					[
+						20,
+						10
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "waterway",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"bridge"
+			]
+		],
+		id: "waterway-bridge",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round"
+		},
+		paint: {
+			"line-color": "hsl(205, 56%, 73%)",
+			"line-width": {
+				base: 1.55,
+				stops: [
+					[
+						4,
+						0.25
+					],
+					[
+						20,
+						30
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "waterway",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"bridge"
+			],
+			[
+				"==",
+				"class",
+				"minor_road"
+			]
+		],
+		id: "bridge_minor case",
+		layout: {
+			"line-cap": "butt",
+			"line-join": "miter"
+		},
+		paint: {
+			"line-color": "#dedede",
+			"line-gap-width": {
+				base: 1.55,
+				stops: [
+					[
+						4,
+						0.25
+					],
+					[
+						20,
+						30
+					]
+				]
+			},
+			"line-width": {
+				base: 1.6,
+				stops: [
+					[
+						12,
+						0.5
+					],
+					[
+						20,
+						10
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"bridge"
+			],
+			[
+				"in",
+				"class",
+				"primary",
+				"secondary",
+				"tertiary",
+				"trunk"
+			]
+		],
+		id: "bridge_major case",
+		layout: {
+			"line-cap": "butt",
+			"line-join": "miter"
+		},
+		paint: {
+			"line-color": "#dedede",
+			"line-gap-width": {
+				base: 1.55,
+				stops: [
+					[
+						4,
+						0.25
+					],
+					[
+						20,
+						30
+					]
+				]
+			},
+			"line-width": {
+				base: 1.6,
+				stops: [
+					[
+						12,
+						0.5
+					],
+					[
+						20,
+						10
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"bridge"
+			],
+			[
+				"==",
+				"class",
+				"minor_road"
+			]
+		],
+		id: "bridge_minor",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round"
+		},
+		paint: {
+			"line-color": "#efefef",
+			"line-width": {
+				base: 1.55,
+				stops: [
+					[
+						4,
+						0.25
+					],
+					[
+						20,
+						30
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"LineString"
+			],
+			[
+				"==",
+				"brunnel",
+				"bridge"
+			],
+			[
+				"in",
+				"class",
+				"primary",
+				"secondary",
+				"tertiary",
+				"trunk"
+			]
+		],
+		id: "bridge_major",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round"
+		},
+		paint: {
+			"line-color": "#fff",
+			"line-width": {
+				base: 1.4,
+				stops: [
+					[
+						6,
+						0.5
+					],
+					[
+						20,
+						30
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation",
+		type: "line"
+	},
+	{
+		filter: [
+			"in",
+			"admin_level",
+			4,
+			6,
+			8
+		],
+		id: "admin_sub",
+		layout: {
+			visibility: "visible"
+		},
+		paint: {
+			"line-color": "hsla(0, 0%, 60%, 0.5)",
+			"line-dasharray": [
+				2,
+				1
+			]
+		},
+		source: "openmaptiles",
+		"source-layer": "boundary",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"<=",
+				"admin_level",
+				2
+			],
+			[
+				"==",
+				"$type",
+				"LineString"
+			]
+		],
+		id: "admin_country",
+		layout: {
+			"line-cap": "round",
+			"line-join": "round"
+		},
+		paint: {
+			"line-color": "hsl(0, 0%, 60%)",
+			"line-width": {
+				base: 1.3,
+				stops: [
+					[
+						3,
+						0.5
+					],
+					[
+						22,
+						15
+					]
+				]
+			}
+		},
+		source: "openmaptiles",
+		"source-layer": "boundary",
+		type: "line"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"Point"
+			],
+			[
+				"==",
+				"rank",
+				1
+			]
+		],
+		id: "poi_label",
+		layout: {
+			"icon-size": 1,
+			"text-anchor": "top",
+			"text-field": "{name:latin}\n{name:nonlatin}",
+			"text-font": [
+				"Noto Sans Regular"
+			],
+			"text-max-width": 8,
+			"text-offset": [
+				0,
+				0.5
+			],
+			"text-size": 11,
+			visibility: "visible"
+		},
+		minzoom: 14,
+		paint: {
+			"text-color": "#666",
+			"text-halo-blur": 1,
+			"text-halo-color": "rgba(255,255,255,0.75)",
+			"text-halo-width": 1
+		},
+		source: "openmaptiles",
+		"source-layer": "poi",
+		type: "symbol"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"has",
+				"iata"
+			]
+		],
+		id: "airport-label",
+		layout: {
+			"icon-size": 1,
+			"text-anchor": "top",
+			"text-field": "{name:latin}\n{name:nonlatin}",
+			"text-font": [
+				"Noto Sans Regular"
+			],
+			"text-max-width": 8,
+			"text-offset": [
+				0,
+				0.5
+			],
+			"text-size": 11,
+			visibility: "visible"
+		},
+		minzoom: 10,
+		paint: {
+			"text-color": "#666",
+			"text-halo-blur": 1,
+			"text-halo-color": "rgba(255,255,255,0.75)",
+			"text-halo-width": 1
+		},
+		source: "openmaptiles",
+		"source-layer": "aerodrome_label",
+		type: "symbol"
+	},
+	{
+		filter: [
+			"==",
+			"$type",
+			"LineString"
+		],
+		id: "road_major_label",
+		layout: {
+			"symbol-placement": "line",
+			"text-field": "{name:latin} {name:nonlatin}",
+			"text-font": [
+				"Noto Sans Regular"
+			],
+			"text-letter-spacing": 0.1,
+			"text-rotation-alignment": "map",
+			"text-size": {
+				base: 1.4,
+				stops: [
+					[
+						10,
+						8
+					],
+					[
+						20,
+						14
+					]
+				]
+			},
+			"text-transform": "uppercase"
+		},
+		paint: {
+			"text-color": "#000",
+			"text-halo-color": "hsl(0, 0%, 100%)",
+			"text-halo-width": 2
+		},
+		source: "openmaptiles",
+		"source-layer": "transportation_name",
+		type: "symbol"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"Point"
+			],
+			[
+				"!in",
+				"class",
+				"city",
+				"state",
+				"country",
+				"continent"
+			]
+		],
+		id: "place_label_other",
+		layout: {
+			"text-anchor": "center",
+			"text-field": "{name:latin}\n{name:nonlatin}",
+			"text-font": [
+				"Noto Sans Regular"
+			],
+			"text-max-width": 6,
+			"text-size": {
+				stops: [
+					[
+						6,
+						10
+					],
+					[
+						12,
+						14
+					]
+				]
+			},
+			visibility: "visible"
+		},
+		minzoom: 8,
+		paint: {
+			"text-color": "hsl(0, 0%, 25%)",
+			"text-halo-blur": 0,
+			"text-halo-color": "hsl(0, 0%, 100%)",
+			"text-halo-width": 2
+		},
+		source: "openmaptiles",
+		"source-layer": "place",
+		type: "symbol"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"Point"
+			],
+			[
+				"==",
+				"class",
+				"city"
+			]
+		],
+		id: "place_label_city",
+		layout: {
+			"text-field": "{name:latin}\n{name:nonlatin}",
+			"text-font": [
+				"Noto Sans Regular"
+			],
+			"text-max-width": 10,
+			"text-size": {
+				stops: [
+					[
+						3,
+						12
+					],
+					[
+						8,
+						16
+					]
+				]
+			}
+		},
+		maxzoom: 16,
+		paint: {
+			"text-color": "hsl(0, 0%, 0%)",
+			"text-halo-blur": 0,
+			"text-halo-color": "hsla(0, 0%, 100%, 0.75)",
+			"text-halo-width": 2
+		},
+		source: "openmaptiles",
+		"source-layer": "place",
+		type: "symbol"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"Point"
+			],
+			[
+				"==",
+				"class",
+				"country"
+			],
+			[
+				"!has",
+				"iso_a2"
+			]
+		],
+		id: "country_label-other",
+		layout: {
+			"text-field": "{name:latin}",
+			"text-font": [
+				"Noto Sans Regular"
+			],
+			"text-max-width": 10,
+			"text-size": {
+				stops: [
+					[
+						3,
+						12
+					],
+					[
+						8,
+						22
+					]
+				]
+			},
+			visibility: "visible"
+		},
+		maxzoom: 12,
+		paint: {
+			"text-color": "hsl(0, 0%, 13%)",
+			"text-halo-blur": 0,
+			"text-halo-color": "rgba(255,255,255,0.75)",
+			"text-halo-width": 2
+		},
+		source: "openmaptiles",
+		"source-layer": "place",
+		type: "symbol"
+	},
+	{
+		filter: [
+			"all",
+			[
+				"==",
+				"$type",
+				"Point"
+			],
+			[
+				"==",
+				"class",
+				"country"
+			],
+			[
+				"has",
+				"iso_a2"
+			]
+		],
+		id: "country_label",
+		layout: {
+			"text-field": "{name:latin}",
+			"text-font": [
+				"Noto Sans Bold"
+			],
+			"text-max-width": 10,
+			"text-size": {
+				stops: [
+					[
+						3,
+						12
+					],
+					[
+						8,
+						22
+					]
+				]
+			},
+			visibility: "visible"
+		},
+		maxzoom: 12,
+		paint: {
+			"text-color": "hsl(0, 0%, 13%)",
+			"text-halo-blur": 0,
+			"text-halo-color": "rgba(255,255,255,0.75)",
+			"text-halo-width": 2
+		},
+		source: "openmaptiles",
+		"source-layer": "place",
+		type: "symbol"
+	}
+];
+var id = "klokantech-basic";
+var klokantech = {
+	version: version,
+	name: name$1,
+	metadata: metadata,
+	sources: sources,
+	sprite: sprite,
+	glyphs: glyphs,
+	layers: layers,
+	id: id
+};
+
+var _excluded$V = ["query", "onMapClick", "onPointClick", "predicateHash", "style", "className"];
+
+function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+var mapStyles$1 = {
+  klokantech: klokantech
+};
+
+var Map$3 = /*#__PURE__*/function (_Component) {
+  _inherits(Map, _Component);
+
+  var _super = _createSuper$3(Map);
+
+  function Map(props) {
+    var _this;
+
+    _classCallCheck(this, Map);
+
+    _this = _super.call(this, props);
+    _this.addLayer = _this.addLayer.bind(_assertThisInitialized(_this));
+    _this.updateLayer = _this.updateLayer.bind(_assertThisInitialized(_this));
+    _this.onPointClick = _this.onPointClick.bind(_assertThisInitialized(_this));
+    _this.myRef = /*#__PURE__*/React.createRef();
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(Map, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this$props$defaultMa, _this$props$defaultMa2, _this$props$defaultMa3;
+
+      this.props.theme.darkTheme ? 'dark-v9' : 'light-v9';
+      var zoom = sessionStorage.getItem('mapZoom') || ((_this$props$defaultMa = this.props.defaultMapSettings) === null || _this$props$defaultMa === void 0 ? void 0 : _this$props$defaultMa.zoom) || 0;
+      zoom = Math.min(Math.max(0, zoom), 20);
+      zoom -= 1;
+      var lng = sessionStorage.getItem('mapLng') || ((_this$props$defaultMa2 = this.props.defaultMapSettings) === null || _this$props$defaultMa2 === void 0 ? void 0 : _this$props$defaultMa2.lng) || 0;
+      lng = Math.min(Math.max(-180, lng), 180);
+      var lat = sessionStorage.getItem('mapLat') || ((_this$props$defaultMa3 = this.props.defaultMapSettings) === null || _this$props$defaultMa3 === void 0 ? void 0 : _this$props$defaultMa3.lat) || 0;
+      lat = Math.min(Math.max(-85, lat), 85);
+      mapboxgl.accessToken = env.MAPBOX_KEY;
+      this.map = new mapboxgl.Map({
+        container: this.myRef.current,
+        // style: `mapbox://styles/mapbox/${mapStyle}`,
+        // style: 'https://api.mapbox.com/styles/v1/mapbox/light-v9?access_token=pk.eyJ1IjoiZ2JpZiIsImEiOiJja3VmZm50Z3kxcm1vMnBtdnBmeGd5cm9hIn0.M2z2n9QP9fRHZUCw9vbgOA',
+        style: this.getStyle(),
+        zoom: zoom,
+        center: [lng, lat]
+      }); // this.map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
+
+      this.map.on("load", this.addLayer);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      if (this.map) this.map.remove();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var _this2 = this;
+
+      if (prevProps.query !== this.props.query && this.mapLoaded) {
+        this.updateLayer();
+      }
+
+      if (prevProps.theme !== this.props.theme && this.mapLoaded) {
+        var mapStyle = this.props.theme.darkTheme ? 'dark-v9' : 'light-v9';
+        this.map.setStyle("mapbox://styles/mapbox/".concat(mapStyle));
+        this.map.on('style.load', function () {
+          _this2.updateLayer();
+        });
+      }
+
+      if (prevProps.latestEvent !== this.props.latestEvent && this.mapLoaded) {
+        var _this$props$latestEve, _this$props$latestEve2;
+
+        if (((_this$props$latestEve = this.props.latestEvent) === null || _this$props$latestEve === void 0 ? void 0 : _this$props$latestEve.type) === 'ZOOM_IN') {
+          this.map.zoomIn();
+        } else if (((_this$props$latestEve2 = this.props.latestEvent) === null || _this$props$latestEve2 === void 0 ? void 0 : _this$props$latestEve2.type) === 'ZOOM_OUT') {
+          this.map.zoomOut();
+        }
+      }
+
+      if (prevProps.mapConfig !== this.props.mapConfig && this.mapLoaded) {
+        // seems we do not need to remove the sources when we load the style this way
+        this.map.setStyle(this.getStyle());
+        setTimeout(function (x) {
+          return _this2.updateLayer();
+        }, 500); // apparently we risk adding the occurrence layer below the layers if we do not wait
+      }
+    }
+  }, {
+    key: "getStyle",
+    value: function getStyle() {
+      var _this$props$mapConfig, _this$props$mapConfig2;
+
+      var basemapStyle = ((_this$props$mapConfig = this.props.mapConfig) === null || _this$props$mapConfig === void 0 ? void 0 : _this$props$mapConfig.basemapStyle) || 'klokantech';
+      var layerStyle = mapStyles$1[basemapStyle];
+      return layerStyle || ((_this$props$mapConfig2 = this.props.mapConfig) === null || _this$props$mapConfig2 === void 0 ? void 0 : _this$props$mapConfig2.basemapStyle);
+    }
+  }, {
+    key: "updateLayer",
+    value: function updateLayer() {
+      var layer = this.map.getLayer('occurrences');
+
+      if (layer) {
+        this.map.removeLayer("occurrences");
+        this.map.removeSource("occurrences");
+        this.addLayer();
+      } else {
+        this.addLayer();
+      } // this.addLayer();
+
+    }
+  }, {
+    key: "onPointClick",
+    value: function onPointClick(pointData) {
+      this.props.onPointClick(pointData);
+    }
+  }, {
+    key: "addLayer",
+    value: function addLayer() {
+      var _this3 = this;
+
+      // const source = this.map.getSource('occurrences');
+      // source.setTiles([`${env.API_V2}/map/occurrence/adhoc/{z}/{x}/{y}.mvt?style=scaled.circles&mode=GEO_CENTROID&srs=EPSG%3A3857&squareSize=256&predicateHash=${this.props.predicateHash}&${this.props.q ? `&q=${this.props.q} ` : ''}`])
+      var tileString = "".concat(env.API_V2, "/map/occurrence/adhoc/{z}/{x}/{y}.mvt?style=scaled.circles&mode=GEO_CENTROID&srs=EPSG%3A3857&squareSize=256&predicateHash=").concat(this.props.predicateHash, "&").concat(this.props.q ? "&q=".concat(this.props.q, " ") : '');
+      this.map.addLayer(getLayerConfig({
+        tileString: tileString,
+        theme: this.props.theme
+      }) // "poi-scalerank2"
+      );
+      var map = this.map;
+
+      if (!this.mapLoaded) {
+        // remember map position
+        map.on('zoomend', function () {
+          var center = map.getCenter();
+          sessionStorage.setItem('mapZoom', map.getZoom() + 1);
+          sessionStorage.setItem('mapLng', center.lng);
+          sessionStorage.setItem('mapLat', center.lat);
+        });
+        map.on('moveend', function () {
+          var center = map.getCenter();
+          sessionStorage.setItem('mapZoom', map.getZoom() + 1);
+          sessionStorage.setItem('mapLng', center.lng);
+          sessionStorage.setItem('mapLat', center.lat);
+        });
+        map.on('mouseenter', 'occurrences', function (e) {
+          // Change the cursor style as a UI indicator.
+          map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('click', 'occurrences', function (e) {
+          _this3.onPointClick({
+            geohash: e.features[0].properties.geohash,
+            count: e.features[0].properties.count
+          });
+
+          e.preventDefault();
+        });
+        map.on('mouseleave', 'occurrences', function () {
+          map.getCanvas().style.cursor = '';
+        });
+        map.on('click', function (e) {
+          if (!e._defaultPrevented && _this3.props.onMapClick) _this3.props.onMapClick();
+        });
+        map.on('error', function (e) {
+          var _e$error;
+
+          if ((e === null || e === void 0 ? void 0 : (_e$error = e.error) === null || _e$error === void 0 ? void 0 : _e$error.status) === 400 && _this3.props.registerPredicate) {
+            _this3.props.registerPredicate();
+          }
+        });
+      }
+
+      this.mapLoaded = true;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props;
+          _this$props.query;
+          _this$props.onMapClick;
+          _this$props.onPointClick;
+          _this$props.predicateHash;
+          var style = _this$props.style,
+          className = _this$props.className;
+          _objectWithoutProperties(_this$props, _excluded$V);
+
+      return jsx("div", {
+        ref: this.myRef,
+        style: style,
+        className: className
+      });
+    }
+  }]);
+
+  return Map;
+}(Component);
+
+var basemaps = {
+  'EPSG_4326': {
+    'name': 'PLATE_CAREE',
+    'url': env.BASEMAPS + '/4326/omt/{z}/{x}/{y}.pbf?',
+    'srs': 'EPSG:4326'
+  },
+  'EPSG_3857': {
+    'name': 'MERCATOR',
+    'url': env.BASEMAPS + '/3857/omt/{z}/{x}/{y}.pbf?',
+    'srs': 'EPSG:3857'
+  },
+  'EPSG_3575': {
+    'name': 'ARCTIC',
+    'url': env.BASEMAPS + '/3575/omt/{z}/{x}/{y}.pbf?',
+    'srs': 'EPSG:3575'
+  },
+  'EPSG_3031': {
+    'name': 'ANTARCTIC',
+    'url': env.BASEMAPS + '/3031/omt/{z}/{x}/{y}.pbf?',
+    'srs': 'EPSG:3031'
+  }
+};
+
+// Styles for the mapbox-streets-v6 vector tile data set. Loosely based on
+// https://docs.mapbox.com/vector-tiles/reference/mapbox-streets-v6/
+function basicBaseMap(Style, Fill, Stroke, Icon, Text) {
+  var fill = new Fill({
+    color: ''
+  });
+  var stroke = new Stroke({
+    color: '',
+    width: 1
+  });
+  var polygon = new Style({
+    fill: fill
+  });
+  var strokedPolygon = new Style({
+    fill: fill,
+    stroke: stroke
+  });
+  var line = new Style({
+    stroke: stroke
+  });
+  var text = new Style({
+    text: new Text({
+      text: '',
+      fill: fill,
+      stroke: stroke
+    })
+  });
+  var iconCache = {};
+
+  function getIcon(iconName) {
+    var icon = iconCache[iconName];
+
+    if (!icon) {
+      icon = new Style({
+        image: new Icon({
+          src: 'https://unpkg.com/@mapbox/maki@4.0.0/icons/' + iconName + '-15.svg',
+          imgSize: [15, 15],
+          crossOrigin: 'anonymous'
+        })
+      });
+      iconCache[iconName] = icon;
+    }
+
+    return icon;
+  }
+
+  var styles = [];
+  return function (feature, resolution) {
+    var length = 0;
+    var layer = feature.get('layer');
+    var cls = feature.get('class');
+    var type = feature.get('type');
+    var scalerank = feature.get('scalerank');
+    var labelrank = feature.get('labelrank');
+    var adminLevel = feature.get('admin_level');
+    var maritime = feature.get('maritime');
+    var disputed = feature.get('disputed');
+    var maki = feature.get('maki');
+    var geom = feature.getGeometry().getType();
+
+    if (layer == 'landuse' && cls == 'park') {
+      fill.setColor('#d8e8c8');
+      styles[length++] = polygon;
+    } else if (layer == 'landuse' && cls == 'cemetery') {
+      fill.setColor('#e0e4dd');
+      styles[length++] = polygon;
+    } else if (layer == 'landuse' && cls == 'hospital') {
+      fill.setColor('#fde');
+      styles[length++] = polygon;
+    } else if (layer == 'landuse' && cls == 'school') {
+      fill.setColor('#f0e8f8');
+      styles[length++] = polygon;
+    } else if (layer == 'landuse' && cls == 'wood') {
+      fill.setColor('rgb(233,238,223)');
+      styles[length++] = polygon;
+    } else if (layer == 'waterway' && cls != 'river' && cls != 'stream' && cls != 'canal') {
+      stroke.setColor('#66c4e3');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'waterway' && cls == 'river') {
+      stroke.setColor('#66c4e3');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'waterway' && (cls == 'stream' || cls == 'canal')) {
+      stroke.setColor('#66c4e3');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'water') {
+      fill.setColor('#66c4e3');
+      styles[length++] = polygon;
+    } else if (layer == 'aeroway' && geom == 'Polygon') {
+      fill.setColor('rgb(242,239,235)');
+      styles[length++] = polygon;
+    } else if (layer == 'aeroway' && geom == 'LineString' && resolution <= 76.43702828517625) {
+      stroke.setColor('#f0ede9');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'building') {
+      fill.setColor('#f2eae2');
+      stroke.setColor('#dfdbd7');
+      stroke.setWidth(1);
+      styles[length++] = strokedPolygon;
+    } else if (layer == 'tunnel' && cls == 'motorway_link') {
+      stroke.setColor('#e9ac77');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'tunnel' && cls == 'service') {
+      stroke.setColor('#cfcdca');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'tunnel' && (cls == 'street' || cls == 'street_limited')) {
+      stroke.setColor('#cfcdca');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'tunnel' && cls == 'main' && resolution <= 1222.99245256282) {
+      stroke.setColor('#e9ac77');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'tunnel' && cls == 'motorway') {
+      stroke.setColor('#e9ac77');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'tunnel' && cls == 'path') {
+      stroke.setColor('#cba');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'tunnel' && cls == 'major_rail') {
+      stroke.setColor('#bbb');
+      stroke.setWidth(2);
+      styles[length++] = line;
+    } else if (layer == 'road' && cls == 'motorway_link') {
+      stroke.setColor('#e9ac77');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'road' && (cls == 'street' || cls == 'street_limited') && geom == 'LineString') {
+      stroke.setColor('#cfcdca');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'road' && cls == 'main' && resolution <= 1222.99245256282) {
+      stroke.setColor('#e9ac77');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'road' && cls == 'motorway' && resolution <= 4891.96981025128) {
+      stroke.setColor('#e9ac77');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'road' && cls == 'path') {
+      stroke.setColor('#cba');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'road' && cls == 'major_rail') {
+      stroke.setColor('#bbb');
+      stroke.setWidth(2);
+      styles[length++] = line;
+    } else if (layer == 'bridge' && cls == 'motorway_link') {
+      stroke.setColor('#e9ac77');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'bridge' && cls == 'motorway') {
+      stroke.setColor('#e9ac77');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'bridge' && cls == 'service') {
+      stroke.setColor('#cfcdca');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'bridge' && (cls == 'street' || cls == 'street_limited')) {
+      stroke.setColor('#cfcdca');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'bridge' && cls == 'main' && resolution <= 1222.99245256282) {
+      stroke.setColor('#e9ac77');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'bridge' && cls == 'path') {
+      stroke.setColor('#cba');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'bridge' && cls == 'major_rail') {
+      stroke.setColor('#bbb');
+      stroke.setWidth(2);
+      styles[length++] = line;
+    } else if (layer == 'admin' && adminLevel >= 3 && maritime === 0) {
+      stroke.setColor('#9e9cab');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'admin' && adminLevel == 2 && disputed === 0 && maritime === 0) {
+      stroke.setColor('#9e9cab');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'admin' && adminLevel == 2 && disputed === 1 && maritime === 0) {
+      stroke.setColor('#9e9cab');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'admin' && adminLevel >= 3 && maritime === 1) {
+      stroke.setColor('#66c4e3');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'admin' && adminLevel == 2 && maritime === 1) {
+      stroke.setColor('#66c4e3');
+      stroke.setWidth(1);
+      styles[length++] = line;
+    } else if (layer == 'country_label' && scalerank === 1) {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('bold 11px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#334');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(2);
+      styles[length++] = text;
+    } else if (layer == 'country_label' && scalerank === 2 && resolution <= 19567.87924100512) {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('bold 10px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#334');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(2);
+      styles[length++] = text;
+    } else if (layer == 'country_label' && scalerank === 3 && resolution <= 9783.93962050256) {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('bold 9px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#334');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(2);
+      styles[length++] = text;
+    } else if (layer == 'country_label' && scalerank === 4 && resolution <= 4891.96981025128) {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('bold 8px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#334');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(2);
+      styles[length++] = text;
+    } else if (layer == 'marine_label' && labelrank === 1 && geom == 'Point') {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('italic 11px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#74aee9');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(1);
+      styles[length++] = text;
+    } else if (layer == 'marine_label' && labelrank === 2 && geom == 'Point') {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('italic 11px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#74aee9');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(1);
+      styles[length++] = text;
+    } else if (layer == 'marine_label' && labelrank === 3 && geom == 'Point') {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('italic 10px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#74aee9');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(1);
+      styles[length++] = text;
+    } else if (layer == 'marine_label' && labelrank === 4 && geom == 'Point') {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('italic 9px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#74aee9');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(1);
+      styles[length++] = text;
+    } else if (layer == 'place_label' && type == 'city' && resolution <= 1222.99245256282) {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('11px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#333');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(1);
+      styles[length++] = text;
+    } else if (layer == 'place_label' && type == 'town' && resolution <= 305.748113140705) {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('9px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#333');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(1);
+      styles[length++] = text;
+    } else if (layer == 'place_label' && type == 'village' && resolution <= 38.21851414258813) {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('8px "Open Sans", "Arial Unicode MS"');
+      fill.setColor('#333');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(1);
+      styles[length++] = text;
+    } else if (layer == 'place_label' && resolution <= 19.109257071294063 && (type == 'hamlet' || type == 'suburb' || type == 'neighbourhood')) {
+      text.getText().setText(feature.get('name_en'));
+      text.getText().setFont('bold 9px "Arial Narrow"');
+      fill.setColor('#633');
+      stroke.setColor('rgba(255,255,255,0.8)');
+      stroke.setWidth(1);
+      styles[length++] = text;
+    } else if (layer == 'poi_label' && resolution <= 19.109257071294063 && scalerank == 1 && maki !== 'marker') {
+      styles[length++] = getIcon(maki);
+    } else if (layer == 'poi_label' && resolution <= 9.554628535647032 && scalerank == 2 && maki !== 'marker') {
+      styles[length++] = getIcon(maki);
+    } else if (layer == 'poi_label' && resolution <= 4.777314267823516 && scalerank == 3 && maki !== 'marker') {
+      styles[length++] = getIcon(maki);
+    } else if (layer == 'poi_label' && resolution <= 2.388657133911758 && scalerank == 4 && maki !== 'marker') {
+      styles[length++] = getIcon(maki);
+    } else if (layer == 'poi_label' && resolution <= 1.194328566955879 && scalerank >= 5 && maki !== 'marker') {
+      styles[length++] = getIcon(maki);
+    }
+
+    styles.length = length;
+    return styles;
+  };
+}
+
+var thresholds = function thresholds(total) {
+  if (total <= 10) return 0;
+  if (total <= 100) return 1;
+  if (total <= 1000) return 2;
+  if (total <= 10000) return 3;
+  return 4;
+};
+
+var densityColours = ['#fed976', '#fd8d3ccc', '#fd8d3cbb', '#f03b2088', '#bd002688'];
+var densityPoints = [new Style({
+  image: new Circle({
+    fill: new Fill({
+      color: densityColours[0]
+    }),
+    stroke: new Stroke({
+      color: densityColours[2],
+      width: 1
+    }),
+    radius: 4
+  }),
+  fill: new Fill({
+    color: densityColours[0]
+  })
+}), new Style({
+  image: new Circle({
+    fill: new Fill({
+      color: densityColours[1]
+    }),
+    stroke: new Stroke({
+      color: densityColours[2],
+      width: 1
+    }),
+    radius: 4
+  }),
+  fill: new Fill({
+    color: densityColours[1]
+  })
+}), new Style({
+  image: new Circle({
+    fill: new Fill({
+      color: densityColours[2]
+    }),
+    radius: 5
+  }),
+  fill: new Fill({
+    color: densityColours[2]
+  })
+}), new Style({
+  image: new Circle({
+    fill: new Fill({
+      color: densityColours[3]
+    }),
+    radius: 8
+  }),
+  fill: new Fill({
+    color: densityColours[3]
+  })
+}), new Style({
+  image: new Circle({
+    fill: new Fill({
+      color: densityColours[4]
+    }),
+    radius: 12
+  }),
+  fill: new Fill({
+    color: densityColours[4]
+  })
+})];
+function densityPoints$1 (feature, resolution) {
+  var total = thresholds(feature.get('total'));
+  return densityPoints[total];
+}
+
+proj4.defs('EPSG:4326', '+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees');
+proj4.defs('EPSG:3575', '+proj=laea +lat_0=90 +lon_0=10 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs');
+proj4.defs('EPSG:3031', '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
+register(proj4); // set up projections and shared variables
+
+var tileSize = 512;
+var maxZoom = 13;
+var maxZoomView = 18;
+var pixelRatio$2 = parseInt(window.devicePixelRatio) || 1;
+
+function get4326() {
+  var extent = 180.0;
+  var resolutions = Array(maxZoom + 1).fill().map(function (x, i) {
+    return extent / tileSize / Math.pow(2, i);
+  });
+  var tileGridOptions = {
+    extent: olProj.get('EPSG:4326').getExtent(),
+    minZoom: 0,
+    maxZoom: maxZoom,
+    resolutions: resolutions,
+    tileSize: tileSize
+  };
+  var tileGrid = new TileGrid(tileGridOptions); // var tileGrid14 = new TileGrid({
+  //   extent: olProj.get('EPSG:4326').getExtent(),
+  //   minZoom: 0,
+  //   maxZoom: maxZoom,
+  //   resolutions: resolutions,
+  //   tileSize: tileSize,
+  // });
+
+  return {
+    name: 'EPSG_4326',
+    wrapX: true,
+    srs: 'EPSG:4326',
+    projection: 'EPSG:4326',
+    epsg: 4326,
+    tilePixelRatio: 1,
+    tileGrid: tileGrid,
+    resolutions: resolutions,
+    // extent: olProj.get('EPSG:4326').getExtent(),
+    fitExtent: [-179, -1, 179, 1],
+    getView: function getView(lat, lon, zoom) {
+      lat = lat || 0;
+      lon = lon || 0;
+      zoom = zoom || 0;
+      return new View({
+        maxZoom: maxZoomView,
+        minZoom: 0,
+        center: [lon, lat],
+        zoom: zoom,
+        projection: 'EPSG:4326'
+      });
+    },
+    getBaseLayer: function getBaseLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return getLayer(basemaps.EPSG_4326.url, this, params, 'baseLayer');
+    },
+    getOccurrenceLayer: function getOccurrenceLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return getLayer(env.API_V2 + '/map/occurrence/density/{z}/{x}/{y}.mvt?', this, params);
+    },
+    getAdhocLayer: function getAdhocLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return _getAdhocLayer(env.API_V2 + '/map/occurrence/adhoc/{z}/{x}/{y}.mvt?', this, params);
+    }
+  };
+}
+
+function get3857() {
+  var tileGrid16 = createXYZ({
+    minZoom: 0,
+    maxZoom: maxZoom,
+    tileSize: tileSize
+  });
+  return {
+    name: 'EPSG_3857',
+    wrapX: true,
+    srs: 'EPSG:3857',
+    // projection: 'EPSG:3857',
+    epsg: 3857,
+    tileGrid: tileGrid16,
+    // resolutions: resolutions,
+    fitExtent: olProj.transformExtent([-90, -75, 90, 75], 'EPSG:4326', 'EPSG:3857'),
+    getView: function getView(lat, lon, zoom) {
+      if (Math.abs(lat) > 85) {
+        lat = 0;
+        lon = 0;
+        zoom = 1;
+      }
+
+      var _transform = transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
+
+      var _transform2 = _slicedToArray(_transform, 2);
+
+      lon = _transform2[0];
+      lat = _transform2[1];
+      lat = lat || 0;
+      lon = lon || 0;
+      zoom = zoom || 0;
+      return new View({
+        maxZoom: maxZoomView,
+        minZoom: 0,
+        center: [lon, lat],
+        zoom: zoom,
+        projection: 'EPSG:3857'
+      });
+    },
+    getBaseLayer: function getBaseLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return getLayer(basemaps.EPSG_3857.url, this, params, 'baseLayer');
+    },
+    getOccurrenceLayer: function getOccurrenceLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return getLayer(env.API_V2 + '/map/occurrence/density/{z}/{x}/{y}.mvt?', this, params);
+    },
+    getAdhocLayer: function getAdhocLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return _getAdhocLayer(env.API_V2 + '/map/occurrence/adhoc/{z}/{x}/{y}.mvt?', this, params);
+    }
+  };
+}
+
+function get3575() {
+  var halfWidth = Math.sqrt(2) * 6371007.2;
+  var extent = [-halfWidth, -halfWidth, halfWidth, halfWidth];
+  olProj.get('EPSG:3575').setExtent(extent);
+  var resolutions = Array.from(new Array(maxZoom + 1), function (x, i) {
+    return halfWidth / (tileSize * Math.pow(2, i - 1));
+  });
+  var tileGridOptions = {
+    extent: olProj.get("EPSG:3575").getExtent(),
+    origin: [-halfWidth, halfWidth],
+    minZoom: 0,
+    maxZoom: maxZoom,
+    resolutions: resolutions,
+    tileSize: tileSize
+  };
+  var tileGrid16 = new TileGrid(tileGridOptions);
+  return {
+    name: 'EPSG_3575',
+    wrapX: false,
+    srs: 'EPSG:3575',
+    projection: 'EPSG:3575',
+    epsg: 3575,
+    // tile_grid_14: tile_grid_14,
+    tileGrid: tileGrid16,
+    resolutions: resolutions,
+    fitExtent: extent,
+    getView: function getView(lat, lon, zoom) {
+      if (lat < 45) {
+        lat = 90;
+        lon = 0;
+        zoom = 1;
+      }
+
+      var _transform3 = transform([lon, lat], 'EPSG:4326', 'EPSG:3575');
+
+      var _transform4 = _slicedToArray(_transform3, 2);
+
+      lon = _transform4[0];
+      lat = _transform4[1];
+      lat = lat || 0;
+      lon = lon || 0;
+      zoom = zoom || 0;
+      return new View({
+        maxZoom: maxZoomView,
+        minZoom: 0,
+        center: [lon, lat],
+        zoom: zoom,
+        projection: olProj.get('EPSG:3575')
+      });
+    },
+    getBaseLayer: function getBaseLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return getLayer(basemaps.EPSG_3575.url, this, params, 'baseLayer');
+    },
+    getOccurrenceLayer: function getOccurrenceLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return getLayer(env.API_V2 + '/map/occurrence/density/{z}/{x}/{y}.mvt?', this, params);
+    },
+    getAdhocLayer: function getAdhocLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return _getAdhocLayer(env.API_V2 + '/map/occurrence/adhoc/{z}/{x}/{y}.mvt?', this, params);
+    }
+  };
+}
+
+function get3031() {
+  var halfWidth = 12367396.2185; // To the Equator
+
+  var extent = [-halfWidth, -halfWidth, halfWidth, halfWidth];
+  olProj.get('EPSG:3031').setExtent(extent);
+  var resolutions = Array.from(new Array(maxZoom + 1), function (x, i) {
+    return halfWidth / (tileSize * Math.pow(2, i - 1));
+  });
+  var tileGridOptions = {
+    extent: extent,
+    origin: [-halfWidth, halfWidth],
+    minZoom: 0,
+    maxZoom: maxZoom,
+    resolutions: resolutions,
+    tileSize: tileSize
+  };
+  var tileGrid16 = new TileGrid(tileGridOptions);
+  return {
+    name: 'EPSG_3031',
+    wrapX: false,
+    srs: 'EPSG:3031',
+    projection: 'EPSG:3031',
+    epsg: 3031,
+    tileGrid: tileGrid16,
+    resolutions: resolutions,
+    fitExtent: extent,
+    getView: function getView(lat, lon, zoom) {
+      if (lat > -20) {
+        lat = -90;
+        lon = 0;
+        zoom = 1;
+      }
+
+      var _transform5 = transform([lon, lat], 'EPSG:4326', 'EPSG:3031');
+
+      var _transform6 = _slicedToArray(_transform5, 2);
+
+      lon = _transform6[0];
+      lat = _transform6[1];
+      lat = lat || 0;
+      lon = lon || 0;
+      zoom = zoom || 0;
+      return new View({
+        maxZoom: maxZoomView,
+        minZoom: 0,
+        center: [lon, lat],
+        zoom: zoom,
+        projection: olProj.get('EPSG:3031')
+      });
+    },
+    getBaseLayer: function getBaseLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return getLayer(basemaps.EPSG_3031.url, this, params, 'baseLayer');
+    },
+    getOccurrenceLayer: function getOccurrenceLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return getLayer(env.API_V2 + '/map/occurrence/density/{z}/{x}/{y}.mvt?', this, params);
+    },
+    getAdhocLayer: function getAdhocLayer() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return _getAdhocLayer(env.API_V2 + '/map/occurrence/adhoc/{z}/{x}/{y}.mvt?', this, params);
+    }
+  };
+}
+
+function getLayer(baseUrl, proj, params, name) {
+  params = params || {};
+  params.srs = proj.srs;
+  var progress = params.progress;
+  delete params.progress;
+  var source = new VectorTile({
+    format: new MVT(),
+    projection: proj.projection,
+    tileGrid: proj.tileGrid,
+    tilePixelRatio: pixelRatio$2,
+    url: baseUrl + queryString.stringify(params),
+    wrapX: proj.wrapX,
+    attributions: ['© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', '© <a href="https://openmaptiles.org/" class="inherit">OpenMapTiles</a>', '<a href="https://www.gbif.org/citation-guidelines">GBIF</a>']
+  });
+
+  if (progress) {
+    source.on('tileloadstart', function () {
+      progress.addLoading();
+    });
+    source.on('tileloadend', function () {
+      progress.addLoaded();
+    });
+    source.on('tileloaderror', function () {
+      progress.addLoaded();
+    });
+  }
+
+  var layer = new VectorTile$1({
+    extent: proj.extent,
+    source: source,
+    useInterimTilesOnError: false,
+    visible: true,
+    name: name,
+    declutter: true,
+    style: basicBaseMap(Style, Fill, Stroke, Icon, Text)
+  });
+  return layer;
+} // currently map resolution isn't too good.
+// it is neccessary to hardcode resolution to zoom levels
+
+/*
+0: 32
+1: 64
+2: 128
+3: 256
+4: 128
+5: 256
+6: 512
+7: 1024
+8: 256
+9: 512
+10: 1042
+11: 2048
+12: 1024
+13: 2048
+14: 4096
+*/
+
+
+function _getAdhocLayer(baseUrl, proj, params) {
+  var name = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'occurrences';
+  params = params || {};
+  params.srs = proj.srs;
+  var progress = params.progress;
+  delete params.progress;
+  var onError = params.onError;
+  delete params.onError;
+  var source = new VectorTile({
+    format: new MVT(),
+    projection: proj.projection,
+    tileGrid: proj.tileGrid,
+    tilePixelRatio: pixelRatio$2,
+    url: baseUrl + queryString.stringify(params),
+    wrapX: proj.wrapX,
+    maxZoom: 18
+  });
+
+  if (progress) {
+    source.on('tileloadstart', function () {
+      progress.addLoading();
+    });
+    source.on('tileloadend', function () {
+      progress.addLoaded();
+    });
+    source.on('tileloaderror', function () {
+      progress.addLoaded();
+    });
+  }
+
+  if (onError) {
+    source.on('tileloaderror', function (err) {
+      onError();
+    });
+  }
+
+  return new VectorTile$1({
+    extent: proj.extent,
+    source: source,
+    useInterimTilesOnError: false,
+    visible: true,
+    name: name,
+    style: densityPoints$1,
+    // className: 'occurrenceLayer'
+    zIndex: 1000
+  });
+}
+
+var projections = {
+  EPSG_4326: get4326(),
+  EPSG_3575: get3575(),
+  EPSG_3031: get3031(),
+  EPSG_3857: get3857()
+};
+[// new Style({
+//   stroke: new Stroke({
+//     color: 'blue',
+//     width: 3,
+//   }),
+//   fill: new Fill({
+//     color: 'rgba(0, 0, 255, 0.1)',
+//   }),
+// }),
+new Style({
+  image: new Circle({
+    radius: 5,
+    fill: new Fill({
+      color: 'orange'
+    })
+  }) // geometry: function (feature) {
+  //   // return the coordinates of the first ring of the polygon
+  //   debugger;
+  //   const coordinates = feature.getGeometry().getCoordinates()[0];
+  //   return new MultiPoint(coordinates);
+  // },
+
+})];
+
+var _excluded$U = ["query", "onMapClick", "onPointClick", "predicateHash"];
+
+function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+var interactions = olInteraction.defaults({
+  altShiftDragRotate: false,
+  pinchRotate: false,
+  mouseWheelZoom: true
+});
+var mapStyles = {
+  klokantech: klokantech
+};
+
+var Map$2 = /*#__PURE__*/function (_Component) {
+  _inherits(Map, _Component);
+
+  var _super = _createSuper$2(Map);
+
+  function Map(props) {
+    var _this;
+
+    _classCallCheck(this, Map);
+
+    _this = _super.call(this, props);
+    _this.addLayer = _this.addLayer.bind(_assertThisInitialized(_this));
+    _this.updateLayer = _this.updateLayer.bind(_assertThisInitialized(_this));
+    _this.onPointClick = _this.onPointClick.bind(_assertThisInitialized(_this));
+    _this.myRef = /*#__PURE__*/React.createRef();
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(Map, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this$props$mapConfig;
+
+      var currentProjection = projections[((_this$props$mapConfig = this.props.mapConfig) === null || _this$props$mapConfig === void 0 ? void 0 : _this$props$mapConfig.projection) || 'EPSG_3031'];
+      var mapPos = this.getStoredMapPosition();
+      var mapConfig = {
+        target: this.myRef.current,
+        view: currentProjection.getView(mapPos.lat, mapPos.lng, mapPos.zoom),
+        controls: defaults({
+          zoom: false,
+          attribution: true
+        }),
+        interactions: interactions
+      };
+      this.map = new OlMap(mapConfig);
+      this.updateMapLayers();
+      this.mapLoaded = true;
+      this.addLayer();
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      // https://github.com/openlayers/openlayers/issues/9556#issuecomment-493190400
+      if (this.map) {
+        this.map.setTarget(null);
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.query !== this.props.query && this.mapLoaded) {
+        this.updateLayer();
+      }
+
+      if (prevProps.mapConfig !== this.props.mapConfig && this.mapLoaded) {
+        this.updateMapLayers();
+      }
+
+      if (prevProps.latestEvent !== this.props.latestEvent && this.mapLoaded) {
+        var _this$props$latestEve, _this$props$latestEve2;
+
+        if (((_this$props$latestEve = this.props.latestEvent) === null || _this$props$latestEve === void 0 ? void 0 : _this$props$latestEve.type) === 'ZOOM_IN') {
+          this.zoomIn();
+        } else if (((_this$props$latestEve2 = this.props.latestEvent) === null || _this$props$latestEve2 === void 0 ? void 0 : _this$props$latestEve2.type) === 'ZOOM_OUT') {
+          this.zoomOut();
+        }
+      } // TODO: monitor theme and update maps accordingly
+      // if (prevProps.theme !== this.props.theme && this.mapLoaded) {
+      //   const mapStyle = this.props.theme.darkTheme ? 'dark-v9' : 'light-v9';
+      //   this.map.setStyle(`mapbox://styles/mapbox/${mapStyle}`);
+      //   this.map.on('style.load', () => {
+      //     this.updateLayer();
+      //   });
+      // }
+
+    }
+  }, {
+    key: "getStoredMapPosition",
+    value: function getStoredMapPosition() {
+      var _this$props$mapConfig2, _this$props$defaultMa, _this$props$defaultMa2, _this$props$defaultMa3;
+
+      projections[((_this$props$mapConfig2 = this.props.mapConfig) === null || _this$props$mapConfig2 === void 0 ? void 0 : _this$props$mapConfig2.projection) || 'EPSG_3031'];
+      var zoom = sessionStorage.getItem('mapZoom') || ((_this$props$defaultMa = this.props.defaultMapSettings) === null || _this$props$defaultMa === void 0 ? void 0 : _this$props$defaultMa.zoom) || 0;
+      zoom = Math.min(Math.max(0, zoom), 20);
+      var lng = sessionStorage.getItem('mapLng') || ((_this$props$defaultMa2 = this.props.defaultMapSettings) === null || _this$props$defaultMa2 === void 0 ? void 0 : _this$props$defaultMa2.lng) || 0;
+      lng = Math.min(Math.max(-180, lng), 180);
+      var lat = sessionStorage.getItem('mapLat') || ((_this$props$defaultMa3 = this.props.defaultMapSettings) === null || _this$props$defaultMa3 === void 0 ? void 0 : _this$props$defaultMa3.lat) || 0;
+      lat = Math.min(Math.max(-90, lat), 90); // const reprojectedCenter = transform([lng, lat], 'EPSG:4326', currentProjection.srs);
+
+      return {
+        lat: lat,
+        //: reprojectedCenter[1], 
+        lng: lng,
+        //: reprojectedCenter[0], 
+        zoom: zoom
+      };
+    }
+  }, {
+    key: "zoomIn",
+    value: function zoomIn() {
+      var view = this.map.getView();
+      view.setZoom(view.getZoom() + 1);
+    }
+  }, {
+    key: "zoomOut",
+    value: function zoomOut() {
+      var view = this.map.getView();
+      view.setZoom(view.getZoom() - 1);
+    }
+  }, {
+    key: "removeLayer",
+    value: function removeLayer(name) {
+      var _this2 = this;
+
+      this.map.getLayers().getArray().filter(function (layer) {
+        return layer.get('name') === name;
+      }).forEach(function (layer) {
+        return _this2.map.removeLayer(layer);
+      });
+    }
+  }, {
+    key: "updateMapLayers",
+    value: function () {
+      var _updateMapLayers = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee() {
+        var _this$props$mapConfig3, _this$props$mapConfig4;
+
+        var epsg, currentProjection, basemapStyle, layerStyle, baseLayer, resolutions, _this$props$mapConfig5, _styleResponse$metada, styleResponse, _baseLayer, _resolutions, _mapPos, map, mapboxStyle, _this$props$mapConfig6, mapPos, newView;
+
+        return _regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                epsg = ((_this$props$mapConfig3 = this.props.mapConfig) === null || _this$props$mapConfig3 === void 0 ? void 0 : _this$props$mapConfig3.projection) || 'EPSG_3031';
+                currentProjection = projections[epsg];
+                this.setState({
+                  epsg: epsg
+                });
+                this.map.getLayers().clear(); // this.updateProjection();
+                // update projection
+                // const mapPos = this.getStoredMapPosition();
+                // const newView = currentProjection.getView(mapPos.lat, mapPos.lng, mapPos.zoom);
+                // this.map.setView(newView);
+
+                basemapStyle = ((_this$props$mapConfig4 = this.props.mapConfig) === null || _this$props$mapConfig4 === void 0 ? void 0 : _this$props$mapConfig4.basemapStyle) || 'klokantech';
+                layerStyle = mapStyles[basemapStyle];
+
+                if (!layerStyle) {
+                  _context.next = 14;
+                  break;
+                }
+
+                baseLayer = currentProjection.getBaseLayer();
+                resolutions = baseLayer.getSource().getTileGrid().getResolutions();
+                applyBackground(baseLayer, layerStyle, 'openmaptiles');
+                applyStyle(baseLayer, layerStyle, 'openmaptiles', undefined, resolutions);
+                this.map.addLayer(baseLayer);
+                _context.next = 36;
+                break;
+
+              case 14:
+                if (!(epsg !== 'EPSG_3857')) {
+                  _context.next = 34;
+                  break;
+                }
+
+                _context.next = 17;
+                return fetch((_this$props$mapConfig5 = this.props.mapConfig) === null || _this$props$mapConfig5 === void 0 ? void 0 : _this$props$mapConfig5.basemapStyle).then(function (response) {
+                  return response.json();
+                });
+
+              case 17:
+                styleResponse = _context.sent;
+
+                if (styleResponse !== null && styleResponse !== void 0 && (_styleResponse$metada = styleResponse.metadata) !== null && _styleResponse$metada !== void 0 && _styleResponse$metada['gb:reproject']) {
+                  _context.next = 26;
+                  break;
+                }
+
+                _baseLayer = currentProjection.getBaseLayer();
+                _resolutions = _baseLayer.getSource().getTileGrid().getResolutions();
+                applyBackground(_baseLayer, styleResponse, 'openmaptiles');
+                stylefunction(_baseLayer, styleResponse, 'openmaptiles', _resolutions);
+                this.map.addLayer(_baseLayer);
+                _context.next = 32;
+                break;
+
+              case 26:
+                _context.next = 28;
+                return apply$2(this.map, styleResponse);
+
+              case 28:
+                _mapPos = this.getStoredMapPosition();
+                map = this.map;
+                mapboxStyle = this.map.get('mapbox-style');
+                this.map.getLayers().forEach(function (layer) {
+                  var mapboxSource = layer.get('mapbox-source');
+
+                  if (mapboxSource) {
+                    var sourceConfig = mapboxStyle.sources[mapboxSource];
+
+                    if (sourceConfig.type === 'vector') {
+                      var source = layer.getSource();
+                      var _sourceConfig = mapboxStyle.sources[mapboxSource];
+                      layer.setSource(new VectorTile({
+                        format: new MVT(),
+                        projection: _sourceConfig.projection,
+                        urls: source.getUrls(),
+                        tileGrid: new TileGrid(_sourceConfig.tilegridOptions),
+                        wrapX: _sourceConfig.wrapX,
+                        attributions: [_sourceConfig.attribution]
+                      }));
+                      stylefunction(layer, styleResponse, mapboxSource, _sourceConfig.tilegridOptions.resolutions); // update the view projection to match the data projection
+
+                      var _newView = currentProjection.getView(_mapPos.lat, _mapPos.lng, _mapPos.zoom);
+
+                      map.setView(_newView);
+                    }
+
+                    if (sourceConfig.type === 'raster') {
+                      layer.getSource();
+
+                      layer.setSource(new TileImage({
+                        projection: sourceConfig.projection,
+                        urls: sourceConfig.tiles,
+                        tileGrid: new TileGrid(sourceConfig.tilegridOptions),
+                        tilePixelRatio: 2,
+                        wrapX: sourceConfig.wrapX,
+                        maxZoom: sourceConfig.maxZoom,
+                        attributions: [sourceConfig.attribution]
+                      }));
+
+                      if (sourceConfig.extent) {
+                        layer.setExtent(sourceConfig.extent);
+                      } // update the view projection to match the data projection
+
+
+                      var _newView2 = currentProjection.getView(_mapPos.lat, _mapPos.lng, _mapPos.zoom);
+
+                      map.setView(_newView2);
+                    }
+                  }
+                });
+
+              case 32:
+                _context.next = 36;
+                break;
+
+              case 34:
+                _context.next = 36;
+                return apply$2(this.map, ((_this$props$mapConfig6 = this.props.mapConfig) === null || _this$props$mapConfig6 === void 0 ? void 0 : _this$props$mapConfig6.basemapStyle) || 'http://localhost:3001/map/styles/darkMatter.json');
+
+              case 36:
+                // update projection
+                mapPos = this.getStoredMapPosition();
+                newView = currentProjection.getView(mapPos.lat, mapPos.lng, mapPos.zoom);
+                this.map.setView(newView);
+                this.addLayer();
+
+              case 40:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function updateMapLayers() {
+        return _updateMapLayers.apply(this, arguments);
+      }
+
+      return updateMapLayers;
+    }() // async updateProjection() {
+    //   const epsg = this.props.mapConfig?.projection || 'EPSG_3031';
+    //   const currentProjection = projections[epsg];
+    //   const mapPos = this.getStoredMapPosition();
+    //   const newView = currentProjection.getView(mapPos.lat, mapPos.lng, mapPos.zoom);
+    //   this.map.setView(newView);
+    // }
+
+  }, {
+    key: "updateLayer",
+    value: function updateLayer() {
+      var _this3 = this;
+
+      this.map.getLayers().getArray().filter(function (layer) {
+        return layer.get('name') === 'occurrences';
+      }).forEach(function (layer) {
+        return _this3.map.removeLayer(layer);
+      });
+      this.addLayer();
+    }
+  }, {
+    key: "onPointClick",
+    value: function onPointClick(pointData) {
+      this.props.onPointClick(pointData);
+    }
+  }, {
+    key: "addLayer",
+    value: function addLayer() {
+      var _this$props$mapConfig7,
+          _this4 = this;
+
+      var currentProjection = projections[((_this$props$mapConfig7 = this.props.mapConfig) === null || _this$props$mapConfig7 === void 0 ? void 0 : _this$props$mapConfig7.projection) || 'EPSG_3031'];
+      var occurrenceLayer = currentProjection.getAdhocLayer({
+        style: 'scaled.circles',
+        mode: 'GEO_CENTROID',
+        squareSize: 512,
+        predicateHash: this.props.predicateHash,
+        onError: function onError(e) {
+          // there seem to be no simple way to get the statuscode, so we will just reregister on any type of error
+          if (_this4.props.registerPredicate) {
+            _this4.props.registerPredicate();
+          }
+        }
+      }); // how to add a layer below e.g. labels on the basemap? // you can insert at specific indices, but the problem is that the basemap are collapsed into one layer
+      // occurrenceLayer.setZIndex(0);
+
+      this.map.addLayer(occurrenceLayer);
+      var map = this.map;
+      map.on('moveend', function (e) {
+        if (this.refreshingView) return;
+
+        var _map$getView$getState = map.getView().getState(),
+            center = _map$getView$getState.center,
+            zoom = _map$getView$getState.zoom;
+
+        var reprojectedCenter = transform(center, currentProjection.srs, 'EPSG:4326');
+        sessionStorage.setItem('mapZoom', zoom);
+        sessionStorage.setItem('mapLng', reprojectedCenter[0]);
+        sessionStorage.setItem('mapLat', reprojectedCenter[1]);
+      }); // TODO: find a way to store current extent in a way it can be reused. Should ideallky be the same format as for mapbox: center, zoom
+      // const map = this.map
+      // if (!this.mapLoaded) {
+      //   // remember map position
+      //   map.on('zoomend', function () {
+      //     const center = map.getCenter();
+      //     sessionStorage.setItem('mapZoom', map.getZoom());
+      //     sessionStorage.setItem('mapLng', center.lng);
+      //     sessionStorage.setItem('mapLat', center.lat);
+      //   });
+
+      var pointClickHandler = this.onPointClick;
+      var clickHandler = this.props.onMapClick;
+      map.on('singleclick', function (event) {
+        // todo : hover and click do not agree on wether there is a point or not
+        occurrenceLayer.getFeatures(event.pixel).then(function (features) {
+          var feature = features.length ? features[0] : undefined;
+
+          if (feature) {
+            var properties = feature.properties_;
+            pointClickHandler({
+              geohash: properties.geohash,
+              count: properties.total
+            });
+          } else if (clickHandler) {
+            clickHandler();
+          }
+        });
+      });
+      map.on('pointermove', function (e) {
+        var pixel = map.getEventPixel(e.originalEvent);
+        var hit = map.hasFeatureAtPixel(pixel, {
+          layerFilter: function layerFilter(l) {
+            return l.values_.name === 'occurrences';
+          }
+        });
+        map.getViewport().style.cursor = hit ? 'pointer' : '';
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props;
+          _this$props.query;
+          _this$props.onMapClick;
+          _this$props.onPointClick;
+          _this$props.predicateHash;
+          var props = _objectWithoutProperties(_this$props, _excluded$U);
+
+      return jsx("div", _extends({
+        ref: this.myRef
+      }, props));
+    }
+  }]);
+
+  return Map;
+}(Component);
+
+var _ref2$a = {
+  name: "frovae-mapArea",
+  styles: "flex:1 1 100%;display:flex;height:100%;max-height:100vh;flex-direction:column;position:relative;label:mapArea;"
+} ;
+
+var mapArea = function mapArea(_ref3) {
+  _ref3.theme;
+  return _ref2$a;
+};
+var mapComponent = function mapComponent(_ref4) {
+  var theme = _ref4.theme;
+  return /*#__PURE__*/css("flex:1 1 100%;border:1px solid ", theme.paperBorderColor, ";border-radius:", theme.borderRadius, "px;display:flex;flex-direction:column;height:100%;canvas:focus{outline:none;};label:mapComponent;" + ("" ));
+};
+
+var _ref$h = {
+  name: "1all18b-resultList",
+  styles: "z-index:10;margin:12px;position:absolute;left:0;top:0;width:350px;max-width:100%;height:auto;max-height:calc(100% - 24px);display:flex;flex-direction:column;label:resultList;"
+} ;
+
+var resultList = function resultList(_ref5) {
+  _objectDestructuringEmpty(_ref5);
+
+  return _ref$h;
+};
+var mapControls = function mapControls(_ref6) {
+  var theme = _ref6.theme;
+  return /*#__PURE__*/css("display:flex;position:absolute;background:white;z-index:100;border:1px solid #ddd;margin:12px;right:0;align-items:center;>button,>div>button{padding:6px;flex:1 1 auto;font-size:24px;color:", theme.color800, ";text-align:left;white-space:nowrap;}.gb-menuContainer{button{text-align:initial;}};label:mapControls;" + ("" ));
+};
+
+var pixelRatio$1 = parseInt(window.devicePixelRatio) || 1;
+function getMapStyles(_ref) {
+  var _ref$apiKeys = _ref.apiKeys,
+      apiKeys = _ref$apiKeys === void 0 ? {} : _ref$apiKeys,
+      _ref$language = _ref.language,
+      language = _ref$language === void 0 ? 'en' : _ref$language;
+  var natural = "styleName=natural&background=".concat(encodeURIComponent('#e5e9cd'), "&language=").concat(language, "&pixelRatio=").concat(pixelRatio$1);
+  var light = "styleName=geyser&background=".concat(encodeURIComponent('#f3f3f1'), "&language=").concat(language, "&pixelRatio=").concat(pixelRatio$1);
+  var dark = "styleName=tuatara&background=".concat(encodeURIComponent('#363332'), "&language=").concat(language, "&pixelRatio=").concat(pixelRatio$1);
+  return {
+    NATURAL_ARCTIC: {
+      labelKey: 'map.styles.natural',
+      component: Map$2,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3575/gbif-raster?").concat(natural),
+        projection: 'EPSG_3575'
+      }
+    },
+    BRIGHT_ARCTIC: {
+      labelKey: 'map.styles.bright',
+      component: Map$2,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3575/gbif-raster?").concat(light),
+        projection: 'EPSG_3575'
+      }
+    },
+    DARK_ARCTIC: {
+      labelKey: 'map.styles.dark',
+      component: Map$2,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3575/gbif-raster?").concat(dark),
+        projection: 'EPSG_3575'
+      }
+    },
+    NATURAL_PLATE_CAREE: {
+      labelKey: 'map.styles.natural',
+      component: Map$2,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/4326/gbif-raster?").concat(natural),
+        projection: 'EPSG_4326'
+      }
+    },
+    BRIGHT_PLATE_CAREE: {
+      labelKey: 'map.styles.bright',
+      component: Map$2,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/4326/gbif-raster?").concat(light),
+        projection: 'EPSG_4326'
+      }
+    },
+    DARK_PLATE_CAREE: {
+      labelKey: 'map.styles.dark',
+      component: Map$2,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/4326/gbif-raster?").concat(dark),
+        projection: 'EPSG_4326'
+      }
+    },
+    SATELLITE_MERCATOR: {
+      labelKey: 'map.styles.satellite',
+      component: Map$3,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3857/satellite_maptiler?maptilerApiKey=").concat(apiKeys.maptiler),
+        projection: 'EPSG_3857'
+      }
+    },
+    NATURAL_MERCATOR: {
+      labelKey: 'map.styles.natural',
+      component: Map$3,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3857/gbif-raster?").concat(natural),
+        projection: 'EPSG_3857'
+      }
+    },
+    NATURAL_HILLSHADE_MERCATOR: {
+      labelKey: 'map.styles.natural',
+      component: Map$3,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3857/gbif-raster-hillshade?").concat(natural, "&maptilerApiKey=").concat(apiKeys.maptiler),
+        projection: 'EPSG_3857'
+      }
+    },
+    BRIGHT_MERCATOR: {
+      labelKey: 'map.styles.bright',
+      component: Map$3,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3857/gbif-raster?").concat(light),
+        projection: 'EPSG_3857'
+      }
+    },
+    DARK_MERCATOR: {
+      labelKey: 'map.styles.dark',
+      component: Map$3,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3857/gbif-raster?").concat(dark),
+        projection: 'EPSG_3857'
+      }
+    },
+    BRIGHT_MAPBOX_MERCATOR: {
+      labelKey: 'map.styles.bright',
+      component: Map$3,
+      mapConfig: {
+        basemapStyle: "https://api.mapbox.com/styles/v1/mapbox/light-v9?access_token=".concat(apiKeys.mapbox),
+        projection: 'EPSG_3857'
+      }
+    },
+    NATURAL_ANTARCTIC: {
+      labelKey: 'map.styles.natural',
+      component: Map$2,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3031/gbif-raster?").concat(natural),
+        projection: 'EPSG_3031'
+      }
+    },
+    BRIGHT_ANTARCTIC: {
+      labelKey: 'map.styles.bright',
+      component: Map$2,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3031/gbif-raster?").concat(light),
+        projection: 'EPSG_3031'
+      }
+    },
+    DARK_ANTARCTIC: {
+      labelKey: 'map.styles.dark',
+      component: Map$2,
+      mapConfig: {
+        basemapStyle: "".concat(env.MAP_STYLES, "/3031/gbif-raster?").concat(dark),
+        projection: 'EPSG_3031'
+      }
+    }
+  };
+}
+
+var _excluded$T = ["labelMap", "query", "q", "pointData", "pointError", "pointLoading", "loading", "total", "predicateHash", "registerPredicate", "loadPointData", "defaultMapSettings"];
+var pixelRatio = parseInt(window.devicePixelRatio) || 1;
+var defaultLayerOptions = {
+  // ARCTIC: ['NATURAL', 'BRIGHT', 'DARK'],
+  // PLATE_CAREE: ['NATURAL', 'BRIGHT', 'DARK'],
+  MERCATOR: ['BRIGHT', 'NATURAL'] // ANTARCTIC: ['NATURAL', 'BRIGHT', 'DARK']
+
+};
+
+function getStyle(_ref) {
+  var _layerOptions$project, _lookup$projection;
+
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === void 0 ? {} : _ref$styles,
+      projection = _ref.projection,
+      type = _ref.type,
+      _ref$lookup = _ref.lookup,
+      lookup = _ref$lookup === void 0 ? {} : _ref$lookup,
+      layerOptions = _ref.layerOptions;
+  var fallbackStyleName = "".concat(layerOptions === null || layerOptions === void 0 ? void 0 : (_layerOptions$project = layerOptions[projection]) === null || _layerOptions$project === void 0 ? void 0 : _layerOptions$project[0], "_").concat(projection);
+  var styleKey = (lookup === null || lookup === void 0 ? void 0 : (_lookup$projection = lookup[projection]) === null || _lookup$projection === void 0 ? void 0 : _lookup$projection[type]) || "".concat(type, "_").concat(projection);
+  var style = styles[styleKey] ? styles[styleKey] : styles[fallbackStyleName];
+  return style;
+}
+
+function Map$1(_ref2) {
+  var _siteContext$maps, _siteContext$maps2, _siteContext$maps3, _siteContext$maps4, _mapStyles$defaultPro, _pointData$occurrence, _pointData$occurrence2, _layerOptions$project2;
+
+  var labelMap = _ref2.labelMap,
+      query = _ref2.query,
+      q = _ref2.q,
+      pointData = _ref2.pointData,
+      pointError = _ref2.pointError,
+      pointLoading = _ref2.pointLoading,
+      loading = _ref2.loading,
+      total = _ref2.total,
+      predicateHash = _ref2.predicateHash,
+      registerPredicate = _ref2.registerPredicate,
+      loadPointData = _ref2.loadPointData,
+      defaultMapSettings = _ref2.defaultMapSettings;
+      _objectWithoutProperties(_ref2, _excluded$T);
+
+  var dialog = useDialogState({
+    animated: true,
+    modal: false
+  });
+  var theme = useContext(ThemeContext);
+  var siteContext = useContext(SiteContext);
+  var styleLookup = (siteContext === null || siteContext === void 0 ? void 0 : (_siteContext$maps = siteContext.maps) === null || _siteContext$maps === void 0 ? void 0 : _siteContext$maps.styleLookup) || {};
+  var mapStyles = (siteContext === null || siteContext === void 0 ? void 0 : (_siteContext$maps2 = siteContext.maps) === null || _siteContext$maps2 === void 0 ? void 0 : _siteContext$maps2.mapStyles) || defaultLayerOptions;
+  var supportedProjections = Object.keys(mapStyles);
+
+  var _useState = useState(supportedProjections),
+      _useState2 = _slicedToArray(_useState, 2),
+      projectionOptions = _useState2[0];
+      _useState2[1];
+
+  var defaultProjection = sessionStorage.getItem('defaultOccurrenceProjection') || (siteContext === null || siteContext === void 0 ? void 0 : (_siteContext$maps3 = siteContext.maps) === null || _siteContext$maps3 === void 0 ? void 0 : _siteContext$maps3.defaultProjection) || supportedProjections[0];
+
+  if (!supportedProjections.includes(defaultProjection)) {
+    defaultProjection = supportedProjections[0];
+  }
+
+  var _useState3 = useState(defaultProjection),
+      _useState4 = _slicedToArray(_useState3, 2),
+      projection = _useState4[0],
+      setProjection = _useState4[1];
+
+  var defaultStyle = sessionStorage.getItem('defaultOccurrenceLayer') || (siteContext === null || siteContext === void 0 ? void 0 : (_siteContext$maps4 = siteContext.maps) === null || _siteContext$maps4 === void 0 ? void 0 : _siteContext$maps4.defaultMapStyle) || 'BRIGHT';
+
+  if (!(mapStyles !== null && mapStyles !== void 0 && (_mapStyles$defaultPro = mapStyles[defaultProjection]) !== null && _mapStyles$defaultPro !== void 0 && _mapStyles$defaultPro.includes(defaultStyle))) {
+    var _mapStyles$defaultPro2;
+
+    defaultStyle = mapStyles === null || mapStyles === void 0 ? void 0 : (_mapStyles$defaultPro2 = mapStyles[defaultProjection]) === null || _mapStyles$defaultPro2 === void 0 ? void 0 : _mapStyles$defaultPro2[0];
+  }
+
+  var _useState5 = useState(mapStyles),
+      _useState6 = _slicedToArray(_useState5, 2),
+      layerOptions = _useState6[0];
+      _useState6[1];
+
+  var _useState7 = useState(defaultStyle),
+      _useState8 = _slicedToArray(_useState7, 2),
+      layerId = _useState8[0],
+      setLayerId = _useState8[1];
+
+  var _useState9 = useState(),
+      _useState10 = _slicedToArray(_useState9, 2),
+      latestEvent = _useState10[0],
+      broadcastEvent = _useState10[1];
+
+  var _useState11 = useState(),
+      _useState12 = _slicedToArray(_useState11, 2),
+      basemapOptions = _useState12[0],
+      setBasemapOptions = _useState12[1];
+
+  var _useState13 = useState(),
+      _useState14 = _slicedToArray(_useState13, 2),
+      activeId = _useState14[0],
+      setActive = _useState14[1];
+
+  var _useState15 = useState(),
+      _useState16 = _slicedToArray(_useState15, 2),
+      activeItem = _useState16[0],
+      setActiveItem = _useState16[1];
+
+  var _useState17 = useState(false),
+      _useState18 = _slicedToArray(_useState17, 2),
+      listVisible = _useState18[0],
+      showList = _useState18[1];
+
+  var items = (pointData === null || pointData === void 0 ? void 0 : (_pointData$occurrence = pointData.occurrenceSearch) === null || _pointData$occurrence === void 0 ? void 0 : (_pointData$occurrence2 = _pointData$occurrence.documents) === null || _pointData$occurrence2 === void 0 ? void 0 : _pointData$occurrence2.results) || [];
+  useEffect(function () {
+    var _siteContext$maps5, _siteContext$maps6;
+
+    var mapStyles = getMapStyles({
+      apiKeys: siteContext.apiKeys,
+      language: (siteContext === null || siteContext === void 0 ? void 0 : (_siteContext$maps5 = siteContext.maps) === null || _siteContext$maps5 === void 0 ? void 0 : _siteContext$maps5.locale) || 'en'
+    });
+    var mapStyleOverwrites = {};
+
+    if (siteContext !== null && siteContext !== void 0 && (_siteContext$maps6 = siteContext.maps) !== null && _siteContext$maps6 !== void 0 && _siteContext$maps6.addMapStyles) {
+      var _siteContext$maps7;
+
+      mapStyleOverwrites = siteContext.maps.addMapStyles({
+        apiKeys: siteContext.apiKeys,
+        mapStyleServer: env.MAP_STYLES,
+        pixelRatio: pixelRatio,
+        language: (siteContext === null || siteContext === void 0 ? void 0 : (_siteContext$maps7 = siteContext.maps) === null || _siteContext$maps7 === void 0 ? void 0 : _siteContext$maps7.locale) || 'en',
+        mapComponents: {
+          OpenlayersMap: Map$2,
+          MapboxMap: Map$3
+        }
+      });
+    }
+
+    setBasemapOptions(Object.assign({}, mapStyles, mapStyleOverwrites));
+  }, [siteContext]);
+  useEffect(function () {
+    setActiveItem(items[activeId]);
+  }, [activeId, items]);
+  var nextItem = useCallback(function () {
+    setActive(Math.min(items.length - 1, activeId + 1));
+  }, [items, activeId]);
+  var previousItem = useCallback(function () {
+    setActive(Math.max(0, activeId - 1));
+  }, [items, activeId]);
+
+  var menuLayerOptions = function menuLayerOptions(menuState) {
+    return layerOptions === null || layerOptions === void 0 ? void 0 : layerOptions[projection].map(function (layerId) {
+      return jsx(MenuAction, {
+        key: layerId,
+        onClick: function onClick() {
+          setLayerId(layerId);
+          sessionStorage.setItem('defaultOccurrenceLayer', layerId);
+        }
+      }, jsx(FormattedMessage, {
+        id: getStyle({
+          styles: basemapOptions,
+          projection: projection,
+          type: layerId,
+          lookup: styleLookup
+        }).labelKey || 'unknown',
+        defaultMessage: layerId.name || 'unknown'
+      }));
+    });
+  };
+
+  var projectionMenuOptions = function projectionMenuOptions(menuState) {
+    return projectionOptions.map(function (proj, i) {
+      return jsx(MenuAction, {
+        key: proj,
+        onClick: function onClick() {
+          setProjection(proj);
+          sessionStorage.setItem('defaultOccurrenceProjection', proj);
+        }
+      }, jsx(FormattedMessage, {
+        id: "map.projections.".concat(proj),
+        defaultMessage: proj
+      }));
+    });
+  };
+
+  var mapConfiguration = getStyle({
+    styles: basemapOptions,
+    projection: projection,
+    type: layerId,
+    lookup: styleLookup,
+    layerOptions: layerOptions
+  });
+  if (!basemapOptions || !mapConfiguration) return null;
+  var MapComponent = mapConfiguration.component || Map$2;
+  return jsx(React.Fragment, null, jsx(DetailsDrawer, {
+    href: "https://www.gbif.org/occurrence/".concat(activeItem === null || activeItem === void 0 ? void 0 : activeItem.key),
+    dialog: dialog,
+    nextItem: nextItem,
+    previousItem: previousItem
+  }, jsx(OccurrenceSidebar, {
+    id: activeItem === null || activeItem === void 0 ? void 0 : activeItem.key,
+    defaultTab: "details",
+    style: {
+      maxWidth: '100%',
+      width: 700,
+      height: '100%'
+    },
+    onCloseRequest: function onCloseRequest() {
+      return dialog.setVisible(false);
+    }
+  })), jsx("div", {
+    css: mapArea({
+      theme: theme
+    })
+  }, jsx(ViewHeader, {
+    message: "counts.nResultsWithCoordinates",
+    loading: loading,
+    total: total
+  }), jsx("div", {
+    style: {
+      position: 'relative',
+      height: '100%',
+      flex: '1 1 auto',
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, listVisible && jsx(ListBox, {
+    onCloseRequest: function onCloseRequest(e) {
+      return showList(false);
+    },
+    labelMap: labelMap,
+    onClick: function onClick(_ref3) {
+      var index = _ref3.index;
+      dialog.show();
+      setActive(index);
+    },
+    data: pointData,
+    error: pointError,
+    loading: pointLoading,
+    css: resultList({})
+  }), jsx("div", {
+    css: mapControls({
+      theme: theme
+    })
+  }, jsx(Button, {
+    appearance: "text",
+    onClick: function onClick() {
+      return broadcastEvent({
+        type: 'ZOOM_IN'
+      });
+    }
+  }, jsx(MdZoomIn, null)), jsx(Button, {
+    appearance: "text",
+    onClick: function onClick() {
+      return broadcastEvent({
+        type: 'ZOOM_OUT'
+      });
+    }
+  }, jsx(MdZoomOut, null)), projectionOptions.length > 1 && jsx(Menu, {
+    style: {
+      display: 'inline-block'
+    },
+    "aria-label": "Select projection",
+    trigger: jsx(Button, {
+      appearance: "text"
+    }, jsx(MdLanguage, null)),
+    items: projectionMenuOptions
+  }), (layerOptions === null || layerOptions === void 0 ? void 0 : (_layerOptions$project2 = layerOptions[projection]) === null || _layerOptions$project2 === void 0 ? void 0 : _layerOptions$project2.length) > 1 && jsx(Menu, {
+    style: {
+      display: 'inline-block'
+    },
+    "aria-label": "Select layers",
+    trigger: jsx(Button, {
+      appearance: "text"
+    }, jsx(MdOutlineLayers, null)),
+    items: menuLayerOptions
+  })), jsx(MapComponent, {
+    mapConfig: mapConfiguration.mapConfig,
+    latestEvent: latestEvent,
+    defaultMapSettings: defaultMapSettings,
+    predicateHash: predicateHash,
+    q: q,
+    css: mapComponent({
+      theme: theme
+    }),
+    theme: theme,
+    query: query,
+    onMapClick: function onMapClick(e) {
+      return showList(false);
+    },
+    onPointClick: function onPointClick(data) {
+      showList(true);
+      loadPointData(data);
+    },
+    registerPredicate: registerPredicate
+  }))));
+}
+
+var OCCURRENCE_MAP = "\nquery map($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    _meta\n    documents {\n      total\n    }\n    _v1PredicateHash\n  }\n}\n";
+var OCCURRENCE_POINT = "\nquery point($predicate: Predicate){\n  occurrenceSearch(predicate: $predicate) {\n    documents {\n      total\n      results {\n        key\n        basisOfRecord\n        eventDate\n        gbifClassification{\n          usage {\n            rank\n            formattedName\n          }\n        }\n        primaryImage {\n          identifier\n        }\n      }\n    }\n  }\n}\n";
+var wktBBoxTemplate = '((W S,E S,E N,W N,W S))';
+
+function Map() {
+  var _currentFilterContext, _currentFilterContext2, _currentFilterContext3, _data$occurrenceSearc, _data$occurrenceSearc2, _data$occurrenceSearc3, _data$occurrenceSearc4, _data$occurrenceSearc5;
+
+  var currentFilterContext = useContext(FilterContext);
+
+  var _useContext = useContext(SearchContext),
+      labelMap = _useContext.labelMap,
+      rootPredicate = _useContext.rootPredicate,
+      predicateConfig = _useContext.predicateConfig,
+      more = _useContext.more;
+
+  var _useQuery = useQuery(OCCURRENCE_MAP, {
+    lazyLoad: true
+  }),
+      data = _useQuery.data,
+      error = _useQuery.error,
+      loading = _useQuery.loading,
+      load = _useQuery.load;
+
+  var _useQuery2 = useQuery(OCCURRENCE_POINT, {
+    lazyLoad: true
+  }),
+      pointData = _useQuery2.data,
+      pointError = _useQuery2.error,
+      pointLoading = _useQuery2.loading,
+      pointLoad = _useQuery2.load;
+
+  useEffect(function () {
+    loadHashAndCount({
+      filter: currentFilterContext.filter,
+      predicateConfig: predicateConfig,
+      rootPredicate: rootPredicate
+    });
+  }, [currentFilterContext.filterHash, rootPredicate, predicateConfig]);
+  var loadHashAndCount = useCallback(function (_ref) {
+    var filter = _ref.filter,
+        predicateConfig = _ref.predicateConfig,
+        rootPredicate = _ref.rootPredicate;
+    var predicate = {
+      type: 'and',
+      predicates: [rootPredicate, filter2predicate(filter, predicateConfig), {
+        type: 'equals',
+        key: 'hasCoordinate',
+        value: true
+      }].filter(function (x) {
+        return x;
+      })
+    };
+    load({
+      keepDataWhileLoading: true,
+      variables: {
+        predicate: predicate
+      }
+    });
+  }, []);
+  var registrationEmbargo;
+  /**
+   * Allow the map to register the predicate again. This can be useful when tile with status code 400 errors come back. 
+   * But it should only be allowed to do every so often as we do not want to send request 500 times a second when an error is persistent.
+   * In theory it should only ever be called once and that is in the relatively rare case when the tile server is redployed just as someone is browsing the map.
+   */
+
+  var registerPredicate = useCallback(function () {
+    if (registrationEmbargo) return;
+    registrationEmbargo = true;
+    window.setTimeout(function () {
+      return registrationEmbargo = false;
+    }, 10000); //only allow registering an error every 10 seconds.
+
+    loadHashAndCount({
+      filter: currentFilterContext.filter,
+      predicateConfig: predicateConfig,
+      rootPredicate: rootPredicate
+    });
+  }, [currentFilterContext.filterHash, rootPredicate, predicateConfig]);
+  var loadPointData = useCallback(function (_ref2) {
+    var geohash = _ref2.geohash;
+    var latLon = Geohash ? Geohash.bounds(geohash) : {};
+    var N = latLon.ne.lat,
+        S = latLon.sw.lat,
+        W = latLon.sw.lon,
+        E = latLon.ne.lon;
+    var wkt = 'POLYGON' + wktBBoxTemplate.replace(/N/g, N).replace(/S/g, S).replace(/W/g, W).replace(/E/g, E);
+    var predicate = {
+      type: 'and',
+      predicates: [rootPredicate, filter2predicate(currentFilterContext.filter, predicateConfig), {
+        type: 'within',
+        key: 'geometry',
+        value: wkt
+      }].filter(function (x) {
+        return x;
+      })
+    };
+    pointLoad({
+      variables: {
+        predicate: predicate
+      }
+    });
+  }, [currentFilterContext.filterHash, rootPredicate]);
+  var q = (_currentFilterContext = currentFilterContext.filter) === null || _currentFilterContext === void 0 ? void 0 : (_currentFilterContext2 = _currentFilterContext.must) === null || _currentFilterContext2 === void 0 ? void 0 : (_currentFilterContext3 = _currentFilterContext2.q) === null || _currentFilterContext3 === void 0 ? void 0 : _currentFilterContext3[0];
+  var options = {
+    loading: loading,
+    error: error,
+    total: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc = data.occurrenceSearch) === null || _data$occurrenceSearc === void 0 ? void 0 : (_data$occurrenceSearc2 = _data$occurrenceSearc.documents) === null || _data$occurrenceSearc2 === void 0 ? void 0 : _data$occurrenceSearc2.total,
+    query: (data === null || data === void 0 ? void 0 : (_data$occurrenceSearc3 = data.occurrenceSearch) === null || _data$occurrenceSearc3 === void 0 ? void 0 : (_data$occurrenceSearc4 = _data$occurrenceSearc3._meta) === null || _data$occurrenceSearc4 === void 0 ? void 0 : _data$occurrenceSearc4.query) || {},
+    predicateHash: data === null || data === void 0 ? void 0 : (_data$occurrenceSearc5 = data.occurrenceSearch) === null || _data$occurrenceSearc5 === void 0 ? void 0 : _data$occurrenceSearc5._v1PredicateHash,
+    rootPredicate: rootPredicate,
+    predicateConfig: predicateConfig,
+    loadPointData: loadPointData,
+    registerPredicate: registerPredicate,
+    pointData: pointData,
+    pointLoading: pointLoading,
+    pointError: pointError,
+    labelMap: labelMap,
+    q: q,
+    defaultMapSettings: more === null || more === void 0 ? void 0 : more.mapSettings
+  }; // if (typeof window !== 'undefined') {
+
+  return jsx(Map$1, options); // } else {
+  //   return <h1>Map placeholder</h1>
+  // }
+}
 
 // Better would be to calculate the available space and decide based on that since the number of 
 // filters applied influence the decision. But this simple approach will perform better and is used for now.
